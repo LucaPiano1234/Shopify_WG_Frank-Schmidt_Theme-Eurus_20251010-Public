@@ -1,0 +1,1 @@
+# Shopify_WG_Frank-Schmidt_Theme-Eurus_20251010-Public
