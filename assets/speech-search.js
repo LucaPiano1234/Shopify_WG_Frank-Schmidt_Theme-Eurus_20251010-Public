@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('speech-search.js')) {
-  window.Eurus.loadedScript.push('speech-search.js');
+if (!window.Eurus.loadedScript.has('speech-search.js')) {
+  window.Eurus.loadedScript.add('speech-search.js');
 
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {

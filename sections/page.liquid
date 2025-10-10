@@ -1,11 +1,22 @@
 {{ 'page.css' | asset_url | stylesheet_tag: preload: true }}
+
+{%- style -%}
+  .x-section-page {
+    --max-width-page-container: calc((var(--page-width) + 40px) * {{ section.settings.max_container_page_width | times: 0.01 }});
+  }
+{%- endstyle -%}
+
 {% render 'section-divider' %}
 
 <div class="section-page relative mx-auto pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] ltr">
-  <div class="{% if section.settings.full_width %} full-width{% else %} page-width{% endif %}">
-    <div class="page__container">
+  <div class="x-section-page">
+    <div class="{% if section.settings.full_width %}w-full{% else %}page__container ml-auto mr-auto{% endif %} pr-5 pl-5">
       {%- if section.settings.select_page.title != blank -%}
-        <h2 class="h2 mb-5 pt-2 pb-2 text-left">{{ section.settings.select_page.title | escape }}</h2>
+        <div class="mb-5 pt-2 pb-2">
+          {% unless settings.disable_heading_animation %}<div class="overflow-hidden" x-intersect.once="$el.querySelector('.anm-move-up')?.classList.add('active-anm-heading')">{% endunless %}
+            <h2 class="h2 text-left{% unless settings.disable_heading_animation %} anm-move-up{% endunless %}">{{ section.settings.select_page.title | escape }}</h2>
+          {% unless settings.disable_heading_animation %}</div>{% endunless %}
+        </div>
       {%- endif -%}
       <div class="page__body anm-fade-paragraph">
         <div x-intersect.once="$el.classList.add('is-visible')" class="rte anm-fade-element">
@@ -30,6 +41,10 @@
   "settings": [
     {
       "type": "paragraph",
+      "content": "t:sections.user_guide_link.section_and_blocks.page"
+    },
+    {
+      "type": "paragraph",
       "content": "t:sections.main-page.settings.description"
     },
     {
@@ -42,6 +57,16 @@
       "content": "t:sections.all.padding.section_padding_heading"
     },
     {
+      "type": "range",
+      "id": "max_container_page_width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "t:settings_schema.layout.page_width",
+      "default": 100
+    },
+    {
       "type": "checkbox",
       "id": "full_width",
       "default": false,
@@ -51,7 +76,7 @@
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.rich-text.settings.show_section_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -81,7 +106,7 @@
       "id": "show_section_divider_mobile",
       "type": "checkbox",
       "default": false,
-      "label": "t:sections.collage.settings.show_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -106,7 +131,8 @@
   ],
   "presets": [
     {
-      "name": "t:sections.section-page.name"
+      "name": "t:sections.section-page.name",
+      "category": "t:categories.blog_and_page"
     }
   ]
 }

@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('map.js')) {
-  window.Eurus.loadedScript.push('map.js');
+if (!window.Eurus.loadedScript.has('map.js')) {
+  window.Eurus.loadedScript.add('map.js');
 
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {

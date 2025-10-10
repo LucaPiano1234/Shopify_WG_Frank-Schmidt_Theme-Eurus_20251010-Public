@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('featured-blog.js')) {
-  window.Eurus.loadedScript.push('featured-blog.js');
+if (!window.Eurus.loadedScript.has('featured-blog.js')) {
+  window.Eurus.loadedScript.add('featured-blog.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {

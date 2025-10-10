@@ -7,7 +7,7 @@
 %}
 {%- paginate customer.addresses by 5 -%}
   <div
-    class="page-width pl-5 pr-5 pt-[{{ section.settings.top_padding_mobile }}px] md:pt-[{{ section.settings.top_padding }}px] pb-[{{ section.settings.bottom_padding_mobile }}px] md:pb-[{{ section.settings.bottom_padding }}px]"
+    class="x-pgw page-width pl-5 pr-5 pt-[{{ section.settings.top_padding_mobile }}px] md:pt-[{{ section.settings.top_padding }}px] pb-[{{ section.settings.bottom_padding_mobile }}px] md:pb-[{{ section.settings.bottom_padding }}px]"
     data-customer-addresses
     x-data="xCustomerAddresses"
   >
@@ -472,7 +472,7 @@
 <script src="{{ 'customer-addresses.js' | asset_url }}" defer></script>
 {% schema %}
 {
-  "name": "t:sections.main-addresses.name",
+  "name": "t:sections.multiple_stores.blocks.settings.address.label",
   "settings": [
     {
       "type": "select",
@@ -480,11 +480,11 @@
       "options": [
         {
           "value": "circle",
-          "label": "t:sections.main-collection-product-grid.settings.paginate_type.options__1.label"
+          "label": "t:sections.header.settings.highlight.style.option__2"
         },
         {
           "value": "underline",
-          "label": "t:sections.main-collection-product-grid.settings.paginate_type.options__2.label"
+          "label": "t:settings_schema.typography.settings.heading_highlight_type.option__1.label"
         }
       ],
       "default": "circle",

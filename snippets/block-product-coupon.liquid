@@ -1,0 +1,207 @@
+{% comment %}
+  Renders block coupon code
+
+  Accepts:
+    - 
+
+  Usage:
+    {% render 'block-product-coupon' %}
+{% endcomment %}
+
+{% style %}
+  .block-edges-{{ block.id }} {
+    {% if block.settings.block_edges == "rounded_corners" %}
+      border-radius: 10px;
+    {% elsif block.settings.block_edges == "mixed" %}
+      border-radius: 10px 0 10px 0;
+    {% else %}
+      border-radius: 0;
+    {% endif %}
+  }
+
+  .coupon-edges-{{ block.id }} {
+    {% if block.settings.coupon_box_edges == "rounded" %}
+      border-radius: 9999px;
+    {% elsif block.settings.coupon_box_edges == "rounded_corners" %}
+      border-radius: 10px;
+    {% else %}
+      border-radius: 0;
+    {% endif %}
+  }
+
+  .block-bg-{{ block.id }} {
+    {% if block.settings.background_color_light.alpha != 0.0 %}
+      background-color: {{ block.settings.background_color_light }};
+    {% else %}
+      background: rgb(var(--colors-background-secondary));
+    {% endif %}
+  }
+  .dark .block-bg-{{ block.id }} {
+    {% if block.settings.background_color_dark.alpha != 0.0 %}
+      background-color: {{ block.settings.background_color_dark }};
+    {% else %}
+      background: rgb(var(--colors-background-secondary));
+    {% endif %}
+  }
+
+  .coupon-bg-{{ block.id }} {
+    {% if block.settings.coupon_box_color_light.alpha != 0.0 %}
+      background-color: {{ block.settings.coupon_box_color_light }};
+    {% else %}
+      background: rgb(var(--colors-background));
+    {% endif %}
+  }
+  .dark .coupon-bg-{{ block.id }} {
+    {% if block.settings.coupon_box_color_dark.alpha != 0.0 %}
+      background-color: {{ block.settings.coupon_box_color_dark }};
+    {% else %}
+      background: rgb(var(--colors-background));
+    {% endif %}
+  }
+
+  .color-heading-{{ block.id }} {
+    {% if block.settings.heading_color_light.alpha != 0.0 %}
+      color: {{ block.settings.heading_color_light }};
+    {% else %}
+      color: rgb(var(--colors-heading));
+    {% endif %}
+  }
+  .dark .color-heading-{{ block.id }} {
+    {% if block.settings.heading_color_dark.alpha != 0.0 %}
+      color: {{ block.settings.heading_color_dark }};
+    {% else %}
+      color: rgb(var(--colors-heading));
+    {% endif %}
+  }
+
+  .color-text-{{ block.id }} {
+    {% if block.settings.text_color_light.alpha != 0.0 %}
+      color: {{ block.settings.text_color_light }};
+    {% else %}
+      color: rgb(var(--colors-text));
+    {% endif %}
+  }
+  .dark .color-text-{{ block.id }} {
+    {% if block.settings.text_color_dark.alpha != 0.0 %}
+      color: {{ block.settings.text_color_dark }};
+    {% else %}
+      color: rgb(var(--colors-text));
+    {% endif %}
+  }
+
+  .coupon-border-{{ block.id }} {
+    {% if block.settings.coupon_color_light.alpha != 0.0 %}
+      color: {{ block.settings.coupon_color_light }};
+      border-color: {{ block.settings.coupon_color_light }};
+    {% else %}
+      color: rgb(var(--colors-price-sale));
+      border-color: rgb(var(--colors-price-sale));
+    {% endif %}
+  }
+  .dark .coupon-border-{{ block.id }} {
+    {% if block.settings.coupon_color_dark.alpha != 0.0 %}
+      color: {{ block.settings.coupon_color_dark }};
+      border-color: {{ block.settings.coupon_color_dark }};
+    {% else %}
+      color: rgb(var(--colors-price-sale));
+      border-color: rgb(var(--colors-price-sale));
+    {% endif %}
+  }
+
+  .x-coupon-code-block .base-link a {
+    color: rgb(var(--colors-text-link));
+  }
+{% endstyle %}
+<div class="x-coupon-code-block block-edges-{{ block.id }} block-bg-{{ block.id }} w-full mb-4 md:mb-5 pl-4 pr-4 pt-4 pb-4 flex flex-col gap-4" {{ block.shopify_attributes }}>
+  <div class="x-coupon-code-block-header w-full flex gap-2 items-center">
+    <div class="x-block-header-icon">
+      {% if block.settings.icon != 'none' %}
+        {% unless block.settings.custom_image == blank and block.settings.custom_icon == blank and block.settings.another_icon == blank and block.settings.icon == 'another_icon' %}
+          {% style %}
+            .size-icon-{{ block.id }} {
+              width: {{ block.settings.icon_size }}px;
+              height: {{ block.settings.icon_size }}px;
+              min-width: {{ block.settings.icon_size }}px;
+            }
+          {% endstyle %}
+          <span class="inline-block relative size-icon-{{ block.id }} color-heading-{{ block.id }}">
+            {% if block.settings.custom_image != blank %}
+              {% # theme-check-disable ImgLazyLoading %}
+              <img 
+                src="{{ block.settings.custom_image | image_url: width: block.settings.icon_size }}"
+                alt="{{ block.settings.custom_image.alt | escape }}"
+                {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                width="{{ block.settings.custom_image.width }}"
+                height="{{ block.settings.custom_image.height }}"
+                style="object-position: {{ block.settings.custom_image.presentation.focal_point }}"
+                class="object-cover absolute top-0 left-0 w-full h-full"
+              >
+              {% # theme-check-enable ImgLazyLoading %}
+            {% else %}
+              {% if block.settings.custom_icon == blank %}
+                {% if block.settings.another_icon != blank and block.settings.icon == 'another_icon' %}
+                  {% render 'icon-new-alls', icon: block.settings.another_icon %}
+                {% else %}
+                  {% render 'icon-labels-bags', icon: block.settings.icon %}
+                {% endif %}
+              {% else %}
+                {{ block.settings.custom_icon }}
+              {% endif %}
+            {% endif %}
+          </span>
+        {% endunless %}
+      {% endif %}
+    </div>
+    {% if block.settings.heading_text != blank %}
+      <h3 class="x-block-header h3 color-heading-{{ block.id }}">{{ block.settings.heading_text }}</h3>
+    {% endif %}
+  </div>
+  <div class="x-coupon-code-block-content w-full flex gap-3 flex-col">
+    {% capture icon_copy %}
+      <div class="flex items-center h-fit">
+        <span class="w-4 h-4 min-w-4 min-h-4 inline-block" x-show="!copySuccess"
+          x-transition:enter="transition-all absolute ease-in-out duration-300"
+          x-transition:enter-start="opacity-0 absolute transform translate-y-full"
+          x-transition:enter-end="opacity-100 absolute transform translate-y-0"
+          x-transition:leave="transition-all absolute ease-in-out duration-300"
+          x-transition:leave-end="opacity-0 transform absolute -translate-y-full">
+        {% render 'icon-alls', icon: 'icon-copy' %}
+        </span>
+        <span class="w-4 h-4 min-w-4 min-h-4 inline-block" x-show="copySuccess" x-cloak
+          x-transition:enter="transition-all ease-in-out duration-300"
+          x-transition:enter-start="opacity-0 transform translate-y-full"
+          x-transition:enter-end="opacity-100 transform translate-y-0"
+          x-transition:leave="transition-all ease-in-out duration-300"
+          x-transition:leave-end="opacity-0 transform -translate-y-full">
+          {% render 'icon-alls', icon: 'icon-check' %}
+        </span>
+      </div>
+    {% endcapture %}
+    <div class="x-coupon-1-container empty:hidden w-full pt-2 pb-2 pl-4 pr-2 rtl:pl-2 rtl:pr-4 flex flex-wrap items-center gap-3 md:gap-4 coupon-bg-{{ block.id }}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
+      {%- if block.settings.coupon_text_1 != blank -%}
+        <div class="base-link color-text-{{ block.id }} grow w-fit">{{ block.settings.coupon_text_1 }}</div>
+      {%- endif -%}
+      {%- if block.settings.coupon_code_1 != blank -%}
+        <div class="w-fit">
+          <div :title="copySuccess?'{{ 'general.global.copied' | t }}':'{{ 'general.global.copy_code' | t }}'" x-data='xCouponCode' x-on:click="copyCode()" class="justify-center pl-3 pr-3 pt-2 pb-2 flex items-center gap-4 cursor-pointer coupon-edges-{{ block.id }} coupon-border-{{ block.id }} block-bg-{{ block.id }} border-dashed border">
+            <span class="leading-none inline-block max-w-fit break-all" x-ref="code_value">{{ block.settings.coupon_code_1 }}</span>
+            {{ icon_copy }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="x-coupon-2-container empty:hidden w-full pt-2 pb-2 pl-4 pr-2 rtl:pl-2 rtl:pr-4 flex flex-wrap items-center gap-3 md:gap-4 coupon-bg-{{ block.id }}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
+      {%- if block.settings.coupon_text_2 != blank -%}
+        <div class="base-link color-text-{{ block.id }} grow w-fit">{{ block.settings.coupon_text_2 }}</div>
+      {%- endif -%}
+      {%- if block.settings.coupon_code_2 != blank -%}
+        <div class="w-fit">
+          <div :title="copySuccess?'{{ 'general.global.copied' | t }}':'{{ 'general.global.copy_code' | t }}'" x-data='xCouponCode' x-on:click="copyCode()" class="justify-center pl-3 pr-3 pt-2 pb-2 flex items-center gap-4 cursor-pointer coupon-edges-{{ block.id }} coupon-border-{{ block.id }} block-bg-{{ block.id }} border-dashed border">
+            <span class="leading-none inline-block max-w-fit break-all" x-ref="code_value">{{ block.settings.coupon_code_2 }}</span>
+            {{ icon_copy }}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

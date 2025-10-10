@@ -8,7 +8,11 @@
     {% render 'header-logo-block' %}
 {% endcomment %}
 {%- liquid 
-  if section.settings.logo_position == 'left-left'
+  assign logo_pos = 'left'
+  if section.settings.logo_position == 'center-left'
+    assign logo_pos = 'center'
+  endif
+  if section.settings.logo_position == 'left-left' or section.settings.enable_hamburger_menu and logo_pos == 'left'
     if section.blocks.size > 0 
       assign show_border = true
     elsif section.settings.menu != blank
@@ -16,7 +20,7 @@
     endif
   endif
 -%}
-<div class="flex{% if logo_above %} lg:py-2 items-center{% endif %}{% if show_border %}{% if settings.lang_direction contains request.locale.iso_code %} lg:pl-5 lg:ml-3 lg:border-l{% else %} lg:pr-5 lg:mr-3 lg:border-r{% endif %}{% endif %}">
+<div class="flex{% if logo_above %} lg:py-2 items-center{% endif %}{% if show_border %}{% if settings.lang_direction contains request.locale.iso_code %} lg:ml-3 {% unless enable_hamburger %}lg:pl-5 lg:border-l {% else %}lg:pl-110{% endunless %}{% else %} lg:mr-3 {% unless enable_hamburger %}lg:pr-5 lg:border-r{% else %}lg:pr-11{% endunless %}{% endif %}{% endif %}">
   <a href="{{ routes.root_url }}" class="{{ class_logo }} disable-effect inline-block">
     {%- if section.settings.logo_dark != blank -%}
       {%- assign logo_alt = section.settings.logo_dark.alt | default: shop.name | escape -%}

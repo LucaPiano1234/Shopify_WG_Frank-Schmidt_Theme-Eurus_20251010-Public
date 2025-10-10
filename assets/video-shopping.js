@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('video-shopping.js')) {
-  window.Eurus.loadedScript.push('video-shopping.js');
+if (!window.Eurus.loadedScript.has('video-shopping.js')) {
+  window.Eurus.loadedScript.add('video-shopping.js');
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
       Alpine.data('xVideoShopping', () => ({
@@ -12,7 +12,7 @@ if (!window.Eurus.loadedScript.includes('video-shopping.js')) {
         isMobile: false,
         openProductInPopup(productId) {
           this.showSlideProductInPopup = true
-          this.productSelectedId = productId
+          this.productSelectedId = productId;
         },
         openProductInSlide(productId) {
           this.showSlideProductInVideoCard = true
@@ -51,6 +51,9 @@ if (!window.Eurus.loadedScript.includes('video-shopping.js')) {
           }
           else {
             this.positionBottomGroupAnnouncementAndHeader = header ? header.offsetHeight + header.getBoundingClientRect().top : 0
+          }
+          if ((!header || header?.getBoundingClientRect().bottom < 0) && (!announcement || announcement?.getBoundingClientRect().bottom < 0)) {
+            this.positionBottomGroupAnnouncementAndHeader = 0;
           }
         },
         closePopup() {

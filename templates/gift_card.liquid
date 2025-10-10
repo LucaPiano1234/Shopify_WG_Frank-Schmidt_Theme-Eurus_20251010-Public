@@ -29,13 +29,13 @@
     {%- liquid
       case settings.buttons_type
         when 'rounded'
-          assign borderRadius = '100px'
+          assign border_radius = '100px'
         when 'rounded_corners'
-          assign borderRadius = '10px'
+          assign border_radius = '10px'
         when 'mixed'
-          assign borderRadius = '10px 0 10px 0'
+          assign border_radius = '10px 0 10px 0'
         else
-          assign borderRadius = '0'
+          assign border_radius = '0'
       endcase
     %}
 
@@ -70,7 +70,7 @@
         --h5-font-size-mobile: {{ settings.heading_base_size | times: 0.007875 }}rem;
         --h6-font-size-mobile: {{ settings.heading_base_size | times: 0.0070875 }}rem;
         --rating-star-size: {{ settings.text_base_size | times: 0.007 }}rem;
-        --border-radius: {{ borderRadius }};
+        --border-radius: {{ border_radius }};
         --page-width: {{ settings.page_width }}px;
         --width-countdown: {{ settings.text_base_size | times: 0.07875 }}rem;
         --font-menu: {{ settings.type_menu_font.family }}, {{ settings.type_menu_font.fallback_families }};
@@ -162,11 +162,11 @@
       {%- endif -%}
     </header>
     <main class="pb-28">
-      <div class="text-center mb-7 md:mb-14 page-width mx-auto">
+      <div class="text-center mb-7 md:mb-14 x-pgw page-width mx-auto">
         <img src="{{ 'gift-card/card.svg' | shopify_asset_url }}" alt="" class="ml-auto mr-auto" height="{{ 430 | divided_by: 1.5 }}" width="430" loading="lazy">
       </div>
       <div class="gift-card__qr-code text-center flex justify-center mb-5 md:mb-7" data-identifier="{{ gift_card.qr_identifier }}"></div>
-      <div class="text-center page-width mx-auto">
+      <div class="text-center x-pgw page-width mx-auto">
         <input
           type="text"
           class="gift-card__number text-[rgba(var(--colors-heading))] text-medium size_value_giftcard text-center mb-2 font-semibold bg-transparent"

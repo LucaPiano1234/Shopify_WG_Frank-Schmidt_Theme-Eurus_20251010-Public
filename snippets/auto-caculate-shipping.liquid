@@ -13,7 +13,14 @@
    assign default_zip = customer.default_address.zip
   endif 
 %}
-<div class="list-style-none" x-data="xEstimateShipping($el,`{{ single_rate }}`,`{{ multi_rate }}`, `{{ no_rate }}`)" x-intersect.once="load(); submit()">
+<div 
+  class="list-style-none" x-data="xEstimateShipping($el,`{{ single_rate }}`,`{{ multi_rate }}`, `{{ no_rate }}`)" 
+  {% if mini_cart %}
+    x-init="load(); submit()"
+  {% else %}
+    x-intersect.once="load(); submit()"
+  {% endif %}
+>
   <div class="hidden">
     <div class="w-full pb-3{% if cartPage %} md:pb-0{% endif %}">
       <div class="relative">

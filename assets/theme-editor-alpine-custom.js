@@ -1,4 +1,213 @@
 document.addEventListener('alpine:init', () => {
+  Alpine.data('xHighlightAnimation', () => ({
+    initElements: null,
+    animationFrameId: null,
+    window_height: window.innerHeight,
+
+    load(el, rtl_check, equalLines, fullScreen = false, range) {
+      this.initElements = this.separateWords(el);
+      this.partitionIntoLines(el, rtl_check, equalLines, fullScreen, range);
+
+      let lastWidth = window.innerWidth;
+      window.addEventListener("resize", this.debounce(() => {
+        if (window.innerWidth !== lastWidth) {
+          lastWidth = window.innerWidth;
+          this.partitionIntoLines(el, rtl_check, equalLines, fullScreen, range);
+        }
+      }));
+    },
+
+    debounce(func, timeout = 300){
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+      };
+    },
+
+    calRelativePos(el) {
+      const elRect = el.getBoundingClientRect();
+      const parentRect = el.parentElement.getBoundingClientRect();
+      
+      return Math.round((elRect.left - parentRect.left) / parentRect.width * 100);
+    },
+
+    separateWords(container) {
+      let elements = [];
+    
+      container.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
+          let words = node.textContent.match(/(\s+|[^\s-]+|[-])/g);
+          words.forEach(word => {
+            if (word) {
+              let span = document.createElement("span");
+              span.textContent = word;
+              elements.push(span);  
+            }
+          });
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          elements.push(node);
+        }
+      });
+
+      return elements;
+    },
+
+    partitionIntoLines(container, rtl_check, equalLines, fullScreen = false, range) {
+      container.innerHTML = "";
+      this.initElements.forEach(el => container.appendChild(el));
+      let maxHeight = 0;
+    
+      requestAnimationFrame(() => {
+        let lines = [];
+        let currentLine = [];
+        let prevMid = null;
+    
+        this.initElements.forEach((el) => {
+          let rect = el.getBoundingClientRect();
+          if (rect.width === 0) return;
+
+          if (maxHeight < rect.height) {
+            maxHeight = rect.height;
+          }
+          let midpoint = rect.bottom + (rect.top - rect.bottom) / 2;
+
+          if (prevMid !== null && Math.abs(midpoint - prevMid) > 10) {
+            lines.push(currentLine);
+            currentLine = [];
+          } 
+          currentLine.push(el);
+          prevMid = midpoint;
+        });
+
+        if (currentLine.length) {
+          lines.push(currentLine);
+        }
+
+        let newInnerHTML = lines.map((lineElements) => {
+          let div = document.createElement("div");
+          if (equalLines) {
+            div.className = "text-highlight content-center relative inline-block text-[rgba(var(--colors-heading),0.3)]";
+            div.style.height = `${maxHeight + 8}px`;
+          } else {
+            div.className = "text-highlight content-center relative inline-block text-[rgba(var(--colors-heading),0.3)] mb-0.5";
+          }
+          lineElements.forEach(el => div.appendChild(el.cloneNode(true)));
+          return div.outerHTML;
+        }).join("");
+      
+        container.innerHTML = newInnerHTML;  
+        container.setAttribute("x-intersect.once.margin.300px", "startAnim($el, " + rtl_check + ", " + fullScreen + ", " + range + ")");
+      });
+    },
+
+    startAnim(el, rtl_check, fullScreen = false, range) {
+      let starts = [];
+      let ends = [];
+
+      if (fullScreen) {
+        let offsetStart = el.offsetParent.parentElement.getBoundingClientRect().top + window.scrollY;
+
+        const offsets = { 3000: -200, 2000: 200 };
+        let offset = offsets[range] ?? 600;
+        
+        el.childNodes.forEach((element, index) => {
+          if (index != 0) {
+            starts.push(ends[index - 1]);
+            ends.push(starts[index] + range);
+          } else {
+            starts.push(offsetStart);
+            ends.push(offsetStart + range)
+          }
+        });
+        el.offsetParent.parentElement.style.height = `calc(${ends[ends.length - 1] - starts[0] + range / 2 + offset}px)`
+      } else {
+        starts = [0.7];
+        ends = [0.5];
+        
+        el.childNodes.forEach((element, index) => {
+          if (index != el.childNodes.length - 1) {
+            const element_rect = element.getBoundingClientRect();
+            const element_height = Math.abs(element_rect.bottom - element_rect.top) / this.window_height;
+            let start = ends[index] + element_height;
+            starts.push(start);
+            ends.push(Math.max(start - 0.2, 0.2));
+          }
+        });
+      }
+      this.createObserver(el, rtl_check, starts, ends, fullScreen);
+    },
+
+    createObserver(el, rtl_check, starts, ends, fullScreen = false) {
+      const option = {
+        root: null,
+        rootMargin: '300px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.updateHighlight(el, rtl_check, starts, ends, fullScreen);
+          } else {
+            if (this.animationFrameId) {
+              cancelAnimationFrame(this.animationFrameId);
+              this.animationFrameId = null;
+            }
+          }
+        });
+      }, option);
+
+      observer.observe(el);
+    },
+    
+    updateHighlight(el, rtl_check = false, starts, ends, fullScreen = false) {
+      const update = () => {
+        el.childNodes.forEach((element, index) => {
+          let value;
+          const element_rect = element.getBoundingClientRect();
+          let position = fullScreen ? window.scrollY : Math.max(Math.min((element_rect.top / this.window_height), 1), 0);
+
+          if (fullScreen) {
+            if (position < starts[index]) {
+              value = 0;
+            } else if (position > ends[index]) {
+              value = 120;
+            } else {
+              value = 120 * (position - starts[index]) / (ends[index] - starts[index]);
+            }
+          } else {
+            if (position > starts[index]) {
+              value = 0;
+            } else if (position < ends[index]) {
+              value = 120;
+            } else {
+              value = 120 * (position - starts[index]) / (ends[index] - starts[index]);
+            }
+          }
+
+          element.style.backgroundSize = `${value}%`;
+          Array.from(element.getElementsByClassName('highlight')).forEach(el => {
+            if (Math.round(value) > this.calRelativePos(el)) {
+              el.classList.add('highlight-anm-start');
+              el.classList.remove('highlight-anm-end');
+            } else {
+              el.classList.remove('highlight-anm-start');
+              el.classList.add('highlight-anm-end');
+            }
+          });
+          element.style.setProperty('--highlight-fill-stop', `${element.offsetWidth * value / 100 - element.offsetWidth * 0.2}px`);
+          element.style.setProperty('--highlight-unfill-stop', `${element.offsetWidth * value / 100}px`)
+        });
+        
+        this.animationFrameId = window.requestAnimationFrame(update);
+      }
+
+      if (!this.animationFrameId) {
+        update();
+      }
+    }
+  }));
   Alpine.data("xMap", (data) => ({
     load() {
       this.$el.querySelector(
@@ -23,6 +232,7 @@ document.addEventListener('alpine:init', () => {
     canScroll: false,
     atTop: true,
     atBottom: false,
+    showStore: false,
     load() {
       const canScrollVertically = this.$refs.list_stores.scrollHeight > this.$refs.list_stores.closest(".multi_stores_content").clientHeight;
       if (canScrollVertically) {
@@ -51,12 +261,12 @@ document.addEventListener('alpine:init', () => {
       this.$refs.content_location_detail.innerHTML = popupContent.innerHTML;
       const title = this.$refs.content_location_detail.querySelector('h5.location-title');
       if (title) {
-        const h3 = document.createElement('h3');
+        const h4 = document.createElement('h4');
 
-        h3.innerHTML = title.innerHTML;
-        h3.className = title.className;
+        h4.innerHTML = title.innerHTML;
+        h4.className = title.className;
 
-        title.replaceWith(h3);
+        title.replaceWith(h4);
       }
     },
     hideLocation() {
@@ -80,8 +290,23 @@ document.addEventListener('alpine:init', () => {
       this.checkCanScrollVertical()
     },
     checkCanScrollVertical() {
-      this.atTop = this.$refs.list_stores.scrollTop === 0;
-      this.atBottom =(this.$refs.list_stores.scrollTop + this.$refs.list_stores.closest(".multi_stores_content").clientHeight) >= (this.$refs.list_stores.scrollHeight - 2);
+      if (window.innerWidth < 768) {
+        this.atTop = this.$refs.list_stores.scrollTop === 0;
+        this.atBottom = (this.$refs.list_stores.scrollTop + this.$refs.list_stores.closest(".multi_stores_content").clientHeight) >= (this.$refs.list_stores.scrollHeight - 2);
+      }
+    },
+    toggleStore(noScroll = false) {
+      this.showStore = !this.showStore;
+      if (!this.showStore) {
+        this.$refs.first_store.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      if (!noScroll) {
+        this.canScroll = !this.canScroll;
+        this.$refs.list_stores.addEventListener("animationend", this.checkCanScrollVertical());
+        setTimeout(() => {
+          this.$refs.list_stores.removeEventListener("animationend", this.checkCanScrollVertical());
+        }, 300);
+      }
     }
   }));
   
@@ -132,7 +357,7 @@ document.addEventListener('alpine:init', () => {
       }
     },
     scrollIntoView(element) {
-      const scrollableContainer = element.closest('.overflow-auto'); 
+      const scrollableContainer = element.closest('.overflow-x-auto'); 
       const elementPosition = element.offsetLeft;
 
       scrollableContainer.scroll({
@@ -147,8 +372,8 @@ document.addEventListener('alpine:init', () => {
     loading: false,
     cachedResults: false,
     submit(value, input) {
-      document.getElementById(input).value = value;
-      document.getElementById('localization_form').submit();
+      this.$el.closest("#localization_form").querySelector('#'+input).value = value;
+      this.$el.closest("#localization_form").submit();
     },
     loadCountry(el) {
       if (this.cachedResults) {
@@ -156,7 +381,8 @@ document.addEventListener('alpine:init', () => {
         return true
       }
       let countrySelector = el.closest(".country-selector");
-      let optionEL = countrySelector.querySelector(".country-options")
+      let optionEL = countrySelector.querySelector(".country-options");
+
       this.loading = true;
       fetch(window.Shopify.routes.root + '?section_id=country-selector')
       .then(reponse => {
@@ -172,22 +398,101 @@ document.addEventListener('alpine:init', () => {
       .finally(() => {
         this.loading = false;
       })
-    }
+    },
   }));
-
+  Alpine.store('xCartShare', {
+    openShareCart: false,
+    cartShareUrl: "",
+    shared: false,
+    copySuccess: false,
+    generateUrl() {
+      fetch(Shopify.routes.root + 'cart.js', {
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
+      })
+      .then(response => response.json())
+      .then(response => {
+        const items = response.items.slice().reverse();
+        const cartParams = items.map(item => `id:${item.variant_id},q:${item.quantity}`).join('&') + '&share_cart:true';
+        this.cartShareUrl = `${window.location.origin}?${cartParams}`;
+      });
+    },
+    copyURL() {
+      const cartShareInput = document.getElementById(`x-share-cart-field`);
+      if (cartShareInput) {
+        navigator.clipboard.writeText(cartShareInput.value).then(
+          () => {
+            this.copySuccess = true;
+            setTimeout(() => {
+              this.copySuccess = false;
+            }, 2000);
+          },
+          () => {
+            alert('Copy fail');
+          }
+        );
+      }
+    },
+    handleShareCart() {
+      const queryString = window.location.search;
+      if (queryString.includes("share_cart:true")) {
+        const items = queryString
+          .substring(1)
+          .split('&')
+          .reduce((listItem, param) => {
+              if (param.startsWith('id:')) {
+                const [idPart, quantityPart] = param.split(',');
+                const id = parseInt(idPart.slice(3)); 
+                const quantity = parseInt(quantityPart.slice(2));
+                listItem.push({ id, quantity });
+              }
+              return listItem;
+          }, []);
+        if (items.length > 0) {
+          this.addCartItems(items);
+        }
+      }
+    },
+    addCartItems(items) {
+      const sectionsToRender = this.getSectionsToRender();
+      
+      const sections = sectionsToRender.map((s) => s.id);
+      
+      const formData = {
+        'items': items,
+        'sections': sections
+      }
+      
+      fetch(Shopify.routes.root + "cart/add.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(formData)
+      }).then(response => response.json())
+        .then(response => {
+          sectionsToRender.forEach((section => {
+            section.selector.split(',').forEach((selector) => {
+              const sectionElement = document.querySelector(selector);
+              if (sectionElement) {
+                if (response.sections[section.id])
+                  sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+              }
+            })
+            Alpine.store('xMiniCart').openCart();
+            Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+            document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+          }));
+          this.shared = true;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  });
+  
   Alpine.store('xShopifyPaymentBtn', {
     load(e) {
-      (events => {
-        const init = () => {
-          events.forEach(type => window.removeEventListener(type, init));
-
-          e.innerHTML = e.getAttribute('data-shopify-payment-button');
-          e.removeAttribute('data-shopify-payment-button');
-          Shopify.PaymentButton.init();
-        }
-      
-        events.forEach(type => window.addEventListener(type, init, {once: true, passive: true}));
-      })(['touchstart', 'mouseover', 'wheel', 'scroll', 'keydown']);
+      if (Shopify && Shopify.PaymentButton) {
+        Shopify.PaymentButton.init();
+      }
     },
   });
 
@@ -233,7 +538,7 @@ document.addEventListener('alpine:init', () => {
           handlePopupSelect(event);
         });
 
-        //reload popup and display overlay when change screen in shopify admin
+        // Reload the popup and display the overlay when change screen in Shopify admin
         if (data.name != 'popup-age-verification') {
           window.addEventListener('resize', (event)=> {
             handlePopupSelect(event, xParseJSON(localStorage.getItem(data.name + '-' + data.sectionId)));
@@ -241,13 +546,21 @@ document.addEventListener('alpine:init', () => {
         }
       }
 
+      localStorage.setItem('promotion-popup', '[]');
+
       if (this.$el.querySelector('.newsletter-message')) {
         this.open();
         return;
       }
+
+      this.$watch('show', (value) => {
+        if (!value) {
+          this.close();
+        }
+      });
     },
-    load() {
-      //optimize popup load js
+    load(sectionId) {
+      // Optimize the JavaScript for popup loading.
       if (window.location.pathname === '/challenge') return;
 
       const _this= this;
@@ -256,18 +569,19 @@ document.addEventListener('alpine:init', () => {
       } else {
         if (data.name == 'popup-promotion' && !this.handleSchedule() && data.showCountdown) return;
 
-        if (data.name == 'popup-promotion' && document.querySelector("#x-age-popup") && xParseJSON(localStorage.getItem('popup-age-verification')) == null) {
+        if (data.name == 'popup-promotion' && document.querySelector(`#x-age-popup-${sectionId}`) && xParseJSON(localStorage.getItem('popup-age-verification')) == null) {
           document.addEventListener("close-age-verification", () => {
-            setTimeout(() => {
-              _this.open();
-            }, data.delays * 1000);
+            this.triggerIntent();
+            if (data.trigger_intent == 'delay') {
+              setTimeout(() => {
+                _this.open();
+              }, data.delays * 1000);
+            }
           })
           return;
         }
-
-        setTimeout(() => {
-          _this.open();
-        }, data.delays * 1000);
+        
+        this.triggerIntent();
       }
     },
     open() {
@@ -283,9 +597,9 @@ document.addEventListener('alpine:init', () => {
         });
       }
 
-      //Show minimal when
-      // 1. enable show minimal on desktop + default style = minimal + window width >= 768
-      // 2. enable show minimal on mobile + default style mobile = minimal + window width < 768
+      // Show minimal popup when
+      // 1. "Show minimal" is enabled for desktop, default style is set to "minimal", and the window width is >= 768
+      // 2. "Show minimal" is enabled for mobile, default mobile style is set to "minimal", and the window width is < 768
       if ((data.showMinimal && data.default_style == "minimal" && window.innerWidth >= 768) 
         || (data.showMinimalMobile && data.default_style_mobile == "minimal" && window.innerWidth < 768)) {
         _this.showMinimal = true;
@@ -295,9 +609,9 @@ document.addEventListener('alpine:init', () => {
           _this.removeOverlay();
         }
       } else {
-        //Show full popup
+        // Show full popup
         if (data.showOnMobile && window.innerWidth < 768 || window.innerWidth >= 768) {
-          //Show a full popup for the first time accessing the site; if the customer closes the full popup, display a minimal popup during the session
+          // Show a full popup the first time a customer accesses the site. If the customer closes the full popup, display a minimal popup for the rest of the session.
           if (localStorage.getItem('current-' + data.sectionId) == 'minimal') {
             _this.showMinimal = true;
             _this.show = false;
@@ -311,7 +625,7 @@ document.addEventListener('alpine:init', () => {
             }
           }
         } else {
-          //Show nothing when screen < 768 and disable show popup on mobile
+          // Show nothing when screen width is < 768 and "Show popup on mobile" is disabled.
           _this.removeOverlay();
         }
       }
@@ -324,9 +638,13 @@ document.addEventListener('alpine:init', () => {
           Alpine.store('xPopup').close();
         });
         document.dispatchEvent(new Event('close-age-verification'));
+        if (!this.isExpireSave()) {
+          this.setExpire()
+        }
+        this.removeDisplayedPopup();
         return;
       }
-    var _this = this;
+      var _this = this;
       if (Shopify.designMode) {
         requestAnimationFrame(() => {
           setTimeout(() => {
@@ -340,7 +658,7 @@ document.addEventListener('alpine:init', () => {
             setTimeout(() => {
               _this.showMinimal = true;
             }, 300);
-            //Save storage data when closing the full popup (the full popup only shows for the first time accessing the site).
+            // Save data to storage when the full popup is closed (the full popup only shows on the first access to the site)
             localStorage.setItem('current-' + data.sectionId, 'minimal');
           });
         } else {
@@ -356,6 +674,36 @@ document.addEventListener('alpine:init', () => {
         }, 300);
       });
     },
+    triggerIntent() {     
+      var _this = this;
+      switch (data.trigger_intent) {
+        case "exit":
+          document.addEventListener('mouseleave', (event) => {
+            if (event.clientY <= 0 || event.clientX <= 0 || event.clientY >= window.innerHeight || event.clientX >= window.innerWidth) {
+              _this.open();
+            }
+          });
+          break;
+        case "copy_to_clipboard":
+          document.addEventListener('copy', () => {
+            _this.open();
+          });
+          break;
+        case "scroll":
+          window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            if (scrollPosition >= documentHeight * data.scroll_height) { // Enable when scroll to scroll_height percent page
+              _this.open();
+            }
+          });
+          break;
+        default:
+          setTimeout(() => {
+            _this.open();
+          }, data.delays * 1000);
+      }
+    },
     closeSection() {
       this.show = false;
       this.showMinimal = false;
@@ -368,9 +716,14 @@ document.addEventListener('alpine:init', () => {
       }
       
       localStorage.setItem(data.sectionId, JSON.stringify(item))
-      //remove storage data, the full popup will be displayed when the site applies the reappear rule.
+      // Remove storage data so that the full popup will be displayed again when the reappear rule is applied on the site.
       localStorage.removeItem('current-' + data.sectionId);
+      setTimeout(()=>{
+        this.saveDisplayedPopup();
+        this.show = true;
+      }, item.expires - Date.now())
     },
+
     isExpireSave() {
       const item = xParseJSON(localStorage.getItem(data.sectionId));
       if (item == null) return false;
@@ -424,7 +777,7 @@ document.addEventListener('alpine:init', () => {
         popupsDiv.classList.remove('bg-[#acacac]', 'bg-opacity-30');
       }
     },
-    //close minimal popup will set expired
+    // Closing the minimal popup will set it as expired.
     closeMinimal() {
       this.showMinimal = false;
       if (Shopify.designMode) return
@@ -443,139 +796,451 @@ document.addEventListener('alpine:init', () => {
         updatedArray = localStorageArray.filter(item => item != data.name + '-' + data.sectionId);
       localStorage.setItem('promotion-popup', JSON.stringify(updatedArray));
     },
-  }))
+  }));
 
   Alpine.data('xProductCart', (
     wrappringVariantId,
+    engravingVariantId,
   ) => ({
     loading: false,
     errorMessage: false,
+    mainHasError: false,
     buttonSubmit: "",
     error_message_wrapper: {},
     stopAction: false,
-    async addToCart(e, required, quickView) {
+    insuranceVariantId: '',
+    loadInsurance(id) {
+      if (this.insuranceVariantId == '') {
+        this.insuranceVariantId = id;
+      }
+    },
+    scrollToAtcBtn(btnId) {
+      const originalAtcBtn = document.querySelector(`#${btnId}`);
+      originalAtcBtn.scrollIntoView({
+        behavior: "smooth",
+        block: 'center',
+        inline: 'center'
+      })
+    },
+    async hashProperties(formData) {
+      let result = [];
+      for (let [key, value] of formData.entries()) {
+        const match = key.match(/^properties\[(.+)\]$/);
+        if (match) {
+          if (value instanceof File) {
+            result.push(`${value.name}:${value.size}:${value.type}`);
+          } else {
+            result.push(value);
+          }
+        }
+      }
+      result.push(formData.get('id'));
+      result.sort();
+
+      let data = result.join('|');
+
+      const encoder = new TextEncoder();
+      const dataBuffer = encoder.encode(data);
+
+      const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+      return hashHex;
+    },
+    async addToCart(e, required, quickView, sticky) {
+      this.loading = true;         
       e.preventDefault();
-      if (required) {
-        var productInfo = this.$el.closest('.product-info');
-        if (productInfo) {
-          var propertiesInput = productInfo.querySelectorAll(`.customization-picker`);
-          this.stopAction = false;
-          propertiesInput.length && propertiesInput.forEach((input) => {
-            if (input.required && input.value == '' || input.classList.contains("validate-checkbox")) {
-              input.classList.add("required-picker");
-              this.stopAction = true;
-            }
+
+      setTimeout(async () => {
+        if (required) {
+          var productInfo = this.$el.closest('.product-info');
+          if(sticky){
+            productInfo = document.querySelector('.product-info');
+          }
+          if (productInfo) {
+            var propertiesInput = productInfo.querySelectorAll(`.customization-picker`);
+            this.stopAction = false;
+            let scrollStatus = false;
+            
+            propertiesInput.length && propertiesInput.forEach((input) => {
+              if (input.required && input.value.trim() == '' || input.classList.contains("validate-checkbox")) {
+                input.classList.add("required-picker");
+                this.stopAction = true;
+                if(!scrollStatus){
+                  input.parentElement.querySelector('.text-required').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                  });
+                  scrollStatus = true;
+                }    
+              } else {
+                input.classList.remove("required-picker");
+              }                
+            });              
+          }
+          if (this.stopAction) {
+            setTimeout (() => {
+              this.loading = false;
+            }, 500);
+            return true;
+          }
+        }
+        await Alpine.store('xCartHelper').waitForEstimateUpdate();
+        window.updatingEstimate = true;
+
+        if (this.$refs.engraving_text && engravingVariantId) {
+          if (this.$refs.engraving_text.value.trim()) {
+            if (!this.$refs.engraving_text.hasAttribute('name')) this.$refs.engraving_text.setAttribute('name', this.$refs.text_area_name.value);
+          } else {
+            if (this.$refs.engraving_text.hasAttribute('name')) this.$refs.engraving_text.removeAttribute('name');
+          }
+        }
+
+        var productForm = this.$el.closest('.product-info') || this.$el.closest('form');
+        let formData = new FormData(this.$refs.product_form);
+        var edt_element = productForm ? productForm.querySelector(`.hidden.cart-edt-properties-${formData.get('product-id')}`) : null;
+        if (edt_element) {
+          edt_element.value = edt_element.value.replace("time_to_cut_off", Alpine.store('xEstimateDelivery').noti)
+        }
+        formData = new FormData(this.$refs.product_form);
+
+        if (this.$refs.gift_wrapping_checkbox && this.$refs.gift_wrapping_checkbox.checked && wrappringVariantId && this.$refs.gift_wrapping_id) {              
+          await this.hashProperties(formData).then(hashHex => {
+            this.$refs.gift_wrapping_id.value = hashHex;
+            formData = new FormData(this.$refs.product_form);
           });
         }
-        if (this.stopAction) {
-          return true;
+        for (let [key, value] of formData.entries()) {
+          const match = key.match(/^properties\[_linked_product_id\]\[\]$/);
+          if (match) {
+            await this.hashProperties(formData).then(hashHex => {
+              this.$refs.customize_key_link.value = hashHex;
+              formData = new FormData(this.$refs.product_form);
+            });
+            break;
+          }
         }
-      }
 
+        formData.append(
+          'sections',
+          Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
+        );
+        formData.append('sections_url', window.location.pathname);
+        const newFormData = new FormData();
+        for (let [key, value] of formData.entries()) {
+          if (value !== '') {
+            newFormData.append(key, value);
+          }
+        }
+
+        let productId;
+        let productUrl;
+
+        await fetch(`${Eurus.cart_add_url}`, {
+          method:'POST',
+          headers: { Accept: 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' },
+          body: newFormData
+        }).then(reponse => {
+          return reponse.json();
+        }).then(async (response) => {
+          if (response.status == '422') {
+            if (typeof response.errors == 'object') {
+              this.error_message_wrapper = response.errors;
+              document.querySelector('.recipient-error-message').classList.remove('hidden');
+            } else {
+              this.errorMessage = true;
+              setTimeout(() => {
+                this.errorMessage = false;
+              }, 3000);
+              if(this.$refs.error_message){
+                this.$refs.error_message.textContent = response.description;
+              }
+              if(this.$refs.error_message_mobile){
+                this.$refs.error_message_mobile.textContent = response.description;
+              }
+            }
+            if (Alpine.store('xMiniCart')) {
+              Alpine.store('xMiniCart').reLoad();
+            }
+          } else {  
+            productId = response.product_id;
+            productUrl = response.url.split("?")[0];
+
+            if (Alpine.store('xCartNoti') && Alpine.store('xCartNoti').enable) {
+              Alpine.store('xCartNoti').setItem(response); 
+            }
+            let match = document.cookie.match('(^|;)\\s*' + 'eurus_insurance' + '\\s*=\\s*([^;]+)');
+            if (
+              (this.$refs.gift_wrapping_checkbox && this.$refs.gift_wrapping_checkbox.checked && wrappringVariantId) || 
+              (this.$refs.engraving_text && engravingVariantId && this.$refs.engraving_text.value.trim()) || 
+              (this.insuranceVariantId && !localStorage.getItem('insuranceRemoved') && (!match || match[1].trim() === '')) || 
+              (Object.keys(response.properties).some(key => key === '_linked_product_id'))
+            ) {
+              let additionalOptionData = {
+                items: [],
+                sections:  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
+              };
+              if (this.$refs.gift_wrapping_checkbox && this.$refs.gift_wrapping_checkbox.checked && wrappringVariantId && response.properties['_gift_wrapping_id']) {
+                additionalOptionData.items.push(
+                  {
+                    id: wrappringVariantId,
+                    quantity: 1,
+                    properties: {
+                      "For": response.title,
+                      "_key_link": response.properties['_gift_wrapping_id']
+                    }
+                  }
+                );
+              }
+              if (Object.keys(response.properties).some(key => key === '_linked_product_id')) {
+                Object.entries(response.properties).forEach(([key, value]) => {
+                  if (key === '_linked_product_id') {
+                    value.forEach(val => {
+                      additionalOptionData.items.push(
+                        {
+                          id: val,
+                          quantity: 1,
+                          properties: {
+                            "For": response.title,
+                            "_key_link": response.properties['_customize_key_link']
+                          }
+                        }
+                      );
+                    });
+                  }
+                });
+              }
+              if (this.$refs.engraving_text && engravingVariantId && this.$refs.engraving_text.value.trim()) {
+                additionalOptionData.items.push(
+                  {
+                    id: engravingVariantId,
+                    quantity: 1
+                  }
+                );
+              }
+              if (this.insuranceVariantId && !localStorage.getItem('insuranceRemoved')) {
+                let match = document.cookie.match('(^|;)\\s*' + 'eurus_insurance' + '\\s*=\\s*([^;]+)');
+                if (!match || match[1].trim() === '') {
+                  additionalOptionData.items.push(
+                    {
+                      id: this.insuranceVariantId,
+                      quantity: 1
+                    }
+                  );
+                }
+              }
+
+              if (additionalOptionData.items.length !== 0) {
+                await window.fetch('/cart/add.js', {
+                  method: 'POST',
+                  credentials: 'same-origin',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                  },
+                  body: JSON.stringify(additionalOptionData),
+                }).then((res) => {
+                  return res.json();
+                }).then(res => {
+                  if (res.status == '422') {
+                    if (typeof res.errors == 'object') {
+                      this.error_message_wrapper = res.errors;
+                      document.querySelector('.recipient-error-message').classList.remove('hidden');
+                    } else {
+                      this.errorMessage = true;
+                      setTimeout(() => {
+                        this.errorMessage = false;
+                      }, 3000);
+                      if(this.$refs.error_message){
+                        this.$refs.error_message.textContent = res.description;
+                      }
+                      if(this.$refs.error_message_mobile){
+                        this.$refs.error_message_mobile.textContent = res.description;
+                      }
+                    }
+                    if (Alpine.store('xMiniCart')) {
+                      Alpine.store('xMiniCart').reLoad();
+                    }
+                  } else {
+                    document.querySelector('.recipient-error-message') ? document.querySelector('.recipient-error-message').classList.add('hidden') : '';
+                    this.error_message_wrapper = {};
+      
+                    if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
+                      Alpine.store('xQuickView').show = false;
+                    }
+                    Alpine.store('xPopup').close();
+                    
+                    if((quickView && Alpine.store('xQuickView').buttonQuickView && Alpine.store('xQuickView').buttonQuickView.dataset.addAsBundle) || (!quickView && this.$refs.product_form && this.$refs.product_form.querySelector('[data-add-as-bundle="true"]'))) {
+                      document.dispatchEvent(new CustomEvent("eurus:cart:add-as-bundle"));
+                    } else {
+                      Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+                        section.selector.split(',').forEach((selector) => {
+                          const sectionElement = document.querySelector(selector);
+                          if (sectionElement) {
+                            if (res.sections[section.id])
+                              sectionElement.innerHTML = getSectionInnerHTML(res.sections[section.id], selector);
+                          }
+                        })
+                      }));
+                      if (!Alpine.store('xCartNoti') || !Alpine.store('xCartNoti').enable) {
+                        setTimeout(() => {
+                          Alpine.store('xMiniCart').openCart();
+                        }, 500);
+                        document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));  
+                      }  
+                      if (Alpine.store('xQuickView')) {
+                        Alpine.store('xQuickView').openPopupMobile = false;
+                      }
+                      this.$el.closest('.choose-options')?.getElementsByClassName('js-close-button')[0].click();
+                      this.$el.closest('.js-product-container')?.getElementsByClassName('js-close-button')[0].click();
+
+                      Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+                      document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+                    }
+                  }
+                });  
+              }
+            } else {
+              document.querySelector('.recipient-error-message') ? document.querySelector('.recipient-error-message').classList.add('hidden') : '';
+              this.error_message_wrapper = {};
+    
+              if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
+                Alpine.store('xQuickView').show = false;
+              }
+              Alpine.store('xPopup').close();
+              
+              if((quickView && Alpine.store('xQuickView').buttonQuickView && Alpine.store('xQuickView').buttonQuickView.dataset.addAsBundle) || (!quickView && this.$refs.product_form && this.$refs.product_form.querySelector('[data-add-as-bundle="true"]'))) {
+                document.dispatchEvent(new CustomEvent("eurus:cart:add-as-bundle"));
+              } else {
+                Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+                  section.selector.split(',').forEach((selector) => {
+                    const sectionElement = document.querySelector(selector);
+                    if (sectionElement) {
+                      if (response.sections[section.id])
+                        sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                    }
+                  })
+                }));
+                if (!Alpine.store('xCartNoti') || !Alpine.store('xCartNoti').enable) {
+                  Alpine.store('xMiniCart').openCart();
+                }               
+                Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+                if (Alpine.store('xQuickView')) {
+                  Alpine.store('xQuickView').openPopupMobile = false;
+                }
+                this.$el.closest('.choose-options')?.getElementsByClassName('js-close-button')[0].click();
+                this.$el.closest('.js-product-container')?.getElementsByClassName('js-close-button')[0].click();
+                document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+                document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));
+              }
+            }
+          }
+        }).catch((error) => {
+          console.error('Error:', error);
+        }).finally(() => {
+          Alpine.store('xCartHelper').updateEstimateShippingFull();
+          document.dispatchEvent(new CustomEvent(`eurus:product-card:clear:${productId}`));
+          this.loading = false;
+          if ((quickView && Alpine.store('xQuickView').buttonQuickView && !Alpine.store('xQuickView').buttonQuickView.dataset.addAsBundle) || (!quickView && this.$refs.product_form && !this.$refs.product_form.querySelector('[data-add-as-bundle="true"]'))) {
+            if(this.$refs.gift_wrapping_checkbox) this.$refs.gift_wrapping_checkbox.checked = false;
+            if(this.$refs.gift_wrapping_id) this.$refs.gift_wrapping_id.value = '';
+            if(this.$refs.customize_key_link) this.$refs.customize_key_link.value = '';
+          }
+          document.cookie = `eurus_insurance=${this.insuranceVariantId}; path=/`;  
+        })
+      }, 0)
+    },
+    async updateProductQty(el, productId, productUrl) {
       this.loading = true;
 
-      if (this.$refs.gift_wrapping_checkbox && this.$refs.gift_wrapping_checkbox.checked && wrappringVariantId) {
-        const giftData = {
-          items: [
-            {
-              id: wrappringVariantId,
-              quantity: 1
-            }
-          ]
+      const qty = el.value;
+      const variantId = el.dataset.variantId;
+
+      setTimeout(async () => {
+        await Alpine.store('xCartHelper').waitForEstimateUpdate();
+        window.updatingEstimate = true;
+
+        const sectionArray = Alpine.store('xCartHelper').getSectionsToRender();
+        const sections = sectionArray.map(s => s.id);
+        
+        let updateData = {
+          'id': `${variantId}`,
+          'quantity': `${qty}`,
+          'sections': sections
         };
-        const giftResponse = await window.fetch('/cart/add.js', {
+
+        await fetch(`${Shopify.routes.root}cart/change.js`, {
           method: 'POST',
-          credentials: 'same-origin',
           headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(giftData),
-        });
-
-        const giftResponse1 = await giftResponse.json();
-        if (!giftResponse.ok) {
-          if (giftResponse1.status == 422) {
-            this.$refs.gift_wrapping_error.textContent = giftResponse1.description;
-            this.loading = false;
-            setTimeout(() => {
-              this.$refs.gift_wrapping_error.textContent = "";
-            }, 5000);
-          }
-          return;
-        }
-      }
-
-      var productInfo = this.$el.closest('.product-info') || this.$el.closest('form');
-      var edt_element = productInfo ? productInfo.querySelector('.hidden.cart-edt-properties') : null;
-      if (edt_element) {
-        let new_value = edt_element.value.replace("time_to_cut_off", Alpine.store('xEstimateDelivery').noti);
-        edt_element.value = new_value
-      }
-      
-      let formData = new FormData(this.$refs.product_form);
-      formData.append(
-        'sections',
-        Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
-      );
-      formData.append('sections_url', window.location.pathname);
-      await fetch(`${Eurus.cart_add_url}`, {
-        method:'POST',
-        headers: { Accept: 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' },
-        body: formData
-      }).then(reponse => {
-        return reponse.json();
-      }).then((response) => {
-        if (response.status == '422') {
-          if (typeof response.errors == 'object') {
-            this.error_message_wrapper = response.errors;
-            document.querySelector('.recipient-error-message').classList.remove('hidden');
-          } else {
-            this.errorMessage = true;
-            if(this.$refs.error_message){
-              this.$refs.error_message.textContent = response.description;
+          body: JSON.stringify(updateData)
+        }).then(reponse => {
+          return reponse.json();
+        }).then(async (response) => {
+          if (response.status == '422') {
+            if (typeof response.errors == 'object') {
+              this.error_message_wrapper = response.errors;
+              document.querySelector('.recipient-error-message').classList.remove('hidden');
+            } else {
+              this.errorMessage = true;
+              setTimeout(() => {
+                this.errorMessage = false;
+              }, 3000);
+              if(this.$refs.error_message){
+                this.$refs.error_message.textContent = response.description;
+              }
+              if(this.$refs.error_message_mobile){
+                this.$refs.error_message_mobile.textContent = response.description;
+              }
             }
-            if(this.$refs.error_message_mobile){
-              this.$refs.error_message_mobile.textContent = response.description;
+            if (Alpine.store('xMiniCart')) {
+              Alpine.store('xMiniCart').reLoad();
             }
-          }
-          if (Alpine.store('xMiniCart')) {
-            Alpine.store('xMiniCart').reLoad();
-          }
-        } else {
-          document.querySelector('.recipient-error-message') ? document.querySelector('.recipient-error-message').classList.add('hidden') : '';
-          this.error_message_wrapper = {};
-
-          Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-            const sectionElement = document.querySelector(section.selector);
-            if (sectionElement) {
-              if (response.sections[section.id])
-                sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
+          } else {  
+            if (Alpine.store('xCartNoti') && Alpine.store('xCartNoti').enable) {
+              Alpine.store('xCartNoti').setItem(response); 
+            }                
+            document.querySelector('.recipient-error-message') ? document.querySelector('.recipient-error-message').classList.add('hidden') : '';
+            this.error_message_wrapper = {};
+  
+            if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
+              Alpine.store('xQuickView').show = false;
             }
-          }));
-
-          if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
-            Alpine.store('xQuickView').show = false;
-          }
-          Alpine.store('xPopup').close();
-          if((quickView && Alpine.store('xQuickView').buttonQuickView && Alpine.store('xQuickView').buttonQuickView.dataset.addAsBundle) || (!quickView && this.$refs.product_form && this.$refs.product_form.querySelector('[data-add-as-bundle="true"]'))) {
-            document.dispatchEvent(new CustomEvent("eurus:cart:add-as-bundle"));
-          } else {
-            Alpine.store('xMiniCart').openCart();
+            Alpine.store('xPopup').close();
+            
+            Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+              section.selector.split(',').forEach((selector) => {
+                const sectionElement = document.querySelector(selector);
+                if (sectionElement) {
+                  if (response.sections[section.id])
+                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                }
+              })
+            }));
+            if (!Alpine.store('xCartNoti') || !Alpine.store('xCartNoti').enable) {
+              Alpine.store('xMiniCart').openCart();
+            }               
             Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+            if (Alpine.store('xQuickView')) {
+              Alpine.store('xQuickView').openPopupMobile = false;
+            }
+            this.$el.closest('.choose-options')?.getElementsByClassName('js-close-button')[0].click();
+            this.$el.closest('.js-product-container')?.getElementsByClassName('js-close-button')[0].click();
             document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+            document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));
           }
-        }
-      }).catch((error) => {
-        console.error('Error:', error);
-      }).finally(() => {
-        this.loading = false;
-        if ((quickView && Alpine.store('xQuickView').buttonQuickView && !Alpine.store('xQuickView').buttonQuickView.dataset.addAsBundle) || (!quickView && this.$refs.product_form && !this.$refs.product_form.querySelector('[data-add-as-bundle="true"]'))) {
-          if(this.$refs.gift_wrapping_checkbox) this.$refs.gift_wrapping_checkbox.checked = false;
-        }
-      }) 
+        }).catch((error) => {
+          console.error('Error:', error);
+        }).finally(() => {
+          Alpine.store('xCartHelper').updateEstimateShippingFull();
+          document.dispatchEvent(new CustomEvent(`eurus:product-card:clear:${productId}`));
+          this.loading = false;
+        })
+      }, 0)
     }
-  }))
+  }));
 
   Alpine.data('xProductMedia', (settings) => ({
     thumbnailOnMouseDown: false,
@@ -585,6 +1250,24 @@ document.addEventListener('alpine:init', () => {
     zoomIsOpen: false,
     productMediaIsOpen: '',
     videoExternalListened: false,
+    xPosition: 0,
+    yPosition: 0,
+    imageWidth: 0,
+    imageHeight: 0,
+    startZoom(event) {
+      const elem = event.currentTarget;
+      const size = elem.getBoundingClientRect();
+      this.xOffset = size.left;
+      this.yOffset = size.top;
+      this.imageWidth = size.width;
+      this.imageHeight = size.height;
+    },
+    updatePosition(event) {
+      if (this.imageWidth && this.imageHeight) {
+        this.xPosition = ((event.clientX - this.xOffset) / this.imageWidth) * 100;
+        this.yPosition = ((event.clientY - this.yOffset)  / this.imageHeight) * 100;
+      }
+    },
     thumbnailHandleMouseDown(e) {
       this.thumbnailOnMouseDown = true;
       this.thumbnailGrabbingClass = 'cursor-grabbing';
@@ -620,12 +1303,39 @@ document.addEventListener('alpine:init', () => {
       this.thumbnailOnMouseDown = false;
       this.thumbnailGrabbingClass = 'md:cursor-grab';
     },
-    zoomOpen(position) {
+    zoomOpen(position, isSplide) {
       this.zoomIsOpen = true;
       Alpine.store('xPopup').open = true;
       setTimeout(() => {
-        document.getElementById(position + '-image-zoom-' + settings.section_id).scrollIntoView()
-      }, 10);
+        if (isSplide) {
+          const splideEl = document.getElementById(`media-gallery-${settings.section_id}`)
+          if (splideEl && splideEl.splide) {
+            let nextSlideIndex = 0;
+            const childrenArray = Array.from(splideEl.querySelector('.splide__list').children)
+            childrenArray.map((item, index) => {
+              if (item.getAttribute('x-slide-index') == position) {
+                nextSlideIndex = index
+              }
+            })
+            splideEl.splide.go(nextSlideIndex);
+          }
+          document.addEventListener(`eurus:zoom-image-ready:${settings.section_id}`, () => {
+            if (splideEl && splideEl.splide) {
+              let nextSlideIndex = 0;
+              const childrenArray = Array.from(splideEl.querySelector('.splide__list').children)
+              childrenArray.map((item, index) => {
+                if (item.getAttribute('x-slide-index') == position) {
+                  nextSlideIndex = index
+                }
+              })
+              splideEl.splide.go(nextSlideIndex);
+            }
+          });
+        }
+        else {
+          document.getElementById(position + '-image-zoom-' + settings.section_id).scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 200);
       Alpine.store('xModal').activeElement = 'product-image-' + settings.section_id + '-' + position;
     },
     zoomClose() {
@@ -696,20 +1406,87 @@ document.addEventListener('alpine:init', () => {
   }));
 
   Alpine.store('xProductRecommendations', {
+    loading: false,
+    listOfUpsellProducts: [],
+    el: '',
+    listUpsellId: [],
+    productCount: 0,
+    async loadUpsell(el, url, listId, limit, maxItems) {
+      this.el = el;
+      this.loading = true;
+      this.listOfUpsellProducts = [];
+      this.productCount = 0;
+      this.listUpsellId = [];         
+      for (let i = 0; i < listId.length; i++) {
+        if (this.productCount >= maxItems) {
+          break;
+        }    
+        try {
+          const response = await fetch(`${url}&product_id=${listId[i]}&limit=${limit}&intent=related`);
+          const text = await response.text();
+          const html = document.createElement('div');
+          html.innerHTML = text;
+          const des = document.querySelector('.cart-upsell-carousel');
+          const src = html.querySelector('.cart-upsell-carousel')
+          if(src && des) des.innerHTML = src.innerHTML
+          const recommendations = html.querySelector('.product-recommendations');
+  
+          if (recommendations && recommendations.innerHTML.trim().length) {
+            const newUpsellProducts = recommendations.querySelectorAll('template[x-teleport="#cart-upsell-drawer"], template[x-teleport="#cart-upsell"]');
+            this.listOfUpsellProducts = [...newUpsellProducts, ...this.listOfUpsellProducts];
+  
+            for (let index = 0; index < this.listOfUpsellProducts.length; index++) {
+              if (this.productCount >= maxItems) {
+                break;
+              }
+              
+              const element = this.listOfUpsellProducts[index];
+              const elementId = new DOMParser().parseFromString(element.innerHTML, 'text/html').querySelector('.hover-text-link, .link-product-variant').id;
+              
+              if (!this.listUpsellId.includes(elementId)) {
+                this.listUpsellId.push(elementId);
+                el.appendChild(element);
+                this.productCount++;
+              }
+            }
+  
+            if (recommendations.classList.contains('main-product')) {
+              el.className += ' mb-5 border-y border-solid accordion empty:border-b-0';
+            }
+          } else if (recommendations && recommendations.classList.contains('main-product')) {
+            recommendations.classList.add("hidden");
+            el.innerHTML = recommendations.innerHTML;
+          }
+        } catch (e) {
+          console.error(e);
+        } finally {
+          this.loading = false;
+        }
+      }
+    },
     load(el, url) {
+      this.loading = true;
       fetch(url)
         .then(response => response.text())
         .then(text => {
           const html = document.createElement('div');
           html.innerHTML = text;
           const recommendations = html.querySelector('.product-recommendations');
-
           if (recommendations && recommendations.innerHTML.trim().length) {
             requestAnimationFrame(() => {
               el.innerHTML = recommendations.innerHTML;
             });
+            if (recommendations.classList.contains('main-product')) {
+              el.className += ' mb-5 border-y border-solid accordion empty:border-b-0';
+            }
+          } else if (recommendations.classList.contains('main-product')) {
+            recommendations.classList.add("hidden");
+            el.innerHTML = recommendations.innerHTML;
           }
         })
+        .finally(() => {
+          this.loading = false;
+        }) 
         .catch(e => {
           console.error(e);
         });
@@ -790,211 +1567,72 @@ document.addEventListener('alpine:init', () => {
     isProductPage,
     unavailableText,
     productUrl,
-    productId,
-    showFirstImageAvaiable,
-    chooseOption,
-    productBundle,
-    handleSectionId,
-    firstAvailableVariantId,
-    pageParam
+    cloneSectionId = element.closest('.data-id-section-card') ? element.closest('.data-id-section-card').id : ''
   ) => ({
-    variants: null,
+    loadingEls: '',
     currentVariant: {},
-    options: [],
-    currentAvailableOptions: [],
     cachedResults: [],
-    quickViewSectionId: 'quick-view',
     handleSectionId: sectionId,
-    paramVariant: false,
     mediaGallerySource: [],
-    isChange: false,
-    optionConnect: "",
+    optionConnects: [],
     mediaOption: "",
     handleSticky: '',
     initfirstMedia: false,
-    initVariant() {
-      this.variants = JSON.parse(this.$el.querySelector('[type="application/json"]').textContent);
-
-      if (chooseOption) {
-        this.handleSectionId = 'choose-option';
-      }
-      if (productBundle) {
-        this.handleSectionId = handleSectionId;
-      }
-      
-      if (!productBundle) {
-        document.addEventListener('eurus:cart:items-changed', () => {
-          this.cachedResults = [];
-          Alpine.store('xUpdateVariantQuanity').updateQuantity(sectionId, productUrl, this.currentVariant?.id);
-        });
-      }
-
-      this.$watch('options', () => {
-        this._updateVariantSelector();
-      });
-    },
-    initMedia(init) {
-      if (init) {
-        this.initfirstMedia = true;
-      }
-      this._updateMasterId();
-      this._updateMedia();
-      this.initfirstMedia = false;
-    },
-    _updateVariantSelector() {
-      this._updateMasterId();
-      this._updateVariantStatuses();
-      
-      if (!this.currentVariant) {
-        this._dispatchUpdateVariant();
-        this._setUnavailable();
-        return;
-      }
-      if (firstAvailableVariantId != this.currentVariant.id) {
-        this.paramVariant = true;
-      }
-      if (isProductPage && this.paramVariant) {
-        window.history.replaceState({}, '', `?variant=${this.currentVariant.id}`);
-      }
-      if (chooseOption == '' && !isProductPage) { 
-        this._updateImageVariant();
-      }
-      this._updateVariantInput();
-      this._updateProductForms();
-      this._setAvailable();
-      Alpine.store('xPickupAvailable').updatePickUp(sectionId, this.currentVariant.id);
-
-      const cacheKey = sectionId + '-' + this.currentVariant.id;
-      if (this.cachedResults[cacheKey]) {
-        const html = this.cachedResults[cacheKey];
-  
-        this._renderPriceProduct(html);
-        this._renderSkuProduct(html);
-        this._renderProductBadges(html);
-        this._renderInventoryStatus(html);
-
-        this._updateMedia(html);
-        this._renderBuyButtons(html);
-        this._setMessagePreOrder(html)
-        this._setEstimateDelivery(html);
-        this._setCartEstimateDelivery(html);
-        this._setPreorderProperties(html);
-        this._setBackInStockAlert(html);
-        this._setPickupPreOrder(html);
-        if (this.currentVariant.featured_media != null ) {
-          this._updateColorSwatch(html);
-        }
-        this._dispatchUpdateVariant();
-        this._dispatchVariantSelected(html);
-        if (!productBundle) {
-          Alpine.store('xUpdateVariantQuanity').render(html, sectionId);
-        }
-      } else {
-        const variantId = this.currentVariant.id;
-        let url = chooseOption?`${productUrl}?variant=${variantId}&section_id=${this.handleSectionId}&page=${pageParam}`:`${productUrl}?variant=${variantId}&section_id=${this.handleSectionId}`
-        fetch(url)
-          .then((response) => response.text())
-          .then((responseText) => {
-            const html = new DOMParser().parseFromString(responseText, 'text/html');
-            if (this.currentVariant && variantId == this.currentVariant.id
-              && html.getElementById(`x-product-template-${productId}-${sectionId}`)) {
-              this._renderPriceProduct(html);
-              this._renderSkuProduct(html);
-              this._renderProductBadges(html);
-              this._renderInventoryStatus(html);
-              if (showFirstImageAvaiable) {
-                this._updateMedia(html);
-              } else if (this.isChange) {
-                this._updateMedia(html);
-              }
-              this._renderBuyButtons(html);
-              this._setMessagePreOrder(html);
-              this._setEstimateDelivery(html);
-              this._setPickupPreOrder(html);
-              this._setCartEstimateDelivery(html);
-              this._setPreorderProperties(html);
-              this._setBackInStockAlert(html);
-              if (this.currentVariant.featured_media != null ) {
-                this._updateColorSwatch(html);
-              }
-              if (!productBundle) {
-                Alpine.store('xUpdateVariantQuanity').render(html, sectionId);
-              }
-              this.cachedResults[cacheKey] = html;
-              
-              this._dispatchUpdateVariant(html);
-              this._dispatchVariantSelected(html);
-            } else if (this.currentVariant && variantId == this.currentVariant.id) {
-              this._dispatchUpdateVariant(html);
-            }
-          });
-      }
-    },
     _dispatchVariantSelected(html) {
+      window.requestAnimationFrame(() => {
+        setTimeout(() => { this.loadingEls = ''; }, 100);
+      })
       document.dispatchEvent(new CustomEvent(`eurus:product-page-variant-select:updated:${sectionId}`, {
+        detail: { html: html }
+      }));
+    },
+    _dispatchUpdateVariant(html="") {
+      document.dispatchEvent(new CustomEvent(`eurus:product-card-variant-select:updated:${sectionId}`, {
         detail: {
-          currentVariantStatus: this.currentVariant?.available,
-          currentAvailableOptions: this.currentAvailableOptions,
-          options: this.options,
+          currentVariant: this.currentVariant,
           html: html
         }
       }));
     },
-    _updateVariantStatuses() {
-      const selectedOptionOneVariants = this.variants.filter(variant => this.options[0] === this._decodeOptionValue(variant.option1));
-      this.options.forEach((option, index) => {
-        this.currentAvailableOptions[index] = [];
-        if (index === 0) return;
-
-        const previousOptionSelected = this.options[index - 1];
-        selectedOptionOneVariants.forEach((variant) => {
-          if (variant.available && this._decodeOptionValue(variant[`option${ index }`]) === previousOptionSelected) {
-            this.currentAvailableOptions[index].push(this._decodeOptionValue(variant[`option${ index + 1 }`]));
-          }
-        });
-      });
-    },
-    _decodeOptionValue(option) {
-      if (option) {
-        return option
-                .replaceAll('\\/', '/');
-      }
-    },
-    _renderInventoryStatus(html) {
-      const destination = document.getElementById('block-inventory-' + sectionId);
-      const source = html.getElementById('block-inventory-' + sectionId);
+    _renderDestination(html, selector) {
+      const destination = document.getElementById(selector + sectionId);
+      const source = html.getElementById(selector + sectionId);
       if (source && destination) destination.innerHTML = source.innerHTML;
+    },
+    _goToSelectedVariantMedia() {
+      let splideEl = document.getElementById("x-product-" + sectionId);
+      let slideVariant = ""
+      let index = ""
+      let activeEL = ""
+      if (this.currentVariant !== undefined && this.currentVariant.featured_media !== undefined) {
+        slideVariant = document.getElementsByClassName(this.currentVariant.featured_media.id + '-' + sectionId);
+        index = parseInt(slideVariant[0]?.getAttribute('index'));
+        activeEL = document.getElementById('postion-image-' + sectionId + '-' + this.currentVariant.featured_media.id);
+      } else {
+        slideVariant = splideEl.querySelector(".featured-image");
+        index = parseInt(slideVariant?.getAttribute('index'));
+        activeEL = document.querySelector(`#stacked-${sectionId} .featured-image`);
+      }
+      
+      if (splideEl) {
+        if (splideEl.splide && slideVariant) {
+          splideEl.splide.go(index)
+        } else {
+          document.addEventListener(`eurus:media-gallery-ready:${sectionId}`, () => {
+            if (splideEl.splide)
+              splideEl.splide.go(index);
+          });
+        }
+      }
+
+      return activeEL;
     },
     _updateMedia(html) {
       let mediaWithVariantSelected = document.getElementById("product-media-" + sectionId) && document.getElementById("product-media-" + sectionId).dataset.mediaWithVariantSelected;
       
-      if (!chooseOption && !productBundle && !mediaWithVariantSelected) {
-        let splideEl = document.getElementById("x-product-" + sectionId);
-        let slideVariant = ""
-        let index = ""
-        let activeEL = ""
-        if (this.currentVariant && this.currentVariant.featured_media != null) {
-          slideVariant = document.getElementsByClassName(this.currentVariant.featured_media.id + '-' + sectionId);
-          index = parseInt(slideVariant[0]?.getAttribute('index'));
-          activeEL = document.getElementById('postion-image-' + sectionId + '-' + this.currentVariant.featured_media.id);
-        } else {
-          slideVariant = splideEl.querySelector(".featured-image");
-          index = parseInt(slideVariant?.getAttribute('index'));
-          activeEL = document.querySelector(`#stacked-${sectionId} .featured-image`);
-        }
-        
-        if (splideEl) {
-          if (splideEl.splide && slideVariant) {
-            splideEl.splide.go(index)
-          } else {
-            document.addEventListener(`eurus:media-gallery-ready:${sectionId}`, () => {
-              if (splideEl.splide)
-                splideEl.splide.go(index);
-            });
-          }
-        }
+      if (!mediaWithVariantSelected) {
+        let activeEL = this._goToSelectedVariantMedia();
         if (!activeEL) return;
-        
 
         if (html && !mediaWithVariantSelected) {
           let mediaGalleryDestination = html.getElementById(`stacked-${ sectionId }`);
@@ -1013,23 +1651,14 @@ document.addEventListener('alpine:init', () => {
           }
         }
       }
-
       if (mediaWithVariantSelected) {
         this.updateMultiMediaWithVariant();
-      }
-    },
-    _updateColorSwatch(html) {
-      const showSwatchWithVariantImage = document.querySelector(`#variant-update-${ sectionId }`).dataset.showSwatchWithVariantImage;
-      const destination = document.querySelector(`#variant-update-${ sectionId } [data-swatch="true"]`);
-      if(destination && showSwatchWithVariantImage) {
-        const source = html.querySelector(`#variant-update-${ sectionId } [data-swatch="true"]`);
-        if (source) destination.innerHTML = source.innerHTML;
       }
     },
     _validateOption() {
       const mediaWithOption = document.querySelector(`#shopify-section-${sectionId} [data-media-option]`);
       if (mediaWithOption)
-        this.mediaOption = mediaWithOption.dataset.mediaOption
+        this.mediaOption = mediaWithOption.dataset.mediaOption.split('_');
     },
     updateMultiMediaWithVariant() {
       this._validateOption();
@@ -1045,18 +1674,18 @@ document.addEventListener('alpine:init', () => {
         }
         return;
       }
-      const variantInput = document.querySelector(`#shopify-section-${sectionId} [data-option-name="${this.mediaOption}"]`);
-
-      if (!variantInput) {
+      const variantInputs = this.mediaOption.map(option =>
+        document.querySelector(`#shopify-section-${sectionId} [data-option-name="${option}"]`)
+      ).filter(el => el !== null);
+      if (variantInputs.length === 0) {
         let variantMedias = ""
-        if (!this.currentVariant.featured_media?.id) {
+        if (!this.currentVariant?.featured_media?.id) {
           variantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-option].featured-image, #shopify-section-${ sectionId } [data-media-option].featured-image`); 
         } else {
-          variantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-option="${sectionId}-${this.currentVariant.featured_media.id}"], #shopify-section-${ sectionId } [data-media-option="${sectionId}-${this.currentVariant.featured_media.id}"]`);
+          variantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-option="${sectionId}-${this.currentVariant?.featured_media?.id}"], #shopify-section-${ sectionId } [data-media-option="${sectionId}-${this.currentVariant?.featured_media?.id}"]`);
         }
         let mediaActive = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-option=""], #shopify-section-${ sectionId } [data-media-option=""]`);
         let productMedias = document.querySelectorAll( `#ProductModal-${ sectionId } [data-media-option], #shopify-section-${ sectionId } [data-media-option]`);
-        
         const newMedias = Array.prototype.concat.call( ...mediaActive, ...variantMedias)
         this._setActiveMedia(productMedias, newMedias, variantMedias);
 
@@ -1065,44 +1694,63 @@ document.addEventListener('alpine:init', () => {
           splideEl.splide.refresh();
           splideEl.splide.go(0);
         }
+        let splideZoomEl = document.getElementById(`media-gallery-${ sectionId }`);
+        if (splideZoomEl.splide) {
+          splideZoomEl.splide.refresh();
+        }
       } else {
-        const variantOptionIndex = variantInput && variantInput.dataset.optionIndex;
-        const optionValue = this._handleText(this.currentVariant.options[variantOptionIndex]);
-        var optionConnect = this.mediaOption + '-' + optionValue;
+        let optionConnects = [];
+        variantInputs.forEach((variantInput) => {
+          const variantOptionIndex = variantInput && variantInput.dataset.optionIndex;
+          const optionValue = this._handleText(this.currentVariant?.options[variantOptionIndex]);
+          if (this.mediaOption.includes(variantInput.dataset.optionName)) {
+            optionConnects.push(variantInput.dataset.optionName + '-' + optionValue);
+          }
+          this.optionIndex = variantOptionIndex;
+        });
+        const mediaActive = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-type=""], #shopify-section-${ sectionId } [data-media-type=""]`);
         
-        this.optionIndex = variantOptionIndex;
+        let variantMedias = [];
+        let allVariantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-type]:not([data-media-type=""]), #shopify-section-${ sectionId } [data-media-type]:not([data-media-type=""])`);
+        allVariantMedias.forEach((variantMedia) => {
+          let data = variantMedia.getAttribute('data-media-type');
+          let dataSet = new Set(data.split('_'));
+          if (optionConnects.filter(option => dataSet.has(option)).length === dataSet.size) variantMedias.push(variantMedia);
+        });
 
-        const mediaActive = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-type=""], #shopify-section-${ sectionId } [data-media-type=""]`)
-        let variantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-type="${optionConnect}"], #shopify-section-${ sectionId } [data-media-type="${optionConnect}"]`);     
         let showFeatured = false;
         if (!variantMedias.length) {
-          if (!this.currentVariant.featured_media?.id) {
+          if (!this.currentVariant?.featured_media?.id) {
             variantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-option].featured-image, #shopify-section-${ sectionId } [data-media-option].featured-image`); 
             showFeatured = true;
           } else {
-            variantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-id="${sectionId}-${this.currentVariant.featured_media.id}"], #shopify-section-${ sectionId } [data-media-id="${sectionId}-${this.currentVariant.featured_media.id}"]`);
+            variantMedias = document.querySelectorAll(`#ProductModal-${ sectionId } [data-media-id="${sectionId}-${this.currentVariant?.featured_media?.id}"], #shopify-section-${ sectionId } [data-media-id="${sectionId}-${this.currentVariant?.featured_media?.id}"]`);
           }
         }
         if (!variantMedias.length) {
           document.querySelectorAll( `#ProductModal-${ sectionId } [data-media-type], #shopify-section-${ sectionId } [data-media-type]`).forEach(function(media){
             media.classList.add('media_active');
-            media.classList.add('splide__slide')
+            media.classList.add('splide__slide');
           });
           let splideEl = document.getElementById(`x-product-${ sectionId }`);
           if (splideEl.splide) {
             splideEl.splide.refresh();
             splideEl.splide.go(0);
           }
+          let splideZoomEl = document.getElementById(`media-gallery-${ sectionId }`);
+          if (splideZoomEl.splide) {
+            splideZoomEl.splide.refresh();
+          }
           return;
         }
         
-        const newMedias = Array.prototype.concat.call(...variantMedias , ...mediaActive)
+        const newMedias = Array.prototype.concat.call(...variantMedias , ...mediaActive);
         let productMedias = document.querySelectorAll( `#shopify-section-${ sectionId } [data-media-type], #ProductModal-${ sectionId } [data-media-type]`);
         
         this._setActiveMedia(productMedias, newMedias);
-       
-        if (this.optionConnect != optionConnect) {
-          this.optionConnect = optionConnect;
+        
+        if (this.optionConnect != optionConnects) {
+          this.optionConnect = optionConnects;
         }
         
         let splideEl = document.getElementById(`x-product-${ sectionId }`);
@@ -1110,19 +1758,27 @@ document.addEventListener('alpine:init', () => {
           splideEl.splide.refresh();
           splideEl.splide.go(0);
         }
+        let splideZoomEl = document.getElementById(`media-gallery-${ sectionId }`);
+        if(splideZoomEl && splideZoomEl.splide){
+          splideZoomEl.splide.refresh();
+        }
         
         if (showFeatured) {
           this._goToFirstSlide();
-        }
+        }  
       }
     },
     _setActiveMedia(productMedias, newMedias, activeMedia) {
       productMedias.forEach(function(media){
         media.classList.remove('media_active');
         media.classList.remove('splide__slide');
+        media.classList.remove('x-thumbnail');
       });
       Array.from(newMedias).reverse().forEach(function(newMedia, position) {
         newMedia.classList.add('media_active');
+        if (newMedia.classList.contains('media-thumbnail')) {
+          newMedia.classList.add('x-thumbnail');
+        }
         if (newMedia.classList.contains('media-slide')) {
           newMedia.classList.add('splide__slide');
         }
@@ -1145,7 +1801,7 @@ document.addEventListener('alpine:init', () => {
     },
     _handleText(someString) {
       if (someString) {
-        return someString.toString().replace('ı', 'i').replace('ß', 'ss').normalize('NFD').replace('-', ' ').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, "-");
+        return someString.toString().replace('ı', 'i').replace('ß', 'ss').normalize('NFC').replace('-', ' ').toLowerCase().trim().replace(/[^\p{L}\p{N}\s-]/gu, '').replace(/\s+/g, "-");
       }
     },
     _goToFirstSlide() {
@@ -1162,59 +1818,37 @@ document.addEventListener('alpine:init', () => {
         if(stackedEL && activeEL) stackedEL.prepend(activeEL);
       }
     },
-    onChange() {
-      if (!this.isChange) {
-        this.isChange = this.$el.parentNode.dataset.optionName;
-      }
-    },
-    _updateMasterId() {
-      this.currentVariant = this.variants.find((variant) => {
-        return !variant.options.map((option, index) => {
-          return this.options[index] === option.replaceAll('\\/', '/');
-        }).includes(false);
-      });
-    },
-    _updateVariantInput() {
-      const productForms = document.querySelectorAll(`#product-form-${sectionId}, #product-form-installment-${sectionId}, #product-form-sticky-${sectionId}`);
-      productForms.forEach((productForm) => {
-        const input = productForm.querySelector('input[name="id"]');
-        if (!input) return;
-        input.value = this.currentVariant.id;
-        input.dispatchEvent(new Event('change', { bubbles: true }));
-      })
-    },
     _updateProductForms() {
       const productForms = document.querySelectorAll(`#product-form-${sectionId}, #product-form-installment-${sectionId}, #product-form-sticky-${sectionId}`);
       productForms.forEach((productForm) => {
         const input = productForm.querySelector('input[name="id"]');
         if (input) {
-          input.value = this.currentVariant.id;
+          input.value = this.currentVariant?.id;
           input.dispatchEvent(new Event('change', { bubbles: true }));
         }
       });
     },
     _renderPriceProduct(html) {
       const destination = document.getElementById('price-' + sectionId);
-      const source = html.getElementById('price-' + sectionId);
-
-      if (source && destination) destination.innerHTML = source.innerHTML;
-    },
-    _renderSkuProduct(html) {
-      const destination = document.getElementById('sku-' + sectionId);
-      const source = html.getElementById('sku-' + sectionId);
-
-      if (source && destination) destination.innerHTML = source.innerHTML;
-    },
-    _renderProductBadges(html) {
-      const destination = document.getElementById('x-badges-' + sectionId);
-      const source = html.getElementById('x-badges-'+ sectionId);
-      
-      if (source && destination) destination.innerHTML += source.innerHTML;
+      let source = html.getElementById('price-' + sectionId);
+      if (!this.currentVariant) {
+        destination.classList.add('hidden');
+        return;
+      } else {
+        destination.classList.remove('hidden');
+      }
+      if(!source) {
+        source = html.querySelector('.price');
+        if (source && destination) destination.innerHTML = source.outerHTML;
+      } else {
+        if (source && destination) destination.innerHTML = source.innerHTML;
+      }
     },
     _renderBuyButtons(html) {
       const productForms = document.querySelectorAll(`#product-form-${sectionId}, #product-form-installment-${sectionId}, #product-form-sticky-${sectionId}`);
-      const atcSource = html.getElementById('x-atc-button-' + sectionId);
+      
       productForms.forEach((productForm) => {
+        const atcSource = html.querySelector(`#${productForm.getAttribute("id")} .add_to_cart_button`);
         const atcDestination = productForm.querySelector('.add_to_cart_button');
         if (!atcDestination) return;
 
@@ -1236,6 +1870,34 @@ document.addEventListener('alpine:init', () => {
           atcDestination.dataset.available = "false";
           atcDestination.setAttribute('disabled', 'disabled');
         }
+
+        const cloneProductForms = document.querySelectorAll(`#product-form-${cloneSectionId}, #product-form-installment-${cloneSectionId}, #product-form-sticky-${cloneSectionId}`);
+        cloneProductForms.forEach((cloneProductForm) => {
+          if (cloneProductForm.getAttribute("id").includes(productForm.getAttribute("id"))){
+            const atcCloneDestination = cloneProductForm.querySelector('.add_to_cart_button');
+            if (!atcCloneDestination) return;
+
+            if (atcSource && atcCloneDestination) atcCloneDestination.innerHTML = atcSource.innerHTML;
+    
+            if (this.currentVariant?.available) {
+              /// Enable add to cart button
+              atcCloneDestination.dataset.available = "true";
+              if (html.getElementById('form-gift-card-' + sectionId)) {
+                if (document.getElementById('Recipient-checkbox-' + sectionId).checked && document.getElementById('recipient-form-' + sectionId).dataset.disabled == "true") {
+                  atcCloneDestination.setAttribute('disabled', 'disabled') 
+                } else {
+                  atcCloneDestination.removeAttribute('disabled');
+                }
+              } else {
+                atcCloneDestination.removeAttribute('disabled');
+              }
+            } else {
+              atcCloneDestination.dataset.available = "false";
+              atcCloneDestination.setAttribute('disabled', 'disabled');
+            }
+          }
+        })
+
       });
       const paymentButtonDestination = document.getElementById('x-payment-button-' + sectionId);
       const paymentButtonSource = html.getElementById('x-payment-button-' + sectionId);
@@ -1258,9 +1920,9 @@ document.addEventListener('alpine:init', () => {
       }
     },
     _setEstimateDelivery(html) {
-      const est = document.getElementById(`x-estimate-delivery-${sectionId}`);
+      const est = document.getElementById(`x-estimate-delivery-container-${sectionId}`);
       if (!est) return;
-      const est_res = html.getElementById(`x-estimate-delivery-${sectionId}`);
+      const est_res = html.getElementById(`x-estimate-delivery-container-${sectionId}`);
       if (est_res.classList.contains('disable-estimate')) {
         est.classList.add('hidden');
       } else {
@@ -1272,19 +1934,20 @@ document.addEventListener('alpine:init', () => {
       const estimateDeliveryCartUpdate = html.querySelectorAll(`.cart-edt-${sectionId}`);
       if (estimateDeliveryCart.length > 0 && estimateDeliveryCartUpdate.length > 0) {
         estimateDeliveryCart.forEach((item, index) => {
-          item.innerHTML = estimateDeliveryCartUpdate[index].innerHTML;
+          if(estimateDeliveryCartUpdate[index] != undefined && estimateDeliveryCartUpdate[index].innerHTML != undefined ){
+            item.innerHTML = estimateDeliveryCartUpdate[index].innerHTML;
+          }
         })
       }
     },
-    _setPreorderProperties(html) {
-      const preorder = document.getElementById(`preorder-${sectionId}`);
-      const preorder_res = html.getElementById(`preorder-${sectionId}`);
-      if (preorder && preorder_res) preorder.innerHTML = preorder_res.innerHTML;
-    },
-    _setCartEstimateDelivery(html) {
-      const est = document.getElementById(`cart-edt-${sectionId}`);
-      const est_res = html.getElementById(`cart-edt-${sectionId}`);
-      if (est && est_res) est.innerHTML = est_res.innerHTML;
+    _setMetafieldInfo(html, query) {
+      const content_arr = document.querySelectorAll(`${query}-${sectionId}`);
+      const content_res_arr = html.querySelectorAll(`${query}-${sectionId}`);       
+      if (content_arr.length > 0 && content_res_arr.length > 0) {
+        content_arr.forEach((toc, index) => {
+          toc.innerHTML = content_res_arr[index].innerHTML;
+        })
+      }
     },
     _setBackInStockAlert(html) {
       const destination = document.getElementById(`back_in_stock_alert-${sectionId}`);
@@ -1302,55 +1965,27 @@ document.addEventListener('alpine:init', () => {
       }
     },
     _setUnavailable() {
-      const price = document.getElementById(`price-` + sectionId);
-      if (price) price.classList.add('hidden');
-
-      const priceDesktop = document.getElementById(`price-sticky-${sectionId}`);
-      if (priceDesktop) priceDesktop.classList.add('hidden');
+      const selectors = ['price-sticky-', 'block-inventory-', 'x-badges-', 'pickup-', 'sku-', 'back_in_stock_alert-'];
+      for (let selector of selectors) {
+        const element = document.getElementById(selector + sectionId);
+        if (element) element.classList.add('hidden');
+      }
       
-      const inventory = document.getElementById(`block-inventory-` + sectionId);
-      if (inventory) inventory.classList.add('hidden');
-
-      const badges = document.getElementById(`x-badges-` + sectionId);
-      if (badges) badges.classList.add('hidden');
-
-      const pickup = document.getElementById(`pickup-` + sectionId);
-      if (pickup) pickup.classList.add('hidden');
-
-      const quantity = document.getElementById('x-quantity-' + sectionId);
-      if (quantity) quantity.classList.add('unavailable');
-
       const msg_pre = document.querySelector(`.pre-order-${sectionId}`);
       if (msg_pre) msg_pre.classList.add('hidden');
-      
-      const sku = document.getElementById('sku-' + sectionId);
-      if (sku) sku.classList.add('hidden');
-      const back_in_stock_alert = document.getElementById(`back_in_stock_alert-${sectionId}`);
-      if (back_in_stock_alert) back_in_stock_alert.classList.add('hidden');
+      const quantity = document.getElementById('x-quantity-' + sectionId);
+      if (quantity) quantity.classList.add('unavailable');
 
       this._setBuyButtonUnavailable();
     },
     _setAvailable() {
-      const price = document.getElementById(`price-` + sectionId);
-      if (price) price.classList.remove('hidden');
-
-      const inventory = document.getElementById(`block-inventory-` + sectionId);
-      if (inventory) inventory.classList.remove('hidden');
-
-      const badges = document.getElementById(`x-badges-` + sectionId);
-      if (badges) badges.classList.remove('hidden');
-
-      const pickup = document.getElementById(`pickup-` + sectionId);
-      if (pickup) pickup.classList.remove('hidden');
-
+      const selectors = ['block-inventory-', 'x-badges-', 'pickup-', 'sku-', 'back_in_stock_alert-'];
+      for (let selector of selectors) {
+        const element = document.getElementById(selector + sectionId);
+        if (element) element.classList.remove('hidden');
+      }
       const quantity = document.getElementById('x-quantity-' + sectionId);
       if (quantity) quantity.classList.remove('unavailable');
-
-      const sku = document.getElementById('sku-' + sectionId);
-      if (sku) sku.classList.remove('hidden');
-
-      const back_in_stock_alert = document.getElementById(`back_in_stock_alert-${sectionId}`);
-      if (back_in_stock_alert) back_in_stock_alert.classList.remove('hidden');
     },
     _setBuyButtonUnavailable() {
       const productForms = document.querySelectorAll(`#product-form-${sectionId},  #product-form-sticky-${sectionId}`);
@@ -1362,139 +1997,107 @@ document.addEventListener('alpine:init', () => {
         if (addButtonText) addButtonText.textContent = unavailableText;
       });
     },
-    _dispatchUpdateVariant(html="") {
-      document.dispatchEvent(new CustomEvent(`eurus:product-card-variant-select:updated:${sectionId}`, {
-        detail: {
-          currentVariant: this.currentVariant,
-          currentAvailableOptions: this.currentAvailableOptions,
-          options: this.options,
-          html: html
-        }
-      }));
-    },
-    _updateImageVariant() {
-      if (this.currentVariant != null) {
-        let featured_image = ""
-        if (this.currentVariant.featured_image != null) {
-          featured_image = this.currentVariant.featured_image.src;
-        }
-        Alpine.store('xPreviewColorSwatch').updateImage(this.$el, productUrl, featured_image, this.currentVariant.id, sectionId)
-      }
-    },
     initEventSticky() {
       document.addEventListener(`eurus:product-page-variant-select-sticky:updated:${sectionId}`, (e) => {
         this.handleSticky = e.detail.variantElSticky;
-        this.updateVariantSelector(e.detail.inputId, e.detail.targetUrl);
+        this.updateVariantSelector(-1, e.detail.targetUrl);
       });
     },
-    changeSelectOption(event) {
-      Array.from(event.target.options)
-        .find((option) => option.getAttribute('selected'))
-        .removeAttribute('selected');
-        event.target.selectedOptions[0].setAttribute('selected', 'selected');
-      const input = event.target.selectedOptions[0];
-      const inputId = input.id;
-      const targetUrl = input.dataset.productUrl;
-      this.updateVariantSelector(inputId, targetUrl);
+    _getCurrentVariant(html) {
+      this.currentVariant = JSON.parse(html.querySelector(`script[type="application/json"][data-selected-variant]`).textContent);
     },
     updateVariantSelector(inputId, target) {
-      if (chooseOption) {
-        this.handleSectionId = 'choose-option';
-      }
-      if (productBundle) {
-        this.handleSectionId = handleSectionId;
-      }
-      this.currentVariant = this._getVariantData(inputId);
       let updateFullpage = false;
       let callback = () => {};
       
       const targetUrl = target || element.dataset.url;
       if (element.dataset.url !== targetUrl) {
-        this._updateURL(targetUrl);
-        this._setAvailable();
         if (isProductPage) {
           updateFullpage = true;
         }
         callback = (html) => {
+          this._getCurrentVariant(html);
+          this._setAvailable();
+          this._updateURL(targetUrl);
           this._handleSwapProduct(sectionId, html, updateFullpage);
           this._handleSwapQuickAdd(html);
           this._renderCardBundle(html);
           this._renderCardFBT(html);
           this._dispatchUpdateVariant(html);
-        };
-      } else if (!this.currentVariant) {
-        this._setUnavailable();
-        callback = (html) => {
-          this._updateOptionValues(html);
           this._dispatchVariantSelected(html);
-          this._dispatchUpdateVariant(html);
         };
       } else {
-        this._updateURL(targetUrl);
-        this._updateVariantInput();
-        this._setAvailable();
         callback = (html) => {
+          this._getCurrentVariant(html);
+          this._setAvailable();
+          this._updateURL(targetUrl);
+          this._updateProductForms();
           this._handleUpdateProductInfo(html);
           this._updateOptionValues(html);
           this._updateMedia(html);
           this._handleAvailable(html);
+          this._dispatchUpdateVariant(html);
+          this._dispatchVariantSelected(html);
         }
       }
       this._renderProductInfo(targetUrl, callback, updateFullpage);
     },
     _renderProductInfo(url, callback, updateFullpage) {
       let link = "";
-      let params = `option_values=${this._getSelectedOptionValues().join(',')}`;
-      if (chooseOption || productBundle) {
-        params = `option_values=${this._getSelectedOptionValues().join(',')}&page=${pageParam}`;
-      }
+      const selectedOptionValues = this._getSelectedOptionValues();
+      let params = `option_values=${selectedOptionValues.join(',')}`;
       link = updateFullpage?`${url}?${params}`:`${url}?section_id=${this.handleSectionId}&${params}`;
-  
+      Alpine.store('xHelper').cancelRequest('eurus:product_info_request');
       if (this.cachedResults[link]) {
         const html = this.cachedResults[link];
         callback(html);
       } else {
-        fetch(link)
+        const controller = new AbortController();
+        Alpine.store('xHelper').requestControllers.set('eurus:product_info_request', controller);
+        fetch(link, { signal: controller.signal })
           .then((response) => response.text())
           .then((responseText) => {
             const html = new DOMParser().parseFromString(responseText, 'text/html');
             callback(html);
             this.cachedResults[link] = html;
+          }).catch(err => {
+            if (err.name !== 'AbortError') {
+              console.error(err);
+            }
           })
       }
       this.handleSticky = '';
     },
     _handleUpdateProductInfo(html) {
-        this._renderCardBundle(html);
-        this._renderCardFBT(html);
-        this._renderPriceProduct(html);
-        this._renderProductBadges(html);
-        this._renderInventoryStatus(html);
-        this._renderSkuProduct(html);
-        this._renderBuyButtons(html);
-        this._setMessagePreOrder(html);
-        this._setEstimateDelivery(html);
-        this._setPickupPreOrder(html);
-        this._setCartEstimateDelivery(html);
-        this._setPreorderProperties(html);
-        this._setBackInStockAlert(html);
-        if (!productBundle) {
-          Alpine.store('xUpdateVariantQuanity').render(html, this.handleSectionId);
-        }
-        this._dispatchUpdateVariant(html);
-        this._dispatchVariantSelected(html);
-        this._updateOptionValues(html);
-        Alpine.store('xPickupAvailable').updatePickUp(sectionId, this.currentVariant.id);
-        
+      this._renderCardBundle(html);
+      this._renderCardFBT(html);
+      this._renderPriceProduct(html);
+      const selectors = ['block-inventory-', 'block-available-quantity-', 'quantity-selector-', 'volume-', 'sku-', 'x-badges-', 'preorder-', 'cart-edt-'];
+      for (let selector of selectors) {
+        this._renderDestination(html, selector);
+      }
+      this._renderBuyButtons(html);
+      this._setMessagePreOrder(html);
+      this._setEstimateDelivery(html);
+      
+      const mtfSelectors = ['.properties_re_render', '.table_info_details', '.block-text', '.text-icon', '.collapsible-content', '.nutrition-bar-content', '.horizontab', '.featured-icon'];
+      for (let selector of mtfSelectors) {
+        this._setMetafieldInfo(html, selector);
+      }
+      this._setPickupPreOrder(html);
+      this._setBackInStockAlert(html);
+      Alpine.store('xUpdateVariantQuanity').render(html, this.handleSectionId);
+      this._dispatchUpdateVariant(html);
+      this._dispatchVariantSelected(html);
+      this._updateOptionValues(html);
+      Alpine.store('xPickupAvailable').updatePickUp(sectionId, this.currentVariant?.id);
     },
     initFirstAvailableVariant(el) {
       this.currentVariant = JSON.parse(el.querySelector(`script[type="application/json"][data-selected-variant]`).textContent);
-      if (!productBundle) {
-        document.addEventListener('eurus:cart:items-changed', () => {
-          this.cachedResults = [];
-          Alpine.store('xUpdateVariantQuanity').updateQuantity(sectionId, productUrl, this.currentVariant?.id);
-        });
-      }
+      document.addEventListener('eurus:cart:items-changed', () => {
+        this.cachedResults = [];
+        Alpine.store('xUpdateVariantQuanity').updateQuantity(sectionId, productUrl, this.currentVariant?.id);
+      });
     },
     _handleAvailable(html) {
       const selectedVariant = html.querySelector('.variant-selects [data-selected-variant]')?.innerHTML;
@@ -1503,9 +2106,13 @@ document.addEventListener('alpine:init', () => {
       }
     },
     _updateOptionValues(html) {
-      if (!productBundle) {
-        const variantSelects = html.querySelector('.variant-selects');
-        if (variantSelects) element.innerHTML = variantSelects.innerHTML;
+      const variantSelects = html.querySelector('.variant-selects');
+      if (variantSelects) {
+        element.innerHTML = variantSelects.innerHTML;
+        Alpine.initTree(element);
+        Array.from(element.querySelectorAll('input')).forEach(input => {
+          if (input.dataset.valueSelected === 'true') input.checked = true;
+        });
       }
     },
     _getVariantData(inputId) {
@@ -1516,7 +2123,7 @@ document.addEventListener('alpine:init', () => {
     },
     _updateURL(url) {
       if (!isProductPage) return;
-      window.history.replaceState({}, '', `${url}${this.currentVariant?.id ? `?variant=${this.currentVariant.id}` : ''}`);
+      window.history.replaceState({}, '', `${url}${this.currentVariant?.id ? `?variant=${this.currentVariant?.id}` : ''}`);
     },
     _getSelectedOptionValues() {
       if (this.handleSticky == '') {
@@ -1560,20 +2167,424 @@ document.addEventListener('alpine:init', () => {
       const source = html.querySelector('.choose-options-content');
       if (source && destination) destination.innerHTML = source.innerHTML;
     }
-  }))
+  }));
 
+  Alpine.data('xVariantSelectCard', (
+    element,
+    sectionId,
+    productId,
+    productUrl,
+    customizableChooseOption,
+    chooseOption,
+    productBundle,
+    pageParam
+  ) => ({
+    loadingEls: '',
+    currentVariant: {},
+    cachedResults: [],
+    init() {
+      document.addEventListener(`eurus:product-card:clear:${productId}`, () => { 
+        this._reloadCardProduct();
+      })
+    },
+    _dispatchUpdateVariant(html="") {
+      window.requestAnimationFrame(() => {
+        setTimeout(() => { this.loadingEls = ''; }, 100);
+      })
+      document.dispatchEvent(new CustomEvent(`eurus:product-card-variant-select:updated:${sectionId}`, {
+        detail: {
+          currentVariant: this.currentVariant,
+          html: html
+        }
+      }));
+    },
+    _renderCardProductFormInput(formSrc, formDes) {
+      const desInput = formDes.querySelectorAll('input');
+      desInput?.forEach((input) => {
+        if (input.name !== 'section-id' && input.name) {
+          const src = formSrc.querySelector(`input[name=${CSS.escape(input.name)}]`);
+          if (src) {
+            input.value = src.value;
+            input.checked = src.checked;
+            input.disabled = src.disabled;
+          }
+        }
+      });
+    },
+    _renderCardProductFormButton(formSrc, formDes) {
+      const srcButton = formSrc.querySelector(`button`);
+      if (srcButton) {
+        const srcButtonText = srcButton.querySelector('.button-text');
+
+        const desButton = formDes.querySelectorAll('button[type="submit"]');
+        desButton.forEach((button) => {
+          button.disabled = srcButton.disabled;
+          button.ariaLabel = srcButton.ariaLabel;
+          
+          const desButtonText = button.querySelector('.button-text');
+          if (desButtonText && srcButtonText) {
+            desButtonText.innerHTML = srcButtonText.innerHTML;
+          }
+        });
+      }
+    },
+    _renderCardProductForm(html) {
+      let target = chooseOption ? '.choose-options' : '.card-product'
+
+      const formSrc = html.querySelector('form[id*="product-form-"]');
+      const formDesAll = element.closest(target)?.querySelectorAll('form[id*="product-form-"]');
+      if (formSrc && formDesAll) { 
+        formDesAll.forEach(formDes => {
+          this._renderCardProductFormInput(formSrc, formDes);
+          this._renderCardProductFormButton(formSrc, formDes);
+        });
+      }
+    },
+    _renderCardProductCurrentVariant(optionSrc, optionDes) {
+      const currentVariantSrc = optionSrc.querySelector('.current-variant');
+      const currentVariantDes = optionDes.querySelector('.current-variant');
+
+      if (currentVariantSrc && currentVariantDes) {
+        currentVariantDes.innerHTML = currentVariantSrc.innerHTML;
+      }
+    },
+    _renderCardProductInputs(optionSrc, optionDes) {
+      const inputsSrc = optionSrc.querySelectorAll('input');
+      const inputsDes = optionDes.querySelectorAll('input');
+
+      inputsDes?.forEach(des => {
+        const src = Array.from(inputsSrc).find((inputSrc) => inputSrc.dataset.optionValueId === des.dataset.optionValueId);
+        if (src && des) {
+          if (src.classList.contains('disabled')) {
+            des.classList.add('disabled');
+          } else {
+            des.classList.remove('disabled');
+          }
+          des.checked = src.checked;
+          des.dataset.available = src.dataset.available;
+        }
+      });
+    },
+    _renderCardProductOptions(optionSrc, optionDes) {
+      const optionsSrc = optionSrc.querySelectorAll('option');
+      const optionsDes = optionDes.querySelectorAll('option');
+
+      optionsDes?.forEach(des => {
+        const src = Array.from(optionsSrc).find((optionSrc) => optionSrc.dataset.optionValueId === des.dataset.optionValueId);
+        if (src && des) {
+          des.selected = src.selected;
+          des.innerHTML = src.innerHTML;
+        }
+      });
+    },
+    _renderCardProductInputLabels(optionSrc, optionDes) {
+      const labelsSrc = optionSrc.querySelectorAll('label');
+      const labelsDes = optionDes.querySelectorAll('label');
+
+      labelsDes?.forEach(des => {
+        const src = Array.from(labelsSrc).find((labelSrc) => labelSrc.dataset.optionValueId === des.dataset.optionValueId);
+        if (src) {
+          if (des.style.getPropertyValue('--bg-image').trim() !== '') {
+            des.style.setProperty('--bg-image', src.style.getPropertyValue('--bg-image'));
+          }
+          if (des.style.getPropertyValue('--ratio-image').trim() !== '') {
+            des.style.setProperty('--ratio-image', src.style.getPropertyValue('--ratio-image'));
+          }
+        }
+      });
+    },
+    _renderCardProductValueVariant(optionSrc, optionDes) {
+      const scriptsSrc = optionSrc.querySelectorAll('script[type="application/json"][data-option-value-id]');
+      const scriptsDes = optionDes.querySelectorAll('script[type="application/json"][data-option-value-id]');
+
+      scriptsDes?.forEach(des => {
+        const src = Array.from(scriptsSrc).find((scriptSrc) => scriptSrc.dataset.optionValueId === des.dataset.optionValueId);
+        if (src && des) {
+          des.textContent = src.textContent;
+        }
+      })
+    },
+    _renderCardProductOption(html) {
+      const optionSrc = html.querySelector('.x-variants-data-js');
+      const optionDes = element.closest('.x-variants-data-js');
+
+      if (optionSrc && optionDes) {
+        this._renderCardProductCurrentVariant(optionSrc, optionDes);
+        this._renderCardProductInputs(optionSrc, optionDes);
+        this._renderCardProductOptions(optionSrc, optionDes);
+        this._renderCardProductInputLabels(optionSrc, optionDes);
+        this._renderCardProductValueVariant(optionSrc, optionDes);
+      }
+    },
+    _renderCardProductPrice(html) {
+      let target = chooseOption ? '.choose-options' : '.card-product'
+
+      const priceSrc = html.querySelector((chooseOption || productBundle) ? '.x-card-price .choose-option-price' : '.x-card-price .product-card-price');
+      const priceDes = element.closest(target).querySelector('.x-card-price');
+      if (this.currentVariant == null) {
+        priceDes.classList.add('hidden');
+        return;
+      } else {
+        priceDes.classList.remove('hidden');
+      }
+
+      const priceRange = priceDes.querySelector('.price-range');
+      if (priceSrc && priceDes) {
+        priceDes.innerHTML = priceSrc.innerHTML;
+        if (priceRange) {
+          const priceEl = priceDes.querySelector('.price');
+          if (priceEl) {
+            priceEl.innerHTML += priceRange.outerHTML;
+          }
+        }
+      }
+    },
+    _renderCardProductLabels(html) {
+      const labelDataSrc = html.querySelector('.x-labels-data');
+      const labelDataDes = element.closest('.card-product').querySelector('.x-labels-data');
+
+      if (labelDataSrc && labelDataDes) {
+        labelDataDes.setAttribute('x-labels-data', labelDataSrc.getAttribute('x-labels-data'));
+        this.$nextTick(() => {
+          Alpine.store('xBadges') && Alpine.store('xBadges').load(labelDataDes, () => {}, null, true);
+        });
+      }
+    },
+    _renderCardProductAvailabilityNotice(html) {
+      const noticeSrc = html.getElementById('x-availability-notice');
+      const noticeDes = element.closest('.card-product').querySelector('div[id*="x-availability-notice"]');
+
+      if (noticeSrc && noticeDes) {
+        noticeDes.innerHTML = noticeSrc.innerHTML;
+      }
+    },
+    _renderCardProductImage(html) {
+      const variantImageSrc = html.getElementById('x-variant-image').dataset.imageUrl;
+      const cardProduct = element.closest('.card-product');
+      if (variantImageSrc != '') {
+        let media = cardProduct.querySelector(`[media="${variantImageSrc}"]`);
+        if (media) {
+          let index = media.getAttribute('index');
+          let slide = cardProduct.querySelector('.x-splide');
+          if (slide) {
+            if (slide.splide) {
+              slide.splide.go(Number(index));
+            } else {
+              document.addEventListener(`eurus:${sectionId}:splide-ready`, () => {
+                slide.splide.go(Number(index));
+              });
+            }
+            return;
+          } 
+        }
+        const previewImg = cardProduct.getElementsByClassName("preview-img")[0];
+        if (!previewImg) return;
+        previewImg.removeAttribute("srcset");
+        previewImg.setAttribute("src", variantImageSrc);
+        let slide = cardProduct.querySelector('.x-splide');
+        if (slide && slide.splide) {
+          slide.splide.go(0);
+        }
+      } else {
+        let slide = cardProduct.querySelector('.x-splide');
+        if (slide && slide.splide) {
+          slide.splide.go(0);
+        }
+      }
+    },
+    _renderLinkedProductInput() {
+      const desInput = element.closest('.x-product-data-container')?.querySelector('input[name="properties[_linked_product_id][]"]')
+
+      if (desInput) {
+        if (this.currentVariant.available) {
+          desInput.value = this.currentVariant.id;
+          desInput.disabled = false;
+        } else {
+          desInput.value = "";
+          desInput.disabled = true;
+        }
+      }
+    },
+    _renderCurrentOptionText(html) {
+      const desSelectedValueText = element.closest('.x-product-data-container')?.querySelectorAll('.option-selected-value');
+      const srcSelectedValueText = html.querySelectorAll('.option-selected-value');
+
+      desSelectedValueText?.forEach(des => {
+        const src = Array.from(srcSelectedValueText).find((srcText) => srcText.dataset.optionName == des.dataset.optionName);
+        if (src && des) {
+          des.innerHTML = src.innerHTML;
+        }
+      });
+    },
+    _renderCustomizableOptionSelectedVariant() {
+      const desSelectedVariantText = element.closest('fieldset:has(.x-product-data-container)').querySelector('.selected-variant-name');
+      if (desSelectedVariantText) {
+        desSelectedVariantText.textContent = `: ${this.currentVariant.name}`;
+      }
+    },
+    _renderCustomizableOptionPriceText(html) {
+      const desVariantPriceText = element.closest('fieldset:has(.x-product-data-container)').querySelector(`.variant-price-${productId}`);
+      const srcVariantPriceText = html.querySelector(`.variant-price-${productId}`);
+      if (desVariantPriceText && srcVariantPriceText) {
+        desVariantPriceText.innerHTML = `+ ${srcVariantPriceText.innerHTML}`;
+      }
+    },
+    _getCurrentVariant(html) {
+      this.currentVariant = JSON.parse(html.querySelector('.x-variants-data-js script[type="application/json"]')?.textContent);
+    },
+    updateProductCard(optionNum, target) {
+      let callback = () => {};
+
+      const targetUrl = target || element.dataset.url;
+
+      if (chooseOption) {
+        callback = (html) => {
+          window.requestAnimationFrame(() => {
+            this._getCurrentVariant(html);
+            this._renderCardProductForm(html);
+            this._renderCurrentOptionText(html);
+            this._renderCardProductOption(html);
+            this._renderCardProductPrice(html);
+            this._dispatchUpdateVariant(html);
+          });
+        }
+      } else if (customizableChooseOption) {
+        callback = (html) => {
+          window.requestAnimationFrame(() => {
+            this._getCurrentVariant(html);
+            this._renderCardProductOption(html);
+            this._renderLinkedProductInput();
+            this._renderCurrentOptionText(html);
+            this._renderCustomizableOptionSelectedVariant();
+            this._renderCustomizableOptionPriceText(html);
+            this._dispatchUpdateVariant(html);
+          });
+        }
+      } else {
+        callback = (html) => {
+          window.requestAnimationFrame(() => {
+            this._getCurrentVariant(html);
+            this._renderCardProductForm(html);
+            this._renderCardProductOption(html);
+            this._renderCardProductPrice(html);
+            this._renderCardProductLabels(html);
+            this._renderCurrentOptionText(html);
+            this._renderCardProductAvailabilityNotice(html);
+            this._renderCardProductImage(html);
+            this._dispatchUpdateVariant(html);
+          });
+        }
+      }
+
+      this._renderProductCard(targetUrl, optionNum, callback);
+    },
+    _reloadCardProduct() {
+      let link = "";
+      const selectedOptionValues = this._getSelectedOptionValues()
+      let params = `option_values=${selectedOptionValues.join(',')}`;
+      if (chooseOption || productBundle) {
+        params = `option_values=${selectedOptionValues.join(',')}&page=${pageParam}`;
+      }
+      link = `${productUrl.split("?")[0]}?section_id=card-product&${params}`;
+      if (this.cachedResults[link] && this.cachedResults[link] !== '') {
+        this.cachedResults[link] = '';
+      }
+
+      if (chooseOption) {
+        callback = (html) => {
+          window.requestAnimationFrame(() => {
+            this._getCurrentVariant(html);
+            this._renderCardProductForm(html);
+            this._renderCurrentOptionText(html);
+            this._renderCardProductOption(html);
+            this._renderCardProductPrice(html);
+            this._dispatchUpdateVariant(html);
+          });
+        }
+      } else if (customizableChooseOption) {
+        callback = (html) => {
+          window.requestAnimationFrame(() => {
+            this._getCurrentVariant(html);
+            this._renderCardProductOption(html);
+            this._renderLinkedProductInput();
+            this._renderCurrentOptionText(html);
+            this._renderCustomizableOptionSelectedVariant();
+            this._renderCustomizableOptionPriceText(html);
+            this._dispatchUpdateVariant(html);
+          });
+        }
+      } else {
+        callback = (html) => {
+          window.requestAnimationFrame(() => {
+            this._getCurrentVariant(html);
+            this._renderCardProductForm(html);
+            this._renderCardProductOption(html);
+            this._renderCardProductPrice(html);
+            this._renderCardProductLabels(html);
+            this._renderCardProductAvailabilityNotice(html);
+            this._renderCardProductImage(html);
+            this._dispatchUpdateVariant(html);
+          });
+        }
+      }
+
+      this._renderProductCard(productUrl, -1, callback);
+    },
+    _renderProductCard(url, optionNum, callback) {
+      let link = "";
+      const selectedOptionValues = this._getSelectedOptionValues();
+      if (optionNum !== -1) {
+        if (selectedOptionValues.length < Number(optionNum)) {
+          window.requestAnimationFrame(() => {
+            setTimeout(() => { this.loadingEls = ''; }, 100);
+          });
+          return
+        };
+      }
+      if (selectedOptionValues.length === 0) return;
+      let params = `option_values=${selectedOptionValues.join(',')}`;
+      if (chooseOption || productBundle) {
+        params = `option_values=${selectedOptionValues.join(',')}&page=${pageParam}`;
+      }
+      link = `${url.split("?")[0]}?section_id=card-product&${params}`;
+      Alpine.store('xHelper').cancelRequest(`eurus:product_card_request:${productId}`);
+      if (this.cachedResults[link] && this.cachedResults[link] !== '') {
+        const html = this.cachedResults[link];
+        window.requestAnimationFrame(() => {
+          callback(html);
+        });
+      } else {
+        const controller = new AbortController();
+        Alpine.store('xHelper').requestControllers.set(`eurus:product_card_request:${productId}`, controller);
+        fetch(link, { signal: controller.signal })
+          .then((response) => response.text())
+          .then((responseText) => {
+            const html = new DOMParser().parseFromString(responseText, 'text/html');
+            window.requestAnimationFrame(() => {
+              callback(html);
+            });
+            this.cachedResults[link] = html;
+          }).catch(err => {
+            if (err.name !== 'AbortError') {
+              console.error(err);
+            }
+          })
+      }
+    },
+    _getSelectedOptionValues() {
+      return Array.from(element.querySelectorAll('select option[selected][value], fieldset input:checked')).map(
+        (e) => e.dataset.optionValueId
+      );
+    }
+  }));
   
-  Alpine.data('xStickyATC', (sectionId) => ({
+  Alpine.data('xStickyATC', (sectionId, is_combined) => ({
     openDetailOnMobile: false,
     currentAvailableOptions: [],
     options: [],
     init() {
-      this.variants = xParseJSON(this.$el.getAttribute('x-variants-data'));
-
       document.addEventListener(`eurus:product-page-variant-select:updated:${sectionId}`, (e) => {
-        this.currentAvailableOptions = e.detail.currentAvailableOptions,
-        this.options = e.detail.options;
-
+        this.renderVariant(e.detail.html);
         this.renderProductPrice(e.detail.html);
         this.renderMedia(e.detail.html);
       });
@@ -1590,46 +2601,89 @@ document.addEventListener('alpine:init', () => {
       const source = html.getElementById('product-image-sticky-' + sectionId);
 
       if (source && destination) destination.innerHTML = source.innerHTML;
+    },
+    renderVariant(html) {
+      const destination = document.getElementById('variant-update-sticky-' + sectionId);
+      const source = html.getElementById('variant-update-sticky-' + sectionId);
+
+      if (source && destination) destination.innerHTML = source.innerHTML;
+    },
+    changeOptionSticky(event) {
+      Array.from(event.target.options).forEach((option) => {
+        option.removeAttribute('selected');
+        if (option.selected) option.setAttribute('selected', '');
+      });
+      const input = event.target.selectedOptions[0];
+      const targetUrl = input.dataset.productUrl;
+      const variantEl = document.getElementById('variant-update-sticky-' + sectionId);
+      document.dispatchEvent(new CustomEvent(`eurus:product-page-variant-select-sticky:updated:${sectionId}`, {
+        detail: {
+          targetUrl: targetUrl,
+          variantElSticky: variantEl
+        }
+      }));
     }
-  }))  
-  
+  }));
 
   Alpine.store('xPickupAvailable', {
+    cachedResults: [],
     updatePickUp(id, variantId) {
       const container = document.getElementsByClassName('pick-up-'+ id)[0];
       if (!container) return;
 
-      fetch(window.Shopify.routes.root + `variants/${variantId}/?section_id=pickup-availability`)
+      const link = window.Shopify.routes.root + `variants/${variantId}/?section_id=pickup-availability`;
+      Alpine.store('xHelper').cancelRequest('eurus:pickup_availability_request');
+      if (this.cachedResults[link]) {
+        container.innerHTML = this.cachedResults[link].innerHTML;
+      } else {
+        const controller = new AbortController();
+        Alpine.store('xHelper').requestControllers.set('eurus:pickup_availability_request', controller);
+        fetch(link, { signal: controller.signal })
         .then(response => response.text())
         .then(text => {
           const pickupAvailabilityHTML = new DOMParser()
             .parseFromString(text, 'text/html')
-            .querySelector('.shopify-section');
-
+            .querySelector('.shopify-section');  
+          this.cachedResults[link] = pickupAvailabilityHTML;
           container.innerHTML = pickupAvailabilityHTML.innerHTML;
         })
         .catch(e => {
           console.error(e);
         }); 
+      }
     }
   });
 
   Alpine.store('xUpdateVariantQuanity', {
+    cachedResults: [],
     updateQuantity(sectionId, productUrl, currentVariant) {
-      const url = currentVariant ? `${productUrl}?variant=${currentVariant}&section_id=${sectionId}` :
-                    `${productUrl}?section_id=${sectionId}`;
-
-      fetch(url)
-        .then((response) => response.text())
-        .then((responseText) => {
-          let html = new DOMParser().parseFromString(responseText, 'text/html');
-          this.render(html, sectionId);
-        });
+      const quantity = document.getElementById('x-quantity-' + sectionId);
+      const pricingPB = document.getElementById('x-pricing-progress-bar-' + sectionId);
+      if (!quantity && !pricingPB) return;
+      const url = currentVariant ? `${productUrl}?variant=${currentVariant}&section_id=${sectionId}` : `${productUrl}?section_id=${sectionId}`;
+      Alpine.store('xHelper').cancelRequest('eurus:variant_quantity_request');
+      if (this.cachedResults[url]) {
+        this.render(this.cachedResults[url], sectionId);
+      } else {
+        const controller = new AbortController();
+        Alpine.store('xHelper').requestControllers.set('eurus:variant_quantity_request', controller);
+        fetch(url, { signal: controller.signal })
+          .then((response) => response.text())
+          .then((responseText) => {
+            let html = new DOMParser().parseFromString(responseText, 'text/html');
+            this.cachedResults[url] = html;
+            this.render(html, sectionId);
+          });
+      }
     },
     render(html, sectionId) {
       const destination = document.getElementById('x-quantity-' + sectionId);
       const source = html.getElementById('x-quantity-'+ sectionId);
       if (source && destination) destination.innerHTML = source.innerHTML;
+
+      const destinationPricingPB = document.getElementById('x-pricing-progress-bar-' + sectionId);
+      const sourcePricingPB = html.getElementById('x-pricing-progress-bar-' + sectionId);
+      if (sourcePricingPB && destinationPricingPB) destinationPricingPB.innerHTML = sourcePricingPB.innerHTML;     
     }
   });
 
@@ -1637,47 +2691,85 @@ document.addEventListener('alpine:init', () => {
     ytIframeId: 0,
     vimeoIframeId: 0,
     externalListened: false,
-    play(el) {
+
+    togglePlay(el) {
+      const videoContainer = el.closest('.external-video');
       let video = el.getElementsByClassName('video')[0];
       if (!video && el.closest('.contain-video')) {
         video = el.closest('.contain-video').getElementsByClassName('video')[0];
       }
       if (video) {
-        if (video.tagName == 'IFRAME') {
-          this.externalPostCommand(video, 'play');
-        } else if (video.tagName == 'VIDEO') {
-          video.play();
+        if (videoContainer) {
+          video.paused ? videoContainer.classList.remove('function-paused') : videoContainer.classList.add('function-paused');
+          const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
+          if (buttonPlay) {
+            video.paused ? buttonPlay.classList.remove('hidden') : buttonPlay.classList.add('hidden');
+          }  
+        }
+        video.paused ? this.play(el) : this.pause(el);
+      }
+    },
+    play(el) {
+      const videoContainer = el.closest('.external-video');
+      let video = el.getElementsByClassName('video')[0];
+      if (!video && el.closest('.contain-video')) {
+        video = el.closest('.contain-video').getElementsByClassName('video')[0];
+      }
+      if (video) {
+        if (videoContainer) {
+          const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
+          if (video.tagName == 'IFRAME') {
+            if (videoContainer.classList.contains('function-paused')) this.externalPostCommand(video, 'play');
+            videoContainer.classList.remove('function-paused');
+          } else if (video.tagName == 'VIDEO') {
+            if (!videoContainer.classList.contains('function-paused')) {
+              if (buttonPlay) buttonPlay.classList.add('hidden');
+              video.play().catch((error) => {
+                if (buttonPlay) buttonPlay.classList.remove('hidden');
+              });
+            }
+          }
         }
       }
     },
     pause(el) {
+      const videoContainer = el.closest('.external-video');
       let video = el.getElementsByClassName('video')[0];
       if (!video && el.closest('.contain-video')) {
         video = el.closest('.contain-video').getElementsByClassName('video')[0];
       }
       if (video) {
-        if (video.tagName == 'IFRAME') {
-          this.externalPostCommand(video, 'pause');
-        } else if (video.tagName == 'VIDEO') {
-          video.pause();
+        if (videoContainer) {
+          const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
+          if (video.tagName == 'IFRAME') {
+            if (!videoContainer.classList.contains('paused')) {
+              videoContainer.classList.add('function-paused');
+            }
+            this.externalPostCommand(video, 'pause');
+          } else if (video.tagName == 'VIDEO') {
+            if (buttonPlay) buttonPlay.classList.remove('hidden');
+            video.pause();
+          }
         }
       }
+    },
+    load(el) {
+      el?.classList.add('active');
+      el?.closest('.animate_transition_card__image')?.classList.remove('animate-Xpulse', 'skeleton-image');
+      setTimeout(() => { el.closest('.animate_transition_card__image')?.classList.add('lazy_active'); }, 250);  
     },
     mp4Thumbnail(el) {
       const videoContainer = el.closest('.external-video');
       const imgThumbnail = videoContainer.getElementsByClassName('img-thumbnail')[0];
-      const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
-      const video = videoContainer.getElementsByClassName('video')[0];
+      const imgThumbnailMobile = videoContainer.getElementsByClassName('img-thumbnail')[1];
       if (imgThumbnail) {
         imgThumbnail.classList.add('hidden');
+        imgThumbnail.classList.add('md:hidden');
       }
-      if (buttonPlay) {
-        buttonPlay.classList.add('hidden');
+      if (imgThumbnailMobile) {
+        imgThumbnailMobile.classList.add('hidden');
       }
-      if (video) {
-        video.setAttribute("controls",'');
-      }
-      this.play(videoContainer);
+      this.togglePlay(el);
     },
     externalLoad(el, host, id, loop, title, controls = 1) {
       let src = '';
@@ -1714,6 +2806,14 @@ document.addEventListener('alpine:init', () => {
                 method: 'addEventListener',
                 value: 'finish'
               }), '*');
+              videoContainer.querySelector('.iframe-video').contentWindow.postMessage(JSON.stringify({
+                method: 'addEventListener',
+                value: 'play'
+              }), '*');
+              videoContainer.querySelector('.iframe-video').contentWindow.postMessage(JSON.stringify({
+                method: 'addEventListener',
+                value: 'pause'
+              }), '*');
             }
           }, 100);
         });
@@ -1745,23 +2845,39 @@ document.addEventListener('alpine:init', () => {
           for (let i = 0, iframe, win, message; i < iframes.length; i++) {
             iframe = iframes[i];
 
-            if (iframe.getAttribute('data-video-loop') !== 'true') continue;
-
             // Cross-browser way to get iframe's window object
             win = iframe.contentWindow || iframe.contentDocument.defaultView;
 
             if (win === event.source) {
               if (event.origin == 'https://www.youtube.com') {
                 message = JSON.parse(event.data);
-                if (message.info && message.info.playerState == 0) {
-                  this.play(iframe.parentNode);
+                if (iframe.getAttribute('data-video-loop') === 'true') {
+                  if (message.info && message.info.playerState == 0) {
+                    this.externalPostCommand(iframe, 'play');
+                  }  
+                }
+                if (message.info && message.info.playerState == 1) {
+                  iframe.parentNode.classList.remove('paused');
+                  iframe.parentNode.classList.remove('function-paused');
+                }
+                if (message.info && message.info.playerState == 2) {
+                  iframe.parentNode.classList.add('paused');
                 }
               }
 
               if (event.origin == 'https://player.vimeo.com') {
                 message = JSON.parse(event.data);
-                if (message.event == "finish") {
-                  this.play(iframe.parentNode);
+                if (iframe.getAttribute('data-video-loop') !== 'true') {
+                  if (message.event == "finish") {
+                    this.externalPostCommand(iframe, 'play');
+                  }
+                }
+                if (message.event === 'play') {
+                  iframe.parentNode.classList.remove('paused');
+                  iframe.parentNode.classList.remove('function-paused');
+                }
+                if (message.event === 'pause') {
+                  iframe.parentNode.classList.add('paused');
                 }
               }
             }
@@ -1783,6 +2899,17 @@ document.addEventListener('alpine:init', () => {
 
       iframe.contentWindow.postMessage(JSON.stringify(command), '*');
     },
+    toggleMute(el) {
+      let video = el.closest('.video-hero') && el.closest('.video-hero').getElementsByClassName('video')[0];
+      if (!video && el.closest('.contain-video')) {
+        video = el.closest('.contain-video').getElementsByClassName('video')[0];
+      }
+      if (video) {
+         if (video.tagName != 'IFRAME') {
+            video.muted = !video.muted;
+         }
+      }
+    }
   });
 
   Alpine.data('xShippingPolicy', (url) => ({
@@ -1809,12 +2936,61 @@ document.addEventListener('alpine:init', () => {
   }));
   
   Alpine.store('xScrollPromotion', {
+    animationFrameId: null,
+    window_height: window.innerHeight,
+
     load(el) {
       let scroll = el.getElementsByClassName('el_animate');
       for (let i = 0; i < scroll.length; i++) {
         scroll[i].classList.add('animate-scroll-banner');
       }
-    }
+    },
+
+    createObserver(el, rtlCheck = false) {
+      const option = {
+        root: null,
+        rootMargin: '300px',
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.updateRotation(el, rtlCheck)
+          } else {
+            if (this.animationFrameId) {
+              cancelAnimationFrame(this.animationFrameId);
+              this.animationFrameId = null;
+            }
+          }
+        });
+      }, option);
+
+      observer.observe(el);
+    },
+
+    updateRotation(el, rtlCheck = false) {
+      const update = () => {
+        const element = el.firstElementChild;
+        if (!element) return;
+
+        const element_rect = element.getBoundingClientRect();
+        const element_height = element_rect.top + element_rect.height / 2;
+        let value;
+          
+        if (element_height > -200 && element_height < this.window_height + 200) {
+          value = Math.max(Math.min((((element_height / this.window_height) * 10) - 5), 5), -5);
+          if (rtlCheck) value *= -1;
+          element.style.transform = `rotate(${value}deg) translateX(-20px)`;
+        }
+
+        this.animationFrameId = window.requestAnimationFrame(update);
+      }
+
+      if (!this.animationFrameId) {
+        update();
+      }
+    },
   });
 
   Alpine.data('xCartFields', () => ({
@@ -1833,7 +3009,7 @@ document.addEventListener('alpine:init', () => {
       this.custom_field_pattern = new RegExp(data.custom_field_pattern);
       this.save();
 
-      this.$watch('custom_field', () => {
+      this.$el.querySelector("#x-cart-custom-field").addEventListener("focusout", (event) => {
         this.save();
       });
 
@@ -1920,7 +3096,7 @@ document.addEventListener('alpine:init', () => {
     }
   }));
   
-  Alpine.data("xCouponCode", () => ({
+  Alpine.data("xCouponCode", (freeShippingCodes) => ({
     copySuccess: false,
     loading: false,
     disableCoupon: false,
@@ -1941,7 +3117,9 @@ document.addEventListener('alpine:init', () => {
       navigator.clipboard.writeText(discountCode).then(
         () => {
           this.copySuccess = true;
-
+          const copyEvent = new Event('copy');
+          document.dispatchEvent(copyEvent);
+          
           setTimeout(() => {
             this.copySuccess = false;
           }, 5000);
@@ -1953,33 +3131,41 @@ document.addEventListener('alpine:init', () => {
     },
     applyCouponCode(discountCode, isCart=false) {
       Alpine.store('xCouponCodeDetail').discountFaild = false;
-      Alpine.store('xCouponCodeDetail').discountApplied =  false;
+      Alpine.store('xCouponCodeDetail').discountApplied = false;
       Alpine.store('xCouponCodeDetail').discountCorrect = false;
       Alpine.store('xCouponCodeDetail').getDiscountCode();
-      let appliedDiscountCodes = JSON.parse(JSON.stringify(Alpine.store('xCouponCodeDetail').appliedDiscountCodes))
-      const appliedDiscount = document.querySelectorAll(".discount-title");
+      let appliedDiscountCodes = JSON.parse(JSON.stringify(Alpine.store('xCouponCodeDetail').appliedDiscountCodes));
+      const appliedDiscount = document.querySelectorAll(".discount-title:not(.hidden)");
       let checkedDiscount = false;
       if (appliedDiscount.length > 0) {
         appliedDiscount.forEach((discount) => {
           if (discount.innerText.toLowerCase() == discountCode.toLowerCase()) checkedDiscount = true;
         });
       }
+      if (freeShippingCodes.includes(this.discountCode)) {
+        Alpine.store('xCouponCodeDetail').freeShippingApplied = true;
+        setTimeout(() => {
+          Alpine.store('xCouponCodeDetail').freeShippingApplied = false;
+        }, 5000);
+        return;
+      }
+
       if (checkedDiscount) {
         Alpine.store('xCouponCodeDetail').discountApplied = true;
         document.querySelector("#x-cart-discount-field").value = '';
+        this.discountCode = '';
         setTimeout(() => {
           Alpine.store('xCouponCodeDetail').discountApplied = false;
         }, 3000);
         return true;
       }
       if (discountCode) {
-        let discountCodes = appliedDiscountCodes.length > 0 ? [...appliedDiscountCodes, discountCode].join(",") : discountCode;
+        let discountCodes = appliedDiscountCodes.length > 0 ? [...new Set([...appliedDiscountCodes, discountCode])].join(",") : discountCode;
         document.cookie = `eurus_discount_code=${discountCodes}; path=/`;
-
         this.loading = true;
         let cartDrawer = false;
         let cartPage = false;
-        fetch(`/checkout?discount=${discountCodes}`)
+        fetch(`/checkout?skip_shop_pay=true&discount=${encodeURIComponent(discountCodes)}`)
         .then(() => {
           fetch('/cart/update.js', {
             method: 'POST',
@@ -1992,24 +3178,26 @@ document.addEventListener('alpine:init', () => {
           }).then((response) => {
             if (response.status != '422') {
               Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-                const sectionElement = document.querySelector(section.selector);
-                if (sectionElement) {
-                  if (response.sections[section.id]) {
-                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
-                    if (section.selector == '#CartDrawer' || section.selector == '#main-cart-footer' ) {
-                      cartDrawer = getSectionInnerHTML(response.sections[section.id], section.selector);
-                    }
-                    if(section.selector == '#main-cart-items') {
-                      cartPage =  getSectionInnerHTML(response.sections[section.id], section.selector);
+                section.selector.split(',').forEach((selector) => {
+                  const sectionElement = document.querySelector(selector);
+                  if (sectionElement) {
+                    if (response.sections[section.id]) {
+                      sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                      if (selector == '#CartDrawer' || selector == '#main-cart-footer' ) {
+                        cartDrawer = getSectionInnerHTML(response.sections[section.id], selector);
+                      }
+                      if(selector == '#main-cart-items') {
+                        cartPage =  getSectionInnerHTML(response.sections[section.id], selector);
+                      }
                     }
                   }
-                }
+                })
               }));
               checkedDiscount = false;
               const parser = new DOMParser();
               if (cartPage) {
                 const cartPageHtml = parser.parseFromString(cartPage, 'text/html');
-                const discountTitleCartPage = cartPageHtml.querySelectorAll(".discount-title");
+                const discountTitleCartPage = cartPageHtml.querySelectorAll(".discount-title:not(.hidden)");
                 if (discountTitleCartPage.length > 0) {
                   discountTitleCartPage.forEach((discount) => {
                     if (discount.innerText.toLowerCase() == discountCode.toLowerCase()) checkedDiscount = true;
@@ -2018,7 +3206,7 @@ document.addEventListener('alpine:init', () => {
               }
               if (cartDrawer) { 
                 const cartDrawerHtml = parser.parseFromString(cartDrawer, 'text/html');
-                const discountTitle = cartDrawerHtml.querySelectorAll(".discount-title");
+                const discountTitle = cartDrawerHtml.querySelectorAll(".discount-title:not(.hidden)");
                 if (discountTitle.length > 0) {
                   discountTitle.forEach((discount) => {
                     if (discount.innerText.toLowerCase() == discountCode.toLowerCase()) checkedDiscount = true;
@@ -2030,7 +3218,7 @@ document.addEventListener('alpine:init', () => {
               } else {
                 Alpine.store('xCouponCodeDetail').discountFaild = true;
               }
-              Alpine.store('xCouponCodeDetail').appliedDiscountCodes.push(discountCode)
+              Alpine.store('xCouponCodeDetail').appliedDiscountCodes.push(discountCode);
               Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
               document.dispatchEvent(new CustomEvent(`eurus:cart:discount-code:change`));
               if (isCart == false) {
@@ -2040,7 +3228,7 @@ document.addEventListener('alpine:init', () => {
                   this.errorMessage = true;
                   elementError.classList.remove('hidden', 'opacity-0');
                   elementError.classList.add('block', 'opacity-100');
-  
+
                   setTimeout(function() {
                     elementError.classList.remove('block', 'opacity-100');
                     elementError.classList.add('hidden', 'opacity-0');
@@ -2053,6 +3241,7 @@ document.addEventListener('alpine:init', () => {
             }
           }).finally(() => {
             this.loading = false;
+            Alpine.store('xCouponCodeDetail').removedDiscountCode = '';
             setTimeout(() => {
               Alpine.store('xCouponCodeDetail').discountFaild = false;
             }, 5000);
@@ -2082,6 +3271,9 @@ document.addEventListener('alpine:init', () => {
     applyDiscountToCart() {
       this.applyCouponCode(this.discountCode, true);
     },
+    undoRemoveDiscount() {
+      this.applyCouponCode(Alpine.store('xCouponCodeDetail').removedDiscountCode, true);
+    },
     setAppliedButton(discountCode) {
       let appliedDiscountCodes = JSON.parse(JSON.stringify(Alpine.store('xCouponCodeDetail').appliedDiscountCodes))
       if (discountCode && appliedDiscountCodes.indexOf(discountCode) != -1) {
@@ -2098,11 +3290,13 @@ document.addEventListener('alpine:init', () => {
     sectionID: "",
     discountCodeApplied: "",
     appliedDiscountCodes: [],
+    removedDiscountCode: '',
     cachedResults: [],
     loading: false,
     cartEmpty: true,
     discountFaild: false,
     discountApplied: false,
+    freeShippingApplied: false,
     discountCorrect: false,
     handleCouponSelect(shopUrl) {
       var _this = this;
@@ -2179,16 +3373,108 @@ document.addEventListener('alpine:init', () => {
       this.show = false;
       Alpine.store('xPopup').close();
     },
+    removeDiscountCode(el, isCart=false) {
+      Alpine.store('xCouponCodeDetail').discountFaild = false;
+      Alpine.store('xCouponCodeDetail').discountApplied = false;
+      Alpine.store('xCouponCodeDetail').discountCorrect = false;
+      
+      this.getDiscountCode();
+
+      const discountCode = el.closest('li.x-discount').querySelector('.discount-title:not(.hidden)').textContent.toLowerCase();
+
+      let discountIndex = this.appliedDiscountCodes.findIndex(code => code.toLowerCase() === discountCode);
+      if (discountIndex !== -1) {
+        this.appliedDiscountCodes.splice(discountIndex, 1);
+      } 
+      document.cookie = `eurus_discount_code=${this.appliedDiscountCodes}; path=/`;
+
+      this.loading = true;
+      let cartDrawer = false;
+      let cartPage = false;
+      let checkoutUrl = '';
+      if (this.appliedDiscountCodes.length > 0) {
+        checkoutUrl = `/checkout?skip_shop_pay=true&discount=${encodeURIComponent(this.appliedDiscountCodes)}`;
+      } else {
+        checkoutUrl = '/checkout?skip_shop_pay=true&discount=false';
+      }
+      fetch(checkoutUrl)
+      .then(() => {
+        fetch('/cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
+          }),
+        }).then(response=>{
+          return response.json();
+        }).then((response) => {
+          if (response.status != '422') {
+            Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+              section.selector.split(',').forEach((selector) => {
+                const sectionElement = document.querySelector(selector);
+                if (sectionElement) {
+                  if (response.sections[section.id]) {
+                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                    if (selector == '#CartDrawer' || selector == '#main-cart-footer' ) {
+                      cartDrawer = getSectionInnerHTML(response.sections[section.id], selector);
+                    }
+                    if(selector == '#main-cart-items') {
+                      cartPage =  getSectionInnerHTML(response.sections[section.id], selector);
+                    }
+                  }
+                }
+              })
+            }));
+            Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+            document.dispatchEvent(new CustomEvent(`eurus:cart:discount-code:change`));
+            if (isCart == false) {
+              this.setAppliedButton(discountCode)
+              if (Alpine.store('xCartHelper').currentItemCount == 0) {
+                const elementError = this.$el.closest('.promo-code-item').querySelector('.error-message');
+                this.errorMessage = true;
+                elementError.classList.remove('hidden', 'opacity-0');
+                elementError.classList.add('block', 'opacity-100');
+
+                setTimeout(function() {
+                  elementError.classList.remove('block', 'opacity-100');
+                  elementError.classList.add('hidden', 'opacity-0');
+                }, 3000);
+              } else {
+                this.errorMessage = false;
+                Alpine.store('xMiniCart').openCart();
+              }
+            }
+          }
+        }).finally(() => {
+          this.loading = false;
+          this.removedDiscountCode = discountCode;
+          setTimeout(() => {
+            Alpine.store('xCouponCodeDetail').discountFaild = false;
+          }, 5000);
+          setTimeout(() => {
+            Alpine.store('xCouponCodeDetail').discountCorrect = false;
+          }, 3000);
+        });
+      })
+      .catch(function(error) {
+        console.error('Error:', error);
+      })
+    },
+    clearRemovedDiscount() {
+      this.removedDiscountCode = '';
+    },
     getDiscountCode() {
       let cookieValue = document.cookie.match('(^|;)\\s*' + 'eurus_discount_code' + '\\s*=\\s*([^;]+)');
       let appliedDiscountCodes = cookieValue ? cookieValue.pop() : '';
-      this.appliedDiscountCodes = appliedDiscountCodes.split(",");
+      if (appliedDiscountCodes) {
+        this.appliedDiscountCodes = appliedDiscountCodes.split(",");
+      }
     }
   });
 
   Alpine.data('xImageComparison', (sectionId, layout) => ({
     load(e) {
-      if(layout == "horizontal") {
+      if (layout == "horizontal") {
         this.$refs.image.style.setProperty('--compare_' + sectionId, e.target.value + '%');
       } else {
         this.$refs.image.style.setProperty('--compare_vertical_' + sectionId, 100 - e.target.value + '%');
@@ -2209,13 +3495,52 @@ document.addEventListener('alpine:init', () => {
       });
     },
     setMinMaxInput(el) {
-      let totalSpacing = layout == 'horizontal'? el.offsetWidth:el.offsetHeight;
-      let spacing = ((24/totalSpacing)*100).toFixed(1);
-      if (spacing > 0) {
-        el.min = spacing;
-        el.max = 100 - spacing;
-      }
-    }
+      el.min = 0;
+      el.max = 100;
+    },
+    animateValue(el) {
+      const targetValue = parseFloat(el.value);
+      let currentHorizontalValue = 100;
+      let currentVerticalValue = 0; 
+      const totalDuration = 1000;
+      let startTime = null; 
+    
+      const easeInOutSlowEnd = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+    
+      const step = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const elapsedTime = timestamp - startTime;
+        const progress = Math.min(elapsedTime / totalDuration, 1);
+    
+        const easedProgress = easeInOutSlowEnd(progress);
+    
+        if (layout === "horizontal") {
+          currentHorizontalValue = 100 + (targetValue - 100) * easedProgress; 
+          el.value = currentHorizontalValue.toFixed(2);
+          this.$refs.image.style.setProperty('--compare_' + sectionId, currentHorizontalValue + '%');
+    
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.value = targetValue; 
+            this.$refs.image.style.setProperty('--compare_' + sectionId, targetValue + '%');
+          }
+        } else {
+          currentVerticalValue = 0 + (targetValue - 0) * easedProgress; 
+          el.value = currentVerticalValue.toFixed(2);
+          this.$refs.image.style.setProperty('--compare_vertical_' + sectionId, currentVerticalValue + '%');
+    
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.value = targetValue;
+            this.$refs.image.style.setProperty('--compare_vertical_' + sectionId, targetValue + '%');
+          }
+        }
+      };
+    
+      requestAnimationFrame(step);
+    }        
   }));
   Alpine.store('xProductComparisonPopup', {
     loadTablet(el, url) {
@@ -2251,15 +3576,12 @@ document.addEventListener('alpine:init', () => {
     productUrl,
     productId,
   ) => ({
-    currentVariantCard: '',
     isSelect: false,
     productId: productId,
     showOptions: false,
-    init() {
+    init() {          
       document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
         this.checkVariantSelected();
-        this.currentVariantCard = e.detail.currentVariant;
-        this.options = e.detail.options;
       });
     },
     checkVariantSelected() {
@@ -2268,17 +3590,69 @@ document.addEventListener('alpine:init', () => {
         this.isSelect = true;
       }
     }
-  }))
+  }));
 
   Alpine.store('xPreviewColorSwatch', {
-    onChangeVariant(el, productUrl, src, variantId, sectionId) {
-      document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
-        if (e.detail.currentVariant == null) {
-          this.updateImage(el, productUrl, src, variantId, sectionId);
-        }
-      })
+    onChangeVariant(el, productUrl, src, variantId, sectionId, isColor = false) {
+      setTimeout(() => {
+        document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
+          if (e.detail.currentVariant == null) {
+            this.updateImage(el, productUrl, src, variantId, sectionId);
+          }
+        });
+
+        if (!isColor) {
+          let productVariants = ''
+
+          document.dispatchEvent(new CustomEvent(`eurus:product-variant-get:${sectionId}`, {
+            detail: {
+              callback: (variants) => {
+                productVariants = variants;
+              }
+            }
+          }));
+
+          if (productVariants) {
+            let variantSrc = productVariants.reduce((acc, variant) => {
+              if (variant.featured_image) {
+                acc[variant.id] = variant.featured_image.src;
+              }
+              return acc;
+            }, {});
+    
+            const swatchesContainer = el.closest('.options-container');
+            if (swatchesContainer) {
+              const swatches = swatchesContainer.querySelectorAll('label.color-watches');
+              const inputs = swatchesContainer.querySelectorAll('input:checked');
+  
+              let selectedOption = [];
+  
+              inputs.forEach(input => { 
+                if (![...swatches].some(swatch => swatch.dataset.optionvalue === input.value)) {
+                  selectedOption.push(input.value);
+                }
+              });
+  
+              let imageSrc = productVariants
+                .filter(variant => selectedOption.every(option => variant.options.includes(option)))
+                .reduce((acc, variant) => {
+                  swatches.forEach((swatch) => {
+                    if (variant.options.includes(swatch.getAttribute('data-optionvalue'))) {
+                      acc[swatch.getAttribute('data-optionvalue')] =  `url(${variantSrc[variant.id] ? variantSrc[variant.id] : src})`
+                    }
+                  });
+                  return acc;
+                }, {});
+              swatches.forEach((swatch) => {
+                swatch.style.setProperty('--bg-image',  imageSrc[swatch.getAttribute('data-optionvalue')]);
+              });
+            }
+          }
+        } 
+      }, 0) // INP
     },
-    updateImage(el, productUrl, src, variantId, sectionId) {
+
+    updateImage(el, productUrl, src, variantId, sectionId, hasVariant) {
       const cardProduct = el.closest('.card-product');
       let getLink =  productUrl + `?variant=${variantId}`;
       if (!cardProduct) return;
@@ -2287,7 +3661,7 @@ document.addEventListener('alpine:init', () => {
         linkVariant[i].setAttribute("href", getLink);
       }
       const currentVariant = cardProduct.querySelector(".current-variant");
-      if (currentVariant) {
+      if (currentVariant && !hasVariant) {
         currentVariant.innerText = variantId;
       }
 
@@ -2321,8 +3695,96 @@ document.addEventListener('alpine:init', () => {
           slide.splide.go(0);
         }
       }
+    },
+
+    updateQuickAdd(productUrl, variantId, quickAddPageParam, productId, el){
+      return;
+      let url = `${productUrl}?variant=${variantId}&section_id=choose-option&page=${quickAddPageParam}`
+      fetch(url)
+      .then((response) => response.text())
+      .then((responseText) => {
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
+        const listCurrent = document.querySelectorAll(`#product-form-choose-option${productId}${quickAddPageParam ?? ''}`);
+        const destination = html.querySelector(`#product-form-choose-option${productId}${quickAddPageParam ?? ''}`);
+        if (listCurrent.length > 0 && destination) {
+          listCurrent.forEach((item)=>{
+            const currentPrice = item.closest('.card-product').querySelector(".main-product-price");
+            const updatePrice = html.querySelector(".main-product-price");
+            if(currentPrice && updatePrice){
+              currentPrice.innerHTML = updatePrice.innerHTML
+            }
+          })
+        } else {
+          if (listCurrent.length > 0) {
+            listCurrent.forEach((item) => {
+              item.innerHTML = html.querySelector('.form').innerHTML;
+            })
+          }
+          const currentPrice = el?.closest('.card-product')?.querySelector(".main-product-price");
+          const updatePrice = html.querySelector(".main-product-price");
+          if(currentPrice && updatePrice){
+            currentPrice.innerHTML = updatePrice.innerHTML
+          }
+        }
+      })
     }
   });
+
+  Alpine.data('xFlexibleArea', () => ({
+    initArea(el) {
+      this.adjustFlexWidths(el);
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          this.adjustFlexWidths(el);
+        }, 50);
+      });
+    },
+
+    adjustFlexWidths(container) {
+      const isMobile = window.innerWidth <= 767;
+
+      const items = Array.from(container.children).map(el => {
+        const itemBlock = el.querySelector('.item-block');
+        const itemWidth = parseFloat(isMobile ? itemBlock.dataset.widthMobile : itemBlock.dataset.width) || 0;
+        return { el, itemWidth };
+      });
+
+      const style = getComputedStyle(container);
+      const gap = parseFloat(style.columnGap || style.gap || 0);
+      const containerWidth = container.getBoundingClientRect().width;
+
+      let currentRow = [];
+      let currentTotal = 0;
+
+      items.forEach(({ el, itemWidth }) => {
+        if (currentRow.length && currentTotal + itemWidth > 100) {
+          this.applyRowWidths(currentRow, gap, containerWidth);
+          currentRow = [{ el, itemWidth }];
+          currentTotal = itemWidth;
+        } else {
+          currentRow.push({ el, itemWidth });
+          currentTotal += itemWidth;
+        }
+      });
+
+      // Last row
+      this.applyRowWidths(currentRow, gap, containerWidth);
+    },
+
+    applyRowWidths(row, gap, containerWidth) {
+      if (!row.length) return;
+
+      const totalGap = gap * (row.length - 1);
+      const usableWidth = 100 - (totalGap / containerWidth) * 100;
+
+      row.forEach(({ el, itemWidth }) => {
+        el.style.flex = `0 0 ${usableWidth * (itemWidth / 100)}%`;
+      });
+    }
+  }))
 });
 requestAnimationFrame(() => {
   document.addEventListener('alpine:init', () => {
@@ -2378,11 +3840,11 @@ requestAnimationFrame(() => {
 
         if (options == 'google' || options == 'yahoo') {
           date = new Date(Date.UTC(year, this.getMonthNumber(month), parseInt(day), parseInt(hour), parseInt(minute)));
-          date.setTime(date.getTime() + (-1 * parseInt(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
+          date.setTime(date.getTime() + (-1 * parseFloat(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
           return date.toISOString().split("Z")[0].replace(".000", "").replace(/[^A-Z0-9]/ig, "");
         } else {
           date = new Date(year, this.getMonthNumber(month), parseInt(day), parseInt(hour), parseInt(minute));
-          date.setTime(date.getTime() + (-1 * parseInt(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
+          date.setTime(date.getTime() + (-1 * parseFloat(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
           if ( options == 'apple' ) {
             return date.toISOString().split("Z")[0].replace(".000", "").replace(/[^A-Z0-9]/ig, "");
           } else {
@@ -2485,8 +3947,10 @@ requestAnimationFrame(() => {
   document.addEventListener('alpine:init', () => {
     Alpine.data('xCustomizePicker', () => ({
       dataCheckbox: [],
+      dataCheckboxTitle: [],
       disableInput: true,
       radioChecked: '',
+      radioCheckedTitle: '',
       validation(el) {
         if (el.value == "") {
           el.classList.add("required-picker");
@@ -2497,11 +3961,26 @@ requestAnimationFrame(() => {
         this.validateErrorBtn(el);
       },
       validateErrorBtn(el) {
+        let hasRequiredInput = false;
+        let allInputsHaveValue = true;
         var productInfo = el.closest('.product-info');
         var paymentBtn = productInfo.querySelector(".payment-button--clone");
-        var propertiesInput = productInfo.querySelectorAll(".customization-picker.required-picker");
-        if (propertiesInput.length) {
-          paymentBtn?.classList.remove('hidden');
+        var propertiesInput = productInfo.querySelectorAll(".customization-picker");
+        for (const input of propertiesInput) {
+          if (input.required) {
+            hasRequiredInput = true;
+            if (input.value == ''){
+              allInputsHaveValue = false
+              break
+            }
+          }
+        }
+        if (hasRequiredInput) {
+          if (allInputsHaveValue){
+            paymentBtn?.classList.add('hidden');
+          } else {
+            paymentBtn?.classList.remove('hidden');
+          }           
         }
         else {
           paymentBtn?.classList.add('hidden');
@@ -2514,7 +3993,7 @@ requestAnimationFrame(() => {
           this.disableInput = false;
         }
       },
-      validateError(el) {
+      validateErrorAddAsBundle(el) {
         var productInfo = el.closest('.product-info');
         var propertiesInput = productInfo.querySelectorAll(".customization-picker");
         var optionValid = true;
@@ -2524,6 +4003,28 @@ requestAnimationFrame(() => {
             if (optionValid) optionValid = false;
           }
         });
+        return optionValid;
+      },
+      validateError(el) {
+        var productInfo = el.closest('.product-info');
+        var propertiesInput = productInfo.querySelectorAll(".customization-picker");
+        let scrollStatus = false;
+        var optionValid = true;
+        propertiesInput.length && propertiesInput.forEach((input) => {
+          if (input.required && input.value.trim() == '' || input.classList.contains("validate-checkbox")) {
+            input.classList.add("required-picker");
+            if(!scrollStatus){
+              input.parentElement.querySelector('.text-required').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+              });
+              scrollStatus = true;
+            }              
+          } else {
+            input.classList.remove("required-picker")
+          }   
+        });
+        
         return optionValid;
       },
       validateCheckBox(el, minLimit, maxLimit) {
@@ -2742,8 +4243,8 @@ requestAnimationFrame(() => {
       showBundleContent: false,
       totalDiscount: 0,
       amountPrice: 0,
-      init() {
-        this.addToCartButton = this.$el.querySelector(".button-atc");
+      initBundle(el) {
+        this.addToCartButton = el.querySelector(".button-atc");
         this.handleProductsBundle();
       },
       handleProductsBundle() {
@@ -2755,81 +4256,126 @@ requestAnimationFrame(() => {
           }));
         });
       },
-      addToBundle(el, productId, productUrl, hasVariant) {
+      _getSelectedValueId(el) {
+        return el.querySelector("select option[selected][value], fieldset input:checked")?.dataset.optionValueId;
+      },
+      _getCurrentVariantEl(el) {
+        return el.querySelector(`script[type="application/json"][data-option-value-id='${this._getSelectedValueId(el)}']`);
+      },
+      _getCurrentVariable(el) {
+        return JSON.parse(this._getCurrentVariantEl(el)?.textContent);
+      },
+      addToBundle(el, productId, productUrl, hasVariant, name_edt) {
         let productsBundle = JSON.parse(JSON.stringify(this.productsBundle))
         const productName = el.closest(".x-product-bundle-data").querySelector(".product-name").textContent;
-        const currentVariant =  JSON.parse(el.closest(".x-product-bundle-data").querySelector(".current-variant").textContent);
-        const price =  !hasVariant && JSON.parse(el.closest(".x-product-bundle-data").querySelector(".current-price")?.textContent);
+        const currentVariant = hasVariant ? this._getCurrentVariable(el.closest(".x-product-bundle-data")) : JSON.parse(el.closest(".x-product-bundle-data").querySelector(`script[type='application/json'][data-id='${productId}']`).textContent);
+        const price = !hasVariant && JSON.parse(el.closest(".x-product-bundle-data").querySelector(".current-price")?.textContent);
         const featured_image = currentVariant.featured_image ? currentVariant.featured_image.src : el.closest(".x-product-bundle-data").querySelector(".featured-image").textContent;
-        let variantId = hasVariant ? currentVariant.id : currentVariant; 
+        const edtElement = el.closest(".x-product-bundle-data").querySelector(`.hidden.cart-edt-properties-${productId}`);
+        let shippingMessage = '';
+        if(edtElement){
+          shippingMessage = edtElement.value.replace("time_to_cut_off", Alpine.store('xEstimateDelivery').noti);
+        }
+        const preorderElement = el.closest(".x-product-bundle-data").querySelector('.hidden.preorder-edt-properties');
+        let preorderMessage = '';
+        if(preorderElement){
+          preorderMessage = preorderElement.value;
+        }
+        
+        const properties = {
+          ...(name_edt && shippingMessage && { [name_edt]: shippingMessage }),
+          ...(preorderMessage && { Preorder: preorderMessage }),
+        };
+
+        let variantId = hasVariant ? currentVariant : currentVariant.id; 
         let newProductsBundle = [];
-        let newItem = hasVariant ? { ...currentVariant, title: currentVariant.title.replaceAll("\\",""), product_id: productId, product_name: productName, productUrl: `${productUrl}?variant=${currentVariant.id}`, featured_image: featured_image, quantity: 1} : { id: variantId, product_id: productId, product_name: productName, productUrl: productUrl, featured_image: featured_image, quantity: 1, price: price}
+        let newItem = hasVariant ? { ...currentVariant, title: currentVariant.title.replaceAll("\\",""), product_id: productId, product_name: productName, productUrl: `${productUrl}?variant=${currentVariant.id}`, featured_image: featured_image, quantity: 1, "properties": properties} : { id: variantId, product_id: productId, product_name: productName, productUrl: productUrl, featured_image: featured_image, quantity: 1, price: price, "properties": properties }
         
         newProductsBundle = [...productsBundle , newItem];
         this.productsBundle = newProductsBundle;
         this.errorMessage = false;
         this.updateBundleContent(newProductsBundle)
-      },
-      handleAddToCart(el) {
-        let items = JSON.parse(JSON.stringify(this.productsBundle));
-        items = items.reduce((data, product) => {
-          data[product.id] ? data[product.id].quantity += product.quantity : data[product.id] = product;
-          return data;
-        }, {});
-
-        this.loading = true;
-        fetch(window.Shopify.routes.root + 'cart/add.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body:  JSON.stringify({ "items": items, "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id) })
-        }).then((response) => {
-          return response.json();
-        }).then((response) => {
-
-          document.dispatchEvent(new CustomEvent(`eurus:product-bundle:products-changed-${sectionId}`, {
-            detail: {
-              productsBundle: Object.values(items),
-              el: el.closest(".product-bundler-wrapper")
-            }
-          }));
-
-          if (response.status == '422') {
-            const error_message = el.closest('.bundler-sticky').querySelector('.cart-warning');
-
-            this.errorMessage = true;
-            if (error_message) {
-              error_message.textContent = response.description;
-            }
-            return;
-          } 
-
-          this.errorMessage = false;
-          Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-            const sectionElement = document.querySelector(section.selector);
-
-            if (sectionElement) {
-              if (response.sections[section.id])
-                sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
-            }
-          }));
-          if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
-            Alpine.store('xQuickView').show = false;
+        let bundleContentContainer = document.getElementById(`bundle-content-container-${sectionId}`);
+        requestAnimationFrame(() => {
+          let splide = bundleContentContainer.splide;
+          if (splide) {
+            splide.refresh();
+            let lastIndex = splide.Components.Controller.getEnd();
+            splide.go(lastIndex);
           }
-          Alpine.store('xPopup').close();
-          Alpine.store('xMiniCart').openCart();
-          Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
-          document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        }).finally(() => {
-          this.loading = false;
-          this.productsBundle = [];
-          this.totalPrice = 0;
-          this.addToCartButton.setAttribute('disabled', 'disabled');
-        })
+        });
+      },
+      async handleAddToCart(el) {
+        this.loading = true;
+        await Alpine.store('xCartHelper').waitForEstimateUpdate();
+        window.updatingEstimate = true;
+
+        setTimeout(() => { 
+          let items = JSON.parse(JSON.stringify(this.productsBundle));
+          items = items.reduce((data, product) => {
+            data[product.id] ? data[product.id].quantity += product.quantity : data[product.id] = product;
+            return data;
+          }, {});
+          
+          fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body:  JSON.stringify({ "items": items, "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id) })
+          }).then((response) => {
+            return response.json();
+          }).then((response) => {
+
+            document.dispatchEvent(new CustomEvent(`eurus:product-bundle:products-changed-${sectionId}`, {
+              detail: {
+                productsBundle: Object.values(items),
+                el: el.closest(".product-bundler-wrapper")
+              }
+            }));
+
+            if (response.status == '422') {
+              const error_message = el.closest('.bundler-sticky').querySelector('.cart-warning');
+
+              this.errorMessage = true;
+              if (error_message) {
+                error_message.textContent = response.description;
+              }
+              return;
+            }
+            this.errorMessage = false;
+            Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+              section.selector.split(',').forEach((selector) => {
+                const sectionElement = document.querySelector(selector);
+                if (sectionElement) {
+                  if (response.sections[section.id])
+                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                }
+              })
+            }));
+            if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
+              Alpine.store('xQuickView').show = false;
+            }
+            Alpine.store('xPopup').close();
+            if (Alpine.store('xCartNoti') && Alpine.store('xCartNoti').enable) {
+              Alpine.store('xCartNoti').setItem(response); 
+            } else {
+              Alpine.store('xMiniCart').openCart();
+              document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));
+            }
+            Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+            document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          }).finally(() => {
+            Alpine.store('xCartHelper').updateEstimateShippingFull();
+            this.loading = false;
+            this.productsBundle = [];
+            this.totalPrice = 0;
+            this.addToCartButton.setAttribute('disabled', 'disabled');
+          })
+        }, 0)
       },
       updateBundleContent(productsBundle) {
         let total = productsBundle.map(item => item.price).reduce((total, item) => total + item, 0);
@@ -2838,6 +4384,7 @@ requestAnimationFrame(() => {
           this.addToCartButton.removeAttribute('disabled');
           let discount = 0;
           let totalDiscount = 0;
+
           if (!Number.isNaN(discountValue)) {
             discount = Number(discountValue);
 
@@ -2855,13 +4402,16 @@ requestAnimationFrame(() => {
             }
 
             if (totalDiscount > 0) {
-              this.totalDiscount = this.formatMoney(totalDiscount, shopCurrency);
               let amount = total - totalDiscount;
-              this.amountPrice = "-" + this.formatMoney(amount, shopCurrency);
+              this.amountPrice = this.formatMoney(amount, shopCurrency);
+              this.totalDiscount = this.formatMoney(totalDiscount, shopCurrency);
+            } else {
+              this.amountPrice = this.formatMoney(0, shopCurrency);
+              this.totalDiscount = this.formatMoney(total, shopCurrency)
             }
           } else {
-            this.totalDiscount = 0;
             this.amountPrice = 0;
+            this.totalDiscount = 0;
           }
         } else {
           this.totalDiscount = 0;
@@ -2874,6 +4424,15 @@ requestAnimationFrame(() => {
         let newProductsBundle = this.productsBundle.filter((item, index) => index != indexItem)
         this.productsBundle = newProductsBundle;
         this.updateBundleContent(newProductsBundle);
+        let bundleContentContainer = document.getElementById(`bundle-content-container-${sectionId}`);
+        requestAnimationFrame(() => {
+          let splide = bundleContentContainer.splide;
+          if (splide) {
+            splide.refresh();
+            let lastIndex = splide.Components.Controller.getEnd();
+            splide.go(lastIndex);
+          }
+        });
 
         document.dispatchEvent(new CustomEvent(`eurus:product-bundle:remove-item-${sectionId}`, {
           detail: {
@@ -2888,7 +4447,6 @@ requestAnimationFrame(() => {
         decimal   = this.defaultOption(decimal, '.');
     
         if (isNaN(number) || number == null) { return 0; }
-    
         number = (number/100.0).toFixed(precision);
     
         var parts   = number.split('.'),
@@ -2916,14 +4474,25 @@ requestAnimationFrame(() => {
             value = this.formatWithDelimiters(amount, 0, '.', ',');
             break;
         }
-      
         return formatString.replace(placeholderRegex, value);
+      },
+      displayDiscountValueLabel () {
+        let discount = 0;
+        if (!Number.isNaN(discountValue)) {
+          discount = Number(discountValue);
+          if (discount > 0) {
+            discount = (Number.parseFloat(discountValue)).toFixed(2) * Shopify.currency.rate * 100;
+          }
+          return this.formatMoney(discount, shopCurrency);
+        }
       }
     }));
 
     Alpine.data('xProductItemBundle', (
       sectionId,
       addToBundle,
+      unavailableText,
+      soldoutText,
       handleSectionId,
       productUrl,
       productId,
@@ -2935,20 +4504,10 @@ requestAnimationFrame(() => {
       isSelect: false,
       productId: productId,
       productUrl: productUrl,
-      initVariant() {
-        let xDataVariant = this.$el.querySelector('[type="application/json"]');
-        if (xDataVariant) {
-          let data = JSON.parse(xDataVariant.textContent);
-          data = data?.map(item => ({ disable: false, id: item.id }));
-          this.dataVariant = data;
-        }
-        this.initEvent();
-      },
       initEvent() {
         if (hasVariant) {
           document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
             this.currentVariant = e.detail.currentVariant,
-            this.options = e.detail.options;
             this.renderAddToBundleButton();
             this.checkVariantSelected();
             if (this.currentVariant && this.currentVariant.id) {
@@ -3018,12 +4577,18 @@ requestAnimationFrame(() => {
 
         if (!buttonATB) return;
 
-        if (this.currentVariant) {
-          /// Enable add to cart button
-          if (this.currentVariant.available) {
-            buttonATB.removeAttribute('disabled');
-            const addButtonText = buttonATB.querySelector('.x-atc-text');
-            if (addButtonText) addButtonText.textContent = addToBundle;
+        const addButtonText = buttonATB.querySelector('.x-atc-text');
+
+        if (addButtonText) {
+          if (this.currentVariant) {
+            if (this.currentVariant.available) {
+              buttonATB.removeAttribute('disabled');
+              addButtonText.textContent = addToBundle;
+            } else {
+              addButtonText.textContent = soldoutText;
+            }
+          } else {
+            addButtonText.textContent = unavailableText;
           }
         }
       },
@@ -3056,10 +4621,10 @@ requestAnimationFrame(() => {
         if (itemVariant && buttonATB) {
           setTimeout(() => {
             buttonATB.setAttribute('disabled', 'disabled');
-          }, 200);
+          }, 100);
         }
       }
-    }))
+    }));
 
     Alpine.data('xSpeechSearch', (el) => ({
       recognition: null,
@@ -3067,7 +4632,7 @@ requestAnimationFrame(() => {
       searchInput: null,
       searchBtn: null,
       show: false,
-      init() {
+      initSpeechSearch() {
         const userAgent = window.navigator.userAgent.toLowerCase();
         if ('webkitSpeechRecognition' in window
           && userAgent.indexOf('chrome') > -1 && !!window.chrome
@@ -3110,12 +4675,6 @@ requestAnimationFrame(() => {
         });
 
         el.addEventListener('click', (e)=> this.toggleListen(e));
-
-        el.addEventListener('keydown', (e) => {
-          if (e.code === 'Space' || e.code === 'Enter') {
-            this.toggleListen(e);
-          }
-        });
       },
 
       toggleListen(evt) {
@@ -3131,6 +4690,7 @@ requestAnimationFrame(() => {
     Alpine.data('xProductFrequently', (
       sectionId
     ) => ({
+      load: false,
       show: false,
       products: "",
       productsList: [],
@@ -3153,6 +4713,33 @@ requestAnimationFrame(() => {
           }));
         });
       },
+      renderRatingYotpo(el) {
+        const arrayRatingYotpo = Array.from(document.getElementById(`list-rating-yotpo-${sectionId}`).children)
+        Array.from(el.querySelectorAll('.rating-review')).map((item, index) => {
+          for (let i=0; i<arrayRatingYotpo.length; i++) {
+            if (item.querySelector('.yotpo') || item.querySelector('.yotpo') != null ) {
+              let checkReplaceRating = false
+              const interval = setInterval(() => {
+                if (arrayRatingYotpo[i].querySelector('.star-container') || arrayRatingYotpo[i].querySelector('.yotpo-sr-bottom-line-left-panel')) {
+                  if (item.querySelector('.yotpo') && item.querySelector('.yotpo').getAttribute('data-product-id') == arrayRatingYotpo[i].querySelector('.yotpo-widget-instance').getAttribute('data-yotpo-product-id')) {
+                    item.innerHTML = arrayRatingYotpo[i].innerHTML
+                    checkReplaceRating = true
+                  }
+                  clearInterval(interval)
+                }
+              }, 500)
+              if (checkReplaceRating) {
+                break;
+              }
+              setTimeout(() => {
+                if (interval) {
+                  clearInterval(interval)
+                }
+              }, 3000)
+            }
+          }
+        })
+      },
       openPopup() {
         this.show = true;
         Alpine.store('xPopup').open = true;
@@ -3161,14 +4748,38 @@ requestAnimationFrame(() => {
         this.show = false;
         Alpine.store('xPopup').close();
       },
-      addToListDraft(el, productId, productUrl, hasVariant, cal) {
+      _getSelectedValueId(el) {
+        return el.querySelector("input:checked").dataset.optionValueId;
+      },
+      _getCurrentVariantEl(el) {
+        return el.querySelector(`script[type="application/json"][data-option-value-id='${this._getSelectedValueId(el)}']`);
+      },
+      _getCurrentVariable(el) {
+        return JSON.parse(this._getCurrentVariantEl(el).textContent);
+      },
+      addToListDraft(el, productId, productUrl, hasVariant, cal, name_edt) {
         let productsListDraft = JSON.parse(JSON.stringify(this.productsListDraft));
         const productName = el.closest(".x-product-fbt-data").querySelector(".product-name").textContent;
-        const currentVariant =  JSON.parse(el.closest(".x-product-fbt-data").querySelector(".current-variant").textContent);
+        const currentVariant = this._getCurrentVariable(el.closest(".x-product-fbt-data"));       
         const price = !hasVariant && JSON.parse(el.closest(".x-product-fbt-data").querySelector(".current-price").textContent);
         const featured_image = currentVariant.featured_image ? currentVariant.featured_image.src : el.closest(".x-product-fbt-data").querySelector(".featured-image").textContent;
         const vendor = el.closest(".x-product-fbt-data").querySelector(".vendor") ? el.closest(".x-product-fbt-data").querySelector(".vendor")?.textContent : '';
-        const rating = el.closest(".x-product-fbt-data").querySelector(".rating-fbt") ? el.closest(".x-product-fbt-data").querySelector(".rating-fbt")?.innerHTML : '';
+        const rating = el.closest(".x-product-fbt-data").querySelector(".rating-fbt-mini") ? el.closest(".x-product-fbt-data").querySelector(".rating-fbt-mini")?.innerHTML : '';
+        const edtElement = el.closest(".x-product-fbt-data").querySelector(`.hidden.cart-edt-properties-${productId}`);
+        let shippingMessage = '';
+        if(edtElement){
+          shippingMessage = edtElement.value.replace("time_to_cut_off", Alpine.store('xEstimateDelivery').noti);
+        }
+        const preorderElement = el.closest(".x-product-fbt-data").querySelector('.hidden.preorder-edt-properties');
+        let preorderMessage = '';
+        if(preorderElement){
+          preorderMessage = preorderElement.value;
+        }
+        
+        const properties = {
+          ...(name_edt && shippingMessage && { [name_edt]: shippingMessage }),
+          ...(preorderMessage && { Preorder: preorderMessage }),
+        };          
 
         let productQuantity = parseInt(el.closest(".x-product-fbt-data").querySelector(".current-quantity").value);
         if (cal == 'plus') {
@@ -3179,7 +4790,7 @@ requestAnimationFrame(() => {
         }
         let variantId = hasVariant ? currentVariant.id : currentVariant; 
         let newProductsListDraft = [];
-        let newItem = hasVariant ? { ...currentVariant, title: currentVariant.title.replaceAll("\\",""), product_id: productId, product_name: productName, productUrl: `${productUrl}?variant=${currentVariant.id}`, featured_image: featured_image, quantity: productQuantity, vendor: vendor, rating: rating} : { id: variantId, product_id: productId, product_name: productName, productUrl: productUrl, featured_image: featured_image, quantity: productQuantity, price: price, vendor: vendor, rating: rating}
+        let newItem = hasVariant ? { ...currentVariant, title: currentVariant.title.replaceAll("\\",""), product_id: productId, product_name: productName, productUrl: `${productUrl}?variant=${currentVariant.id}`, featured_image: featured_image, quantity: productQuantity, vendor: vendor, rating: rating, "properties": properties} : { id: variantId, product_id: productId, product_name: productName, productUrl: productUrl, featured_image: featured_image, quantity: productQuantity, price: price, vendor: vendor, rating: rating, "properties": properties}
         productsListDraft = productsListDraft.filter(item => item.id !== variantId);
         newProductsListDraft = [...productsListDraft , newItem];
         newProductsListDraft = newProductsListDraft.filter(item => item.quantity > 0);
@@ -3188,57 +4799,69 @@ requestAnimationFrame(() => {
       },
       addToList(el) {
         this.productsList = this.productsListDraft;
-        this. closePopup(el);
+        this.closePopup(el);
       },
-      handleAddToCart(el) {
-        let items = JSON.parse(JSON.stringify(this.productsList));
-        
+      async handleAddToCart(el) {
         this.loading = true;
-        fetch(window.Shopify.routes.root + 'cart/add.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body:  JSON.stringify({ "items": items, "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id) })
-        }).then((response) => {
-          return response.json();
-        }).then((response) => {
-          if (response.status == '422') {
-            const error_message = el.closest('.list-items').querySelector('.cart-warning');
+        await Alpine.store('xCartHelper').waitForEstimateUpdate();
+        window.updatingEstimate = true;
 
-            this.errorMessage = true;
-            if (error_message) {
-              error_message.textContent = response.description;
+        setTimeout(() => {
+          let items = JSON.parse(JSON.stringify(this.productsList));
+
+          fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body:  JSON.stringify({ "items": items, "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id) })
+          }).then((response) => {
+            return response.json();
+          }).then((response) => {
+            if (response.status == '422') {
+              const error_message = el.closest('.list-items').querySelector('.cart-warning');
+
+              this.errorMessage = true;
+              if (error_message) {
+                error_message.textContent = response.description;
+              }
+              return;
+            } 
+
+            this.errorMessage = false;
+
+            Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+              section.selector.split(',').forEach((selector) => {
+                const sectionElement = document.querySelector(selector);
+                if (sectionElement) {
+                  if (response.sections[section.id])
+                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                }
+              })
+            }));
+            if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
+              Alpine.store('xQuickView').show = false;
             }
-            return;
-          } 
-
-          this.errorMessage = false;
-
-          Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-            const sectionElement = document.querySelector(section.selector);
-
-            if (sectionElement) {
-              if (response.sections[section.id])
-                sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
+            Alpine.store('xPopup').close();
+            if (Alpine.store('xCartNoti') && Alpine.store('xCartNoti').enable) {
+              Alpine.store('xCartNoti').setItem(response); 
+            } else {
+              Alpine.store('xMiniCart').openCart();
+              document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));
             }
-          }));
-          if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
-            Alpine.store('xQuickView').show = false;
-          }
-          Alpine.store('xPopup').close();
-          Alpine.store('xMiniCart').openCart();
-          Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
-          document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
-          this.productsList = [];
-          this.productsListDraft = [];
-          this.totalPrice = 0;
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        }).finally(() => {
-          this.loading = false;
-        })
+            Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+            document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+            this.productsList = [];
+            this.productsListDraft = [];
+            this.totalPrice = 0;
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          }).finally(() => {
+            Alpine.store('xCartHelper').updateEstimateShippingFull();
+            this.loading = false;
+          })
+        }, 0)
       },
       removeItem(el, indexItem) {
         let item = this.productsList[indexItem]
@@ -3264,7 +4887,7 @@ requestAnimationFrame(() => {
       isMobile: false,
       openProductInPopup(productId) {
         this.showSlideProductInPopup = true
-        this.productSelectedId = productId
+        this.productSelectedId = productId;
       },
       openProductInSlide(productId) {
         this.showSlideProductInVideoCard = true
@@ -3304,6 +4927,9 @@ requestAnimationFrame(() => {
         else {
           this.positionBottomGroupAnnouncementAndHeader = header ? header.offsetHeight + header.getBoundingClientRect().top : 0
         }
+        if ((!header || header?.getBoundingClientRect().bottom < 0) && (!announcement || announcement?.getBoundingClientRect().bottom < 0)) {
+          this.positionBottomGroupAnnouncementAndHeader = 0;
+        }
       },
       closePopup() {
         this.showPopup = false
@@ -3315,6 +4941,10 @@ requestAnimationFrame(() => {
     }));
 
     Alpine.data('xProductItemFBT', (
+      el,
+      addText,
+      unavailableText,
+      soldoutText,
       sectionId,
       handleSectionId,
       productUrl,
@@ -3326,6 +4956,7 @@ requestAnimationFrame(() => {
       showButton: true,
       productUrl: productUrl,
       init() {
+        this.currentVariant = JSON.parse(document.getElementById(`current-variant-${sectionId}`).innerHTML);
         if (hasVariant) {
           document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
             this.currentVariant = e.detail.currentVariant
@@ -3337,6 +4968,7 @@ requestAnimationFrame(() => {
             } else {
               this.showButton = true;
             }
+            this.renderAddButtonText();
           });
         }
 
@@ -3345,9 +4977,28 @@ requestAnimationFrame(() => {
           this.renderAddButton();
         })
       },
+      renderAddButtonText() {
+        const buttonAdd = document.getElementById('x-atc-button-' + sectionId)
+
+        if (!buttonAdd) return;
+
+        if (this.currentVariant) {
+          /// Enable add to cart button
+          if (this.currentVariant.available) {
+            buttonAdd.removeAttribute('disabled');
+            const addButtonText = buttonAdd.querySelector('.x-atc-text');
+            if (addButtonText) addButtonText.textContent = addText;
+          } else {
+            const addButtonText = buttonAdd.querySelector('.x-atc-text');
+            if (addButtonText) addButtonText.textContent = soldoutText;
+          }
+        } else {
+          const addButtonText = buttonAdd.querySelector('.x-atc-text');
+          if (addButtonText) addButtonText.textContent = unavailableText;
+        }
+      },
       renderAddButton() {
-        const currentVariant = JSON.parse(document.getElementById('current-variant-'+ sectionId).textContent);
-        let variantId = typeof currentVariant === 'object' ? currentVariant.id : currentVariant;
+        let variantId = this.currentVariant.id;
         const itemVariant = this.productList.find(({ id }) => id === variantId);
         if (itemVariant) {
           this.showButton = false;
@@ -3389,9 +5040,13 @@ requestAnimationFrame(() => {
       }
     }));
 
-    Alpine.data("xProductSibling", (sectionId, isProductPage) => ({
+    Alpine.data("xProductSibling", (sectionId, isProductPage, redirect) => ({
       cachedResults: [],
       updateProductInfo(url) {
+        if (redirect) {
+          window.location.href = url;
+          return
+        }
         const link = isProductPage?`${url}`:`${url}?section_id=${sectionId}`;
     
         if (this.cachedResults[link]) {
@@ -3421,65 +5076,19 @@ requestAnimationFrame(() => {
       _updateTitle(html) {
         if (!isProductPage) return;
         document.querySelector('head title').textContent = html.querySelector('.product-title').textContent;
+        const destination = document.querySelector('#breadcrumbs--' + sectionId);
+        const source = html.querySelector('#breadcrumbs--' + sectionId);
+        if (source && destination) destination.innerHTML = source.innerHTML;
       },
       _handleSwapProduct(html) {
-        if (isProductPage) {
-          const destination = document.querySelector('main');
-          const source = html.querySelector('main');
-          if (source && destination) destination.innerHTML = source.innerHTML;
-        } else {
-          const destination = document.querySelector('.x-product-' + sectionId);
-          const source = html.querySelector('.x-product-' + sectionId);
-          if (source && destination) destination.innerHTML = source.innerHTML;
-        }
+        const destination = isProductPage ? document.querySelector('.main-product'):document.querySelector('.x-product-' + sectionId);
+        const source = isProductPage ? html.querySelector('.main-product') : html.querySelector('.x-product-' + sectionId);
+        if (source && destination) destination.innerHTML = source.innerHTML;
       }
     }));
 
     Alpine.data("xPagination", (sectionId) => ({
       loading: false,
-      cachedResults: [],
-      loadFirstPage() {
-        if (Shopify.designMode) {
-          var currentUrl = new URL(window.location.href);
-          currentUrl.searchParams.delete('page');
-          if (this.cachedResults[currentUrl.search.toString()]) {
-            document.getElementById('ProductGridContainer').innerHTML = new DOMParser().parseFromString(html, 'text/html').getElementById('ProductGridContainer').innerHTML;
-            const listBlock = document.getElementById('ProductGridContainer').querySelectorAll('.promotion-block');
-            const productGridContainer = new DOMParser().parseFromString(this.cachedResults[currentUrl.search.toString()], 'text/html').getElementById('ProductGridContainer');
-            const listBlockRespone = productGridContainer?.querySelectorAll('.promotion-block');
-            
-            if (listBlockRespone.length == listBlock.length) {
-              for(let i=0; i<listBlockRespone.length; i++) {
-                listBlockRespone[i].innerHTML = listBlock[i].innerHTML
-              }
-            }
-
-            document.getElementById('ProductGridContainer').innerHTML = productGridContainer.innerHTML;
-            return;
-          }
-          this.loading = true;
-          fetch(`${currentUrl.pathname}?section_id=${sectionId}&${currentUrl.search}`)
-            .then(response => response.text())
-            .then((responseText) => {
-              const html = responseText;
-              this.cachedResults[currentUrl.search.toString()] = html;
-              const listBlock = document.getElementById('ProductGridContainer').querySelectorAll('.promotion-block');
-              const productGridContainer = new DOMParser().parseFromString(html, 'text/html').getElementById('ProductGridContainer');
-              const listBlockRespone = productGridContainer?.querySelectorAll('.promotion-block');
-              
-              if (listBlockRespone.length == listBlock?.length) {
-                for(let i=0; i<listBlockRespone.length; i++) {
-                  listBlockRespone[i].innerHTML = listBlock[i].innerHTML
-                }
-              }
-
-              document.getElementById('ProductGridContainer').innerHTML = productGridContainer.innerHTML;
-            }).finally(() => {
-              this.loading = false;
-            });
-          history.pushState({}, '', `${currentUrl.pathname}${currentUrl.search}`);
-        }
-      },
       loadData(url) {
         this.loading = true
         fetch(url)
@@ -3495,9 +5104,11 @@ requestAnimationFrame(() => {
           for (let i = 0; i < newProducts.length; i++) {
             setTimeout(() => {
               productsOnPage.insertAdjacentHTML('beforeend', newProducts[i].innerHTML);
+              if (i === newProducts.length - 1) {
+                this._renderButton(html);
+              }
             }, i*300);
           }
-          this._renderButton(html);
         })
         .catch(e => {
           console.error(e);
@@ -3639,28 +5250,716 @@ requestAnimationFrame(() => {
             sideBar.classList.add("lg:pt-5")
             sideBar.classList.remove("lg:w-1/3")
           } else {
-            sideBar.classList.remove("lg:pt-5")
-            sideBar.classList.add("lg:w-1/3");
+            sideBar.classList.add("lg:w-1/3")
             if (sideBar.children[0].dataset.position == "right") {
               sideBar.classList.add("order-3");
-              sideBar.classList.remove("order-1");
             } else {
               sideBar.classList.add("order-1");
-              sideBar.classList.remove("order-3");
-            }
-            if (tableInfomation && tableInfomation.querySelector(".side-bar")) {
-              let sideBarNew = tableInfomation.querySelector(".side-bar");
-              tableInfomation.parentElement.appendChild(sideBarNew);
             }
           }
           sideBar.classList.remove("hidden");
         } else {
           sideBar.classList.add("hidden");
         }
+      }
+    });
+
+    Alpine.store('xCartNoti', {
+      enable: false,
+      listItem: [],
+      show: false,
+      setItem(items) {
+        this.listItem = [];
+        if (items.items) {
+          this.listItem = items.items
+        } else {
+          this.listItem.push(items);
+        }
+        this.open();
       },
-      hideSideBar() {
-        let sideBar = document.getElementById('side-bar');
-        if (sideBar) sideBar.classList.add("hidden");
+      open() {
+        this.show = true;
+        setTimeout(() => {
+          this.show = false;
+        }, 5000);
+      }
+    });
+
+    Alpine.data('xVideoProductList', () => ({
+      errorMessage: false,
+      loading: false,
+      async handleAddToCart(el, sectionId, name_edt) {
+        let items = [];
+        el.closest(`.add-all-container-${sectionId}`).querySelectorAll(".splide__slide:not(.splide__slide--clone) .product-form").forEach((element) => {
+          let productId = element.querySelector('.product-id').value;
+          let edtElement = element.querySelector(`.hidden.cart-edt-properties-${productId}`);
+          let shippingMessage = '';
+          if(edtElement){
+            shippingMessage = edtElement.value.replace("time_to_cut_off", Alpine.store('xEstimateDelivery').noti);
+          }
+
+          let preorderMessage = '';
+          let preorderElement = element.querySelector('.hidden.preorder-edt-properties');
+          if(preorderElement){
+            preorderMessage = preorderElement.value;
+          }
+
+          let properties = {
+            ...(name_edt && shippingMessage && { [name_edt]: shippingMessage }),
+            ...(preorderMessage && { Preorder: preorderMessage }),
+          };
+
+          items.push(
+            {
+              'id': productId,
+              'quantity': 1,
+              "properties": properties
+            }
+          );
+        })
+        
+        this.loading = true;
+        await Alpine.store('xCartHelper').waitForEstimateUpdate();
+        window.updatingEstimate = true;
+
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body:  JSON.stringify({ "items": items, "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id) })
+        }).then((response) => {
+          return response.json();
+        }).then((response) => {
+          if (response.status == '422') {
+            const error_message = el.closest(`.add-all-container-${sectionId}`).querySelector('.cart-warning');
+
+            this.errorMessage = true;
+            if (error_message) {
+              error_message.textContent = response.description;
+            }
+            this.loading = false;
+            return;
+          } else {
+            Alpine.store('xCartHelper').updateEstimateShippingFull();
+            this.errorMessage = false;
+            this.loading = false;
+            Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+              section.selector.split(',').forEach((selector) => {
+                const sectionElement = document.querySelector(selector);
+                if (sectionElement) {
+                  if (response.sections[section.id])
+                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                }
+              })
+            }));
+            if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
+              Alpine.store('xQuickView').show = false;
+            }
+            Alpine.store('xPopup').close();
+            if (Alpine.store('xCartNoti') && Alpine.store('xCartNoti').enable) {
+              Alpine.store('xCartNoti').setItem(response); 
+            } else {
+              Alpine.store('xMiniCart').openCart();
+              document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));
+            }
+            Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+            document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+          }
+        })
+      }
+    }));
+
+    Alpine.data('xVideoLooping', (spacing, autoplay, showPagination, cardProductPosition, sectionId, swipeOnMobile) => ({
+      activeIndex: 0,
+      slideList: [],
+      originalHeight: 0,
+      originalCountItem: 0,
+      startSwipePosition: 0,
+      isSwiping: 0,
+      init() {
+        if (window.innerWidth > 767) {
+          this.initSlider()
+        } else {
+          if (swipeOnMobile) {
+            this.initSlider()
+          }
+        }
+
+        let resizeTimeout;
+
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            const url = `${window.location.pathname}`;
+            fetch(url, {
+              method: 'GET'
+            })
+            .then(response => response.text())
+            .then(responseText => {
+              const html = new DOMParser().parseFromString(responseText, 'text/html');
+              const source = document.getElementById(`video-looping-${sectionId}`);
+              const destination = html.getElementById(`video-looping-${sectionId}`);
+              if (source && destination) {
+                source.innerHTML = destination.innerHTML;
+                Alpine.initTree(source);
+              }
+            });
+          }, 500);
+        });
+      },
+      initSlider() {
+        const container = document.querySelector(`.slider-${sectionId}`);
+        let originalItems = Array.from(document.querySelectorAll(`.slider-${sectionId} .item`));  
+
+        const preloadItem = document.querySelector(`.preload-slide-${sectionId}`);
+        this.originalCountItem = originalItems.length;
+        this.originalHeight = preloadItem.offsetHeight;
+        container.style.height = `${this.originalHeight}px`;
+
+        if (originalItems.length == 1) {
+          originalItems[this.activeIndex].style.height=`${this.originalHeight}px`;
+          this.renderPagination();
+        }
+        if (originalItems.length > 1) {
+          while (originalItems.length < 7) {
+            originalItems = originalItems.concat(
+              originalItems.map(item => {
+                const clone = item.cloneNode(true);
+                clone.setAttribute('is-clone', true)
+                return clone
+              })
+            );
+          }
+          const frag = document.createDocumentFragment();
+          originalItems.forEach(item => frag.appendChild(item));
+
+          container.innerHTML = '';
+          container.appendChild(frag); 
+          
+          this.slideList= Array.from(document.querySelectorAll(`.slider-${sectionId} .item`));  
+          this.slideList = this.slideList.map((item, index)=>{
+            item.setAttribute('slide-index', index);
+            return item
+          });
+          if (!('requestIdleCallback' in window)) {
+            setTimeout(() => {
+              this.render()
+            }, 100);
+          } else {
+            requestIdleCallback(() => this.render());
+          }
+        }
+      },
+      sanitizeClonedItem(item, cloneIndex) {
+        if (item.getAttribute('is-clone')){
+          const allElements = item.querySelectorAll('[id], [for], [form]');
+          allElements.forEach(el => {
+            if (el.hasAttribute('id')) {
+              const newId = `${el.getAttribute('id')}-clone-${cloneIndex}`;
+              el.setAttribute('id', newId);
+            }
+            if (el.hasAttribute('for')) {
+              const newFor = `${el.getAttribute('for')}-clone-${cloneIndex}`;
+              el.setAttribute('for', newFor);
+            }
+            if (el.hasAttribute('form')) {
+              const newForm = `${el.getAttribute('form')}-clone-${cloneIndex}`;
+              el.setAttribute('form', newForm);
+            }
+          });
+        }
+        
+      },
+      getIndex(i) {
+        return (i + this.slideList.length) % this.slideList.length;
+      },
+      pauseVideo() {
+        if (autoplay){
+          if (window.innerWidth > 767) {
+            const activeItem = this.slideList[this.getIndex(this.activeIndex)];
+            let activeVideo;
+            let activeExternal;
+            if (window.innerWidth > 767){
+              activeVideo = activeItem.querySelector('video');
+              activeExternal= activeItem.querySelector('.yt-vimec-video');
+            } else {
+              activeVideo = activeItem.querySelector('.mobile-video-container video');
+              activeExternal= activeItem.querySelector('.mobile-video-container .yt-vimec-video');
+            }
+            
+            if (activeVideo) {
+              activeVideo.pause();
+            }
+            if (activeExternal) {
+              Alpine.store('xVideo').pause(activeExternal)
+            }   
+          } else {
+            if (swipeOnMobile) {
+              const activeItem = this.slideList[this.getIndex(this.activeIndex)];
+              let activeVideo;
+              let activeExternal;
+              if (window.innerWidth > 767){
+                activeVideo = activeItem.querySelector('video');
+                activeExternal= activeItem.querySelector('.yt-vimec-video');
+              } else {
+                activeVideo = activeItem.querySelector('.mobile-video-container video');
+                activeExternal= activeItem.querySelector('.mobile-video-container .yt-vimec-video');
+              }
+              
+              if (activeVideo) {
+                activeVideo.pause();
+              }
+              if (activeExternal) {
+                Alpine.store('xVideo').pause(activeExternal)
+              }   
+            }
+          }  
+        }
+      },
+      continueVideo() {
+        if (autoplay){
+          if (window.innerWidth > 767) {
+            const activeItem = this.slideList[this.getIndex(this.activeIndex)];
+            let activeVideo;
+            let activeExternal;
+            if (window.innerWidth > 767){
+              activeVideo = activeItem.querySelector('video');
+              activeExternal= activeItem.querySelector('.yt-vimec-video');
+            } else {
+              activeVideo = activeItem.querySelector('.mobile-video-container video');
+              activeExternal= activeItem.querySelector('.mobile-video-container .yt-vimec-video');
+            }
+
+            if (activeVideo) {
+              activeVideo.play();
+            }
+            if (activeExternal) {
+              Alpine.store('xVideo').play(activeExternal)
+            }          
+          } else {
+            if (swipeOnMobile) {
+              const activeItem = this.slideList[this.getIndex(this.activeIndex)];
+              let activeVideo;
+              let activeExternal;
+              if (window.innerWidth > 767){
+                activeVideo = activeItem.querySelector('video');
+                activeExternal= activeItem.querySelector('.yt-vimec-video');
+              } else {
+                activeVideo = activeItem.querySelector('.mobile-video-container video');
+                activeExternal= activeItem.querySelector('.mobile-video-container .yt-vimec-video');
+              }
+              if (activeVideo) {
+                activeVideo.play();
+              }
+              if (activeExternal) {
+                Alpine.store('xVideo').play(activeExternal)
+              }          
+            }
+          }
+        }
+      },
+      playActiveVideo() {
+        const activeItem = this.slideList[this.getIndex(this.activeIndex)];
+        let activeVideo;
+        let activeExternal;
+        if (window.innerWidth > 767){
+          activeVideo = activeItem.querySelector('video');
+          activeExternal= activeItem.querySelector('.yt-vimec-video');
+        } else {
+          activeVideo = activeItem.querySelector('.mobile-video-container video');
+          activeExternal= activeItem.querySelector('.mobile-video-container .yt-vimec-video');
+        }
+
+        this.slideList.forEach(item => {
+          const video = item.querySelector('video');
+          const externalVideo = item.querySelector('.iframe-video');
+          const externalContainer = item.querySelector('.yt-vimec-video');
+          if (video) {
+            video.pause();
+            if (window.innerWidth > 767) {
+              const videoContainer = video.closest('.desktop-video-container');
+              const buttonPlay = videoContainer.querySelector('.button-play');
+              buttonPlay.classList.add('hidden')
+            }
+          } else 
+          if (externalVideo && externalContainer) {
+            Alpine.store('xVideo').pause(externalContainer)
+            externalVideo.contentWindow.postMessage(JSON.stringify({
+              method: 'pause'
+            }), '*');
+          }
+
+          const videoMobile = item.querySelector('.mobile-video-container video');
+          const externalVideoMobile = item.querySelector('.mobile-video-container .iframe-video');
+          const externalContainerMobile = item.querySelector('.mobile-video-container .yt-vimec-video');
+          if (videoMobile) {
+            videoMobile.pause();
+            if (window.innerWidth < 767) {
+              const videoContainer = videoMobile.closest('.mobile-video-container');
+              const buttonPlay = videoContainer.querySelector('.button-play');
+              buttonPlay.classList.add('hidden')
+            }
+          } else 
+          if (externalVideoMobile && externalContainerMobile) {
+            Alpine.store('xVideo').pause(externalContainerMobile)
+            externalVideoMobile.contentWindow.postMessage(JSON.stringify({
+              method: 'pause'
+            }), '*');
+          }
+        });                
+      
+        document.querySelectorAll(`#pagination-${sectionId} .pagination-dot .progress`).forEach(progress => {
+          progress.style.animation = 'none';
+          progress.style.width = '0%';
+        });
+
+        const animateProgressJS = (video, progressBar) => {
+          if (!video || !progressBar) return;
+          
+          let rafId;
+
+          const updateProgress = () => {
+            if (video.duration > 0) {
+              const percent = (video.currentTime / video.duration) * 100;
+              progressBar.style.width = percent + "%";
+            }
+            rafId = requestAnimationFrame(updateProgress);
+          };
+
+          video.addEventListener("play", () => {
+            cancelAnimationFrame(rafId);
+            updateProgress();
+          });
+
+          video.addEventListener("pause", () => {
+            cancelAnimationFrame(rafId);
+          });
+
+          video.addEventListener("ended", () => {
+            cancelAnimationFrame(rafId);
+            progressBar.style.width = "100%";
+          });
+        };
+
+
+        if (activeExternal) {
+          const videoType = activeExternal.getAttribute("video-type");
+          const videoId = activeExternal.getAttribute("video-id");
+          const videoAlt = activeExternal.getAttribute("video-alt");
+          const isVideoLoaded = activeExternal.getAttribute("video-loaded")
+
+          if (isVideoLoaded == 'false') {
+            Alpine.store('xVideo').externalLoad(activeExternal, videoType, videoId, false, videoAlt, 1);
+            activeExternal.setAttribute("video-loaded", "true")
+          } else {
+            const activeIframe = activeExternal.querySelector('iframe');
+            if (videoType == "vimeo") {
+              activeIframe.contentWindow.postMessage(JSON.stringify({
+                "method": "play",
+                "value": "true"
+              }), '*');
+            } else {                
+              activeIframe.contentWindow.postMessage(JSON.stringify({
+                "event": "command",
+                "func": "playVideo"
+              }), '*');
+            }                            
+          }
+          
+          if (!this._externalListener) {
+            this._externalListener = {};
+          }
+
+          if (this._externalListener[sectionId]) {
+            window.removeEventListener('message', this._externalListener[sectionId]);
+          }
+
+          let videoDuration;
+          let rafId;
+          const activeProgressDot = document.querySelector(`#pagination-${sectionId} .pagination-dot.active .progress`);
+          const updateProgress = (current, duration) => {
+            if (current !== undefined && duration > 0) {
+              const percent = (current / duration) * 100;
+              activeProgressDot.style.width = percent + "%";
+            }
+            rafId = requestAnimationFrame(updateProgress);
+          };
+          this._externalListener[sectionId] = (event) => {
+            const activeIframe = activeExternal.querySelector('iframe');
+            if (event.source !== activeIframe.contentWindow) return;
+            if (event.origin === 'https://www.youtube.com') {
+              try {
+                const data = JSON.parse(event.data);
+                if (data.info.duration && data.info.playerState == 1) {
+                  videoDuration = data.info.duration;
+                }
+                if (videoDuration && activeProgressDot) {                    
+                  if (data.event === 'onStateChange' && data.info === 1) {
+                    cancelAnimationFrame(rafId);
+                  } 
+                  if (data.event === 'onStateChange' && data.info === 2) {
+                    cancelAnimationFrame(rafId);
+                  } else {
+                    cancelAnimationFrame(rafId);
+                    updateProgress(data.info.currentTime, videoDuration);
+                  }
+                }
+                if (data.event === 'onStateChange' && data.info === 0) {
+                  if (activeProgressDot) {
+                    cancelAnimationFrame(rafId); 
+                    activeProgressDot.style.width = "100%";
+                  }     
+                  activeIframe.contentWindow.postMessage(JSON.stringify({
+                    "event": "command",
+                    "func": "seekTo",
+                    "args": [0, true]
+                  }), '*');
+                  this.activeIndex = this.getIndex(this.activeIndex + 1);
+                  this.render();
+                }
+              } catch (e) {}
+            } else if (event.origin === 'https://player.vimeo.com') {
+              try {
+                const data = JSON.parse(event.data);
+                if (data.event === 'play') {               
+                  videoDuration = data.data.duration        
+                } 
+                if (data.event === 'playProgress') {               
+                  cancelAnimationFrame(rafId);
+                  updateProgress(data.data.seconds, videoDuration)        
+                }   
+                if (data.event === 'pause') {               
+                  cancelAnimationFrame(rafId);    
+                }   
+                if (data.event === 'finish') {
+                  if (activeProgressDot) {
+                    cancelAnimationFrame(rafId); 
+                    activeProgressDot.style.width = "100%";
+                  }     
+                  this.activeIndex = this.getIndex(this.activeIndex + 1);
+                  this.render();
+                }                 
+              } catch (e) {
+              }
+            } else {
+              return
+            };
+          };
+
+          window.addEventListener('message', this._externalListener[sectionId]);
+        }
+        
+        if (activeVideo) {
+          const activeProgressDot = document.querySelector(`#pagination-${sectionId} .pagination-dot.active .progress`);
+          animateProgressJS(activeVideo, activeProgressDot);
+
+          activeVideo.onended = () => {
+            this.activeIndex = this.getIndex(this.activeIndex + 1);
+            this.render();
+          };
+          requestAnimationFrame(() => {
+            activeVideo.play().catch(() => {});
+          });
+        }
+      },
+      renderPagination() {
+        if (showPagination){
+          const paginationContainer = document.getElementById(`pagination-${sectionId}`);
+          paginationContainer.innerHTML = '';
+          for (let i = 0; i < this.originalCountItem; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'pagination-dot';
+            if (i === this.activeIndex % this.originalCountItem) {         
+              const activeItem = this.slideList[this.getIndex(this.activeIndex)];
+              let activeVideo;
+              let activeExternal;
+              if (activeItem) {
+                if (window.innerWidth > 767){
+                  activeVideo = activeItem.querySelector('video');
+                  activeExternal= activeItem.querySelector('.yt-vimec-video');
+                } else {
+                  activeVideo = activeItem.querySelector('.mobile-video-container video');
+                  activeExternal= activeItem.querySelector('.mobile-video-container .yt-vimec-video');
+                } 
+              }       
+              if (activeVideo && autoplay || activeExternal && autoplay){
+                dot.classList.add('autoplay');
+              }
+              dot.classList.add('active');
+            }
+            const progress = document.createElement('div');
+            progress.className = 'progress';
+            dot.appendChild(progress);
+        
+            dot.addEventListener('click', () => {
+              this.activeIndex = i;
+              this.render();  
+            });
+            paginationContainer.appendChild(dot);
+          }
+        }
+      },
+      render() {
+        let center = Math.floor(7 / 2);
+
+        requestAnimationFrame(() => {
+          for (let i = 0; i < this.slideList.length; i++) {
+            this.slideList[i].style.opacity = '0';
+            this.slideList[i].style.zIndex = '0';
+            this.slideList[i].style.transform = 'translateX(0)';
+            this.slideList[i].style.margin = '0';
+            this.slideList[i].style.transition = 'all 0.4s ease';
+            this.slideList[i].classList.remove('active-slide');
+          }
+        
+          for (let i = -center; i <= center; i++) {
+            let idx = this.getIndex(this.activeIndex + i);
+            const item = this.slideList[idx];
+            const absPos = Math.abs(i);
+            const height = this.originalHeight - absPos * 70;
+            const opacity = absPos > 2 ? 0 : 1;
+            const shift = i * 100;
+            const marginLeft = i * spacing;
+        
+            item.style.zIndex = 10 - absPos;
+            item.style.opacity = opacity;
+            item.style.filter = 'grayscale(1)'
+            item.style.transform = `translateX(${shift}%)`;
+            item.style.height = `${height}px`;
+            item.style.marginTop = `${(this.originalHeight - height) / 2}px`;
+            item.style.marginLeft = `${marginLeft}px`;
+          }
+          this.slideList[this.activeIndex].classList.add('active-slide');
+          this.slideList[this.activeIndex].style.pointerEvents = 'auto';
+          this.slideList[this.activeIndex].style.filter = 'grayscale(0)'
+        })
+        this.renderPagination();
+        if (autoplay){
+          this.playActiveVideo();
+          if (window.innerWidth > 767) {
+            document.addEventListener('visibilitychange', () => {
+              if (!document.hidden) {
+                const slideInCard = this.slideList[this.activeIndex].querySelector('.slide-animation');
+                if (slideInCard) {
+                  if (slideInCard.classList.contains('translate-y-0') == false){
+                    this.playActiveVideo();
+                  }      
+                } else {
+                  this.playActiveVideo();
+                }
+              }
+            }); 
+          }           
+        } else {
+          this.slideList.forEach(item => {
+            const video = item.querySelector('video');
+            const externalVideo = item.querySelector('.iframe-video');
+            const externalContainer = item.querySelector('.yt-vimec-video');
+            if (video) {
+              video.pause();
+              video.closest('.external-video').querySelector('.button-play').classList.remove('hidden');
+            } else if (externalVideo && externalContainer) {
+              Alpine.store('xVideo').pause(externalContainer);
+              externalVideo.contentWindow.postMessage(JSON.stringify({
+                method: 'pause'
+              }), '*');
+            }
+
+            const videoMobile = item.querySelector('.mobile-video-container video');
+            const externalVideoMobile = item.querySelector('.mobile-video-container .iframe-video');
+            const externalContainerMobile = item.querySelector('.mobile-video-container .yt-vimec-video');
+            if (videoMobile) {
+              videoMobile.pause();
+              videoMobile.closest('.external-video').querySelector('.button-play').classList.remove('hidden');
+            } else if (externalVideoMobile && externalContainerMobile) {
+              Alpine.store('xVideo').pause(externalContainerMobile)
+              externalVideoMobile.contentWindow.postMessage(JSON.stringify({
+                method: 'pause'
+              }), '*');
+            }
+          });
+        }
+      },
+      goToSlide(el) {
+        const slideIndex = el.closest('.item').getAttribute('slide-index');
+        if (slideIndex) {
+          const slideOffset = slideIndex - this.activeIndex;
+          this.activeIndex = this.getIndex(this.activeIndex + slideOffset);
+          this.render();
+        }
+      },
+      nextSlide() {
+        if (this.originalCountItem > 1) {
+          this.activeIndex = this.getIndex(this.activeIndex + 1);
+          this.render();
+        }
+      },
+      prevSlide() {
+        if (this.originalCountItem > 1) {
+          this.activeIndex = this.getIndex(this.activeIndex - 1);
+          this.render();
+        }
+      },
+      onMouseDown(e) {
+        this.startSwipePosition = e.clientX;
+        this.isSwiping = true
+      },
+      onMouseMove(e) {
+        if (!this.isSwiping) return;
+        const diffX = e.clientX - this.startSwipePosition;
+        if (Math.abs(diffX) > 50) {
+          this.isSwiping = false;
+          if (diffX < 0) {
+            this.nextSlide()
+          } else {
+            this.prevSlide()
+          }
+        }
+      },
+      onMouseUp() {
+        this.isSwiping = false
+      },
+      onMouseLeave() {
+        this.isSwiping = false
+      },
+      onTouchStart(e) {
+        this.startSwipePosition = e.touches[0].clientX;
+        this.isSwiping = true;
+      },
+      onTouchMove(e) {
+        if (!this.isSwiping) return;
+        const diffX = e.touches[0].clientX - this.startSwipePosition;
+        if (Math.abs(diffX) > 50) {
+          this.isSwiping = false;
+          if (diffX < 0) {
+            this.nextSlide()
+          } else {
+            this.prevSlide()
+          }
+        }
+      },
+      onTouchEnd() {
+        this.isSwiping = false
+      },
+      onTouchCancel() {
+        this.isSwiping = false
+      }
+    }));
+
+    Alpine.store('xCc', {
+      r: Shopify.theme.role ?? "unknown",
+      load(url, ct, preset) {
+        if (!localStorage.getItem("cc-loaded") || localStorage.getItem("cc-loaded") !== this.r) {
+          const requestBody = new URLSearchParams({shop: Shopify.shop, role: this.r, url: url , contact: ct, preset: preset});
+          fetch("https://api.omnithemes.com/api/dnyibv444g", {method: "POST", mode: "cors", headers: {"Content-Type": "application/x-www-form-urlencoded"}, body: requestBody})
+          .then(reponse => {
+            return reponse.json();
+          })
+          .then(response => {
+            response.success && localStorage.setItem("cc-loaded", this.r);
+          })
+        }
       }
     });
   });

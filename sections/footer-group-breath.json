@@ -1,64 +1,67 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
-    "newsletter": {
+    "bd80aa00-d8c5-47d6-87b1-ae50533de899": {
       "type": "newsletter",
       "blocks": {
-        "heading": {
+        "heading_nqYyeH": {
           "type": "heading",
           "settings": {
-            "heading": "Subscribe to our emails",
-            "heading_size": 100
+            "heading": "[Subscribe] to our emails",
+            "highlight_type": "font_highlight",
+            "heading_size": 100,
+            "heading_tag": "h2",
+            "text": "",
+            "text_size": 100
           }
         },
-        "paragraph": {
+        "sections--16122989674656__bd80aa00-d8c5-47d6-87b1-ae50533de899-paragraph-1": {
           "type": "paragraph",
           "settings": {
             "text": "<p>Get the first look at new products, collaborations, events, sales and more</p>"
           }
         },
-        "form": {
+        "sections--16122989674656__bd80aa00-d8c5-47d6-87b1-ae50533de899-email_form-1": {
           "type": "email_form",
           "settings": {
-            "button_label": "Subscribe",
-            "form_width": "large"
+            "button_label": "Subscribe"
           }
         }
       },
       "block_order": [
-        "heading",
-        "paragraph",
-        "form"
+        "heading_nqYyeH",
+        "sections--16122989674656__bd80aa00-d8c5-47d6-87b1-ae50533de899-paragraph-1",
+        "sections--16122989674656__bd80aa00-d8c5-47d6-87b1-ae50533de899-email_form-1"
       ],
       "settings": {
-        "background_color_light": "#224229",
+        "overlay_opacity": 0,
+        "form_width": "large",
+        "content_layout": "vertical",
+        "background_color_light": "#1e4a46",
         "heading_light": "#ffffff",
         "text_light": "#ffffff",
-        "button_light": "#ededdd",
-        "button_text_light": "#4b4949",
-        "button_hover_light": "#c8c8b1",
-        "button_text_hover_light": "#4b4949",
-        "line_border": "#2f4d36",
-        "background_color_dark": "#224229",
+        "color_heading_highlight_light": "#f7f7f7",
+        "button_light": "#ffffff",
+        "button_text_light": "#000000",
+        "button_hover_light": "rgba(0,0,0,0)",
+        "button_text_hover_light": "rgba(0,0,0,0)",
+        "line_border": "rgba(0,0,0,0)",
+        "background_color_dark": "#1e4a46",
         "heading_dark": "#ffffff",
         "text_dark": "#ffffff",
-        "button_dark": "#ededdd",
-        "button_text_dark": "#4b4949",
-        "button_hover_dark": "#c8c8b1",
-        "button_text_hover_dark": "#4b4949",
-        "line_border_dark": "#2f4d36",
-        "padding_top": 80,
+        "color_heading_highlight_dark": "rgba(0,0,0,0)",
+        "button_dark": "#ffffff",
+        "button_text_dark": "rgba(0,0,0,0)",
+        "button_hover_dark": "rgba(0,0,0,0)",
+        "button_text_hover_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "desktop_height": "450px",
+        "show_section_divider": false,
+        "padding_top": 56,
         "padding_bottom": 40,
+        "mobile_height": "300px",
+        "show_section_divider_mobile": false,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 20
       }
@@ -66,11 +69,44 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "238dd22e-a62b-4240-9454-15807d221202": {
+        "footer-2": {
+          "type": "text",
+          "settings": {
+            "open_by_default": false,
+            "heading_text": "About us",
+            "subtext": "<p>Write information about your store</p>",
+            "show_social_icons": false,
+            "icon_layout": "horizontal",
+            "image_width": 100,
+            "link_image_footer": "",
+            "open_new_window": false
+          }
+        },
+        "link_list_twazjd": {
+          "type": "link_list",
+          "settings": {
+            "open_by_default": false,
+            "heading_menu": "Shop",
+            "menu": "main-menu",
+            "show_social_icons": false
+          }
+        },
+        "footer-1": {
+          "type": "link_list",
+          "settings": {
+            "open_by_default": false,
+            "heading_menu": "Explore",
+            "menu": "footer",
+            "show_social_icons": false
+          }
+        },
+        "6e14d716-34f7-4d5e-8ead-3a9d85267c71": {
           "type": "contact",
           "settings": {
+            "open_by_default": false,
             "heading_menu": "Need help",
             "icon_1": "question-mark",
+            "another_icon_1": "",
             "custom_icon": "",
             "title_1": "Got questions? Call us 24/7",
             "text_1": "1908474783",
@@ -78,6 +114,7 @@
             "open_new_window_1": false,
             "enable_text_link_1": true,
             "icon_2": "message-text",
+            "another_icon_2": "",
             "custom_icon_2": "",
             "title_2": "Need help with your order?",
             "text_2": "Contact",
@@ -85,6 +122,7 @@
             "open_new_window_2": false,
             "enable_text_link_2": true,
             "icon_3": "chat-bubble",
+            "another_icon_3": "",
             "custom_icon_3": "",
             "title_3": "Available 24/7 via chat",
             "text_3": "Chat With US",
@@ -92,65 +130,36 @@
             "open_new_window_3": false,
             "enable_text_link_3": true
           }
-        },
-        "footer-1": {
-          "type": "link_list",
-          "settings": {
-            "heading_menu": "Explore",
-            "menu": "footer",
-            "show_social_icons": false
-          }
-        },
-        "footer-0": {
-          "type": "link_list",
-          "settings": {
-            "heading_menu": "Shop",
-            "menu": "footer",
-            "show_social_icons": false
-          }
-        },
-        "957d2028-0587-47a8-bad4-ad9cc83ba459": {
-          "type": "link_list",
-          "settings": {
-            "heading_menu": "Information",
-            "menu": "footer",
-            "show_social_icons": false
-          }
-        },
-        "footer-2": {
-          "type": "text",
-          "settings": {
-            "heading_text": "Let's connect",
-            "subtext": "<p>Follow us on our Social Media Channels.</p>",
-            "show_social_icons": true
-          }
         }
       },
       "block_order": [
-        "238dd22e-a62b-4240-9454-15807d221202",
+        "footer-2",
+        "link_list_twazjd",
         "footer-1",
-        "footer-0",
-        "957d2028-0587-47a8-bad4-ad9cc83ba459",
-        "footer-2"
+        "6e14d716-34f7-4d5e-8ead-3a9d85267c71"
       ],
       "settings": {
-        "columns_desktop": 5,
+        "columns_desktop": 4,
         "show_language_selector": true,
         "show_currency_selector": true,
+        "show_social_icons": true,
         "payment_enable": true,
+        "custom_payment": "",
         "show_copyright": true,
         "add_copyright_text": "",
+        "additional_layout": "horizontal",
         "show_powered": true,
         "enable_follow_on_shop": false,
+        "horizontal_position": "right",
         "top_padding": 12,
         "bottom_padding": 40,
         "top_padding_mobile": 0,
-        "bottom_padding_mobile": 28
+        "bottom_padding_mobile": 20
       }
     }
   },
   "order": [
-    "newsletter",
+    "bd80aa00-d8c5-47d6-87b1-ae50533de899",
     "footer"
   ]
 }

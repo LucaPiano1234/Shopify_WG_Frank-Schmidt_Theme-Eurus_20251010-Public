@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('recently-viewed.js')) {
-  window.Eurus.loadedScript.push('recently-viewed.js');
+if (!window.Eurus.loadedScript.has('recently-viewed.js')) {
+  window.Eurus.loadedScript.add('recently-viewed.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {

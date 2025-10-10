@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('collage.js')) {
-    window.Eurus.loadedScript.push('collage.js');
+if (!window.Eurus.loadedScript.has('collage.js')) {
+    window.Eurus.loadedScript.add('collage.js');
   
     requestAnimationFrame(() => {
       document.addEventListener('alpine:init', () => {

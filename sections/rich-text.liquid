@@ -41,9 +41,9 @@
 
 {% render 'section-divider' %}
 
-<div class="section--{{ section.id }} relative page-width mx-auto pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
-  <div class="md:flex justify-{{ section.settings.content_alignment }}">
-    <div class="w-full text-{{ section.settings.content_alignment_mobile }} md:text-{{ section.settings.content_alignment }}{% unless section.settings.make_full_page_width %} max-w-4xl{% endunless %}">
+<div class="section--{{ section.id }} relative x-pgw page-width mx-auto pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
+  <div class="md:flex justify-center">
+    <div class="x-container-rich-text w-full{% unless section.settings.make_full_page_width %} max-w-4xl{% endunless %} text-{{ section.settings.content_alignment_mobile }} rtl:text-{% if section.settings.content_alignment_mobile == 'center' %}center{% elsif section.settings.content_alignment_mobile == 'left' %}right{% else %}left{% endif %} md:text-{{ section.settings.content_alignment }} rtl:md:text-{% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'left' %}right{% else %}left{% endif %}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
@@ -52,24 +52,28 @@
                 assign heading_size = settings.heading_base_size | times: block.settings.heading_size | times: 0.000225
               -%}
               {%- style -%} 
-                .heading--{{ block.id }}--{{ section.id }} {
+                .heading-{{ block.id }} {
                   font-size: {{ heading_size | times: 0.6 }}rem; 
                 }
                 @media (min-width: 767px){
-                  .heading--{{ block.id }}--{{ section.id }} {
+                  .heading-{{ block.id }} {
                     font-size: {{ heading_size }}rem; 
                   }
                 }
               {%- endstyle -%}
-              <{{ block.settings.heading_tag }} class="heading-{{ block.id }} p-break-words heading--{{ block.id }}--{{ section.id }} anm-fade-element h2 block pt-2 pb-2 leading-tight" x-intersect.once="$el.classList.add('is-visible')" {{ block.shopify_attributes }}>
+              <div class="heading-{{ block.id }} x-rich-text-header p-break-words" {{ block.shopify_attributes }}>
                 {% render 'heading-highlight',
                   headingId: block.id,
                   heading: block.settings.heading,
                   highlight_type: block.settings.highlight_type,
                   color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
-                  color_heading_highlight_light: section.settings.color_heading_highlight_light
+                  color_heading_highlight_light: section.settings.color_heading_highlight_light,
+                  is_intersect: true,
+                  animation_heading: false,
+                  class: 'h2 block pt-2 pb-2 leading-tight',
+                  heading_tag: block.settings.heading_tag,
                 %}
-              </{{ block.settings.heading_tag }}>
+              </div>
             {%- endif -%}
           {%- when 'caption' -%}
             {%- if block.settings.caption != blank -%}
@@ -88,7 +92,7 @@
               {%- endstyle -%}
               <p 
                 x-intersect.once="$el.classList.add('is-visible')"
-                class="{{ block.settings.text_style }} text-[rgb(var(--colors-text))] anm-fade-element pt-2 pb-2 p-break-words description--{{ block.id }} tracking-widest{% if forloop.index != 1 %} mt-1{% endif %} leading-tight" 
+                class="{{ block.settings.text_style }} x-block-caption text-[rgb(var(--colors-text))] anm-fade-element pt-2 pb-2 p-break-words description--{{ block.id }} tracking-widest{% if forloop.index != 1 %} mt-1{% endif %} leading-tight" 
                 {{ block.shopify_attributes }}
               >
                 {{ block.settings.caption | escape }}
@@ -97,7 +101,7 @@
           {%- when 'text' -%}
             <div 
               x-intersect.once="$el.classList.add('is-visible')"
-              class="p-break-words rte pt-2 pb-2 leading-tight text-[rgb(var(--colors-text))] anm-fade-element" 
+              class="x-block-text p-break-words rte pt-2 pb-2 leading-tight text-[rgb(var(--colors-text))] anm-fade-element" 
               {{ block.shopify_attributes }}
             >
               {%- render 'truncate-text', 
@@ -105,9 +109,7 @@
                 blockID: block.id,
                 content: block.settings.text,
                 read_more_label: block.settings.read_more_label,
-                see_less_label: block.settings.see_less_label,
-                text_alignment_mobile: section.settings.content_alignment_mobile,
-                text_alignment: section.settings.content_alignment
+                see_less_label: block.settings.see_less_label
               -%}
             </div>
           {%- when 'button' -%}
@@ -131,12 +133,12 @@
                 {%- endunless -%}
               }
               .button--{{ block.id }}.button-outline {
-                {%- if block.settings.secondary_button_text.alpha != 0.0 -%} 
+                {%- if block.settings.secondary_button_text.alpha != 0.0 -%}
                   --colors-secondary-button: {{ block.settings.secondary_button_text.red }}, {{ block.settings.secondary_button_text.green }}, {{ block.settings.secondary_button_text.blue }}; 
                   --colors-line-secondary-button: {{ block.settings.secondary_button_text.red }}, {{ block.settings.secondary_button_text.green }}, {{ block.settings.secondary_button_text.blue }}; 
                   --background-secondary-button: transparent;
                 {% endif %}
-                {%- if block.settings.color_button_secondary.alpha != 0.0 -%} 
+                {%- if block.settings.color_button_secondary.alpha != 0.0 -%}
                   --background-secondary-button: {{ block.settings.color_button_secondary.red }}, {{ block.settings.color_button_secondary.green }}, {{ block.settings.color_button_secondary.blue }}; 
                   --colors-line-secondary-button: {{ block.settings.color_button_secondary.red }}, {{ block.settings.color_button_secondary.green }}, {{ block.settings.color_button_secondary.blue }}; 
                 {% endif %}
@@ -149,14 +151,14 @@
             {% endstyle %}
             {% if block.settings.button_label != blank or block.settings.button_label_2 != blank %}
               <div 
-                 x-intersect.once="$el.classList.add('is-visible')"
-                class="w-full anm-fade-element{% if forloop.index != 1 %} mt-2 md:mt-3{% endif %} mb-3{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} inline-flex rtl:flex-row-reverse justify-{{ section.settings.content_alignment_mobile }} md:justify-{{ section.settings.content_alignment }} max-w-[31rem] flex-wrap gap-2{% endif %} p-break-words" 
+                x-intersect.once="$el.classList.add('is-visible')"
+                class="x-block-button w-full anm-fade-element mb-3 p-break-words{% if forloop.index != 1 %} mt-2 md:mt-3{% endif %}{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} inline-flex rtl:flex-row-reverse max-w-[31rem] flex-wrap gap-2{% endif %}"
                 {{ block.shopify_attributes }}
               >
                 {% if block.settings.button_label != blank %}
                   <a
                     {% if block.settings.button_link %} href="{{ block.settings.button_link }}"{% if block.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %}
-                    class="button button--{{ block.id }} py-2.5 px-7 md:px-9 md:py-3{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} text-center inline-block border empty:hidden leading-normal{% unless block.settings.button_link %} hover:cursor-not-allowed opacity-70{% endunless %}"
+                    class="button button--{{ block.id }} py-2.5 px-7 md:px-9 md:py-3{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} text-center inline-block border empty:hidden leading-normal{% unless block.settings.button_link %} hover:cursor-not-allowed disable-btn-animation opacity-70{% endunless %}"
                   >
                     {% render 'button-label', button_label: block.settings.button_label, show_button_style: block.settings.show_button_style_1 %}
                   </a>
@@ -164,7 +166,7 @@
                 {% if block.settings.button_label_2 != blank %}
                   <a
                     {% if block.settings.button_link_2 %} href="{{ block.settings.button_link_2 }}"{% if block.settings.open_new_window_button_2 %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %}
-                    class="button button--{{ block.id }} py-2.5 px-7 md:px-9 md:py-3{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} text-center inline-block border empty:hidden leading-normal{% unless block.settings.button_link_2 %} hover:cursor-not-allowed opacity-70{% endunless %}"
+                    class="button button--{{ block.id }} py-2.5 px-7 md:px-9 md:py-3{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} text-center inline-block border empty:hidden leading-normal{% unless block.settings.button_link_2 %} hover:cursor-not-allowed disable-btn-animation opacity-70{% endunless %}"
                   >
                     {% render 'button-label', button_label: block.settings.button_label_2, show_button_style: block.settings.show_button_style_2 %}
                   </a>
@@ -198,7 +200,7 @@
                 assign video_type = 'video_select'
               endif
             %}
-            <div class="mt-5 mb-5 empty:hidden flex justify-{{ section.settings.content_alignment }}">
+            <div class="x-block-image mt-5 mb-5 empty:hidden flex justify-{{ section.settings.content_alignment_mobile }} md:justify-{{ section.settings.content_alignment }}">
               {%- if block.settings.image != blank and video_type == false -%}
                 {%- capture sizes -%}
                   (min-width: {{ settings.page_width }}px) {{ block.settings.media_size | times: settings.page_width | divided_by: 100 | times: 1.1 | ceil }}px ,(min-width: 768px) {{ block.settings.media_size }}vw, 100vw
@@ -206,18 +208,31 @@
                 <div class="width-{{ block.id }} overflow-hidden{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
                   {% liquid
                     assign image_width = block.settings.media_size | times: settings.page_width | divided_by: 100 | times: 1.1 | ceil
-                    assign width_tag = '375, 450, 750, 900, 1100, 1500, 1780, ' | append:  image_width
+                    assign width_tag = '375, 450, 750, 900, 1100, 1500, 1780, ' | append: image_width
+                    if settings.enable_lazy_loading_image
+                      assign loading = 'lazy'
+                    else
+                      assign loading = 'eager'
+                    endif
                   %}
-                  {{ block.settings.image | image_url: width: 1780 | image_tag: loading: "lazy", sizes: sizes, widths: width_tag, class: 'w-full image-hover' }}
+                  {{ block.settings.image | image_url: width: 1780 | image_tag: loading: loading, sizes: sizes, widths: width_tag, class: 'w-full image-hover' }}
                 </div>
               {%- elsif video_type -%}
                 <div class="flex items-center w-full width-{{ block.id }}">
                   <div class="relative external-video w-full overflow-hidden {% unless video_type == 'video_select' %}{{ ratio_video }}{% endunless %}{% if block.settings.enable_video_autoplay %} video-hero{% endif %}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% else %} rounded-none{% endif %}" 
                     x-intersect:leave="$store.xVideo.pause($el)"
                     {% if block.settings.enable_video_autoplay %}
-                    x-intersect="$store.xVideo.play($el)"
+                      @click.stop="$store.xVideo.togglePlay($el)"
+                      {% if video_type == 'video_select' %}x-intersect="$store.xVideo.play($el)"{% endif %}
+                      {% if video_type == 'youtube' or video_type == 'vimeo' %}
+                        x-intersect.once="$store.xVideo.externalLoad($el, '{{ video_type }}', '{{ video_id }}', false, '{{ video_alt }}')"
+                        x-intersect="$store.xVideo.play($el)"
+                      {% endif %}
+                    {% else %}
+                      {% if video_type == 'video_select' %}@click.prevent="$store.xVideo.mp4Thumbnail($el)"{% endif %}
+                      {% if video_type == 'youtube' or video_type == 'vimeo' %}@click.prevent="$store.xVideo.externalLoad($el, '{{ video_type }}', '{{ video_id }}', false, '{{ video_alt }}')"{% endif %}
                     {% endif %}
-                    {% if video_type == 'video_select' %}
+                  {% if video_type == 'video_select' %}
                       style="padding-bottom: {{ 1 | divided_by: block.settings.video.aspect_ratio | times: 100 }}%;"
                     {% endif %}
                   >
@@ -253,15 +268,13 @@
   },
   "settings": [
     {
-      "type": "color",
-      "id": "heading_light",
-      "label": "t:sections.all.text.color_heading_light",
-      "default": "rgba(0,0,0,0)"
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.section_and_blocks.rich_text"
     },
     {
       "type": "color",
-      "id": "text_light",
-      "label": "t:sections.all.text.color",
+      "id": "heading_light",
+      "label": "t:sections.all.text.color_heading_light",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -272,8 +285,14 @@
     },
     {
       "type": "color",
+      "id": "text_light",
+      "label": "t:sections.all.text.color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
       "id": "background_color_light",
-      "label": "t:sections.rich-text.settings.background_color_light.label",
+      "label": "t:sections.all.background.background_color_light",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -284,20 +303,20 @@
     },
     {
       "type": "color",
-      "id": "text_dark",
-      "label": "t:sections.all.text.color_dark",
-      "default": "rgba(0,0,0,0)"
-    },
-    {
-      "type": "color",
       "id": "color_heading_highlight_dark",
       "label": "t:sections.all.text.color_heading_highlight_dark",
       "default": "rgba(0,0,0,0)"
     },
     {
       "type": "color",
+      "id": "text_dark",
+      "label": "t:sections.all.text.color_dark",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
       "id": "background_color_dark",
-      "label": "t:sections.rich-text.settings.background_color_dark.label",
+      "label": "t:sections.all.background.background_color_dark",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -310,25 +329,25 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.rich-text.settings.content_alignment.options__1.label"
+          "label": "t:sections.all.content_alignment.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:sections.rich-text.settings.content_alignment.options__2.label"
+          "label": "t:sections.all.content_alignment.options__2.label"
         },
         {
           "value": "right",
-          "label": "t:sections.rich-text.settings.content_alignment.options__3.label"
+          "label": "t:sections.all.content_alignment.options__3.label"
         }
       ],
       "default": "center",
-      "label": "t:sections.rich-text.settings.content_alignment.label"
+      "label": "t:sections.all.content_alignment.label"
     },
     {
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.rich-text.settings.show_section_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "checkbox",
@@ -366,25 +385,25 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.rich-text.settings.content_alignment.options__1.label"
+          "label": "t:sections.all.content_alignment.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:sections.rich-text.settings.content_alignment.options__2.label"
+          "label": "t:sections.all.content_alignment.options__2.label"
         },
         {
           "value": "right",
-          "label": "t:sections.rich-text.settings.content_alignment.options__3.label"
+          "label": "t:sections.all.content_alignment.options__3.label"
         }
       ],
       "default": "center",
-      "label": "t:sections.rich-text.settings.content_alignment.label"
+      "label": "t:sections.all.content_alignment.label"
     },
     {
       "id": "show_section_divider_mobile",
       "type": "checkbox",
       "default": false,
-      "label": "t:sections.collage.settings.show_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -486,7 +505,7 @@
     },
     {
       "type": "caption",
-      "name": "t:sections.rich-text.blocks.caption.name",
+      "name": "t:sections.testimonials.block_author.label",
       "limit": 3,
       "settings": [
         {
@@ -505,7 +524,7 @@
             },
             {
               "value": "uppercase",
-              "label": "t:sections.rich-text.blocks.caption.settings.text_style.options__2.label"
+              "label": "t:settings_schema.typography.uppercase"
             }
           ],
           "default": "uppercase",
@@ -519,7 +538,7 @@
           "unit": "%",
           "step": 10,
           "default": 100,
-          "label": "t:sections.rich-text.blocks.caption.settings.caption_size.label"
+          "label": "t:sections.all.text.text_size"
         }
       ]
     },
@@ -532,7 +551,7 @@
           "type": "richtext",
           "id": "text",
           "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
-          "label": "t:sections.rich-text.blocks.text.settings.text.label"
+          "label": "t:settings_schema.seo.business_description.label"
         },
         {
           "type": "select",
@@ -563,32 +582,34 @@
           "type": "text",
           "id": "read_more_label",
           "default": "Read more",
-          "label": "t:sections.all.read_more_label.label"
+          "label": "t:sections.all.read_more_label.label",
+          "visible_if": "{{ block.settings.number_of_lines_shown != 'none' }}"
         },
         {
           "type": "text",
           "id": "see_less_label",
           "default": "See less",
-          "label": "t:sections.all.see_less_label.label"
+          "label": "t:sections.all.see_less_label.label",
+          "visible_if": "{{ block.settings.number_of_lines_shown != 'none' }}"
         }
       ]
     },
     {
       "type": "button",
-      "name": "t:sections.rich-text.blocks.buttons.name",
+      "name": "t:settings_schema.colors.settings.header__2.content",
       "limit": 2,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
           "default": "Button label",
-          "label": "t:sections.rich-text.blocks.buttons.settings.button_label_1.label",
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_label.label",
           "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "t:sections.rich-text.blocks.buttons.settings.button_link_1.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_link.label"
         },
         {
           "type": "checkbox",
@@ -610,7 +631,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -619,19 +640,19 @@
         {
           "type": "text",
           "id": "button_label_2",
-          "label": "t:sections.rich-text.blocks.buttons.settings.button_label_2.label",
-          "info": "t:sections.rich-text.blocks.buttons.settings.button_label_2.info"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_label_2.label",
+          "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_link_2.label"
         },
         {
           "type": "checkbox",
           "id": "open_new_window_button_2",
           "default": false,
           "label": "t:sections.all.open_new_window.label"
-        },
-        {
-          "type": "url",
-          "id": "button_link_2",
-          "label": "t:sections.rich-text.blocks.buttons.settings.button_link_2.label"
         },
         {
           "type": "select",
@@ -647,7 +668,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -661,14 +682,14 @@
         },
         {
           "type": "color",
-          "id": "color_button_hover",
-          "label": "t:sections.all.button.color_button_hover",
+          "id": "color_text_button",
+          "label": "t:sections.all.button.color_text_button",
           "default": "rgba(0,0,0,0)"
         },
         {
           "type": "color",
-          "id": "color_text_button",
-          "label": "t:sections.all.button.color_text_button",
+          "id": "color_button_hover",
+          "label": "t:sections.all.button.color_button_hover",
           "default": "rgba(0,0,0,0)"
         },
         {
@@ -699,17 +720,17 @@
     },
     {
       "type": "media",
-      "name": "t:sections.media-gallery.blocks.media.name",
+      "name": "t:sections.featured-product.settings.header.content",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "t:sections.promotion-grid.blocks.promotion.settings.image.label"
+          "label": "t:sections.all.image.label"
         },
         {
           "type": "video",
           "id": "video",
-          "label": "t:sections.video.settings.video_hosted.label"
+          "label": "t:sections.video.name"
         },
         {
           "type": "checkbox",
@@ -740,8 +761,8 @@
           "type": "checkbox",
           "id": "enable_video_autoplay",
           "default": true,
-          "label": "t:sections.promotion-grid.blocks.promotion.settings.enable_video_autoplay.label",
-          "info": "t:sections.promotion-grid.blocks.promotion.settings.enable_video_autoplay.info"
+          "label": "t:sections.featured-product.settings.enable_video_autoplay.label",
+          "info": "t:sections.featured-product.settings.enable_video_autoplay.info"
         },
         {
           "type": "text",
@@ -763,7 +784,8 @@
   ],
   "presets": [
     {
-      "name": "t:sections.rich-text.presets.name",
+      "name": "t:sections.rich-text.name",
+      "category": "t:categories.storytelling",
       "blocks": [
         {
           "type": "heading"

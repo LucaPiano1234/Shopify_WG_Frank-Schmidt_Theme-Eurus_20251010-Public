@@ -1,4 +1,4 @@
-<div class="{% if section.settings.include_margins %}page-width{% endif %}">
+<div class="{% if section.settings.include_margins %}x-pgw page-width{% endif %}">
   {%- for block in section.blocks -%}
     {% render block %}
   {%- endfor -%}
@@ -8,7 +8,7 @@
 {
   "name": "t:sections.apps.name",
   "tag": "section",
-  "class": "section x-section",
+  "class": "section x-section section-apps",
   "settings": [
     {
       "type": "checkbox",
@@ -24,7 +24,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.apps.presets.name"
+      "name": "t:sections.apps.name"
     }
   ]
 }

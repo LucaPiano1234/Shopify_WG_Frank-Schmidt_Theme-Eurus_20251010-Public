@@ -14,6 +14,13 @@
       assign ratio = 1.33
   endcase
   assign content_alignment = settings.info_alignment_card_product
+  if settings.lang_direction contains request.locale.iso_code
+    if content_alignment == 'left'
+      assign content_alignment = 'right'
+    elsif content_alignment == 'right'
+      assign content_alignment = 'left'
+    endif
+  endif
   assign show_rounded_image = false
   if settings.edges_type == 'rounded_corners'
     assign show_rounded_image = true

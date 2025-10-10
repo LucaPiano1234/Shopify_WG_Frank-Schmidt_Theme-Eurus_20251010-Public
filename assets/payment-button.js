@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('payment-button.js')) {
-  window.Eurus.loadedScript.push('payment-button.js');
+if (!window.Eurus.loadedScript.has('payment-button.js')) {
+  window.Eurus.loadedScript.add('payment-button.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {

@@ -36,7 +36,7 @@
         {{ content | replace: '<iframe ', '<iframe loading="lazy" ' }}
       </div>
 
-      <div class="gradient block" :class="expanded ? 'hidden' : 'block'"></div>
+      <div class="{% if gradient_style == 'secondary' %}gradient-secondary {% else %}gradient {% endif %}block" :class="expanded ? 'hidden' : 'block'"></div>
     </div>
     <template 
       x-if="truncatable" x-show="truncatable"

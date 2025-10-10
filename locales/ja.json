@@ -1,14 +1,9 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin language editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "general": {
+    "theme-mode": {
+      "light": "明るい",
+      "dark": "暗い"
+    },
     "global": {
       "cancel": "取り消す",
       "copy_code": "コードをコピーする",
@@ -23,7 +18,7 @@
     },
     "preorder": {
       "name": "予約注文",
-      "message_preorder": "This product is pre-ordered"
+      "message_preorder": "この商品は予約注文です"
     },
     "custom_option": {
       "option_blank": "選択されない",
@@ -47,6 +42,7 @@
         "share_on_pinterest": "Pinterestでシェアする",
         "share_on_whatsapp": "Whatsappでシェアする",
         "share_on_telegram": "Telegramでシェアする",
+        "share_on_line": "LINEでシェア",
         "share_on_email": "メールでシェアする",
         "share_on_sms": "SMSでシェアする"
       },
@@ -60,7 +56,8 @@
         "youtube": "YouTube",
         "vimeo": "Vimeo",
         "tiktok": "TikTok",
-        "linkedin": "Linkedin"
+        "linkedin": "Linkedin",
+        "line": "LINE"
       }
     },
     "continue_shopping": "ショッピングを続ける",
@@ -74,20 +71,34 @@
       "search": "検索…"
     },
     "cart": {
+      "item_added_to_cart": "カートに追加された商品",
       "view": "マイカートを見る ({{ count }})",
       "item_added": "カートに追加された商品",
       "terms_confirm": "利用規約に同意してください。",
-      "enable_amount_freeship_html": "<span class=\"text-medium font-medium\">{{ amount_to_freeshipping }}</span> 以上追加すると、送料が <span class=\"font-medium\">無料</span>になります",
+      "enable_amount_freeship_html": "<span class=\"font-semibold\">{{ amount_to_freeshipping }}<\/span> 以上追加すると、送料が <span class=\"font-semibold\">無料</span>になります",
+      "enable_amount_freegift_html": "さらに<span class=\"font-semibold\">{{ amount_to_freegift }}<\/span>追加すると{{ other_offer }}がもらえます",
       "freeshipping": "おめでとうございます！送料無料の対象となります！",
+      "freegift": "おめでとうございます！{{ other_offer }}を受け取る資格があります！",
+      "free_all_offer": "おめでとうございます！送料無料と{{ other_offer }}を受け取る資格があります！",
+      "freeshipping_value": "送料無料",
       "apply": "適用する",
+      "copy_link": "リンクをコピーします",
+      "share_link": "リンクをシェアします",
       "placeholder_discount": "割引コードを入力してください",
+      "singular_applied_code": "{{ codes_count }} コード適用",
+      "plural_applied_code": "{{ codes_count }} 適用されるコード",
       "discount_code": "割引コード",
       "discount": "割引",
       "discount_wrong": "割引が無効です。割引の詳細が正しいことを確認してください。",
       "discount_correct": "割引が適用されました!",
       "discount_applied": "割引コードはすでに適用されています。",
+      "freeshipping_applied": "送料無料コードは、後でチェックアウトページで適用する必要があります。",
       "payment_methods": "受け入れる",
-      "share_cart": "Share cart"
+      "share_cart": "カートをシェアする",
+      "undo": "元に戻す",
+      "discount_removed": "割引コードは削除されました。",
+      "product_insurance_notification": "\"{{ title }}\"をカートに追加しました！",
+      "product_insurance_default_des": "記述なし"
     }
   },
   "newsletter": {
@@ -99,6 +110,7 @@
     "skip_to_text": "コンテンツへスキップ",
     "skip_to_product_info": "商品情報へスキップ",
     "close": "閉じる",
+    "confirm": "確認",
     "image_link": "イメージリンク",
     "unit_price_separator": "あたり",
     "vendor": "ベンダー：",
@@ -135,7 +147,7 @@
       "success": "コメントが正常に投稿されました。ありがとうございます。",
       "success_moderated": "コメントは正常に投稿されました。当ブログは管理されているため、しばらくしてから公開されます。",
       "send_comment": "送る",
-      "side_bar": "Side bar"
+      "side_bar": "サイドバー"
     }
   },
   "onboarding": {
@@ -152,6 +164,7 @@
       "add_to_cart": "カートに入れる",
       "add_all_to_cart": "すべてをカートに追加する",
       "pre_order": "予約注文",
+      "choose_variants": "Choose variants",
       "choose_options": "オプションを選択する",
       "description": "説明",
       "on_sale": "セール",
@@ -160,6 +173,7 @@
       "add": "追加する",
       "edit": "編集する",
       "remove": "取り除く",
+      "remove_all": "すべて削除",
       "add_selected_to_cart": "選択した商品をカートに追加する",
       "select": "選択",
       "item": "アイテム",
@@ -179,6 +193,12 @@
         "increase": "{{ product }} の数量を増やす",
         "decrease": "{{ product }} の数量を減らす",
         "in_cart_html": "カートに<span class=\"quantity-cart\">{{ quantity }}</span>個入っています"
+      },
+      "volumn_pricing": {
+        "minimum": "最小の",
+        "maximum": "最大の",
+        "increment": "増加の",
+        "name": "ボリューム価格設定"
       },
       "pickup_availability": {
         "view_store_info": "店舗情報を見る",
@@ -202,6 +222,8 @@
       "inventory_low_stock": "在庫残り個",
       "inventory_out_of_stock": "在庫切れ",
       "inventory_out_of_stock_continue_selling": "在庫あり",
+      "backorder": "入荷待ち中、すぐに発送します",
+      "back_in_stock": "すぐに再入荷: {date}",
       "size_chart": "サイズチャート",
       "share_social": "シェア",
       "share": "この商品をシェアする",
@@ -219,6 +241,7 @@
       "shipping_policy_html": "<a href=\"{{ link }}\" class='nav-link hover-text-link relative effect-inline mr-1'>配送料</a>はチェックアウト時に計算されます。",
       "clear": "履歴を消去する",
       "gift_wrapping_label": "この商品をギフトラップする",
+      "gift_wrapping_property_value": "はい",
       "back_in_stock_alert": "この商品が再入荷したらお知らせください。",
       "file_upload": "ファイルをここにドロップするか、ブラウズしてください",
       "file_upload_info": "最大ファイルサイズ 5MB",
@@ -235,6 +258,8 @@
     "facets": {
       "filter_and_sort": "フィルターと並べ替え",
       "filter_by_label": "フィルター",
+      "hide_filter": "フィルターを非表示します",
+      "show_filter": "フィルターを表示します",
       "match_all": "すべて一致",
       "filters_selected": {
         "one": "選択された{{ count }}個",
@@ -302,7 +327,9 @@
     "cart": {
       "title": "カート",
       "subtotal": "小計",
-      "order_note": "レマルク・シュル・ル・パニエ",
+      "total": "合計",
+      "total_savings_html": "保存しました {{ total_discount }}!",
+      "order_note": "注文書",
       "note": "注文の特別な指示",
       "checkout": "チェックアウト",
       "empty": "カートは空です",
@@ -326,7 +353,8 @@
         "title": "アカウントを持っています？",
         "paragraph_html": "<a href=\"{{ link }}\" class=\"nav-link relative effect-inline\">ログイン</a>するとチェックアウトが早くなります。"
       },
-      "required_cart_note": "アクセス"
+      "required_cart_note": "アクセス",
+      "error_cart_note": "未記入"
     },
     "featured_blog": {
       "view_all": "すべての投稿を見る",
@@ -403,7 +431,9 @@
     "product-bundle": {
       "choose_option": "まずバリアントを選択してください",
       "add_to_bundle": "バンドルに追加する",
-      "bundle_empty": "バンドルは空です。"
+      "bundle_empty": "バンドルは空です。",
+      "discount_label": "オフ",
+      "save": "保存"
     },
     "promo-code-list": {
       "expired": "期限切れ",
@@ -418,6 +448,20 @@
     "product-specifications": {
       "view_more_button": "もっと見る",
       "view_less_button": "一部を表示する"
+    },
+    "quick-order-list":{
+      "variant": "バリアント",
+      "variant-total": "バリアントの合計",
+      "total-items": "合計アイテム数"
+    },
+    "flash-sale": {
+      "days": "日",
+      "hours": "時",
+      "mins": "分",
+      "secs": "秒"
+    },
+    "social-feeds": {
+      "view_on_social": "ソーシャルメディアで見ます"
     }
   },
   "localization": {
@@ -508,8 +552,8 @@
       "order_number": "注文",
       "order_number_link": "注文番号{{ number }}",
       "date": "日付",
-      "payment_status": "Payment status",
-      "fulfillment_status": "Fulfillment status",
+      "payment_status": "支払い状況",
+      "fulfillment_status": "履行状況",
       "total": "合計",
       "none": "まだ注文は出ていません。",
       "reorder": "再注文"
@@ -606,15 +650,32 @@
     "emptyAutoCal": "詳細については推定配送をご利用ください。"
   },
   "product_comparison": {
-    "remove": "取り除く",
-    "view_detail": "詳細を見る",
-    "empty": "この比較にはアイテムがありません"
+    "view_detail": "詳細を見る"
   },
   "tabs": {
     "tab_title": "タブタイトル",
     "product_description": "商品説明"
   },
   "multiple_stores": {
-    "button_view":"詳細を見る"
+    "button_view":"詳細を見る",
+    "view_more":"ストアをもっと見る",
+    "view_less":"ストアを表示しない"
+  },
+  "store_selector": {
+    "available": "～にピックアップ出来ます ",
+    "out_of_stock": "～に在庫切れ ",
+    "select_pickup_location": "ピックアップ場所を選択します",
+    "default_label": "ストアを選択します",
+    "view_detail": "詳細を表示します",
+    "select_pickup_store": "ピックアップストアを選択します"
+  },
+  "engraving": {
+    "default_text": "彫刻オプション"
+  },
+  "product-table": {
+    "conclusion": "結論："
+  },
+  "header": {
+    "menu": "メニュー"
   }
 }

@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('popup.js')) {
-  window.Eurus.loadedScript.push('popup.js');
+if (!window.Eurus.loadedScript.has('popup.js')) {
+  window.Eurus.loadedScript.add('popup.js');
   
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => { 
@@ -45,21 +45,29 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
               handlePopupSelect(event);
             });
 
-            //reload popup and display overlay when change screen in shopify admin
+            // Reload the popup and display the overlay when change screen in Shopify admin
             if (data.name != 'popup-age-verification') {
               window.addEventListener('resize', (event)=> {
                 handlePopupSelect(event, xParseJSON(localStorage.getItem(data.name + '-' + data.sectionId)));
               })
             }
           }
+
+          localStorage.setItem('promotion-popup', '[]');
   
           if (this.$el.querySelector('.newsletter-message')) {
             this.open();
             return;
           }
+
+          this.$watch('show', (value) => {
+            if (!value) {
+              this.close();
+            }
+          });
         },
-        load() {
-          //optimize popup load js
+        load(sectionId) {
+          // Optimize the JavaScript for popup loading.
           if (window.location.pathname === '/challenge') return;
 
           const _this= this;
@@ -68,18 +76,19 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
           } else {
             if (data.name == 'popup-promotion' && !this.handleSchedule() && data.showCountdown) return;
 
-            if (data.name == 'popup-promotion' && document.querySelector("#x-age-popup") && xParseJSON(localStorage.getItem('popup-age-verification')) == null) {
+            if (data.name == 'popup-promotion' && document.querySelector(`#x-age-popup-${sectionId}`) && xParseJSON(localStorage.getItem('popup-age-verification')) == null) {
               document.addEventListener("close-age-verification", () => {
-                setTimeout(() => {
-                  _this.open();
-                }, data.delays * 1000);
+                this.triggerIntent();
+                if (data.trigger_intent == 'delay') {
+                  setTimeout(() => {
+                    _this.open();
+                  }, data.delays * 1000);
+                }
               })
               return;
             }
-
-            setTimeout(() => {
-              _this.open();
-            }, data.delays * 1000);
+            
+            this.triggerIntent();
           }
         },
         open() {
@@ -95,9 +104,9 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
             });
           }
 
-          //Show minimal when
-          // 1. enable show minimal on desktop + default style = minimal + window width >= 768
-          // 2. enable show minimal on mobile + default style mobile = minimal + window width < 768
+          // Show minimal popup when
+          // 1. "Show minimal" is enabled for desktop, default style is set to "minimal", and the window width is >= 768
+          // 2. "Show minimal" is enabled for mobile, default mobile style is set to "minimal", and the window width is < 768
           if ((data.showMinimal && data.default_style == "minimal" && window.innerWidth >= 768) 
             || (data.showMinimalMobile && data.default_style_mobile == "minimal" && window.innerWidth < 768)) {
             _this.showMinimal = true;
@@ -107,9 +116,9 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
               _this.removeOverlay();
             }
           } else {
-            //Show full popup
+            // Show full popup
             if (data.showOnMobile && window.innerWidth < 768 || window.innerWidth >= 768) {
-              //Show a full popup for the first time accessing the site; if the customer closes the full popup, display a minimal popup during the session
+              // Show a full popup the first time a customer accesses the site. If the customer closes the full popup, display a minimal popup for the rest of the session.
               if (localStorage.getItem('current-' + data.sectionId) == 'minimal') {
                 _this.showMinimal = true;
                 _this.show = false;
@@ -123,7 +132,7 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
                 }
               }
             } else {
-              //Show nothing when screen < 768 and disable show popup on mobile
+              // Show nothing when screen width is < 768 and "Show popup on mobile" is disabled.
               _this.removeOverlay();
             }
           }
@@ -136,6 +145,10 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
               Alpine.store('xPopup').close();
             });
             document.dispatchEvent(new Event('close-age-verification'));
+            if (!this.isExpireSave()) {
+              this.setExpire()
+            }
+            this.removeDisplayedPopup();
             return;
           }
           var _this = this;
@@ -152,7 +165,7 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
                 setTimeout(() => {
                   _this.showMinimal = true;
                 }, 300);
-                //Save storage data when closing the full popup (the full popup only shows for the first time accessing the site).
+                // Save data to storage when the full popup is closed (the full popup only shows on the first access to the site)
                 localStorage.setItem('current-' + data.sectionId, 'minimal');
               });
             } else {
@@ -168,6 +181,36 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
             }, 300);
           });
         },
+        triggerIntent() {     
+          var _this = this;
+          switch (data.trigger_intent) {
+            case "exit":
+              document.addEventListener('mouseleave', (event) => {
+                if (event.clientY <= 0 || event.clientX <= 0 || event.clientY >= window.innerHeight || event.clientX >= window.innerWidth) {
+                  _this.open();
+                }
+              });
+              break;
+            case "copy_to_clipboard":
+              document.addEventListener('copy', () => {
+                _this.open();
+              });
+              break;
+            case "scroll":
+              window.addEventListener('scroll', () => {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                if (scrollPosition >= documentHeight * data.scroll_height) { // Enable when scroll to scroll_height percent page
+                  _this.open();
+                }
+              });
+              break;
+            default:
+              setTimeout(() => {
+                _this.open();
+              }, data.delays * 1000);
+          }
+        },
         closeSection() {
           this.show = false;
           this.showMinimal = false;
@@ -180,9 +223,14 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
           }
           
           localStorage.setItem(data.sectionId, JSON.stringify(item))
-          //remove storage data, the full popup will be displayed when the site applies the reappear rule.
+          // Remove storage data so that the full popup will be displayed again when the reappear rule is applied on the site.
           localStorage.removeItem('current-' + data.sectionId);
+          setTimeout(()=>{
+            this.saveDisplayedPopup();
+            this.show = true;
+          }, item.expires - Date.now())
         },
+
         isExpireSave() {
           const item = xParseJSON(localStorage.getItem(data.sectionId));
           if (item == null) return false;
@@ -236,7 +284,7 @@ if (!window.Eurus.loadedScript.includes('popup.js')) {
             popupsDiv.classList.remove('bg-[#acacac]', 'bg-opacity-30');
           }
         },
-        //close minimal popup will set expired
+        // Closing the minimal popup will set it as expired.
         closeMinimal() {
           this.showMinimal = false;
           if (Shopify.designMode) return

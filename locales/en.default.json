@@ -1,14 +1,9 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin language editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "general": {
+    "theme-mode": {
+      "light": "Light",
+      "dark": "Dark"
+    },
     "global": {
       "cancel": "Cancel",
       "copy_code": "Copy code",
@@ -47,6 +42,7 @@
         "share_on_pinterest": "Pin on Pinterest",
         "share_on_whatsapp": "Share on Whatsapp",
         "share_on_telegram": "Share on Telegram",
+        "share_on_line": "Share on LINE",
         "share_on_email": "Share on Email",
         "share_on_sms": "Share via SMS"
       },
@@ -60,7 +56,8 @@
         "youtube": "YouTube",
         "vimeo": "Vimeo",
         "tiktok": "TikTok",
-        "linkedin": "Linkedin"
+        "linkedin": "Linkedin",
+        "line": "LINE"
       }
     },
     "continue_shopping": "Continue shopping",
@@ -74,24 +71,34 @@
       "search": "Search..."
     },
     "cart": {
+      "item_added_to_cart": "Item added to cart",
       "view": "View my cart ({{ count }})",
       "item_added": "Item added to your cart",
       "terms_confirm": "Please agree to terms and conditions.",
-      "enable_amount_freeship_html": "Add <span class=\"text-medium font-medium\">{{ amount_to_freeshipping }}<\/span> more to get <span class=\"font-medium\">FREE<\/span> shipping",
+      "enable_amount_freeship_html": "Add <span class=\"font-semibold\">{{ amount_to_freeshipping }}<\/span> more to get <span class=\"font-semibold\">FREE<\/span> shipping",
+      "enable_amount_freegift_html": "Add <span class=\"font-semibold\">{{ amount_to_freegift }}<\/span> more to get {{ other_offer }}",
       "freeshipping": "Congratulations! You are eligible for free shipping!",
+      "freegift": "Congratulations! You are eligible for {{ other_offer }}",
+      "free_all_offer": "Congratulations! You are eligible for free shipping and {{ other_offer }}!",
+      "freeshipping_value": "Free shipping",
       "apply": "Apply",
       "copy_link": "Copy link",
       "share_link": "Share link",
       "placeholder_discount": "Please enter discount code",
+      "singular_applied_code": "{{ codes_count }} code applied",
+      "plural_applied_code": "{{ codes_count }} codes applied",
       "discount_code": "Discount code",
       "discount": "Discount",
       "discount_wrong": "Discount invalid. Please make sure the discount details are correct.",
       "discount_correct": "Discount applied!",
       "discount_applied": "Discount code is already applied.",
+      "freeshipping_applied": "Free shipping code should be applied later on Checkout page.",
       "payment_methods": "We accept",
       "share_cart": "Share cart",
-      "divisible_rule_error_message": "Please note that the number of bottles included in your order is divisible by 6. This is the only way we can guarantee safe shipping."
-
+      "undo": "Undo",
+      "discount_removed": "Discount code has been removed.",
+      "product_insurance_notification": "You’ve added “{{ title }}” to your cart!",
+      "product_insurance_default_des": "No description"
     }
   },
   "newsletter": {
@@ -103,6 +110,7 @@
     "skip_to_text": "Skip to content",
     "skip_to_product_info": "Skip to product information",
     "close": "Close",
+    "confirm": "Confirm",
     "image_link": "Image link",
     "unit_price_separator": "per",
     "vendor": "Vendor:",
@@ -156,6 +164,7 @@
       "add_to_cart": "Add to cart",
       "add_all_to_cart": "Add all to cart",
       "pre_order": "Pre-order",
+      "choose_variants": "Choose variants",
       "choose_options": "Choose options",
       "description": "Description",
       "on_sale": "Sale",
@@ -164,6 +173,7 @@
       "add": "Add",
       "edit": "Edit",
       "remove": "Remove",
+      "remove_all": "Remove all",
       "add_selected_to_cart": "Add Selected To Cart",
       "select": "Select",
       "item": "item(s)",
@@ -183,6 +193,12 @@
         "increase": "Increase quantity for {{ product }}",
         "decrease": "Decrease quantity for {{ product }}",
         "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}<\/span> in cart"
+      },
+      "volumn_pricing": {
+        "minimum": "Minimum of",
+        "maximum": "maximum of",
+        "increment": "increment of",
+        "name": "Volume pricing"
       },
       "pickup_availability": {
         "view_store_info": "View store information",
@@ -206,6 +222,8 @@
       "inventory_low_stock": "Low in stock",
       "inventory_out_of_stock": "Out of stock",
       "inventory_out_of_stock_continue_selling": "In stock",
+      "backorder": "On Backorder, shipping soon",
+      "back_in_stock": "Back in stock soon: {date}",
       "size_chart": "Size Chart",
       "share_social": "Share",
       "share": "Share this product",
@@ -223,6 +241,7 @@
       "shipping_policy_html": "<a href=\"{{ link }}\" class='nav-link hover-text-link relative effect-inline mr-1'>Shipping<\/a> calculated at checkout.",
       "clear": "Clear history",
       "gift_wrapping_label": "Gift wrap this product",
+      "gift_wrapping_property_value": "Yes",
       "back_in_stock_alert": "Please notify me when this product is back in stock.",
       "file_upload": "Drop your file here, or Browse",
       "file_upload_info": "Maximum file size 5MB",
@@ -239,6 +258,8 @@
     "facets": {
       "filter_and_sort": "Filter and sort",
       "filter_by_label": "Filter",
+      "hide_filter": "Hide filter",
+      "show_filter": "Show filter",
       "match_all": "Match all",
       "filters_selected": {
         "one": "{{ count }} selected",
@@ -307,7 +328,7 @@
       "title": "Your cart",
       "subtotal": "Subtotal",
       "total": "Total",
-      "total_savings": "You've saved {{total_discount}}!",
+      "total_savings_html": "You've saved {{total_discount}}!",
       "order_note": "Order note",
       "note": "Order special instructions",
       "checkout": "Check out",
@@ -332,7 +353,8 @@
         "title": "Have an account?",
         "paragraph_html": "<a href=\"{{ link }}\" class=\"nav-link relative effect-inline\">Log in<\/a> to check out faster."
       },
-      "required_cart_note": "Enter"
+      "required_cart_note": "Enter",
+      "error_cart_note": "Not filled"
     },
     "featured_blog": {
       "view_all": "View all posts",
@@ -409,7 +431,9 @@
     "product-bundle": {
       "choose_option": "Choose a variant first",
       "add_to_bundle": "Add to bundle",
-      "bundle_empty": "Your bundle is empty."
+      "bundle_empty": "Your bundle is empty.",
+      "discount_label": "OFF",
+      "save": "Save"
     },
     "promo-code-list": {
       "expired": "Expired",
@@ -424,6 +448,20 @@
     "product-specifications": {
       "view_more_button": "See more",
       "view_less_button": "See less"
+    },
+    "quick-order-list":{
+      "variant": "Variant",
+      "variant-total": "Variant total",
+      "total-items": "Total items"
+    },
+    "flash-sale": {
+      "days": "DAYS",
+      "hours": "HRS",
+      "mins": "MINS",
+      "secs": "SECS"
+    },
+    "social-feeds": {
+      "view_on_social": "View on social"
     }
   },
   "localization": {
@@ -612,15 +650,32 @@
     "emptyAutoCal":"Please use Estimate shipping for more details."
   },
   "product_comparison": {
-    "remove": "Remove",
-    "view_detail": "View detail",
-    "empty": "There are no items in this compare"
+    "view_detail": "View detail"
   },
   "tabs": {
     "tab_title": "Tab title",
     "product_description": "Product description"
   },
   "multiple_stores": {
-    "button_view":"View details"
+    "button_view": "View details",
+    "view_more": "View more store",
+    "view_less": "View less store"
+  },
+  "store_selector": {
+    "available": "Available for pickup at",
+    "out_of_stock": "Out of stock at",
+    "select_pickup_location": "Select Pickup Location",
+    "default_label": "Select store",
+    "view_detail": "View Detail",
+    "select_pickup_store": "Select Pick Up Store"
+  },
+  "engraving": {
+    "default_text": "Engraving option"
+  },
+  "product-table": {
+    "conclusion": "Conclusion:"
+  },
+  "header": {
+    "menu": "Menu"
   }
 }
