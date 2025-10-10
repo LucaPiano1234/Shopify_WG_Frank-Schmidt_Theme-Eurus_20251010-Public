@@ -1,9 +1,14 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
-    "theme-mode": {
-      "light": "Luz",
-      "dark": "Oscuro"
-    },
     "global": {
       "cancel": "Cancelar",
       "copy_code": "copiar codigo",
@@ -42,7 +47,6 @@
         "share_on_pinterest": "Pin en Pinterest",
         "share_on_whatsapp": "Compartir en whatsapp",
         "share_on_telegram": "Compartir en Telegram",
-        "share_on_line": "Compartir en LINE",
         "share_on_email": "Compartir por correo electrónico",
         "share_on_sms": "Compartir por SMS"
       },
@@ -56,8 +60,7 @@
         "youtube": "YouTube",
         "vimeo": "Vimeo",
         "tiktok": "Tik Tok",
-        "linkedin": "LinkedIn",
-        "line": "LINE"
+        "linkedin": "LinkedIn"
       }
     },
     "continue_shopping": "Seguir comprando",
@@ -71,34 +74,20 @@
       "search": "Buscar..."
     },
     "cart": {
-      "item_added_to_cart": "Artículo agregado al carrito",
       "view": "Ver mi carrito ({{ count }})",
       "item_added": "Artículo añadido a tu carrito",
       "terms_confirm": "Por favor acepte los términos y condiciones.",
-      "enable_amount_freeship_html": "Añade <span class=\"font-semibold\">{{ amount_to_freeshipping }}</span> más para conseguir <span class=\"font-semibold\">GRATIS<\/span> gastos de envío.",
-      "enable_amount_freegift_html": "Añade <span class=\"font-semibold\">{{ amount_to_freegift }}<\/span> más para obtener {{ other_offer }}",
+      "enable_amount_freeship_html": "Añade <span class=\"text-medium font-medium\">{{ amount_to_freeshipping }}</span> más para conseguir <span class=\"font-medium\">GRATIS</span> gastos de envío.",
       "freeshipping": "¡Felicidades! ¡Eres elegible para el envío gratis!",
-      "freegift": "¡Felicitaciones! Eres elegible para {{ other_offer }}",
-      "free_all_offer": "¡Felicitaciones! ¡Tienes derecho a envío gratis y {{ other_offer }}!",
-      "freeshipping_value": "Envío gratis",
       "apply": "Aplicar",
-      "copy_link": "Copiar enlace",
-      "share_link": "Compartir enlace",
       "placeholder_discount": "Por favor introduce el código de descuento",
-      "singular_applied_code": "{{ codes_count }} código aplicado",
-      "plural_applied_code": "{{ codes_count }} códigos aplicados",
       "discount_code": "Código de descuento",
       "discount": "Descuento",
       "discount_wrong": "Descuento no válido. Asegúrese de que los detalles del descuento sean correctos.",
       "discount_correct": "¡Descuento aplicado!",
       "discount_applied": "El código de descuento ya está aplicado.",
-      "freeshipping_applied": "El código de envío gratuito debe aplicarse más adelante en la página de pago.",
       "payment_methods": "Aceptamos",
-      "share_cart": "compartir carrito",
-      "undo": "Deshacer",
-      "discount_removed": "El código de descuento ha sido eliminado.",
-      "product_insurance_notification": "Has añadido \"{{ title }}\" a tu cesta.",
-      "product_insurance_default_des": "Sin descripción"
+      "share_cart": "compartir carrito"
     }
   },
   "newsletter": {
@@ -110,7 +99,6 @@
     "skip_to_text": "saltar al contenido",
     "skip_to_product_info": "Saltar a información del producto",
     "close": "Cerca",
-    "confirm": "Confirme",
     "image_link": "Enlace de imágen",
     "unit_price_separator": "por",
     "vendor": "Proveedor:",
@@ -164,7 +152,6 @@
       "add_to_cart": "Añadir a la cesta",
       "add_all_to_cart": "Añadir todo al carrito",
       "pre_order": "Hacer un pedido",
-      "choose_variants": "Elige variantes",
       "choose_options": "Elige opciones",
       "description": "Descripción",
       "on_sale": "Venta",
@@ -173,7 +160,6 @@
       "add": "Agregar",
       "edit": "Editar",
       "remove": "Eliminar",
-      "remove_all": "Quitar todo",
       "add_selected_to_cart": "Añadir seleccionado al carrito",
       "select": "Seleccionar",
       "item": "elementos)",
@@ -193,12 +179,6 @@
         "increase": "Aumentar cantidad para {{ product }}",
         "decrease": "Disminuir cantidad para {{ product }}",
         "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> en el carrito"
-      },
-      "volumn_pricing": {
-        "minimum": "Mínimo de",
-        "maximum": "máximo de",
-        "increment": "incremento de",
-        "name": "Precios por volumen"
       },
       "pickup_availability": {
         "view_store_info": "Ver información de la tienda",
@@ -222,8 +202,6 @@
       "inventory_low_stock": "Poco en stock",
       "inventory_out_of_stock": "Agotado",
       "inventory_out_of_stock_continue_selling": "En stock",
-      "backorder": "En espera, envío pronto",
-      "back_in_stock": "Volveremos a estar disponibles pronto: {date}",
       "size_chart": "Carta del tamaño",
       "share_social": "Compartir",
       "share": "Comparte este producto",
@@ -241,7 +219,6 @@
       "shipping_policy_html": "<a href=\"{{ link }}\" class='nav-link hover-text-link relativo effect-inline mr-1'>Envío</a> calculado al finalizar la compra.",
       "clear": "Borrar historial",
       "gift_wrapping_label": "Envuelva este producto para regalo",
-      "gift_wrapping_property_value": "Sí",
       "back_in_stock_alert": "Por favor, avíseme cuando este producto vuelva a estar disponible.",
       "file_upload": "Suelte su archivo aquí o busque",
       "file_upload_info": "Tamaño máximo de archivo 5 MB",
@@ -258,8 +235,6 @@
     "facets": {
       "filter_and_sort": "Filtrar y ordenar",
       "filter_by_label": "Filtrar",
-      "hide_filter": "Ocultar filtro",
-      "show_filter": "Mostrar filtro",
       "match_all": "Combinar todos",
       "filters_selected": {
         "one": "{{count }} seleccionado",
@@ -328,10 +303,10 @@
       "title": "tu carrito",
       "subtotal": "Total parcial",
       "total": "Total",
-      "total_savings_html": "Con tu pedido ahorras {{total_discount}}!",
-      "order_note": "Nota de pedido",
+      "total_savings": "Has salvado {{total_discount}}!",
+      "order_note": "Nota del carrito",
       "note": "Ordene instrucciones especiales",
-      "checkout": "Pasar por caja",
+      "checkout": "Verificar",
       "empty": "Tu carrito esta vacío",
       "view_cart": "Ver carrito",
       "cart_error": "Se produjo un error al actualizar su carrito. Inténtalo de nuevo.",
@@ -353,8 +328,7 @@
         "title": "¿Tener una cuenta?",
         "paragraph_html": "<a href=\"{{ link }}\" class=\"nav-link relativo effect-inline\">Inicia sesión</a> para pagar más rápido."
       },
-      "required_cart_note": "Ingresar",
-      "error_cart_note": "No rellenado"
+      "required_cart_note": "Ingresar"
     },
     "featured_blog": {
       "view_all": "Ver todas las publicaciones",
@@ -431,9 +405,7 @@
     "product-bundle": {
       "choose_option": "Elija una variante primero",
       "add_to_bundle": "Añadir al paquete",
-      "bundle_empty": "Tu paquete está vacío.",
-      "discount_label": "APAGADA",
-      "save": "Ahorra"
+      "bundle_empty": "Tu paquete está vacío."
     },
     "promo-code-list": {
       "expired": "Venció",
@@ -448,20 +420,6 @@
     "product-specifications": {
       "view_more_button": "Ver más",
       "view_less_button": "Ver menos"
-    },
-    "quick-order-list":{
-      "variant": "Variante",
-      "variant-total": "total de variantes",
-      "total-items": "Artículos totales"
-    },
-    "flash-sale": {
-      "days": "DÍ",
-      "hours": "HRS",
-      "mins": "MINS",
-      "secs": "SEG"
-    },
-    "social-feeds": {
-      "view_on_social": "View on social"
     }
   },
   "localization": {
@@ -650,32 +608,15 @@
     "emptyAutoCal": "Utilice Estimar envío para obtener más detalles."
   },
   "product_comparison": {
-    "view_detail": "Ver Detalle"
+    "remove": "Eliminar",
+    "view_detail": "Ver Detalle",
+    "empty": "No hay artículos en esta comparación."
   },
   "tabs": {
     "tab_title": "Título de la pestaña",
     "product_description": "Descripción del Producto"
   },
   "multiple_stores": {
-    "button_view":"Ver Detalle",
-    "view_more":"Ver más tienda",
-    "view_less":"Ver menos tienda"
-  },
-  "store_selector": {
-    "available": "Disponible para recoger en ",
-    "out_of_stock": "Agotado en ",
-    "select_pickup_location": "Seleccione la ubicación de recogida",
-    "default_label": "Seleccionar tienda",
-    "view_detail": "Ver detalle",
-    "select_pickup_store": "Seleccionar tienda de recogida"
-  },
-  "engraving": {
-    "default_text": "Opción de grabado"
-  },
-  "product-table": {
-    "conclusion": "Conclusión:"
-  },
-  "header": {
-    "menu": "Menú"
+    "button_view":"Ver Detalle"
   }
 }

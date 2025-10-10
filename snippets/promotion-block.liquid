@@ -100,20 +100,14 @@
       font-size: {{ text_size }}rem; 
     }
   }
-
-  {% if image_ratio == "auto" %}
-    .external-video{
-      padding-bottom: {{ block.settings.video.preview_image.height }}px;
-    }
-  {% endif %}
 {%- endstyle -%}
 {%- liquid 
-  assign class_layout = "flex flex-col justify-end"
+  assign classLayout = "flex flex-col justify-end"
   if columns_desktop <= 5
     if content_position
-      assign class_layout = "flex items-" | append: content_position
+      assign classLayout = "flex items-" | append: content_position
     else
-      assign class_layout = "flex items-center"
+      assign classLayout = "flex items-center"
     endif
   endif
 
@@ -139,20 +133,12 @@
 
 -%}
 {% unless is_menu %}
-<div class="{{ class_tall_mobile }} {{ class_tall_desktop }} md:list-layout:col-span-1 relative promotion-block promotion group{% unless image_ratio == "round" %} promotion-block-{{ block.id }}{% endunless %} {% unless image_ratio == "round" %}{% unless image %}h-full{% endunless %}{% endunless %}{% if image_extend_height and image %}h-full{% endif %}{% unless image_ratio == "round" or image_ratio == "auto" %} flex items-{{ content_position | default: 'center' }} min-h-[200px]{% endunless %} md:list-layout:min-h-[200px]{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
+<div class="{{ class_tall_mobile }} {{ class_tall_desktop }} md:list-layout:col-span-1 relative promotion-block promotion group{% unless image_ratio == "round" %} promotion-block-{{ block.id }}{% endunless %}{% unless image_ratio == "round" or image_ratio == "auto" %} flex items-{{ content_position | default: 'center' }} h-full min-h-[200px]{% endunless %} md:list-layout:min-h-[200px]{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
   {% if video_type %}
     <div class="relative md:list-layout:pb-[30%] external-video{% if video_type == 'vimeo' %} bg-black{% endif %} h-full w-full{% if corner_image and image_ratio != "round" %} rounded-[10px]{% endif %}{% if image_ratio == "round" %} rounded-full{% endif %} overflow-hidden{% if block.settings.enable_video_autoplay %} video-hero{% endif %}{% unless image_ratio == "auto" %} pb-[{{ ratio }}%]{% endunless %}{% if collection_page %} lg:pb-[30%]{% endif %}" 
       x-intersect:leave="$store.xVideo.pause($el)"
       {% if block.settings.enable_video_autoplay %}
-        @click.stop="$store.xVideo.togglePlay($el)"
-        {% if video_type == 'video_select' %}x-intersect="$store.xVideo.play($el)"{% endif %}
-        {% if video_type == 'youtube' or video_type == 'vimeo' %}
-          x-intersect="$store.xVideo.externalLoad($el, '{{ video_type }}', '{{ video_id }}', false, '{{ video_alt }}')"
-          x-intersect="$store.xVideo.play($el)"
-        {% endif %}
-      {% else %}
-        {% if video_type == 'video_select' %}@click.prevent="$store.xVideo.mp4Thumbnail($el)"{% endif %}
-        {% if video_type == 'youtube' or video_type == 'vimeo' %}@click.prevent="$store.xVideo.externalLoad($el, '{{ video_type }}', '{{ video_id }}', false, '{{ video_alt }}')"{% endif %}
+      x-intersect="$store.xVideo.play($el)"
       {% endif %}
     >
       {%- render 'media-video', 
@@ -166,8 +152,8 @@
         cover_image: image,
         show_sound_control: block.settings.show_sound_control
       -%}
-      <span class="pointer-events-none absolute top-0 left-0 bottom-0 right-0 z-10 image-treatment-overlay opacity-{{ image_overlay_opacity }}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}"></span>
     </div>  
+    <span class="pointer-events-none absolute top-0 left-0 bottom-0 right-0 z-10 image-treatment-overlay opacity-{{ image_overlay_opacity }}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}"></span>
   {%- elsif image != blank or block.settings.image_mobile != blank -%}
     {%- capture sizes -%}
       (min-width: {{ settings.page_width }}px) {% if enable_desktop_slider %}{{ settings.page_width | plus: 100 | divided_by: columns_desktop }}px{% else %}calc((100vw - 10rem) / {{ columns_desktop }}){% endif %}, (min-width: 768px) {% if columns_desktop > 1 %}calc((100vw - 5rem) / 2){% else %}calc(100vw - 5rem){% endif %}, calc((100vw) / {{ columns_mobile }})
@@ -182,16 +168,12 @@
     {%- endif -%}
     <div 
       x-intersect.once.margin.-20px.0px.-20px.0px="$el.querySelector('.animate_transition_card__image')?.classList.add('active')"
-      class="{% if image == blank %} md:hidden {% endif %}md:list-layout:pb-[30%] w-full h-full overflow-hidden relative z-0 before:h-0 before:block{% if corner_image and image_ratio != "round" %} rounded-[10px]{% endif %}{% if image_ratio == "round" %} rounded-full{%- endif -%}{% unless image_ratio == "auto" %} pb-[{{ ratio }}%]{% endunless %}{% if collection_page %} lg:pb-[30%]{% endif %}"
+      class="{% if image == blank %} md:hidden {%  endif %}md:list-layout:pb-[30%] w-full h-full overflow-hidden relative z-0 before:h-0 before:block{% if corner_image and image_ratio != "round" %} rounded-[10px]{% endif %}{% if image_ratio == "round" %} rounded-full{%- endif -%}{% unless image_ratio == "auto" %} pb-[{{ ratio }}%]{% endunless %}{% if collection_page %} lg:pb-[30%]{% endif %}"
       {% if image_ratio == "auto" %} style="height:0; padding-bottom: {{ 100 | divided_by: image.aspect_ratio }}%;"{% endif %}
-      {% if image_ratio == "last-promo" %} style="padding-bottom: {{ 100 | divided_by: image.aspect_ratio }}%;"{% endif %}
     >
-      {% if image_link != blank %}
-        <a href="{{ image_link }}" {% if open_new_window_image %} target="_blank"{% endif %} class="absolute top-0 left-0 bottom-0 right-0 z-20"></a>
-      {% endif %}
       <div class="block{% if image_ratio == "round" %} rounded-full{% endif %}{% if corner_image and image_ratio != "round" %} rounded-[10px]{% endif %}">
-        <div class="animate_transition_card__image w-full h-full top-0 left-0 absolute">
-          {% # theme-check-disable ImgLazyLoading %}
+        <div class="animate_transition_card__image w-full h-full top-0 left-0 absolute z-10">
+          {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
           <picture>
             <source 
               srcset="{{ image | image_url: width: 375 }} 375w,
@@ -215,18 +197,15 @@
               {{ image | image_url: width: 1780 }} 1780w"
               src="{{ image | image_url: width: 1780 }}"
               sizes="{{ sizes }}"
-              {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+              loading="lazy"
               alt="{{ image.alt | escape }}"
               width="{{ image.width }}"
               height="{{ image.width | divided_by: image.aspect_ratio }}"
               style="object-position: {{ image.presentation.focal_point }};"
-              class="md:list-layout:hidden aspect-{{ image_ratio }} image-hover animate_transition_image w-full h-full object-cover{% if image_ratio == "round" %} rounded-full{% endif %}{% if corner_image and image_ratio != "round" %} rounded-[10px]{% endif %} hidden md:block animate-Xpulse skeleton-image"
-              onload="this?.classList.add('active'); 
-                this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');
-                setTimeout(() => { this.closest('.animate_transition_card__image')?.classList.add('lazy_active', 'active'); }, 250);
-              "
+              class="md:list-layout:hidden aspect-{{ image_ratio }} image-hover animate_transition_image w-full h-full object-cover{% if image_ratio == "round" %} rounded-full{% endif %}{% if corner_image and image_ratio != "round" %} rounded-[10px]{% endif %} hidden md:block"
             >
           </picture>
+
           {%- if image_mobile != blank -%}
             <img
               srcset="{{ image_mobile | image_url: width: 375 }} 375w,
@@ -238,14 +217,15 @@
               sizes="100vw"
               src="{{ image_mobile | image_url: width: 750 }}"
               alt="{{ image_mobile.alt | escape }}"
-              class="object-cover absolute top-0 left-0 h-full w-full md:hidden animate_transition_slide__image animate-Xpulse skeleton-image"
-              {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
-              onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image'); this.closest('.animate_transition_slide__image')?.classList.add('active');"
+              class="object-cover absolute top-0 left-0 h-full w-full md:hidden animate_transition_slide__image"
+              loading="lazy"  
               width="{{ image_mobile.width }}"
               height="{{ image_mobile.height }}"
               style="object-position: {{ image_mobile.presentation.focal_point }}"
+              x-intersect.once="$el.classList.add('active')"
             />  
           {%- endif %}
+          {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
           {% if list_layout %}
             <img
               srcset="{{ image | image_url: width: 225 }} 225w,
@@ -258,26 +238,20 @@
               {{ image | image_url: width: 1780 }} 1780w"
               src="{{ image | image_url: width: 1780 }}"
               sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | plus: 100 }}px,100vw"
-              {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+              loading="lazy" 
               alt="{{ image.alt | escape }}"
               width="{{ image.width }}"
               height="{{ image.width | divided_by: image.aspect_ratio }}"
               style="object-position: {{ image.presentation.focal_point }};"
-              class="aspect-{{ image_ratio }} hidden md:list-layout:block image-hover animate_transition_image w-full h-full object-cover animate-Xpulse skeleton-image{% if image_ratio == "round" %} rounded-full{% endif %}"
-              onload="this?.classList.add('active'); 
-                this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');
-                setTimeout(() => { this.closest('.animate_transition_card__image')?.classList.add('lazy_active', 'active'); }, 250);
-              "
+              class="aspect-{{ image_ratio }} hidden md:list-layout:block image-hover animate_transition_image w-full h-full object-cover{% if image_ratio == "round" %} rounded-full{% endif %}"
             >
           {% endif %}
-          {% # theme-check-enable ImgLazyLoading %}
         </div>
         <span class="pointer-events-none absolute top-0 left-0 bottom-0 right-0 z-10 image-treatment-overlay opacity-{{ image_overlay_opacity }}"></span>
       </div>
     </div>
   {% endif %}
 {% else %}
-  {% # theme-check-disable ImgLazyLoading %}
   <img
     srcset="{{ image | image_url: width: 225 }} 225w,
     {{ image | image_url: width: 375 }} 375w,
@@ -291,20 +265,15 @@
     sizes="(min-width: {{ settings.page_width }}px) {% if enable_desktop_slider %}{{ settings.page_width | plus: 100 | divided_by: columns_desktop }}px{% else %}calc((100vw - 10rem) / {{ columns_desktop }}){% endif %}, 
     (min-width: 768px) {% if columns_desktop > 1 %}calc((100vw - 5rem) / 2){% else %}calc(100vw - 5rem){% endif %}, 
     calc((100vw) / {{ columns_mobile }})"
-    {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+    loading="lazy"
     alt="{{ image.alt | escape }}"
     width="{{ image.width }}"
     height="{{ image.width | divided_by: image.aspect_ratio }}"
     style="object-position: {{ image.presentation.focal_point }};"
-    class="aspect-{{ image_ratio }} image-hover animate_transition_image w-full h-full object-cover z-10 duration-300 transition ease-out animate-Xpulse skeleton-image{% if image_ratio == "round" %} rounded-full{% endif %}"
-    onload="this?.classList.add('active'); 
-      this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');
-      setTimeout(() => { this.closest('.animate_transition_card__image')?.classList.add('lazy_active', 'active'); }, 250);
-    "
+    class="aspect-{{ image_ratio }} image-hover animate_transition_image w-full h-full object-cover z-10 duration-300 transition ease-out{% if image_ratio == "round" %} rounded-full{% endif %}"
   >
-  {% # theme-check-enable ImgLazyLoading %}
 {% endunless %}
-  <div class="w-full overflow-hidden pl-5 pr-5 md:pl-10 md:pr-10 z-10{% if image_ratio == "round" %}{% if image == blank and block.settings.video == blank %} flex pb-[100.0%] rounded-full items-center promotion-block-{{ block.id }} text-center{% else %} hidden{% endif %}{% endif %} absolute {% unless image_mobile == blank and video_type == false %} pointer-events-none{% endunless %} top-0 right-0 bottom-0 left-0 {{ class_layout }} pt-6 pb-6 lg:pt-8 lg:pb-8 text-{{ alignment }} rtl:text-{% if alignment == 'center' %}center{% elsif alignment == 'left' %}right{% else %}left{% endif %}">
+  <div class="w-full overflow-hidden pl-5 pr-5 md:pl-10 md:pr-10 z-10{% if image_ratio == "round" %}{% if image == blank %} flex pb-[100.0%] rounded-full items-center promotion-block-{{ block.id }} text-center{% else %} hidden{% endif %}{% endif %}{% if image_mobile == blank and video_type == false %} relative{% else %} absolute pointer-events-none{% endif %} top-0 right-0 bottom-0 left-0 {{ classLayout }} pt-6 pb-6 lg:pt-8 lg:pb-8 text-{{ alignment }}">
     <div class="text-color--{{ block.id }}{% if image_ratio == "round" %} absolute top-1/2 -translate-y-1/2 left-4 right-4{% else %} w-full{% endif %}">
       {% if image_link != blank %}
         <a href="{{ image_link }}" {% if open_new_window_image %} target="_blank"{% endif %} class="absolute top-0 left-0 bottom-0 right-0 z-20"></a>
@@ -323,7 +292,7 @@
               }
             }
           {% endstyle %}
-          <div class="inline-flex items-center mb-3 md:mb-5 justify-{{ alignment }} rtl:justify-{% if alignment == 'center' %}center{% elsif alignment == 'left' %}right{% else %}left{% endif %} text-[rgba(var(--colors-text))]">
+          <div class="inline-flex items-center mb-3 md:mb-5 justify-{{ alignment }} text-[rgba(var(--colors-text))]">
             <span class="inline-block icon--{{ block.id }}">
               {% if custom_icon == blank %}
                 {% if another_icon != blank and icon == 'another_icon' %}
@@ -344,17 +313,15 @@
         </div>
       {%- endif -%}
       {%- if heading != blank and image_ratio != "round" -%}
-        <div class="text-color--{{ block.id }} ">
+        <h3 class="heading-{{ blockID }} text-color--{{ block.id }} mb-1 lg:mb-3 leading-tight">
           {% render 'heading-highlight',
             headingId: blockID,
             heading: heading,
             highlight_type: highlight_type,
             color_heading_highlight_dark: color_heading_highlight_dark,
-            color_heading_highlight_light: color_heading_highlight_light,
-            class: 'mb-1 lg:mb-3 leading-tight',
-            heading_tag: 'h3'
+            color_heading_highlight_light: color_heading_highlight_light
           %}
-        </div>
+        </h3>
       {%- endif -%}
       {%- if content != blank and image_ratio != "round" -%}
         <div class="text-{{ block.id }} rte text-[rgb(var(--colors-text))] truncate whitespace-normal p-break-words{% if button_label != blank %} mb-3 lg:mb-5{% endif %}">

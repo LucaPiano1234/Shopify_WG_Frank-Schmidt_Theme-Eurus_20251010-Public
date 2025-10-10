@@ -1,10 +1,10 @@
-:root {
-  --max-width-page-container: calc(var(--page-width) + 40px);
-}
+
 #MainContent .page__container,
 #MainContent .shopify-policy__container {
   width: 100%;
-  max-width: var(--max-width-page-container);
+  max-width: 100%;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 #MainContent .shopify-policy__container {
   padding-top: 20px;
@@ -13,7 +13,7 @@
 .shopify-policy__container .shopify-policy__title,
 .page__container .page__title {
   text-align: left;
-  max-width: var(--max-width-page-container);
+  max-width: calc(var(--page-width) + 40px);
   padding-left: 20px;
   padding-right: 20px;
   margin-left: auto;
@@ -41,7 +41,7 @@
 .shopify-policy__body,
 .page__body-container {
   margin-bottom: 80px;
-  max-width: var(--max-width-page-container);
+  max-width: calc(var(--page-width) + 40px);
   padding-left: 20px;
   padding-right: 20px;
   margin-left: auto;
@@ -49,7 +49,7 @@
 }
 .section-page .page__body-container {
   margin-bottom: 0;
-  max-width: var(--max-width-page-container);
+  max-width: 100%;
   padding-left: 0;
   padding-right: 0;
 }
@@ -77,18 +77,6 @@
 .rtl .page__body {
   direction: rtl;
   text-align: right;
-}
-.rtl .tabs-aligment:not(.text-right) .page__body {
-  direction: ltr;
-  text-align: inherit;
-}
-.rtl .tabs-aligment:not(.text-right) .page__body .rtl {
-  direction: ltr;
-}
-.rtl .tabs-aligment:not(.text-right) ul,
-.rtl .tabs-aligment:not(.text-right) ol {
-  padding-left: 30px;
-  padding-right: 0;
 }
 .shopify-policy__body ul ul,
 .page__body ul ul {
@@ -123,13 +111,6 @@
 .page__body .rte ol,
 .page__body .rte ul {
   list-style-position: outside;
-}
-
-.tabs-aligment.text-right .rte ol,
-.tabs-aligment.text-right .rte ul,
-.tabs-aligment.text-center ul,
-.tabs-aligment.text-center ol {
-  list-style-position: inside;
 }
 
 .shopify-policy__body h1,

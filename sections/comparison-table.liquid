@@ -1,6 +1,7 @@
 {% liquid
   assign heading_base_size = settings.heading_base_size | times: 0.0225
   assign heading_size = section.settings.heading_size | times: 0.01 | times: heading_base_size
+
   assign external_item_labels = section.settings.external_item_labels | newline_to_br | strip_newlines | split: '<br />'
   assign number_of_columns = external_item_labels.size
   if number_of_columns > 4
@@ -45,7 +46,7 @@
     {% if section.settings.line_border_dark.alpha != 0.0 %}
       --colors-line-and-border: {{ section.settings.line_border_dark.red }},{{ section.settings.line_border_dark.green }},{{ section.settings.line_border_dark.blue }};
     {% else %}        
-      --colors-line-and-border: {{ settings.colors_dark_line_and_borders.red }}, {{ settings.colors_dark_line_and_borders.green }}, {{ settings.colors_dark_line_and_borders.blue }};
+      --colors-line-and-border: {{ settings.colors_line_and_borders.red }}, {{ settings.colors_line_and_borders.green }}, {{ settings.colors_line_and_borders.blue }};
     {% endif %}
     {% if section.settings.text_dark.alpha != 0.0 %}
       --colors-text: {{ section.settings.text_dark.red }},{{ section.settings.text_dark.green }},{{ section.settings.text_dark.blue }};
@@ -77,32 +78,32 @@
 {%- endstyle -%}
 
 {% render 'section-divider' %}
-<div class="section--{{ section.id }} comparision-table-container ml-auto mr-auto relative {% if section.settings.full_width %} full-width{% else %} x-pgw page-width{% endif %} mx-auto pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
-  <div class="x-block-conparison-table-header mb-5 lg:mb-8 empty:hidden text-{{ section.settings.heading_alignment }} rtl:text-{% if section.settings.heading_alignment == 'center' %}center{% elsif section.settings.heading_alignment == 'left' %}right{% else %}left{% endif %}">
+<div class="section--{{ section.id }} comparision-table-container ml-auto mr-auto relative {% if section.settings.full_width %} full-width{% else %} page-width{% endif %} mx-auto pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
+  <div class="mb-5 lg:mb-8">
     {%- if section.settings.heading != blank -%}
-      {% render 'heading-highlight',
-        headingId: section.id,
-        heading: section.settings.heading,
-        highlight_type: section.settings.highlight_type,
-        color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
-        color_heading_highlight_light: section.settings.color_heading_highlight_light,
-        class: 'h2 block leading-tight flex-auto p-break-words',
-        heading_tag: section.settings.heading_tag,
-        animation_heading: true
-      %}
+      <{{ section.settings.heading_tag }} class="heading-{{ section.id }} h2 block text-{{ section.settings.heading_alignment }} leading-tight flex-auto p-break-words">
+        {% render 'heading-highlight',
+          headingId: section.id,
+          heading: section.settings.heading,
+          highlight_type: section.settings.highlight_type,
+          color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
+          color_heading_highlight_light: section.settings.color_heading_highlight_light
+        %}
+      </{{ section.settings.heading_tag }}>
     {%- endif -%}
     {%- if section.settings.description != blank -%}
-      <div class="comparision-table-description mb-5 md:mb-8 rte text-[rgb(var(--colors-text))]">
+      <div class="comparision-table-description mb-5 md:mb-8 rte text-{{ section.settings.heading_alignment }} text-[rgb(var(--colors-text))]">
         {{ section.settings.description }}
       </div>
     {%- endif -%}
   </div>
+
   {% if number_of_columns > 0 %}
     <div class="table-content flex md:block">
       <div class="overflow-x-auto lg:overflow-x-hidden scrollbar-horizontal scrollbar-body pt-3 md:pt-5 pb-5">
-        <div class="x-block-table-header flex w-full flex-row min-h-[60px] md:min-h-[82px]">
+        <div class="flex w-full flex-row min-h-[60px] md:min-h-[82px]">
           <div class="min-w-[130px] md:flex pt-2 pb-2 pr-2 pl-2 basis-32 lg:basis-52 xl:min-w-[20rem] xl:basis-[0] grow border-solid border-b"></div>
-          <div class="table-header pt-2 pb-2 pr-2 pl-2 w-[86px] min-w-[86px] md:w-auto md:min-w-none table-product opacity-90 table-highlight-{{ section.id }} relative min-h-[55px] flex p-break-words md:grow md:basis-[0] justify-center items-center text-center mt-0.5 md:mt-0 after:absolute after:w-full after:h-full after:-translate-y-2.5 after:md:-translate-y-5{% if settings.edges_type == 'rounded_corners' %} after:rounded-[10px]  after:md:rounded-[20px]{% endif %}">
+          <div class="table-header pt-2 pb-2 pr-2 pl-2 w-[86px] min-w-[86px] md:w-auto md:min-w-none table-product opacity-90 table-highlight-{{ section.id }} pl-0 pr-0 relative min-h-[55px] flex p-break-words md:grow md:basis-[0] justify-center items-center text-center mt-0.5 md:mt-0 after:absolute after:w-full after:h-full after:-translate-y-2.5 after:md:-translate-y-5{% if settings.edges_type == 'rounded_corners' %} after:rounded-[10px]  after:md:rounded-[20px]{% endif %}">
             {% if section.settings.alternative_text != blank %}
               <span class="text-center pb-2 pt-2 pl-1 pr-1 md:pt-1 md:pb-1 z-10 font-semibold text-[rgba(var(--colors-text))] text-[120%]">{{ section.settings.alternative_text | escape }}</span>
             {% elsif section.settings.product != blank %}
@@ -125,8 +126,8 @@
         </div>
         {% if section.blocks.size > 0 %}
           {% for block in section.blocks %}
-            {% # theme-check-disable %}
-            <div class="x-block-table-row-{{ forloop.index }} criterion-row min-h-[60px] md:min-h-[82px] flex w-full">
+            {% comment %}theme-check-disable{% endcomment %}
+            <div class="criterion-row min-h-[60px] md:min-h-[82px] flex w-full">
               <div class="criterion-detail-heading flex min-w-[130px] pt-2 pb-2 pr-2 pl-2 p-break-words border-solid border-b grow items-center justify-center text-center basis-32 lg:basis-52 xl:min-w-[20rem] xl:basis-[0] mt-0.5 {% if first %} md:mt-0.5{% else %} md:mt-[1px]{% endif %}">
                 {% if block.settings.heading != blank %}
                   <span class="pl-1 pr-1 pt-2 pb-2 font-semibold text-[rgba(var(--colors-text))] text-[120%]">
@@ -156,6 +157,7 @@
               %}
               {% if criterion_detail_externals.size > 0 %}
                 {% for column_external in criterion_detail_externals limit: number_of_columns %}
+                  {% assign index_option = forloop.index %}
                   <div class="criterion-detail-external pt-2 pb-2 pr-2 pl-2 w-[86px] min-w-[86px] max-w-[86px] md:max-w-none md:w-auto md:min-w-none flex grow basis-[0] text-[rgb(var(--colors-text))] justify-center items-center border-solid border-b{% if first %} border-t mt-0.5{% endif %}">
                     {% if column_external != '' and number_of_columns >= forloop.index %}
                       {%- assign criterion_detail_external = column_external | downcase -%}
@@ -188,7 +190,7 @@
                 {% endfor %}
               {% endif %}
             </div>
-            {% # theme-check-enable %}
+            {% comment %}theme-check-enable{% endcomment %}
           {% endfor %}
         {% endif %}
       </div>
@@ -204,10 +206,6 @@
     "groups": ["header", "footer", "aside"]
   },
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "t:sections.user_guide_link.section_and_blocks.comparison_table"
-    },
     {
       "type": "text",
       "id": "heading",
@@ -239,7 +237,7 @@
       "unit": "%",
       "step": 10,
       "default": 100,
-      "label": "t:sections.all.text.heading_size"
+      "label": "t:sections.question_and_answer.settings.heading_size.label"
     },
     {
       "type": "select",
@@ -281,7 +279,7 @@
       "type": "select",
       "id": "heading_alignment",
       "default": "center",
-      "label": "t:sections.all.text.heading_alignment",
+      "label": "t:sections.featured-collection.settings.heading_alignment.label",
       "options": [
         {
           "value": "left",
@@ -310,7 +308,7 @@
     {
       "type": "product",
       "id": "product",
-      "label": "t:settings_schema.cart.product"
+      "label": "t:sections.comparision-table.settings.product.label"
     },
     {
       "type": "text",
@@ -327,7 +325,7 @@
     },
     {
       "type": "header",
-      "content": "t:settings_schema.colors.name"
+      "content": "t:sections.image-comparison.settings.styles"
     },
     {
       "type": "color",
@@ -408,14 +406,14 @@
     {
       "type": "checkbox",
       "id": "full_width",
-      "label": "t:sections.all.full_width.label",
+      "label": "t:sections.video.settings.full_width.label",
       "default": false
     },
     {
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.question_and_answer.settings.show_section_divider.label"
     },
     {
       "type": "range",
@@ -445,7 +443,7 @@
       "type": "checkbox",
       "id": "show_section_divider_mobile",
       "default": false,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.question_and_answer.settings.show_section_divider.label"
     },
     {
       "type": "range",
@@ -507,7 +505,6 @@
   "presets": [
     {
       "name": "t:sections.comparision-table.name",
-      "category": "t:categories.products",
       "blocks": [
         {
           "type": "criterion"

@@ -1,18 +1,8 @@
-{% liquid
-  assign side_bar_position = section.settings.side_bar_position
-  if settings.lang_direction contains request.locale.iso_code
-    if side_bar_position == 'left'
-      assign side_bar_position = 'right'
-    elsif side_bar_position == 'right'
-      assign side_bar_position = 'left'
-    endif
-  endif
-%}
 <div id="side-bar-template" class="hidden">
   <div 
     x-data="{ show: false }" 
-    class="side-bar-content side-bar-{{ side_bar_position }} lg:top-[var(--height-header)]{% if section.settings.enable_sticky_side_bar %} lg:sticky{% endif %}" 
-    data-position="{{ side_bar_position }}"
+    class="side-bar-content side-bar-{{ section.settings.side_bar_position }} lg:top-[var(--height-header)]{% if section.settings.enable_sticky_side_bar %} lg:sticky{% endif %}" 
+    data-position="{{ section.settings.side_bar_position }}"
     data-blocks="{{ section.blocks.size }}"
     {% if section.settings.enable_sticky_side_bar %}
     data-sticky="{{ section.settings.enable_sticky_side_bar }}"
@@ -20,8 +10,8 @@
   >
     <div 
       @click="show=true; $store.xPopup.open = true;" 
-      class="fixed lg:hidden z-10 top-1/2 -translate-y-1/2 bg-[rgba(var(--background-color))] border {{ side_bar_position }}-0 w-11 h-11 flex items-center justify-center pt-2.5 pb-2.5 rounded-full cursor-pointer opacity-60"> 
-      <span class="inline-block w-4 h-4{% if side_bar_position == "left" %} rotate-180{% endif %}">  
+      class="fixed lg:hidden z-10 top-1/2 -translate-y-1/2 bg-[rgba(var(--background-color))] border {{ section.settings.side_bar_position }}-0 w-11 h-11 flex items-center justify-center pt-2.5 pb-2.5 rounded-full cursor-pointer opacity-60"> 
+      <span class="inline-block w-4 h-4{% if section.settings.side_bar_position == "left" %} rotate-180{% endif %}">  
         {% render 'icon-alls', icon: 'icon-side-bar' %}
       </span>
     </div>
@@ -33,15 +23,15 @@
     ></div>
     <div 
       class="z-[100] lg:z-10 side-bar menu-drawer fixed lg:relative top-0 bottom-0 w-10/12 max-w-sm motion-reduce lg:left-auto lg:bottom-auto lg:w-full lg:translate-x-0
-        {%- if side_bar_position == "right" %} translate-x-full{% else %} -translate-x-full{% endif -%}
+        {%- if section.settings.side_bar_position == "right" %} translate-x-full{% else %} -translate-x-full{% endif -%}
         {%- if settings.edges_type == "rounded_corners" %} mr-2.5 ml-2.5 mt-2.5 mb-2.5{% endif -%}" 
-      :class="{ 'menu-opening{%- if side_bar_position == "right" %} right-0{% else %} left-0{% endif -%}': show, '{%- if side_bar_position == "right" %}-right-2.5{% else %}-left-2.5{% endif -%}': !show}"
+      :class="{ 'menu-opening{%- if section.settings.side_bar_position == "right" %} right-0{% else %} left-0{% endif -%}': show, '{%- if section.settings.side_bar_position == "right" %}-right-2.5{% else %}-left-2.5{% endif -%}': !show}"
     >
       <div class="anm-fade-paragraph flex flex-col h-full pl-4 pr-4 pb-4 pt-16 lg:pr-0 lg:pl-0 lg:pt-0 lg:pb-0 gap-3 lg:gap-5 bg-[rgba(var(--background-color))] overflow-y-auto overflow-x-hidden lg:overflow-y-hidden scrollbar-body{%- if settings.edges_type == "rounded_corners" %} rounded-[10px]{% endif -%}">
-        <div class="bg-[rgba(var(--background-color))] ltr z-10 h-12 absolute top-0 left-0 right-0 flex items-center lg:hidden w-full px-2 rtl:justify-end{% if settings.edges_type == "rounded_corners" %} rounded-[10px]{% endif %}" aria-label="{{ 'accessibility.close' | t }}">
+        <div class="bg-[rgba(var(--background-color))] ltr z-10 h-12 absolute top-0 left-0 right-0 flex items-center lg:hidden w-full px-2{% if settings.lang_direction contains request.locale.iso_code %} justify-end{% endif %}{% if settings.edges_type == "rounded_corners" %} rounded-[10px]{% endif %}" aria-label="{{ 'accessibility.close' | t }}">
           <span class="h3 inline-block pt-1.5 pb-1.5 pl-2.5 pr-2.5">{{- 'blogs.article.side_bar' | t }}</span>
           <span
-            class="cursor-pointer absolute w-11 h-8 inline-block p-2 right-1.5 rtl:right-auto rtl:left-1.5"
+            class="cursor-pointer absolute w-11 h-8 inline-block p-2{% if settings.lang_direction contains request.locale.iso_code %} left-1.5{% else %} right-1.5{% endif %}"
             @click="show=false; $store.xPopup.open = false;"
           >{% render 'icon-alls', icon: 'icon-close' %}</span>
         </div>
@@ -116,7 +106,7 @@
                         height: {{ block.settings.image_height }}px;
                       }
                     {% endstyle %}
-                    <div class="mega-menu-card w-full group relative{% unless block.settings.enable_text_overlay_1 %} background-color-{{ block.id }}{% endunless %}{% if block.settings.content_alignment == 'right' %} ltr{% endif %}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
+                    <div class="mega-menu-card w-full group relative{% unless block.settings.enable_text_overlay_1 %} background-color-{{ block.id }}{% endunless %}{% if block.settings.promotion_position == 'right' %} ltr{% endif %}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
                       {% render 'promotion-image',
                         blockID: block.id,
                         image: block.settings.image,
@@ -152,7 +142,7 @@
               </div>
             {%- when 'social_sharing' -%}
               {%- if settings.share_facebook or settings.share_twitter or settings.share_pinterest -%}
-                <div x-intersect.once="$el.classList.add('is-visible')" class="side-bar-block anm-fade-element flex items-center toc h-fit pt-2 pb-2 md:pb-0 md:pt-0{% if settings.lang_direction contains request.locale.iso_code %} rtl{% endif %}{% if side_bar_position == "right" %} justify-end rtl:justify-start{% else %} rtl:justify-end{% endif %}" {{ block.shopify_attributes }}>
+                <div x-intersect.once="$el.classList.add('is-visible')" class="side-bar-block anm-fade-element flex items-center toc h-fit pt-2 pb-2 md:pb-0 md:pt-0{% if settings.lang_direction contains request.locale.iso_code %} rtl{% endif %}" {{ block.shopify_attributes }}>
                   <p class="mr-1">{{ 'products.product.share_social' | t }}</p>
                   {% render 'social-sharing' %}
                 </div>
@@ -163,6 +153,7 @@
     </div>
   </div>
 </div>
+
 {% schema %}
 {
   "name": "t:sections.side-bar.name",
@@ -240,7 +231,7 @@
     },
     {
       "type": "product",
-      "name": "t:settings_schema.cart.product",
+      "name": "t:sections.side-bar.settings.product.label",
       "limit": 1,
       "settings": [
         {
@@ -262,7 +253,7 @@
         {
           "type": "product_list",
           "id": "product_list",
-          "label": "t:settings_schema.cart.product",
+          "label": "t:sections.side-bar.settings.product.label",
           "limit": 10
         },
         {
@@ -276,7 +267,7 @@
     },
     {
       "type": "promotion-banner",
-      "name": "t:sections.promotion-banner.name",
+      "name": "t:sections.side-bar.settings.promotion_banner.label",
       "limit": 1,
       "settings": [
         {
@@ -390,7 +381,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:settings_schema.colors.colors_text_link"
+              "label": "t:sections.all.button.button_style.text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -494,7 +485,7 @@
     },
     {
       "type": "social_sharing",
-      "name": "t:sections.featured-product.blocks.social_sharing.name",
+      "name": "t:sections.side-bar.settings.social_sharing.label",
       "limit": 1,
       "settings": [
         {
@@ -507,7 +498,6 @@
   "presets": [
     {
       "name": "t:sections.side-bar.name",
-      "category": "t:categories.blog_and_page",
       "blocks": [
         {
           "type": "highlight_text"

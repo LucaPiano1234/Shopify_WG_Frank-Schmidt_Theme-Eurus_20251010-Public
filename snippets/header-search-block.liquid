@@ -7,7 +7,7 @@ else
 endif
 %}
 <div x-data="xModalSearch('{{ search_type }}','{{ settings.search_desktop_maximun_results }}',{{ settings.search_mobile_maximun_results }}, '{{ 'templates.search.product_type_default' | t }}')" 
-  class="header-search {% if settings.mobile_search_position == 'header' %}flex lg:flex{% else %}hidden md:flex{% endif %} items-center justify-center" 
+  class="header-search flex lg:flex items-center justify-center" 
   x-init="if ($store.xModal.activeElement == 'SearchOpen') {  open(); $store.xHeaderMenu.hideMenu($el); }"
   x-on:click.away="close();"
   @keyup.escape="close(); $store.xModal.removeFocus();"
@@ -16,10 +16,9 @@ endif
     id="SearchOpen"
     href="{{ routes.search_url }}" 
     aria-label="search"
-    class="flex items-center cursor-pointer justify-center link focus-inset bg-none" 
-    @click.prevent="setTimeout(() => { $store.xModal.setActiveElement('SearchOpen'); open(); $store.xHeaderMenu.hideMenu($el); }, 0)"
-  >
-    <span class="w-11 h-10 px-3 pt-2.5 pb-2">{% render 'icon-alls', icon: 'icon-search', animation_class: 'icon-animation' %}</span>
+    class="flex items-center cursor-pointer justify-center link focus-inset opacity-70 bg-none" 
+    @click.prevent="$store.xModal.setActiveElement('SearchOpen'); open(); $store.xHeaderMenu.hideMenu($el);">
+    <span class="w-11 h-10 px-3 pt-2.5 pb-2">{% render 'icon-alls', icon: 'icon-search' %}</span>
   </a>
   <div 
     id="FormSearch" 
@@ -31,7 +30,7 @@ endif
         <div class="relative max-w-6xl w-full" data-loading-text="{{ 'accessibility.loading' | t }}">
       {%- endif -%}
       <div class="max-w-[62rem] mx-auto w-full{% if settings.search_refined %} border-b{% endif %}">
-        <div class="relative field rtl:flex-row-reverse rtl:md:flex-row pr-5 lg:pr-0 flex{% unless settings.search_refined %} pl-5 lg:pl-0{% endunless %}">
+        <div class="relative field pr-5 lg:pr-0 flex{% unless settings.search_refined %} pl-5 lg:pl-0{% endunless %}">
           {% if settings.search_refined %}
             <div class="md:relative search-categories flex items-center flex-shrink-0">
               <div 
@@ -56,14 +55,7 @@ endif
                   @click.away="open = false" 
                   x-cloak
                 >
-                  <div 
-                    x-show="open" 
-                    x-transition:enter="transition-all ease-in-out duration-500"
-                    x-transition:enter-start="opacity-0 transform -translate-y-4"
-                    x-transition:enter-end="opacity-100 transform translate-y-0"
-                    x-transition:leave="transition-all ease-in-out duration-500"
-                    x-transition:leave-end="opacity-0 transform -translate-y-4"
-                    class="absolute pt-6 pb-7 z-50{% if is_rtl %} right-0{% else %} left-0{% endif %} top-[calc(100%+12px)] lg:bottom-auto background-header shadow-[0_0_6px_-4px_rgba(var(--colors-text))]">
+                  <div class="absolute pt-6 pb-7 z-50{% if is_rtl %} right-0{% else %} left-0{% endif %} top-[calc(100%+12px)] lg:bottom-auto background-header shadow-[0_0_6px_-4px_rgba(var(--colors-text))]">
                     <ul 
                       role="list" 
                       class="w-full md:w-auto md:min-w-[15rem] pl-7 pr-7{% if is_rtl %} right-0{% else %} left-0{% endif %} max-h-[15rem] overflow-y-auto scrollbar-body scrollbar-visible">
@@ -104,17 +96,7 @@ endif
             </div>
           {% endif %}
           <form id="form-search-{{ section.id }}" class="grow" action="{{ routes.search_url }}" method="get" role="search">
-            {% style %}
-              .input-search::placeholder {
-                {% if settings.search_prompts_font == "search_prompts_font_text" %}
-                  font-family: var(--font-body-family);
-                {% else %}
-                  font-family: var(--font-heading-family);
-                {% endif %}
-              }
-            {% endstyle %}
             <input 
-              x-data="xSearchPrompts($el, ['{{ settings.search_prompts_1 }}', '{{ settings.search_prompts_2 }}', '{{ settings.search_prompts_3 }}'], {% if settings.search_prompts_mobile %}true{% else %}false{% endif %})"
               id="search-in-modal"
               class="peer input-search focus-visible:outline-none{% if settings.search_refined %} py-3{% else %} py-4 border-b{% endif %}{% if is_rtl %} pl-[4.5rem] pr-4 lg:pr-2 lg:pl-20 text-right{% else %} pr-[4.5rem] pl-4 lg:pl-2 lg:pr-20 text-left{% endif %} w-full appearance-none relative outline-none bg-transparent placeholder:text-current placeholder:opacity-60"
               type="search"
@@ -124,12 +106,13 @@ endif
               @focus="focusForm()"
               autofocus
               placeholder="{{ 'general.search.search' | t }}"
+              x-ref="input_search"
             >
             <input type="hidden" name="options[prefix]" value="last">
             <button 
               class="btn-search absolute none_border w-7 h-7 p-1 top-1/2 -translate-y-1/2 opacity-60 bg-none text-current{% if is_rtl %} lg:left-2{% if settings.search_refined %} left-2{% else %} left-7{% endif %}{% else %} lg:right-2{% if settings.search_refined %} right-2{% else %} right-7{% endif %}{% endif %}"
               aria-label="{{ 'general.search.search' | t }}">
-              {%- render 'icon-alls', icon: 'icon-search', animation_class: 'icon-animation' -%}
+              {%- render 'icon-alls', icon: 'icon-search' -%}
             </button>
             {% if settings.show_speech_search %}
               <button class="search__speech absolute cursor-pointer w-7 h-7 p-1{% if is_rtl %}{% if settings.search_refined %} left-10{% else %} left-16{% endif %} lg:left-12{% else %}{% if settings.search_refined %} right-10{% else %} right-16{% endif %} lg:right-12{% endif %} top-1/2 -translate-y-1/2 opacity-60 bg-none text-current" x-data="xSpeechSearch($el)" x-init="initSpeechSearch()" x-show="show">
@@ -138,7 +121,7 @@ endif
               <script src="{{ 'speech-search.js' | asset_url }}" defer></script>
             {% endif %}
             {%- if settings.predictive_search_enabled -%}
-              <div id="search-result" class="md:max-h-96 absolute top-[calc(100%+12px)] w-full left-0 {% if is_rtl %} rtl{% endif %}" tabindex="-1" data-predictive-search x-html="result" x-show="loading == false">
+              <div id="search-result" class="md:max-h-96 absolute top-[calc(100%+12px)] w-full left-0" tabindex="-1" data-predictive-search x-html="result" x-show="loading == false">
                 <div class="predictive-search__loading-state">
                   <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
                     <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
@@ -147,7 +130,7 @@ endif
               </div>
               {% if settings.search_recomendation != blank or settings.popular_product_search != blank %}
                 <div 
-                  id="suggest-search" class="absolute top-[calc(100%+12px)] w-full left-0 {% if is_rtl %} rtl{% endif %}" 
+                  id="suggest-search" class="absolute top-[calc(100%+12px)] w-full left-0" 
                   tabindex="-1" 
                   data-predictive-search 
                   x-cloak 
@@ -168,10 +151,10 @@ endif
       {%- endif -%}
       <button 
         id="SearchClose"
-        class="link link--text focus-inset group-close-btn bg-[rgb(var(--colors-line-and-border))] rounded-full cursor-pointer w-fit icon-close-container absolute top-2 opacity-60{% if is_rtl %} left-2{% else %} right-2{% endif %}"
+        class="link link--text focus-inset cursor-pointer h-10 w-11 p-3 absolute top-1 opacity-60{% if is_rtl %} left-2{% else %} right-2{% endif %}"
         x-on:click="close(); $store.xModal.removeFocus();"
       >
-        {% render 'icon-alls', icon: 'icon-close', animation_class: 'icon-close-animation' %}
+        {% render 'icon-alls', icon: 'icon-close' %}
       </button>
     </div>
   </div>

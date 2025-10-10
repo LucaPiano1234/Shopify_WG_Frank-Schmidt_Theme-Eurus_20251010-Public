@@ -1,7 +1,7 @@
 {%- liquid
   assign count = 0 
   assign title = ""
-  assign image_url = "" 
+  assign imageUrl = "" 
   assign class_img_1 = ''
   assign class_img_2 = ''
   assign class_img_3 = ''
@@ -15,23 +15,23 @@
   endif
 
   if section.settings.image_3 != blank
-    assign image_url = section.settings.image_3
+    assign imageUrl = section.settings.image_3
     assign count = count | plus: 1
   endif
   if section.settings.image_2 != blank
     assign class_img_3 = ' hidden md:block'
-    assign image_url = section.settings.image_2
+    assign imageUrl = section.settings.image_2
     assign count = count | plus: 1
   endif
   if section.settings.image != blank 
     assign class_img_2 = ' hidden md:block'
     assign class_img_3 = ' hidden md:block'
-    assign image_url = section.settings.image
+    assign imageUrl = section.settings.image
     assign count = count | plus: 1
   endif
-  assign image_url_mobile = image_url
+  assign imageUrlMobile = imageUrl
   if section.settings.image_mobile != blank 
-    assign image_url_mobile = section.settings.image_mobile
+    assign imageUrlMobile = section.settings.image_mobile
     if request.design_mode
       assign class_img_1 = ' hidden md:block'
       assign class_img_3 = ' hidden md:block'
@@ -39,22 +39,6 @@
     endif
   endif
   
-  assign rounded_desktop = section.settings.rounded_corner_image
-  assign rounded_mobile = section.settings.rounded_corner_image_mobile
-  if section.settings.adapt_corners_desktop 
-    if settings.edges_type == 'rounded_corners'
-      assign rounded_desktop = true
-    else
-      assign rounded_desktop = false
-    endif 
-  endif
-  if section.settings.adapt_corners_mobile
-    if settings.edges_type == 'rounded_corners'
-      assign rounded_mobile = true
-    else
-      assign rounded_mobile = false
-    endif 
-  endif
 -%}
 
 {%- style -%}
@@ -64,7 +48,7 @@
     }
   {%- endif -%}
   .image-{{ section.id }}-1, .image-{{ section.id }}-2, .image-{{ section.id }}-3 {
-    object-position: {{ image_url_mobile.presentation.focal_point }};
+    object-position: {{ imageUrlMobile.presentation.focal_point }};
   }
   
   @media screen and (min-width: 768px) {
@@ -93,15 +77,15 @@
     }
   {%- endif -%}
 {%- endstyle -%}
-<div class="pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]{% if section.settings.full_width %} {% if section.settings.padding_full_width %} md:pl-5 md:pr-5{% else %} md:pl-0 md:pr-0{% endif %}{% else %} x-pgw page-width{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% else %} pl-5 pr-5{% endif %}">
-  <div class="promotion bg-opacity-80 bg-[#c9c9c9] section--{{ section.id }} w-full flex relative overflow-hidden{% if section.settings.desktop_height == "natural" %}{% if section.settings.image != blank %} md:h-0 desktop-{{ section.id }}-natural{% else %} md:promotion:h-[650px]{% endif %}{% else %} md:promotion:h-[{{ section.settings.desktop_height }}] md:promotion:pb-0{% endif %}{% if rounded_desktop %} md:rounded-[10px] z-20{% else %} md:rounded-none{% endif %}{% if rounded_mobile %}  z-20 rounded-[10px]{% endif %}
+<div class="pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]{% if section.settings.full_width %} {% if section.settings.padding_full_width %} md:pl-5 md:pr-5{% else %} md:pl-0 md:pr-0{% endif %}{% else %} page-width{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% else %} pl-5 pr-5{% endif %}">
+  <div class="promotion bg-opacity-80 bg-[#c9c9c9] section--{{ section.id }} w-full flex relative overflow-hidden{% if section.settings.desktop_height == "natural" %}{% if section.settings.image != blank %} md:h-0 desktop-{{ section.id }}-natural{% else %} md:promotion:h-[650px]{% endif %}{% else %} md:promotion:h-[{{ section.settings.desktop_height }}] md:promotion:pb-0{% endif %}{% if section.settings.rounded_corner_image %} md:rounded-[10px] z-20{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %}  z-20 rounded-[10px]{% endif %}
     {% if section.settings.mobile_height == "natural" %}{% if section.settings.image_mobile != blank %} h-0 mobile-{{ section.id }}-natural{% else %} h-[550px]{% endif %}{% else %}h-[{{ section.settings.mobile_height }}] md:h-auto{% endif %}"
     x-data='{
       data: {
         promotion: {
           source: "promotion-banner",
           title: "{{ title | escape }}",
-          image: "{{ image_url | image_url | split: '//cdn.shopify.com/s/files' }}",
+          image: "{{ imageUrl | image_url | split: '//cdn.shopify.com/s/files' }}",
           image_host: "//cdn.shopify.com/s/files"
         }
       },
@@ -117,7 +101,7 @@
             promotion: {
               source: "promotion-banner",
               title: "{{ title | escape }}",
-              image: "{{ image_url_mobile | image_url | split: '//cdn.shopify.com/s/files' }}",
+              image: "{{ imageUrlMobile | image_url | split: '//cdn.shopify.com/s/files' }}",
               image_host: "//cdn.shopify.com/s/files"
             }
           })
@@ -147,18 +131,11 @@
         {%- endif -%}
         {%- if section.settings.image != blank -%}
           {% if section.settings.show_hero %}
-            {% liquid
-              if settings.enable_lazy_loading_image
-                assign loading = 'lazy'
-              else
-                assign loading = 'eager'
-              endif
-            %}
             <div class="hidden">
               {%- if section.settings.image_mobile != blank -%}
-                {{ image_url_mobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true, loading: loading }}
+                {{ imageUrlMobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true, loading: 'lazy' }}
               {%- endif -%}
-              {{ section.settings.image | image_url: width: 3840 | image_tag: widths: '750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true, loading: loading }}
+              {{ section.settings.image | image_url: width: 3840 | image_tag: widths: '750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true, loading: 'lazy' }}
             </div>
           {% endif %}
           <div class="w-full{{ class_img_1 }}">
@@ -167,15 +144,15 @@
                 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                 <picture>
                   <source 
-                    srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
-                      {{ image_url_mobile | image_url: width: 450 }} 450w,
-                      {{ image_url_mobile | image_url: width: 750 }} 750w,
-                      {{ image_url_mobile | image_url: width: 900 }} 900w,
-                      {{ image_url_mobile | image_url: width: 1100 }} 1100w,
-                      {{ image_url_mobile | image_url: width: 1500 }} 1500w"
+                    srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
+                      {{ imageUrlMobile | image_url: width: 450 }} 450w,
+                      {{ imageUrlMobile | image_url: width: 750 }} 750w,
+                      {{ imageUrlMobile | image_url: width: 900 }} 900w,
+                      {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
+                      {{ imageUrlMobile | image_url: width: 1500 }} 1500w"
                     media="(max-width: 767px)"
-                    width="{{ image_url_mobile.width }}"
-                    height="{{ image_url_mobile.height }}"
+                    width="{{ imageUrlMobile.width }}"
+                    height="{{ imageUrlMobile.height }}"
                   >
                   <img
                     srcset="{{ section.settings.image | image_url: width: 750 }} 750w,
@@ -187,24 +164,24 @@
                       {{ section.settings.image | image_url: width: 3000 }} 3000w,
                       {{ section.settings.image | image_url: width: 3840 }} 3840w"
                     {% unless section.settings.show_hero %}
-                      {% if settings.enable_lazy_loading_image %}
-                        loading="lazy"
-                      {% else %}
-                        loading="eager"
-                      {% endif %}
+                      loading="lazy"
                     {% else %}
                       loading="eager"
                       fetchpriority="high"
                       decoding="sync"
                     {% endunless %}
                     src="{{ section.settings.image | image_url: width: 3840 }}"
-                    alt="{{ section.settings.image.alt | escape }}"
+                    {% if section.settings.image_mobile != blank %}
+                      :alt="(screen.width < 768) ? '{{ section.settings.image_mobile.alt }}' : '{{ section.settings.image.alt }}'"
+                    {% else %}
+                      alt="{{ section.settings.image.alt | escape }}"
+                    {% endif %}
                     sizes="(min-width: 767px) calc(100vw / {{ count }}), 100vw"
                     width="{{ section.settings.image.width }}"
                     height="{{ section.settings.image.height }}"
                     class="w-full h-full object-cover z-0 image-{{ section.id }}-1"
                     style="(min-width: 767px) { object-position: {{ section.settings.image.presentation.focal_point }}; } 
-                    object-position: {{ image_url_mobile.presentation.focal_point }}"
+                    object-position: {{ imageUrlMobile.presentation.focal_point }}"
                   >
                   {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
                   </picture>   
@@ -215,7 +192,7 @@
         {%- if section.settings.image_2 != blank -%}
           {% if section.settings.show_hero %}
             <div class="hidden">
-              {{ image_url_mobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true }}
+              {{ imageUrlMobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true }}
               {{ section.settings.image_2 | image_url: width: 3840 | image_tag: widths: '750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true }}
             </div>
           {% endif %}
@@ -225,15 +202,15 @@
                 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                 <picture>
                   <source
-                    srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
-                      {{ image_url_mobile | image_url: width: 450 }} 450w,
-                      {{ image_url_mobile | image_url: width: 750 }} 750w,
-                      {{ image_url_mobile | image_url: width: 900 }} 900w,
-                      {{ image_url_mobile | image_url: width: 1100 }} 1100w,
-                      {{ image_url_mobile | image_url: width: 1500 }} 1500w"
+                    srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
+                      {{ imageUrlMobile | image_url: width: 450 }} 450w,
+                      {{ imageUrlMobile | image_url: width: 750 }} 750w,
+                      {{ imageUrlMobile | image_url: width: 900 }} 900w,
+                      {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
+                      {{ imageUrlMobile | image_url: width: 1500 }} 1500w"
                     media="(max-width: 767px)"
-                    width="{{ image_url_mobile.width }}"
-                    height="{{ image_url_mobile.height }}"
+                    width="{{ imageUrlMobile.width }}"
+                    height="{{ imageUrlMobile.height }}"
                   >
                   <img
                     srcset="{{ section.settings.image_2 | image_url: width: 750 }} 750w,
@@ -245,26 +222,26 @@
                       {{ section.settings.image_2 | image_url: width: 3000 }} 3000w,
                       {{ section.settings.image_2 | image_url: width: 3840 }} 3840w"
                     {% unless section.settings.show_hero %}
-                      {% if settings.enable_lazy_loading_image %}
-                        loading="lazy"
-                      {% else %}
-                        loading="eager"
-                      {% endif %}
+                      loading="lazy"
                     {% else %}
                       loading="eager"
                       fetchpriority="high"
                       decoding="sync"
                     {% endunless %}
                     src="{{ section.settings.image_2 | image_url: width: 3840 }}"
-                    alt="{{ section.settings.image_2.alt | escape }}"
+                    {% if section.settings.image_mobile != blank %}
+                      :alt="(screen.width < 768) ? '{{ section.settings.image_mobile.alt }}' : '{{ section.settings.image_2.alt }}'"
+                    {% else %}
+                      alt="{{ section.settings.image_2.alt | escape }}"
+                    {% endif %}
                     sizes="(min-width: 767px) calc(100vw / {{ count }}), 100vw"
                     width="{{ section.settings.image_2.width }}"
                     height="{{ section.settings.image_2.height }}"
                     class="w-full h-full object-cover z-0 image-{{ section.id }}-2"
                     style="(min-width: 767px) { object-position: {{ section.settings.image_2.presentation.focal_point }}; } 
-                    object-position: {{ image_url_mobile.presentation.focal_point }}"
+                    object-position: {{ imageUrlMobile.presentation.focal_point }}"
                   >
-                </picture>
+                  <picture>
                 {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
               </parallax-movement>
             </parallax-image>
@@ -273,7 +250,7 @@
         {%- if section.settings.image_3 != blank -%}
           {% if section.settings.show_hero %}
             <div class="hidden">
-              {{ image_url_mobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true }}
+              {{ imageUrlMobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true }}
               {{ section.settings.image_3 | image_url: width: 3840 | image_tag: widths: '750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true }}
             </div>
           {% endif %}
@@ -282,15 +259,15 @@
               <parallax-movement x-data="xParallax" x-intersect.once.margin.200px="load({{ settings.disable_parallax_effect }})">
                 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
                 <source
-                  srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
-                    {{ image_url_mobile | image_url: width: 450 }} 450w,
-                    {{ image_url_mobile | image_url: width: 750 }} 750w,
-                    {{ image_url_mobile | image_url: width: 900 }} 900w,
-                    {{ image_url_mobile | image_url: width: 1100 }} 1100w,
-                    {{ image_url_mobile | image_url: width: 1500 }} 1500w"
+                  srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
+                    {{ imageUrlMobile | image_url: width: 450 }} 450w,
+                    {{ imageUrlMobile | image_url: width: 750 }} 750w,
+                    {{ imageUrlMobile | image_url: width: 900 }} 900w,
+                    {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
+                    {{ imageUrlMobile | image_url: width: 1500 }} 1500w"
                   media="(max-width: 767px)"
-                  width="{{ image_url_mobile.width }}"
-                  height="{{ image_url_mobile.height }}"
+                  width="{{ imageUrlMobile.width }}"
+                  height="{{ imageUrlMobile.height }}"
                 >
                 <img
                   srcset="{{ section.settings.image_3 | image_url: width: 750 }} 750w,
@@ -302,24 +279,24 @@
                     {{ section.settings.image_3 | image_url: width: 3000 }} 3000w,
                     {{ section.settings.image_3 | image_url: width: 3840 }} 3840w"
                   {% unless section.settings.show_hero %}
-                    {% if settings.enable_lazy_loading_image %}
-                      loading="lazy"
-                    {% else %}
-                      loading="eager"
-                    {% endif %}
+                    loading="lazy"
                   {% else %}
                     loading="eager"
                     fetchpriority="high"
                     decoding="sync"
                   {% endunless %}
                   src="{{ section.settings.image_3 | image_url: width: 3840 }}"
-                  alt="{{ section.settings.image_3.alt | escape }}"
+                  {% if section.settings.image_mobile != blank %}
+                    :alt="(screen.width < 768) ? '{{ section.settings.image_mobile.alt }}' : '{{ section.settings.image_3.alt }}'"
+                  {% else %}
+                    alt="{{ section.settings.image_3.alt | escape }}"
+                  {% endif %}
                   sizes="(min-width: 767px) calc(100vw / {{ count }}), 100vw"
                   width="{{ section.settings.image_3.width }}"
                   height="{{ section.settings.image_3.height }}"
                   class="w-full h-full object-cover z-0 image-{{ section.id }}-3"
                   style="(min-width: 767px) { object-position: {{ section.settings.image_3.presentation.focal_point }}; } 
-                  object-position: {{ image_url_mobile.presentation.focal_point }}"
+                  object-position: {{ imageUrlMobile.presentation.focal_point }}"
                 > 
                 {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
               </parallax-movement>
@@ -337,12 +314,8 @@
                   {{ section.settings.image_mobile | image_url }} {{ section.settings.image_moblie.width }}w"
                   src="{{ section.settings.image_mobile | image_url: width: 767 }}"
                   alt="{{ section.settings.image_mobile.alt | escape }}"
-                  {% unless section.settings.show_hero %}
-                    {% if settings.enable_lazy_loading_image %}
-                      loading="lazy"
-                    {% else %}
-                      loading="eager"
-                    {% endif %}
+                  {% unless section.settings.show_hero and forloop.first %}
+                    loading="lazy"
                   {% else %}
                     loading="eager"
                     fetchpriority="high"
@@ -359,7 +332,7 @@
           </div>
         {%- endif -%} 
       </div>
-      <div class="{% if section.settings.content_position != "custom" %}x-pgw page-width ml-5 mr-5 lg:mx-auto absolute top-0 left-0 bottom-0 right-0{% else %} w-full h-full{% endif %}">
+      <div class="{% if section.settings.content_position != "custom" %}page-width ml-5 mr-5 lg:mx-auto absolute top-0 left-0 bottom-0 right-0{% else %} w-full h-full{% endif %}">
         {%- if section.settings.image_link != blank -%}
           <a href="{{ section.settings.image_link }}"{% if section.settings.open_new_window %} target="_blank"{% endif %} class="absolute top-0 left-0 right-0 bottom-0 disable-effect" aria-label="{{ 'sections.promotion_banner.banner_link' | t }}"></a>
         {%- endif -%}
@@ -379,8 +352,7 @@
               {%- when 'image_banner' -%}
                 {%- liquid 
                   assign heading_size =  block.settings.heading_size | times: settings.heading_base_size | times: 0.000225
-                  assign subheading_size = block.settings.subheading_size | times: settings.text_base_size | times: 0.0001
-                  assign size_text =  block.settings.text_size | times: settings.text_base_size | times: 0.0001
+                  assign size_text =  block.settings.text_size | times: settings.text_base_size | times: 0.0000875
 
                   assign add_class_light = false
                   assign add_class_dark = false
@@ -415,14 +387,14 @@
                     font-size: {{ heading_size | times: 0.5 }}rem;
                   }
                   .sub-heading-{{ block.id }} {
-                    font-size: {{ subheading_size | times: 0.9 }}rem;
+                    font-size: {{ heading_size | times: 0.3 }}rem;
                   } 
                   .content-text-{{ block.id }} {
                     font-size: {{ size_text | times: 0.9 }}rem;
                   }
                   @media screen and (min-width: 768px) { 
                     .sub-heading-{{ block.id }} {
-                      font-size: {{ subheading_size }}rem;
+                      font-size: {{ heading_size | times: 0.58 }}rem;
                     }
                     .content-text-{{ block.id }} {
                       font-size: {{ size_text }}rem;
@@ -439,20 +411,20 @@
                     {%- if block.settings.content_box_type == "round" %} rounded-full{% endif -%}
                     {%- if block.settings.add_frame %} pt-5 pb-5 pl-5 pr-5 after:-z-10 after:top-1 after:left-1 after:right-1 after:bottom-1 after:border after:solid after:absolute after:{{ block.settings.content_box_type }}{% endif %}"
                   >
-                    <div class="promotion-box-content--{{ block.settings.content_box_type }}{%- if add_class_light and block.settings.content_box_type == "round" %} pl-8 pb-8 pt-8 pr-8{% else %} pb-1 md:pb-2{% endif %}{%- if add_class_dark and block.settings.content_box_type == "round" %} dark:pl-8 dark:pb-8 dark:pt-8 dark:pr-8{% else %} dark:pl-0 dark:pr-0 dark:pt-0 dark:pb-1 md:dark:pb-2{% endif %} text-{{ section.settings.content_alignment }} rtl:text-{% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'left' %}right{% else %}left{% endif %}"{{ block.shopify_attributes }}>
+                    <div class="promotion-box-content--{{ block.settings.content_box_type }}{%- if add_class_light and block.settings.content_box_type == "round" %} pl-8 pb-8 pt-8 pr-8{% else %} pb-1 md:pb-2{% endif %}{%- if add_class_dark and block.settings.content_box_type == "round" %} dark:pl-8 dark:pb-8 dark:pt-8 dark:pr-8{% else %} dark:pl-0 dark:pr-0 dark:pt-0 dark:pb-1 md:dark:pb-2{% endif %} text-{{ section.settings.content_alignment }}"{{ block.shopify_attributes }}>
                       {%- if block.settings.subheading != blank -%}
-                        <p class="x-subheading sub-heading-{{ block.id }} leading-tight empty:hidden mt-1 p-break-words image-treatment-text">
+                        <p class="sub-heading-{{ block.id }} leading-tight empty:hidden italic mt-1 p-break-words image-treatment-text">
                           {{ block.settings.subheading | escape }}
                         </p>
                       {%- endif -%}
                       {%- if block.settings.heading != blank -%}
-                        {% render 'heading-highlight',
-                          headingId: block.id,
-                          heading: block.settings.heading,
-                          highlight_type: block.settings.highlight_type,
-                          class: 'empty:hidden h2 block leading-tight mt-1 image-treatment-text p-break-words',
-                          heading_tag: block.settings.heading_tag,
-                        %}
+                        <{{ block.settings.heading_tag }} class="empty:hidden h2 block leading-tight mt-1 image-treatment-text p-break-words heading-{{ block.id }}">
+                          {% render 'heading-highlight',
+                            headingId: block.id,
+                            heading: block.settings.heading,
+                            highlight_type: block.settings.highlight_type
+                          %}
+                        </{{ block.settings.heading_tag }}>
                       {%- endif -%}
                       {%- if block.settings.text != blank -%} 
                         <p class="content-text-{{ block.id }} p-break-words empty:hidden leading-tight image-treatment-text{% if block.settings.heading != blank %} mt-3 lg:mt-4{% endif %}">
@@ -500,8 +472,8 @@
                   {% endif %}
                 {%- endstyle -%}
                 {%- if block.settings.button_label != blank or block.settings.button_label_2 != blank -%}
-                  <div class="x-block-promotion-banner-button selection:bg-[rgba(var(--image-treatment-text),0.2)] z-20 mt-3 lg:mt-9 mb-2 mx-auto ltr">
-                    <div class="flex lg:justify-{{ section.settings.content_alignment }} rtl:lg:justify-{% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'left' %}right{% else %}left{% endif %} items-{{ section.settings.content_alignment }} rtl:items-{% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'left' %}right{% else %}left{% endif %} lg:flex-row flex-col gap-x-1" {{ block.shopify_attributes }}>
+                  <div class="selection:bg-[rgba(var(--image-treatment-text),0.2)] z-20 mt-3 lg:mt-9 mb-2 mx-auto ltr">
+                    <div class="flex lg:justify-{{ section.settings.content_alignment }} items-{{ section.settings.content_alignment }} lg:flex-row flex-col gap-x-1" {{ block.shopify_attributes }}>
                       {%- if block.settings.button_label != blank -%}
                         {%- if block.settings.button_link != blank -%}
                           <a 
@@ -512,7 +484,7 @@
                             {% if block.settings.open_new_window_button %}target="_blank"{% endif %}
                           >
                         {%- endif -%}
-                          <div class="button p-break-words button--{{ block.id }}{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} empty:hidden leading-normal text-center mt-1 mb-1 lg:mt-0 lg:mb-0 lg:ml-0 lg:mr-0 h-full pl-7 pr-7 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3{% unless block.settings.button_link != blank %} opacity-70 disable-btn-animation hover:cursor-not-allowed{% endunless %}">
+                          <div class="button p-break-words button--{{ block.id }}{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} empty:hidden leading-normal text-center mt-1 mb-1 lg:mt-0 lg:mb-0 lg:ml-0 lg:mr-0 h-full pl-7 pr-7 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3{% unless block.settings.button_link != blank %} opacity-70 hover:cursor-not-allowed{% endunless %}">
                             {% render 'button-label', button_label: block.settings.button_label, show_button_style: block.settings.show_button_style_1 %}
                           </div>
                         {%- if block.settings.button_link != blank -%}
@@ -529,7 +501,7 @@
                             {% if block.settings.open_new_window_button_2 %}target="_blank"{% endif %}
                           >
                         {%- endif -%}
-                          <div class="button p-break-words button--{{ block.id }}{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} empty:hidden leading-normal text-center mt-1 mb-1 lg:mt-0 lg:mb-0 lg:ml-0 lg:mr-0 h-full pl-7 pr-7 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3{% unless block.settings.button_link_2 != blank %} opacity-70 disable-btn-animation hover:cursor-not-allowed{% endunless %}">
+                          <div class="button p-break-words button--{{ block.id }}{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} empty:hidden leading-normal text-center mt-1 mb-1 lg:mt-0 lg:mb-0 lg:ml-0 lg:mr-0 h-full pl-7 pr-7 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3{% unless block.settings.button_link_2 != blank %} opacity-70 hover:cursor-not-allowed{% endunless %}">
                             {% render 'button-label', button_label: block.settings.button_label_2, show_button_style: block.settings.show_button_style_2 %}
                           </div>
                         {%- if block.settings.button_link_2 != blank -%}
@@ -613,8 +585,7 @@
                       "end_day": {{ block.settings.end_day | default: 0 }},
                       "end_hour": {{ block.settings.end_hour | default: 0 }},
                       "end_minute": {{ block.settings.end_minute | default: 0 }},
-                      "reset": {% if block.settings.countdown_type == 'evergreen' %}true{% else %}false{% endif %},
-                      "duration": {% if block.settings.interval_unit == 'day' %}{{ block.settings.countdown_interval | times: 86400000 }}{% else %}{{ block.settings.countdown_interval | times: 3600000 }}{% endif %}
+                      "justify": "{{ section.settings.content_alignment }}"
                     }, (canShow, s, m, h, d) => {
                       days = d;
                       hours = h;
@@ -625,7 +596,7 @@
                   })'
                   {{ block.shopify_attributes }}
                 >
-                  <div class="x-countdown-promo-banner x-countdown-{{ block.id }} justify-{{ section.settings.content_alignment }} rtl:justify-{% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'left' %}right{% else %}left{% endif %} flex rtl:flex-row-reverse">
+                  <div class="x-countdown-promo-banner x-countdown-{{ block.id }} justify-{{ section.settings.content_alignment }} flex rtl:flex-row-reverse">
                     <div class="countdown--{{ block.id }} relative w-full max-w-[86px] min-h-[60px] md:max-w-[112px] md:min-h-[80px] bg-color--{{ block.id }}{% if block.settings.border_style != 'none' %} border border-dashed border-color--{{ block.id }}{% endif %}{% if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif %}{% else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]{% endif %}">
                       <div class="flex flex-col items-center justify-center absolute top-0 left-0 h-full w-full">
                         <span x-html="loading?textLoad:days" class="h2 timer--{{ block.id }}"></span>
@@ -669,7 +640,7 @@
                     }
                   }
                 </style>
-                <nav class="menu--{{ block.id }} image-treatment-text justify-{{ section.settings.content_alignment }}{% if block.settings.display_mobile %} flex{% else %} hidden lg:flex{% endif %}">
+                <nav class="menu--{{ block.id }} image-treatment-text justify-{{ section.settings.content_alignment }} {% if block.settings.display_mobile %} flex {% else %} hidden lg:flex {% endif %}">
                   <ul class="list-menu inline-flex flex-wrap items-center gap-4 lg:gap-12">
                     {%- for link in block.settings.menu.links -%}
                         <li class="py-1">
@@ -704,10 +675,6 @@
     ]
   },
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "t:sections.user_guide_link.section_and_blocks.promotion_banner"
-    },
     {
       "type": "text",
       "label": "t:sections.all.text.heading",
@@ -757,7 +724,7 @@
       "max": 100,
       "step": 10,
       "unit": "%",
-      "label": "t:sections.collection-list.settings.image_overlay_opacity.label",
+      "label": "t:sections.promotion-banner.settings.image_overlay_opacity.label",
       "default": 0
     },
     {
@@ -766,39 +733,39 @@
       "options": [
         {
           "value": "top-left",
-          "label": "t:sections.all.content_position.options__1.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__1.label"
         },
         {
           "value": "top-center",
-          "label": "t:sections.all.content_position.options__2.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__2.label"
         },
         {
           "value": "top-right",
-          "label": "t:sections.all.content_position.options__3.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__3.label"
         },
         {
           "value": "center-left",
-          "label": "t:sections.all.content_position.options__4.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__4.label"
         },
         {
           "value": "center",
-          "label": "t:sections.all.content_position.options__5.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__5.label"
         },
         {
           "value": "center-right",
-          "label": "t:sections.all.content_position.options__6.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__6.label"
         },
         {
           "value": "bottom-left",
-          "label": "t:sections.all.content_position.options__7.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__7.label"
         },
         {
           "value": "bottom-center",
-          "label": "t:sections.all.content_position.options__8.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__8.label"
         },
         {
           "value": "bottom-right",
-          "label": "t:sections.all.content_position.options__9.label"
+          "label": "t:sections.promotion-banner.settings.desktop_content_position.options__9.label"
         },
         {
           "value": "custom",
@@ -817,8 +784,7 @@
       "unit": "%",
       "label": "t:sections.promotion-banner.settings.content_horizontal.label",
       "default": 50,
-      "info": "t:sections.all.content_position.custom_position_info",
-      "visible_if": "{{ section.settings.content_position == 'custom' }}"
+      "info": "t:sections.promotion-banner.settings.content_horizontal.info"
     },
     {
       "type": "range",
@@ -829,8 +795,7 @@
       "unit": "%",
       "label": "t:sections.promotion-banner.settings.content_vertical.label",
       "default": 50,
-      "info": "t:sections.all.content_position.custom_position_info",
-      "visible_if": "{{ section.settings.content_position == 'custom' }}"
+      "info": "t:sections.promotion-banner.settings.content_vertical.info"
     },
     {
       "type": "select",
@@ -838,39 +803,39 @@
       "options": [
         {
           "value": "top-left",
-          "label": "t:sections.all.content_position.options__1.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__1.label"
         },
         {
           "value": "top-center",
-          "label": "t:sections.all.content_position.options__2.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__2.label"
         },
         {
           "value": "top-right",
-          "label": "t:sections.all.content_position.options__3.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__3.label"
         },
         {
           "value": "center-left",
-          "label": "t:sections.all.content_position.options__4.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__4.label"
         },
         {
           "value": "center",
-          "label": "t:sections.all.content_position.options__5.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__5.label"
         },
         {
           "value": "center-right",
-          "label": "t:sections.all.content_position.options__6.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__6.label"
         },
         {
           "value": "bottom-left",
-          "label": "t:sections.all.content_position.options__7.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__7.label"
         },
         {
           "value": "bottom-center",
-          "label": "t:sections.all.content_position.options__8.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__8.label"
         },
         {
           "value": "bottom-right",
-          "label": "t:sections.all.content_position.options__9.label"
+          "label": "t:sections.promotion-banner.settings.content_mobile_alignment.options__9.label"
         }
       ],
       "default": "center",
@@ -882,19 +847,19 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.all.content_alignment.options__1.label"
+          "label": "t:sections.promotion-banner.settings.content_alignment.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:sections.all.content_alignment.options__2.label"
+          "label": "t:sections.promotion-banner.settings.content_alignment.options__2.label"
         },
         {
           "value": "right",
-          "label": "t:sections.all.content_alignment.options__3.label"
+          "label": "t:sections.promotion-banner.settings.content_alignment.options__3.label"
         }
       ],
       "default": "center",
-      "label": "t:sections.all.content_alignment.label"
+      "label": "t:sections.promotion-banner.settings.content_alignment.label"
     },
     {
       "type": "checkbox",
@@ -911,28 +876,20 @@
       "type": "checkbox",
       "id": "full_width",
       "default": true,
-      "label": "t:sections.all.full_width.label"
+      "label": "t:sections.text-column-image.settings.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "padding_full_width",
       "default": false,
       "label": "t:sections.all.padding.padding_full_width.label",
-      "info": "t:sections.all.padding.padding_full_width.info",
-      "visible_if": "{{ section.settings.full_width }}"
-    },
-    {
-      "type": "checkbox",
-      "id": "adapt_corners_desktop",
-      "label": "t:sections.slideshow.settings.enable_adapt",
-      "default": true
+      "info": "t:sections.all.padding.padding_full_width.info"
     },
     {
       "type": "checkbox",
       "id": "rounded_corner_image",
       "default": false,
-      "label": "t:sections.featured-product.blocks.rounded_corner.label",
-      "visible_if": "{{ section.settings.adapt_corners_desktop == false }}"
+      "label": "t:sections.promotion-grid.blocks.promotion.settings.rounded_corner_image.label"
     },
     {
       "type": "select",
@@ -940,31 +897,31 @@
       "options": [
         {
           "value": "450px",
-          "label": "t:sections.image-with-text.settings.height.options__1.label"
+          "label": "t:sections.promotion-banner.settings.desktop_height.options__1.label"
         },
         {
           "value": "550px",
-          "label": "t:sections.image-with-text.settings.height.options__2.label"
+          "label": "t:sections.promotion-banner.settings.desktop_height.options__2.label"
         },
         {
           "value": "650px",
-          "label": "t:sections.image-with-text.settings.height.options__3.label"
+          "label": "t:sections.promotion-banner.settings.desktop_height.options__3.label"
         },
         {
           "value": "750px",
-          "label": "t:sections.image-with-text.settings.height.options__4.label"
+          "label": "t:sections.promotion-banner.settings.desktop_height.options__4.label"
         },
         {
           "value": "natural",
-          "label": "t:sections.image-with-text.settings.height.options__5.label"
+          "label": "t:sections.promotion-banner.settings.desktop_height.options__5.label"
         },
         {
           "value": "90vh",
-          "label": "t:settings_schema.cart.settings.cart_drawer_size_mobile.fullscreen.label"
+          "label": "t:sections.promotion-banner.settings.desktop_height.options__6.label"
         }
       ],
       "default": "750px",
-      "label": "t:sections.shop_the_look.settings.desktop_height.label"
+      "label": "t:sections.promotion-banner.settings.desktop_height.label"
     },
     {
       "type": "range",
@@ -994,20 +951,13 @@
       "type": "checkbox",
       "id": "full_width_mobile",
       "default": true,
-      "label": "t:sections.all.full_width.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "adapt_corners_mobile",
-      "label": "t:sections.slideshow.settings.enable_adapt",
-      "default": true
+      "label": "t:sections.text-column-image.settings.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "rounded_corner_image_mobile",
       "default": false,
-      "label": "t:sections.featured-product.blocks.rounded_corner.label",
-      "visible_if": "{{ section.settings.adapt_corners_mobile == false }}"
+      "label": "t:sections.promotion-grid.blocks.promotion.settings.rounded_corner_image.label"
     },
     {
       "type": "select",
@@ -1015,31 +965,31 @@
       "options": [
         {
           "value": "250px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__1.label"
+          "label": "t:sections.promotion-banner.settings.mobile_height.options__1.label"
         },
         {
           "value": "300px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__2.label"
+          "label": "t:sections.promotion-banner.settings.mobile_height.options__2.label"
         },
         {
           "value": "400px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__3.label"
+          "label": "t:sections.promotion-banner.settings.mobile_height.options__3.label"
         },
         {
           "value": "500px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__4.label"
+          "label": "t:sections.promotion-banner.settings.mobile_height.options__4.label"
         },
         {
           "value": "natural",
-          "label": "t:sections.image-with-text.settings.height.options__5.label"
+          "label": "t:sections.promotion-banner.settings.mobile_height.options__5.label"
         },
         {
           "value": "90vh",
-          "label": "t:settings_schema.cart.settings.cart_drawer_size_mobile.fullscreen.label"
+          "label": "t:sections.promotion-banner.settings.mobile_height.options__6.label"
         }
       ],
       "default": "400px",
-      "label": "t:sections.shop_the_look.settings.mobile_height.label"
+      "label": "t:sections.promotion-banner.settings.mobile_height.label"
     },
     {
       "type": "range",
@@ -1098,7 +1048,7 @@
           "max": 200,
           "step": 10,
           "unit": "%",
-          "label": "t:sections.all.text.heading_size",
+          "label": "t:sections.promotion-banner.blocks.image_banner.settings.heading_size.label",
           "default": 170
         },
         {
@@ -1141,17 +1091,7 @@
           "type": "text",
           "id": "subheading",
           "default": "Summer Lookbook",
-          "label": "t:sections.all.text.subheading"
-        },
-        {
-          "type": "range",
-          "id": "subheading_size",
-          "min": 100,
-          "max": 200,
-          "unit": "%",
-          "step": 10,
-          "default": 100,
-          "label": "t:sections.all.text.subheading_size"
+          "label": "t:sections.promotion-banner.blocks.image_banner.settings.subheading.label"
         },
         {
           "type": "text",
@@ -1166,7 +1106,7 @@
           "max": 200,
           "step": 10,
           "unit": "%",
-          "label": "t:sections.all.text.text_size",
+          "label": "t:sections.promotion-banner.blocks.image_banner.settings.text_size.label",
           "default": 130
         },
         {
@@ -1175,11 +1115,11 @@
           "options": [
             {
               "value": "square",
-              "label": "t:settings_schema.products.square"
+              "label": "t:sections.promotion-banner.blocks.image_banner.settings.content_box_type.options__1.label"
             },
             {
               "value": "round",
-              "label": "t:settings_schema.products.round"
+              "label": "t:sections.promotion-banner.blocks.image_banner.settings.content_box_type.options__2.label"
             }
           ],
           "default": "square",
@@ -1207,7 +1147,7 @@
     },
     {
       "type": "buttons",
-      "name": "t:settings_schema.colors.settings.header__2.content",
+      "name": "t:sections.promotion-banner.blocks.buttons.name",
       "limit": 1,
       "settings": [
         {
@@ -1241,7 +1181,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:settings_schema.colors.colors_text_link"
+              "label": "t:sections.all.button.button_style.text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -1277,7 +1217,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:settings_schema.colors.colors_text_link"
+              "label": "t:sections.all.button.button_style.text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -1285,7 +1225,7 @@
         },
         {
           "type": "header",
-          "content": "t:settings_schema.colors.name"
+          "content": "t:sections.promotion-banner.blocks.buttons.settings.header_style.content"
         },
         {
           "type": "color",
@@ -1295,14 +1235,14 @@
         },
         {
           "type": "color",
-          "id": "color_text_button",
-          "label": "t:sections.all.button.color_text_button",
+          "id": "color_button_hover",
+          "label": "t:sections.all.button.color_button_hover",
           "default": "rgba(0,0,0,0)"
         },
         {
           "type": "color",
-          "id": "color_button_hover",
-          "label": "t:sections.all.button.color_button_hover",
+          "id": "color_text_button",
+          "label": "t:sections.all.button.color_text_button",
           "default": "rgba(0,0,0,0)"
         },
         {
@@ -1333,7 +1273,7 @@
     },
     {
       "type": "countdown_timer",
-      "name": "t:sections.announcement-bar.blocks.announcement.countdown-timer.name",
+      "name": "t:sections.promotion-banner.blocks.countdown.name",
       "limit": 1,
       "settings": [
         {
@@ -1342,178 +1282,119 @@
         },
         {
           "type": "select",
-          "id": "countdown_type",
-          "options": [
-            {
-              "value": "standard",
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.standard"
-            },
-            {
-              "value": "evergreen",
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.evergreen"
-            }
-          ],
-          "default": "standard",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.label",
-          "info": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.info"
-        },
-        {
-          "type": "range",
-          "id": "countdown_interval",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_interval.label",
-          "default": 7,
-          "max": 30,
-          "min": 1,
-          "step": 1,
-          "visible_if": "{{ block.settings.countdown_type == 'evergreen' }}"
-        },
-        {
-          "type": "select",
-          "id": "interval_unit",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.interval_unit.label",
-          "options": [
-            {
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.interval_unit.options.days",
-              "value": "day"
-            },
-            {
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.interval_unit.options.hours",
-              "value": "hour"
-            }
-          ],
-          "default": "day",
-          "visible_if": "{{ block.settings.countdown_type == 'evergreen' }}"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.event-calendar.blocks.event.settings.start_date.content",
-          "info": "t:sections.promotion-banner.blocks.countdown.settings.start_date_group.info",
-          "visible_if": "{{ block.settings.countdown_type == 'evergreen' }}"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.event-calendar.blocks.event.settings.end_date.content",
-          "visible_if": "{{ block.settings.countdown_type == 'standard' }}"
-        },
-        {
-          "type": "select",
           "id": "timezone",
           "options": [
             {
               "value": "-12",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-12.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-12.label"
             },
             {
               "value": "-11",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-11.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-11.label"
             },
             {
               "value": "-10",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-10.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-10.label"
             },
             {
               "value": "-9",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-9.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-9.label"
             },
             {
               "value": "-8",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-8.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-8.label"
             },
             {
               "value": "-7",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-7.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-7.label"
             },
             {
               "value": "-6",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-6.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-6.label"
             },
             {
               "value": "-5",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-5.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-5.label"
             },
             {
               "value": "-4",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-4.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-4.label"
             },
             {
               "value": "-3",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-3.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-3.label"
             },
             {
               "value": "-2",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-2.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-2.label"
             },
             {
               "value": "-1",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-1.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-1.label"
             },
             {
               "value": "0",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__0.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__0.label"
             },
             {
               "value": "1",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__1.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__1.label"
             },
             {
               "value": "2",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__2.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__2.label"
             },
             {
               "value": "3",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__3.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__3.label"
             },
             {
               "value": "4",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__4.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__4.label"
             },
             {
               "value": "5",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__5.label"
-            },
-            {
-              "value": "5.5",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__15.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__5.label"
             },
             {
               "value": "6",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__6.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__6.label"
             },
             {
               "value": "7",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__7.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__7.label"
             },
             {
               "value": "8",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__8.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__8.label"
             },
             {
               "value": "9",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__9.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__9.label"
             },
             {
               "value": "10",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__10.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__10.label"
             },
             {
               "value": "11",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__11.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__11.label"
             },
             {
               "value": "12",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__12.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__12.label"
             },
             {
               "value": "13",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__13.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__13.label"
             },
             {
               "value": "14",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__14.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__14.label"
             }
           ],
           "default": "-4",
-          "label": "t:sections.announcement-bar.blocks.timezone.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.label"
         },
         {
           "type": "number",
@@ -1527,51 +1408,51 @@
           "options": [
             {
               "value": "1",
-              "label": "t:sections.announcement-bar.blocks.month.options__1.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__1.label"
             },
             {
               "value": "2",
-              "label": "t:sections.announcement-bar.blocks.month.options__2.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__2.label"
             },
             {
               "value": "3",
-              "label": "t:sections.announcement-bar.blocks.month.options__3.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__3.label"
             },
             {
               "value": "4",
-              "label": "t:sections.announcement-bar.blocks.month.options__4.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__4.label"
             },
             {
               "value": "5",
-              "label": "t:sections.announcement-bar.blocks.month.options__5.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__5.label"
             },
             {
               "value": "6",
-              "label": "t:sections.announcement-bar.blocks.month.options__6.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__6.label"
             },
             {
               "value": "7",
-              "label": "t:sections.announcement-bar.blocks.month.options__7.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__7.label"
             },
             {
               "value": "8",
-              "label": "t:sections.announcement-bar.blocks.month.options__8.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__8.label"
             },
             {
               "value": "9",
-              "label": "t:sections.announcement-bar.blocks.month.options__9.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__9.label"
             },
             {
               "value": "10",
-              "label": "t:sections.announcement-bar.blocks.month.options__10.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__10.label"
             },
             {
               "value": "11",
-              "label": "t:sections.announcement-bar.blocks.month.options__11.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__11.label"
             },
             {
               "value": "12",
-              "label": "t:sections.announcement-bar.blocks.month.options__12.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__12.label"
             }
           ],
           "default": "1",
@@ -1811,7 +1692,7 @@
             }
           ],
           "default": "0",
-          "label": "t:settings_schema.shipping_delivery.estimate_delivery.cutoff_hour.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_hour.label"
         },
         {
           "type": "select",
@@ -1835,11 +1716,7 @@
             }
           ],
           "default": "0",
-          "label": "t:settings_schema.shipping_delivery.estimate_delivery.cutoff_minute.label"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.promotion-banner.blocks.countdown.settings.timer_style_group.content"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_minute.label"
         },
         {
           "type": "select",
@@ -1847,11 +1724,11 @@
           "options": [
             {
               "value": "square",
-              "label": "t:settings_schema.products.square"
+              "label": "t:sections.promotion-banner.blocks.image_banner.settings.content_box_type.options__1.label"
             },
             {
               "value": "rounded",
-              "label": "t:settings_schema.products.round"
+              "label": "t:sections.promotion-banner.blocks.image_banner.settings.content_box_type.options__2.label"
             }
           ],
           "default": "square",
@@ -1863,7 +1740,7 @@
           "options": [
             {
               "value": "none",
-              "label": "t:sections.all.icon.options.none"
+              "label": "t:sections.multicolumn.settings.line_border.options__1.label"
             },
             {
               "value": "border",
@@ -1885,7 +1762,7 @@
         },
         {
           "type": "header",
-          "content": "t:settings_schema.colors.name"
+          "content": "t:sections.promotion-banner.blocks.countdown.settings.header_style.label"
         },
         {
           "type": "color",
@@ -1896,13 +1773,13 @@
         {
           "type": "color",
           "id": "text_color_countdown",
-          "label": "t:sections.all.text.color_text",
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.text_color.label",
           "default": "#525151"
         },
         {
           "type": "color",
           "id": "bg_color_countdown",
-          "label": "t:sections.all.background.background_color",
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.bg_color.label",
           "default": "rgba(0,0,0,0)"
         },
         {
@@ -1937,14 +1814,14 @@
     },
     {
       "type": "menu",
-      "name": "t:sections.header.blocks.banner_menu.name",
+      "name": "t:sections.promotion-banner.blocks.menu.name",
       "limit": 1,
       "settings": [
         {
           "type": "link_list",
           "id": "menu",
           "default": "main-menu",
-          "label": "t:sections.mobile-navigation.settings.menu.label"
+          "label": "t:sections.promotion-banner.blocks.menu.settings.menu.label"
         },
         {
           "type": "range",
@@ -1967,8 +1844,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.promotion-banner.name",
-      "category": "t:categories.promotions",
+      "name": "t:sections.promotion-banner.presets.name",
       "blocks": [
         {
           "type": "image_banner"

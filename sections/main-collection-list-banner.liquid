@@ -1,9 +1,9 @@
-{% liquid
+{%- liquid
   assign base_size_heading = settings.heading_base_size | times: 0.0225 
   assign font_size_heading = section.settings.size_title | times: 0.01 | times: base_size_heading
   assign show_image_banner = false
-%}
-{% style %}
+-%}
+{%- style -%}
   .title--{{ section.id }} {
     font-size: {{ font_size_heading | times: 0.60 }}rem; 
   }
@@ -24,18 +24,14 @@
       font-size: {{ font_size_heading }}rem;
     }
   }
-{% endstyle %}
+{%- endstyle -%}
 <div class="{% if section.index == 1 %}preload-image {% endif %}collection-page-container pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
-  <div class="{% if section.settings.full_width %} md:pl-0 md:pr-0{% elsif section.settings.image %} x-pgw page-width mx-auto{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% else %} pr-5 pl-5{% endif %}">
+  <div class="{% if section.settings.full_width %} md:pl-0 md:pr-0{% elsif section.settings.image %} page-width mx-auto{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% else %} pr-5 pl-5{% endif %}">
     <div class="promotion relative overflow-hidden w-full{% if section.settings.image %} bg-opacity-80 bg-[#c9c9c9] promotion relative{% if section.settings.mobile_height != 'auto' %} h-[{{ section.settings.mobile_height }}] md:h-auto{% else %} mobile-{{ section.id }}-natural{% endif %}{% if section.settings.desktop_height != 'auto' %} md:promotion:h-[{{ section.settings.desktop_height }}] md:promotion:pb-0{% else %} desktop-{{ section.id }}-natural{% endif %}{% endif %}{% if section.settings.full_width %} md:rounded-none{% else %}{% if settings.edges_type == 'rounded_corners' %} md:rounded-[10px]{% endif %}{% endif %}{% unless section.settings.full_width_mobile %}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}{% endunless %}">
       <div class="{% if section.settings.image %}absolute top-0 z-10 left-0 w-full h-full flex flex-col justify-end{% endif %}">
         {% if section.settings.heading != blank %}
-          <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element collection-title x-pgw page-width w-full mx-auto pt-10{% if section.settings.image %} pb-12 md:pb-16{% else %} pb-6 md:pb-8{% endif %}">
-            <{{ section.settings.heading_tag }} 
-              class="title--{{ section.id }} h2 leading-tight
-                {%- if section.settings.title_position == 'text-center' %} text-center rtl:text-center{% elsif section.settings.title_position == 'text-left' %} text-left rtl:text-right{% else %} text-right rtl:text-left{% endif -%}
-                {%- if section.settings.image %} image-treatment-text{% endif %}"
-            >
+          <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element collection-title page-width w-full mx-auto pt-10{% if section.settings.image %} pb-12 md:pb-16{% else %} pb-6 md:pb-8{% endif %}">
+            <{{ section.settings.heading_tag }} class="title--{{ section.id }} h2 leading-tight {{ section.settings.title_position }}{% if section.settings.image %} image-treatment-text{% endif %}">
               {{ section.settings.heading }}
             </{{ section.settings.heading_tag }}>
           </div>
@@ -88,7 +84,7 @@
 {% schema %}
 {
   "name": "t:sections.main-collection-banner.name",
-  "class": "section x-section-collection-list-banner",
+  "class": "section",
   "enabled_on": {
     "templates": [
       "list-collections"
@@ -153,15 +149,15 @@
       "options": [
         {
           "value": "text-left",
-          "label": "t:sections.all.content_alignment.options__1.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__1.label"
         },
         {
           "value": "text-center",
-          "label": "t:sections.all.content_alignment.options__2.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__2.label"
         },
         {
           "value": "text-right",
-          "label": "t:sections.all.content_alignment.options__3.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__3.label"
         }
       ],
       "default": "text-left",
@@ -180,7 +176,7 @@
       "max": 100,
       "step": 10,
       "unit": "%",
-      "label": "t:sections.collection-list.settings.image_overlay_opacity.label",
+      "label": "t:sections.main-collection-banner.settings.image_overlay_opacity.label",
       "default": 20
     },
     {
@@ -193,19 +189,19 @@
       "options": [
         {
           "value": "450px",
-          "label": "t:sections.image-with-text.settings.height.options__1.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_height.options__1.label"
         },
         {
           "value": "550px",
-          "label": "t:sections.image-with-text.settings.height.options__2.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_height.options__2.label"
         },
         {
           "value": "650px",
-          "label": "t:sections.image-with-text.settings.height.options__3.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_height.options__3.label"
         },
         {
           "value": "750px",
-          "label": "t:sections.image-with-text.settings.height.options__4.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_height.options__4.label"
         },
         {
           "value": "auto",
@@ -213,11 +209,11 @@
         },
         {
           "value": "100vh",
-          "label": "t:settings_schema.cart.settings.cart_drawer_size_mobile.fullscreen.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_height.options__6.label"
         }
       ],
       "default": "450px",
-      "label": "t:sections.all.image.image_height"
+      "label": "t:sections.main-collection-banner.settings.desktop_height.label"
     },
     {
       "type": "checkbox",
@@ -255,19 +251,19 @@
       "options": [
         {
           "value": "250px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__1.label"
+          "label": "t:sections.main-collection-banner.settings.mobile_height.options__1.label"
         },
         {
           "value": "300px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__2.label"
+          "label": "t:sections.main-collection-banner.settings.mobile_height.options__2.label"
         },
         {
           "value": "400px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__3.label"
+          "label": "t:sections.main-collection-banner.settings.mobile_height.options__3.label"
         },
         {
           "value": "500px",
-          "label": "t:sections.image-with-text.settings.mobile_height.options__4.label"
+          "label": "t:sections.main-collection-banner.settings.mobile_height.options__4.label"
         },
         {
           "value": "auto",
@@ -275,11 +271,11 @@
         },
         {
           "value": "100vh",
-          "label": "t:settings_schema.cart.settings.cart_drawer_size_mobile.fullscreen.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_height.options__6.label"
         }
       ],
       "default": "300px",
-      "label": "t:sections.all.image.image_height"
+      "label": "t:sections.main-collection-banner.settings.mobile_height.label"
     },
     {
       "type": "checkbox",
@@ -311,7 +307,7 @@
   "blocks": [
     {
       "type": "breadcrumbs",
-      "name": "t:sections.all.breadcrumbs.label",
+      "name": "t:sections.main-collection-banner.block.breadcrumbs",
       "limit": 1,
       "settings": [
         {
@@ -332,15 +328,15 @@
           "options": [
             {
               "value": "text-left",
-              "label": "t:sections.all.content_alignment.options__1.label"
+              "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__1.label"
             },
             {
               "value": "text-center",
-              "label": "t:sections.all.content_alignment.options__2.label"
+              "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__2.label"
             },
             {
               "value": "text-right",
-              "label": "t:sections.all.content_alignment.options__3.label"
+              "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__3.label"
             }
           ],
           "default": "text-left",
@@ -352,15 +348,15 @@
           "options": [
             {
               "value": "text-left",
-              "label": "t:sections.all.content_alignment.options__1.label"
+              "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__1.label"
             },
             {
               "value": "text-center",
-              "label": "t:sections.all.content_alignment.options__2.label"
+              "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__2.label"
             },
             {
               "value": "text-right",
-              "label": "t:sections.all.content_alignment.options__3.label"
+              "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__3.label"
             }
           ],
           "default": "text-left",
@@ -368,19 +364,19 @@
         },
         {
           "type": "header",
-          "content": "t:settings_schema.colors.name"
+          "content": "t:sections.main-collection-banner.block.header"
         },
         {
           "type": "color",
           "id": "background_color_light",
           "default": "#f2f2f2",
-          "label": "t:sections.all.background.background_color_light"
+          "label": "t:sections.main-collection-banner.block.background_color_light"
         },
         {
           "type": "color",
           "id": "text_color_light",
           "default": "rgba(0,0,0,0)",
-          "label": "t:sections.all.text.color"
+          "label": "t:sections.main-collection-banner.block.text_color_light"
         },
         {
           "type": "color",
@@ -392,13 +388,13 @@
           "type": "color",
           "id": "background_color_dark",
           "default": "#313131",
-          "label": "t:sections.all.background.background_color_dark"
+          "label": "t:sections.main-collection-banner.block.background_color_dark"
         },
         {
           "type": "color",
           "id": "text_color_dark",
           "default": "rgba(0,0,0,0)",
-          "label": "t:sections.all.text.color_dark"
+          "label": "t:sections.main-collection-banner.block.text_color_dark"
         },
         {
           "type": "color",
@@ -411,8 +407,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.main-collection-banner.name",
-      "category": "t:categories.collections"
+      "name": "t:sections.main-collection-banner.name"
     }
   ]
 }

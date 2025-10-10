@@ -191,17 +191,14 @@
                 class="relative w-full overflow-hidden h-80{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}"
                 x-show="item.location == '' && item.image" 
               >
-                {% # theme-check-disable ImgLazyLoading %}
                 <img
                   x-show="item.image"
                   x-bind:src="`${ item.image }`"
                   class="top-0 right-0 left-0 bottom-0 object-cover h-full w-full image-hover" 
-                  {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                  loading="lazy" 
                   width="150"
                   height="150"
-                  alt=""
                 />
-                {% # theme-check-enable ImgLazyLoading %}
                 <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full" x-show="!item.image">{%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}</div>
               </div>
             </div>
@@ -209,17 +206,14 @@
           <div id="EventDescription-{{ section.id }}" class="mt-7 rte">
           </div>
           <div x-show="item.location && item.image" class="relative w-full overflow-hidden h-80{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
-            {% # theme-check-disable ImgLazyLoading %}
             <img
               x-show="item.image"
               x-bind:src="`${ item.image }`"
               class="top-0 right-0 left-0 bottom-0 object-cover h-full w-full image-hover" 
-              {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+              loading="lazy" 
               width="150"
               height="150"
-              alt=""
             />
-            {% # theme-check-enable ImgLazyLoading %}
             <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full" x-show="!item.image">{%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}</div>
           </div>
         </div>

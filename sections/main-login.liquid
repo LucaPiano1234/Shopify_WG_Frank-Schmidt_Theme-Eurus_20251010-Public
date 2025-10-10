@@ -87,14 +87,12 @@ endif
       {%- endif -%}
       {%- form 'customer_login' -%}
         {%- if form.errors -%}
-          <div class="max-w-[570px] pt-3.5 pb-3.5 ml-auto mr-auto focus:shadown-none focus-visible:outline-none focus:outline-none focus-visible:shadow-none">
-            <h2 class="text-large w-full max-w-[570px] ml-auto mr-auto outline-none" tabindex="-1" autofocus>
-              <span>
-                {% render 'icon-alls', icon: 'icon-error', enable_customer_page: true %}
-              </span>
+          <div class="flex flex-wrap items-center text-center max-w-[570px] pt-3.5 pb-3.5 ml-auto mr-auto focus:shadown-none focus-visible:outline-none focus:outline-none focus-visible:shadow-none">
+            {% render 'icon-alls', icon: 'icon-error', enable_customer_page: true %}
+            <h2 class="text-large outline-none z-10 ml-2" tabindex="-1" autofocus>
               {{ 'templates.contact.form.error_heading' | t }}
             </h2>
-            <ul class="w-full flex pl-12 rtl:pl-0 rtl:pr-12">
+            <ul class="w-full flex pl-12">
               <li class="list-disc">
                 {{ 'templates.contact.form.error_login' | t }}
               </li>

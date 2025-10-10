@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.has('sticky-atc.js')) {
-  window.Eurus.loadedScript.add('sticky-atc.js');
+if (!window.Eurus.loadedScript.includes('sticky-atc.js')) {
+  window.Eurus.loadedScript.push('sticky-atc.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
@@ -8,8 +8,18 @@ if (!window.Eurus.loadedScript.has('sticky-atc.js')) {
         currentAvailableOptions: [],
         options: [],
         init() {
+          if (!is_combined) {
+            this.variants = xParseJSON(this.$el.getAttribute('x-variants-data'));
+          }
+
           document.addEventListener(`eurus:product-page-variant-select:updated:${sectionId}`, (e) => {
-            this.renderVariant(e.detail.html);
+            if (is_combined) {
+              this.renderVariant(e.detail.html);
+            } else {
+              this.currentAvailableOptions = e.detail.currentAvailableOptions,
+              this.options = e.detail.options;
+            }
+
             this.renderProductPrice(e.detail.html);
             this.renderMedia(e.detail.html);
           });
@@ -34,15 +44,17 @@ if (!window.Eurus.loadedScript.has('sticky-atc.js')) {
           if (source && destination) destination.innerHTML = source.innerHTML;
         },
         changeOptionSticky(event) {
-          Array.from(event.target.options).forEach((option) => {
-            option.removeAttribute('selected');
-            if (option.selected) option.setAttribute('selected', '');
-          });
+          Array.from(event.target.options)
+            .find((option) => option.getAttribute('selected'))
+            .removeAttribute('selected');
+          event.target.selectedOptions[0].setAttribute('selected', 'selected');
           const input = event.target.selectedOptions[0];
+          const inputId = input.id;
           const targetUrl = input.dataset.productUrl;
           const variantEl = document.getElementById('variant-update-sticky-' + sectionId);
           document.dispatchEvent(new CustomEvent(`eurus:product-page-variant-select-sticky:updated:${sectionId}`, {
             detail: {
+              inputId: inputId,
               targetUrl: targetUrl,
               variantElSticky: variantEl
             }

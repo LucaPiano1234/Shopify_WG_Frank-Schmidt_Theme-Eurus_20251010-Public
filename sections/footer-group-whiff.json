@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
@@ -38,7 +47,7 @@
           "settings": {
             "open_by_default": false,
             "heading_menu": "Our Concept",
-            "menu": "main-menu",
+            "menu": "footer",
             "show_social_icons": false
           }
         },
@@ -47,7 +56,7 @@
           "settings": {
             "open_by_default": false,
             "heading_menu": "About Us",
-            "menu": "main-menu",
+            "menu": "footer",
             "show_social_icons": false
           }
         },
@@ -56,7 +65,7 @@
           "settings": {
             "open_by_default": false,
             "heading_menu": "Explore",
-            "menu": "main-menu",
+            "menu": "footer",
             "show_social_icons": false
           }
         },
@@ -65,7 +74,7 @@
           "settings": {
             "open_by_default": true,
             "heading_email": "Subscribe to our Newsletter",
-            "subtext_email": "<p>Sign up to receive email updates from Eurus about the latest collections and news.<\/p>",
+            "subtext_email": "<p>Sign up to receive email updates from Eurus about the latest collections and news.</p>",
             "show_social_icons": true
           }
         }

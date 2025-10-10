@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.has('coupon-code.js')) {
-  window.Eurus.loadedScript.add('coupon-code.js');
+if (!window.Eurus.loadedScript.includes('coupon-code.js')) {
+  window.Eurus.loadedScript.push('coupon-code.js');
   
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {
@@ -24,7 +24,7 @@ if (!window.Eurus.loadedScript.has('coupon-code.js')) {
         }
       }));
       
-      Alpine.data("xCouponCode", (freeShippingCodes) => ({
+      Alpine.data("xCouponCode", () => ({
         copySuccess: false,
         loading: false,
         disableCoupon: false,
@@ -45,9 +45,7 @@ if (!window.Eurus.loadedScript.has('coupon-code.js')) {
           navigator.clipboard.writeText(discountCode).then(
             () => {
               this.copySuccess = true;
-              const copyEvent = new Event('copy');
-              document.dispatchEvent(copyEvent);
-              
+
               setTimeout(() => {
                 this.copySuccess = false;
               }, 5000);
@@ -59,27 +57,17 @@ if (!window.Eurus.loadedScript.has('coupon-code.js')) {
         },
         applyCouponCode(discountCode, isCart=false) {
           Alpine.store('xCouponCodeDetail').discountFaild = false;
-          Alpine.store('xCouponCodeDetail').discountApplied = false;
+          Alpine.store('xCouponCodeDetail').discountApplied =  false;
           Alpine.store('xCouponCodeDetail').discountCorrect = false;
           Alpine.store('xCouponCodeDetail').getDiscountCode();
-          let appliedDiscountCodes = JSON.parse(JSON.stringify(Alpine.store('xCouponCodeDetail').appliedDiscountCodes));
-          const appliedDiscount = document.querySelectorAll(".discount-title:not(.hidden)");
+          let appliedDiscountCodes = JSON.parse(JSON.stringify(Alpine.store('xCouponCodeDetail').appliedDiscountCodes))
+          const appliedDiscount = document.querySelectorAll(".discount-title");
           let checkedDiscount = false;
           if (appliedDiscount.length > 0) {
             appliedDiscount.forEach((discount) => {
               if (discount.innerText.toLowerCase() == discountCode.toLowerCase()) checkedDiscount = true;
             });
           }
-          if (freeShippingCodes) {
-            if (freeShippingCodes.includes(this.discountCode)) {
-              Alpine.store('xCouponCodeDetail').freeShippingApplied = true;
-              setTimeout(() => {
-                Alpine.store('xCouponCodeDetail').freeShippingApplied = false;
-              }, 5000);
-              return;
-            }
-          }
-
           if (checkedDiscount) {
             Alpine.store('xCouponCodeDetail').discountApplied = true;
             document.querySelector("#x-cart-discount-field").value = '';
@@ -90,83 +78,97 @@ if (!window.Eurus.loadedScript.has('coupon-code.js')) {
             return true;
           }
           if (discountCode) {
-            let discountCodes = appliedDiscountCodes.length > 0 ? [...new Set([...appliedDiscountCodes, discountCode])].join(",") : discountCode;
+            let discountCodes = appliedDiscountCodes.length > 0 ? [...appliedDiscountCodes, discountCode].join(",") : discountCode;
+            document.cookie = `eurus_discount_code=${discountCodes}; path=/`;
+
             this.loading = true;
             let cartDrawer = false;
             let cartPage = false;
-            fetch('/cart/update.js', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                "discount": discountCodes,
-                "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
-              }),
-            }).then(response=>{
-              return response.json();
-            }).then((response) => {
-              if (response.status != '422') {
-                Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-                  section.selector.split(',').forEach((selector) => {
-                    const sectionElement = document.querySelector(selector);
+            fetch(`/checkout?discount=${discountCodes}`)
+            .then(() => {
+              fetch('/cart/update.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
+                }),
+              }).then(response=>{
+                return response.json();
+              }).then((response) => {
+                if (response.status != '422') {
+                  Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+                    const sectionElement = document.querySelector(section.selector);
                     if (sectionElement) {
                       if (response.sections[section.id]) {
-                        sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
-                        if (selector == '#CartDrawer' || selector == '#main-cart-footer' ) {
-                          cartDrawer = getSectionInnerHTML(response.sections[section.id], selector);
+                        sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
+                        if (section.selector == '#CartDrawer' || section.selector == '#main-cart-footer' ) {
+                          cartDrawer = getSectionInnerHTML(response.sections[section.id], section.selector);
                         }
-                        if(selector == '#main-cart-items') {
-                          cartPage =  getSectionInnerHTML(response.sections[section.id], selector);
+                        if(section.selector == '#main-cart-items') {
+                          cartPage =  getSectionInnerHTML(response.sections[section.id], section.selector);
                         }
                       }
                     }
-                  })
-                }));
-                Alpine.store('xCouponCodeDetail').appliedDiscountCodes = []
-                response.discount_codes.forEach(code => {
-                  if (code.applicable) {
-                    Alpine.store('xCouponCodeDetail').appliedDiscountCodes.push(code.code);
-                    if (code.code === discountCode) {
-                      checkedDiscount = true;
+                  }));
+                  checkedDiscount = false;
+                  const parser = new DOMParser();
+                  if (cartPage) {
+                    const cartPageHtml = parser.parseFromString(cartPage, 'text/html');
+                    const discountTitleCartPage = cartPageHtml.querySelectorAll(".discount-title");
+                    if (discountTitleCartPage.length > 0) {
+                      discountTitleCartPage.forEach((discount) => {
+                        if (discount.innerText.toLowerCase() == discountCode.toLowerCase()) checkedDiscount = true;
+                      });
                     }
                   }
-                })
-                document.cookie = `eurus_discount_code=${Alpine.store('xCouponCodeDetail').appliedDiscountCodes}; path=/`;
-                if (checkedDiscount) {
-                  Alpine.store('xCouponCodeDetail').discountCorrect = true;
-                } else {
-                  Alpine.store('xCouponCodeDetail').discountFaild = true;
-                }
-                Alpine.store('xCouponCodeDetail').appliedDiscountCodes.push(discountCode);
-                Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
-                document.dispatchEvent(new CustomEvent(`eurus:cart:discount-code:change`));
-                if (isCart == false) {
-                  this.setAppliedButton(discountCode)
-                  if (Alpine.store('xCartHelper').currentItemCount == 0) {
-                    const elementError = this.$el.closest('.promo-code-item').querySelector('.error-message');
-                    this.errorMessage = true;
-                    elementError.classList.remove('hidden', 'opacity-0');
-                    elementError.classList.add('block', 'opacity-100');
-
-                    setTimeout(function() {
-                      elementError.classList.remove('block', 'opacity-100');
-                      elementError.classList.add('hidden', 'opacity-0');
-                    }, 3000);
+                  if (cartDrawer) { 
+                    const cartDrawerHtml = parser.parseFromString(cartDrawer, 'text/html');
+                    const discountTitle = cartDrawerHtml.querySelectorAll(".discount-title");
+                    if (discountTitle.length > 0) {
+                      discountTitle.forEach((discount) => {
+                        if (discount.innerText.toLowerCase() == discountCode.toLowerCase()) checkedDiscount = true;
+                      });
+                    }
+                  }
+                  if (checkedDiscount) {
+                    Alpine.store('xCouponCodeDetail').discountCorrect = true;
                   } else {
-                    this.errorMessage = false;
-                    Alpine.store('xMiniCart').openCart();
+                    Alpine.store('xCouponCodeDetail').discountFaild = true;
+                  }
+                  Alpine.store('xCouponCodeDetail').appliedDiscountCodes.push(discountCode)
+                  Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+                  document.dispatchEvent(new CustomEvent(`eurus:cart:discount-code:change`));
+                  if (isCart == false) {
+                    this.setAppliedButton(discountCode)
+                    if (Alpine.store('xCartHelper').currentItemCount == 0) {
+                      const elementError = this.$el.closest('.promo-code-item').querySelector('.error-message');
+                      this.errorMessage = true;
+                      elementError.classList.remove('hidden', 'opacity-0');
+                      elementError.classList.add('block', 'opacity-100');
+  
+                      setTimeout(function() {
+                        elementError.classList.remove('block', 'opacity-100');
+                        elementError.classList.add('hidden', 'opacity-0');
+                      }, 3000);
+                    } else {
+                      this.errorMessage = false;
+                      Alpine.store('xMiniCart').openCart();
+                    }
                   }
                 }
-              }
-            }).finally(() => {
-              this.loading = false;
-              Alpine.store('xCouponCodeDetail').removedDiscountCode = '';
-              setTimeout(() => {
-                Alpine.store('xCouponCodeDetail').discountFaild = false;
-              }, 5000);
-              setTimeout(() => {
-                Alpine.store('xCouponCodeDetail').discountCorrect = false;
-              }, 3000);
-            });
+              }).finally(() => {
+                this.loading = false;
+                setTimeout(() => {
+                  Alpine.store('xCouponCodeDetail').discountFaild = false;
+                }, 5000);
+                setTimeout(() => {
+                  Alpine.store('xCouponCodeDetail').discountCorrect = false;
+                }, 3000);
+              });
+            })
+            .catch(function(error) {
+              console.error('Error:', error);
+            })
           }
         },
         handleScheduleCoupon(el) {
@@ -185,9 +187,6 @@ if (!window.Eurus.loadedScript.has('coupon-code.js')) {
         applyDiscountToCart() {
           this.applyCouponCode(this.discountCode, true);
         },
-        undoRemoveDiscount() {
-          this.applyCouponCode(Alpine.store('xCouponCodeDetail').removedDiscountCode, true);
-        },
         setAppliedButton(discountCode) {
           let appliedDiscountCodes = JSON.parse(JSON.stringify(Alpine.store('xCouponCodeDetail').appliedDiscountCodes))
           if (discountCode && appliedDiscountCodes.indexOf(discountCode) != -1) {
@@ -204,13 +203,11 @@ if (!window.Eurus.loadedScript.has('coupon-code.js')) {
         sectionID: "",
         discountCodeApplied: "",
         appliedDiscountCodes: [],
-        removedDiscountCode: '',
         cachedResults: [],
         loading: false,
         cartEmpty: true,
         discountFaild: false,
         discountApplied: false,
-        freeShippingApplied: false,
         discountCorrect: false,
         handleCouponSelect(shopUrl) {
           var _this = this;
@@ -286,89 +283,6 @@ if (!window.Eurus.loadedScript.has('coupon-code.js')) {
         close() {
           this.show = false;
           Alpine.store('xPopup').close();
-        },
-        removeDiscountCode(el, isCart=false) {
-          Alpine.store('xCouponCodeDetail').discountFaild = false;
-          Alpine.store('xCouponCodeDetail').discountApplied = false;
-          Alpine.store('xCouponCodeDetail').discountCorrect = false;
-          
-          this.getDiscountCode();
-
-          const discountCode = el.closest('li.x-discount').querySelector('.discount-title:not(.hidden)').textContent.toLowerCase();
-
-          let discountIndex = this.appliedDiscountCodes.findIndex(code => code.toLowerCase() === discountCode);
-          if (discountIndex !== -1) {
-            this.appliedDiscountCodes.splice(discountIndex, 1);
-          } 
-
-          this.loading = true;
-          let cartDrawer = false;
-          let cartPage = false;
-          fetch('/cart/update.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              "discount": this.appliedDiscountCodes.join(','),
-              "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
-            }),
-          }).then(response=>{
-            return response.json();
-          }).then((response) => {
-            if (response.status != '422') {
-              Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-                section.selector.split(',').forEach((selector) => {
-                  const sectionElement = document.querySelector(selector);
-                  if (sectionElement) {
-                    if (response.sections[section.id]) {
-                      sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
-                      if (selector == '#CartDrawer' || selector == '#main-cart-footer' ) {
-                        cartDrawer = getSectionInnerHTML(response.sections[section.id], selector);
-                      }
-                      if(selector == '#main-cart-items') {
-                        cartPage =  getSectionInnerHTML(response.sections[section.id], selector);
-                      }
-                    }
-                  }
-                })
-              }));
-              this.appliedDiscountCodes = []
-              response.discount_codes.forEach(code => {
-                if (code.applicable) this.appliedDiscountCodes.push(code.code);
-              })
-              document.cookie = `eurus_discount_code=${this.appliedDiscountCodes}; path=/`;
-              Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
-              document.dispatchEvent(new CustomEvent(`eurus:cart:discount-code:change`));
-              if (isCart == false) {
-                this.setAppliedButton(discountCode)
-                if (Alpine.store('xCartHelper').currentItemCount == 0) {
-                  const elementError = this.$el.closest('.promo-code-item').querySelector('.error-message');
-                  this.errorMessage = true;
-                  elementError.classList.remove('hidden', 'opacity-0');
-                  elementError.classList.add('block', 'opacity-100');
-
-                  setTimeout(function() {
-                    elementError.classList.remove('block', 'opacity-100');
-                    elementError.classList.add('hidden', 'opacity-0');
-                  }, 3000);
-                } else {
-                  this.errorMessage = false;
-                  Alpine.store('xMiniCart').openCart();
-                }
-              }
-            }
-          }).finally(() => {
-            this.loading = false;
-            this.removedDiscountCode = discountCode;
-            setTimeout(() => {
-              Alpine.store('xCouponCodeDetail').discountFaild = false;
-            }, 5000);
-            setTimeout(() => {
-              Alpine.store('xCouponCodeDetail').discountCorrect = false;
-            }, 3000);
-          });
-        },
-        clearRemovedDiscount() {
-          this.removedDiscountCode = '';
         },
         getDiscountCode() {
           let cookieValue = document.cookie.match('(^|;)\\s*' + 'eurus_discount_code' + '\\s*=\\s*([^;]+)');

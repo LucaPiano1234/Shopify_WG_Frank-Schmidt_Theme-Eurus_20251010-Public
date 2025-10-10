@@ -1,7 +1,7 @@
-<div class="gift-card-logo x-pgw page-width text-center mx-auto pl-5 pr-5 p-break-words md:pl-20 md:pr-20 mb-8 lg:mb-12">
+<div class="gift-card-logo page-width text-center mx-auto pl-5 pr-5 p-break-words md:pl-20 md:pr-20 mb-8 lg:mb-12">
   {%- if section.settings.logo != blank -%}
     {%- assign logo_alt = section.settings.logo.alt | default: shop.name | escape -%}
-    {% # theme-check-disable ImgLazyLoading %}
+    {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
     <img
       src="{{ section.settings.logo | image_url: width: section.settings.logo.width }}"
       alt="{{ logo_alt }}"
@@ -19,7 +19,7 @@
       height="{{ section.settings.logo.height }}"
       class="inline-block w-[{{ section.settings.logo_width_mobile }}px] md:w-[{{ section.settings.logo_width }}px]"
     />
-    {% # theme-check-enable ImgLazyLoading %}
+    {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
   {%- else -%}
     <h1>{{ shop.name }}</h1>
   {%- endif -%}
@@ -27,7 +27,6 @@
 {% schema %}
 {
   "name": "t:sections.header.name",
-  "class": "section-gift-card-header",
   "settings": [
     {
       "type": "image_picker",
@@ -51,7 +50,7 @@
       "max": 150,
       "step": 10,
       "default": 100,
-      "unit": "t:sections.header.settings.logo_width.unit",
+      "unit": "t:sections.header.settings.logo_width_mobile.unit",
       "label": "t:sections.header.settings.logo_width_mobile.label"
     }
   ]

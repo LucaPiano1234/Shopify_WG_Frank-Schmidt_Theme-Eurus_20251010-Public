@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.has('preview-color-swatches.js')) {
-  window.Eurus.loadedScript.add('preview-color-swatches.js');
+if (!window.Eurus.loadedScript.includes('preview-color-swatches.js')) {
+  window.Eurus.loadedScript.push('preview-color-swatches.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
@@ -8,12 +8,15 @@ if (!window.Eurus.loadedScript.has('preview-color-swatches.js')) {
         productUrl,
         productId,
       ) => ({
+        currentVariantCard: '',
         isSelect: false,
         productId: productId,
         showOptions: false,
-        init() {          
+        init() {
           document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
             this.checkVariantSelected();
+            this.currentVariantCard = e.detail.currentVariant;
+            this.options = e.detail.options;
           });
         },
         checkVariantSelected() {
@@ -22,128 +25,17 @@ if (!window.Eurus.loadedScript.has('preview-color-swatches.js')) {
             this.isSelect = true;
           }
         }
-      }));
-
-      Alpine.data('xDoubleTouch', (productUrl) => ({
-        lastTapTime: 0,
-        DOUBLE_TAP_DELAY: 300,
-        singleTapTimeout: null,
-        touchStartX: 0,
-        touchStartY: 0,
-        touchMoved: false,
-        MAX_MOVE_THRESHOLD: 10,
-        showSecond: false,
-
-        onTouchStart(event) {
-          const touch = event.touches[0];
-          this.touchStartX = touch.clientX;
-          this.touchStartY = touch.clientY;
-          this.touchMoved = false;
-        },
-  
-        onTouchMove(event) {
-          const touch = event.touches[0];
-          const deltaX = Math.abs(touch.clientX - this.touchStartX);
-          const deltaY = Math.abs(touch.clientY - this.touchStartY);
-          if (deltaX > this.MAX_MOVE_THRESHOLD || deltaY > this.MAX_MOVE_THRESHOLD) {
-            this.touchMoved = true;
-          }
-        },
-  
-        onTouchEnd(splide, carousel) {
-          if (this.touchMoved) {
-            return;
-          }
-  
-          const currentTime = new Date().getTime();
-          const tapLength = currentTime - this.lastTapTime;
-  
-          if (tapLength < this.DOUBLE_TAP_DELAY && tapLength > 0) {
-            clearTimeout(this.singleTapTimeout);
-            this.lastTapTime = 0;
-            this.onDoubleTap(splide, carousel);
-          } else {
-            this.lastTapTime = currentTime;
-            this.singleTapTimeout = setTimeout(() => {
-              this.onSingleTap();
-            }, this.DOUBLE_TAP_DELAY);
-          }
-        },
-  
-        onSingleTap() {
-          window.location.href= productUrl
-        },
-  
-        onDoubleTap(splide, carousel) {
-          if (carousel) {
-            Alpine.store('xSplide').togglePlayPause(splide)
-          } else {
-            this.showSecond = !this.showSecond;
-          }
-        }
-      }));
+      }))
 
       Alpine.store('xPreviewColorSwatch', {
-        onChangeVariant(el, productUrl, src, variantId, sectionId, isColor = false) {
-          setTimeout(() => {
-            document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
-              if (e.detail.currentVariant == null) {
-                this.updateImage(el, productUrl, src, variantId, sectionId);
-              }
-            });
-
-            if (!isColor) {
-              let productVariants = ''
-
-              document.dispatchEvent(new CustomEvent(`eurus:product-variant-get:${sectionId}`, {
-                detail: {
-                  callback: (variants) => {
-                    productVariants = variants;
-                  }
-                }
-              }));
-
-              if (productVariants) {
-                let variantSrc = productVariants.reduce((acc, variant) => {
-                  if (variant.featured_image) {
-                    acc[variant.id] = variant.featured_image.src;
-                  }
-                  return acc;
-                }, {});
-        
-                const swatchesContainer = el.closest('.options-container');
-                if (swatchesContainer) {
-                  const swatches = swatchesContainer.querySelectorAll('label.color-watches');
-                  const inputs = swatchesContainer.querySelectorAll('input:checked');
-      
-                  let selectedOption = [];
-      
-                  inputs.forEach(input => { 
-                    if (![...swatches].some(swatch => swatch.dataset.optionvalue === input.value)) {
-                      selectedOption.push(input.value.replace(/\\u003c/g, '<').replace(/\\u003e/g, '>'));
-                    }
-                  });
-      
-                  let imageSrc = productVariants
-                    .filter(variant => selectedOption.every(option => variant.options.includes(option)))
-                    .reduce((acc, variant) => {
-                      swatches.forEach((swatch) => {
-                        if (variant.options.includes(swatch.getAttribute('data-optionvalue'))) {
-                          acc[swatch.getAttribute('data-optionvalue')] =  `url(${variantSrc[variant.id] ? variantSrc[variant.id] : src})`
-                        }
-                      });
-                      return acc;
-                    }, {});
-                  swatches.forEach((swatch) => {
-                    swatch.style.setProperty('--bg-image',  imageSrc[swatch.getAttribute('data-optionvalue')]);
-                  });
-                }
-              }
-            } 
-          }, 0) // INP
+        onChangeVariant(el, productUrl, src, variantId, sectionId) {
+          document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
+            if (e.detail.currentVariant == null) {
+              this.updateImage(el, productUrl, src, variantId, sectionId);
+            }
+          })
         },
-
-        updateImage(el, productUrl, src, variantId, sectionId, hasVariant) {
+        updateImage(el, productUrl, src, variantId, sectionId) {
           const cardProduct = el.closest('.card-product');
           let getLink =  productUrl + `?variant=${variantId}`;
           if (!cardProduct) return;
@@ -152,7 +44,7 @@ if (!window.Eurus.loadedScript.has('preview-color-swatches.js')) {
             linkVariant[i].setAttribute("href", getLink);
           }
           const currentVariant = cardProduct.querySelector(".current-variant");
-          if (currentVariant && !hasVariant) {
+          if (currentVariant) {
             currentVariant.innerText = variantId;
           }
 
@@ -186,37 +78,6 @@ if (!window.Eurus.loadedScript.has('preview-color-swatches.js')) {
               slide.splide.go(0);
             }
           }
-        },
-        updateQuickAdd(productUrl, variantId, quickAddPageParam, productId, el){
-          return;
-          let url = `${productUrl}?variant=${variantId}&section_id=choose-option&page=${quickAddPageParam}`
-          fetch(url)
-          .then((response) => response.text())
-          .then((responseText) => {
-            const html = new DOMParser().parseFromString(responseText, 'text/html');
-            const listCurrent = document.querySelectorAll(`#product-form-choose-option${productId}${quickAddPageParam ?? ''}`);
-            const destination = html.querySelector(`#product-form-choose-option${productId}${quickAddPageParam ?? ''}`);
-            if (listCurrent.length > 0 && destination) {
-              listCurrent.forEach((item)=>{
-                const currentPrice = item.closest('.card-product').querySelector(".main-product-price");
-                const updatePrice = html.querySelector(".main-product-price");
-                if(currentPrice && updatePrice){
-                  currentPrice.innerHTML = updatePrice.innerHTML
-                }
-              })
-            } else {
-              if (listCurrent.length > 0) {
-                listCurrent.forEach((item) => {
-                  item.innerHTML = html.querySelector('.form').innerHTML;
-                })
-              }
-              const currentPrice = el?.closest('.card-product')?.querySelector(".main-product-price");
-              const updatePrice = html.querySelector(".main-product-price");
-              if(currentPrice && updatePrice){
-                currentPrice.innerHTML = updatePrice.innerHTML
-              }
-            }
-          })
         }
       });
     })

@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.has('video.js')) {
-  window.Eurus.loadedScript.add('video.js');
+if (!window.Eurus.loadedScript.includes('video.js')) {
+  window.Eurus.loadedScript.push('video.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
@@ -7,77 +7,38 @@ if (!window.Eurus.loadedScript.has('video.js')) {
         ytIframeId: 0,
         vimeoIframeId: 0,
         externalListened: false,
-
-        togglePlay(el) {
-          const videoContainer = el.closest('.external-video');
-          let video = el.getElementsByClassName('video')[0];
-          if (!video && el.closest('.contain-video')) {
-            video = el.closest('.contain-video').getElementsByClassName('video')[0];
-          }
-          if (video) {
-            if (videoContainer) {
-              video.paused ? videoContainer.classList.remove('function-paused') : videoContainer.classList.add('function-paused');
-              const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
-              if (buttonPlay) {
-                video.paused ? buttonPlay.classList.remove('hidden') : buttonPlay.classList.add('hidden');
-              }  
-            }
-            video.paused ? this.play(el) : this.pause(el);
-          }
-        },
         play(el) {
-          const videoContainer = el.closest('.external-video');
           let video = el.getElementsByClassName('video')[0];
           if (!video && el.closest('.contain-video')) {
             video = el.closest('.contain-video').getElementsByClassName('video')[0];
           }
           if (video) {
-            if (videoContainer) {
-              const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
-              if (video.tagName == 'IFRAME') {
-                if (videoContainer.classList.contains('function-paused')) this.externalPostCommand(video, 'play');
-                videoContainer.classList.remove('function-paused');
-              } else if (video.tagName == 'VIDEO') {
-                if (!videoContainer.classList.contains('function-paused')) {
-                  if (buttonPlay) buttonPlay.classList.add('hidden');
-                  video.play().catch((error) => {
-                    if (buttonPlay) buttonPlay.classList.remove('hidden');
-                  });
-                }
-              }
+            if (video.tagName == 'IFRAME') {
+              this.externalPostCommand(video, 'play');
+            } else if (video.tagName == 'VIDEO') {
+              video.play();
             }
           }
         },
         pause(el) {
-          const videoContainer = el.closest('.external-video');
           let video = el.getElementsByClassName('video')[0];
           if (!video && el.closest('.contain-video')) {
             video = el.closest('.contain-video').getElementsByClassName('video')[0];
           }
           if (video) {
-            if (videoContainer) {
-              const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
-              if (video.tagName == 'IFRAME') {
-                if (!videoContainer.classList.contains('paused')) {
-                  videoContainer.classList.add('function-paused');
-                }
-                this.externalPostCommand(video, 'pause');
-              } else if (video.tagName == 'VIDEO') {
-                if (buttonPlay) buttonPlay.classList.remove('hidden');
-                video.pause();
-              }
+            if (video.tagName == 'IFRAME') {
+              this.externalPostCommand(video, 'pause');
+            } else if (video.tagName == 'VIDEO') {
+              video.pause();
             }
           }
-        },
-        load(el) {
-          el?.classList.add('active');
-          el?.closest('.animate_transition_card__image')?.classList.remove('animate-Xpulse', 'skeleton-image');
-          setTimeout(() => { el.closest('.animate_transition_card__image')?.classList.add('lazy_active'); }, 250);  
         },
         mp4Thumbnail(el) {
           const videoContainer = el.closest('.external-video');
           const imgThumbnail = videoContainer.getElementsByClassName('img-thumbnail')[0];
           const imgThumbnailMobile = videoContainer.getElementsByClassName('img-thumbnail')[1];
+          const buttonPlay = videoContainer.getElementsByClassName('button-play')[0];
+          const video = videoContainer.getElementsByClassName('video')[0];
           if (imgThumbnail) {
             imgThumbnail.classList.add('hidden');
             imgThumbnail.classList.add('md:hidden');
@@ -85,7 +46,13 @@ if (!window.Eurus.loadedScript.has('video.js')) {
           if (imgThumbnailMobile) {
             imgThumbnailMobile.classList.add('hidden');
           }
-          this.togglePlay(el);
+          if (buttonPlay) {
+            buttonPlay.classList.add('hidden');
+          }
+          if (video) {
+            video.setAttribute("controls",'');
+          }
+          this.play(videoContainer);
         },
         externalLoad(el, host, id, loop, title, controls = 1) {
           let src = '';
@@ -101,9 +68,7 @@ if (!window.Eurus.loadedScript.has('video.js')) {
           }
           requestAnimationFrame(() => {
             const videoContainer = el.closest('.external-video');
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Macintosh') && navigator.maxTouchPoints > 1);
-            const borderRadiusClass = (isIOS && videoContainer.classList.contains('rounded-[10px]')) ? 'rounded-[10px]' : '';
-            videoContainer.innerHTML = `<iframe data-video-loop="${loop}" class="iframe-video absolute w-full h-full video top-1/2 -translate-y-1/2 ${borderRadiusClass} ${pointerEvent}"
+            videoContainer.innerHTML = `<iframe data-video-loop="${loop}" class="iframe-video absolute w-full h-full video top-1/2 -translate-y-1/2 ${ pointerEvent }"
               frameborder="0" host="${host}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen playsinline
               src="${src}" title="${title}"></iframe>`;
   
@@ -118,31 +83,12 @@ if (!window.Eurus.loadedScript.has('video.js')) {
                     id: this.ytIframeId,
                     channel: 'widget'
                   }), '*');
-                  videoContainer.querySelector('.iframe-video').contentWindow.postMessage(JSON.stringify({
-                    event: 'command',
-                    func: 'addEventListener',
-                    args: ['onStateChange'],
-                    id: this.ytIframeId,
-                    channel: 'widget'
-                  }), '*');
                 } else {
                   this.vimeoIframeId++;
                   videoContainer.querySelector('.iframe-video').contentWindow.postMessage(JSON.stringify({
                     method: 'addEventListener',
                     value: 'finish'
                   }), '*');
-                  videoContainer.querySelector('.iframe-video').contentWindow.postMessage(JSON.stringify({
-                    method: 'addEventListener',
-                    value: 'play'
-                  }), '*');
-                  videoContainer.querySelector('.iframe-video').contentWindow.postMessage(JSON.stringify({
-                    method: 'addEventListener',
-                    value: 'pause'
-                  }), '*');
-                  videoContainer.querySelector('.iframe-video').contentWindow.postMessage(JSON.stringify({
-                    method: 'addEventListener',
-                    value: 'playProgress'
-                  }), '*')
                 }
               }, 100);
             });
@@ -174,39 +120,23 @@ if (!window.Eurus.loadedScript.has('video.js')) {
               for (let i = 0, iframe, win, message; i < iframes.length; i++) {
                 iframe = iframes[i];
   
+                if (iframe.getAttribute('data-video-loop') !== 'true') continue;
+  
                 // Cross-browser way to get iframe's window object
                 win = iframe.contentWindow || iframe.contentDocument.defaultView;
   
                 if (win === event.source) {
                   if (event.origin == 'https://www.youtube.com') {
                     message = JSON.parse(event.data);
-                    if (iframe.getAttribute('data-video-loop') === 'true') {
-                      if (message.info && message.info.playerState == 0) {
-                        this.externalPostCommand(iframe, 'play');
-                      }  
-                    }
-                    if (message.info && message.info.playerState == 1) {
-                      iframe.parentNode.classList.remove('paused');
-                      iframe.parentNode.classList.remove('function-paused');
-                    }
-                    if (message.info && message.info.playerState == 2) {
-                      iframe.parentNode.classList.add('paused');
+                    if (message.info && message.info.playerState == 0) {
+                      this.play(iframe.parentNode);
                     }
                   }
   
                   if (event.origin == 'https://player.vimeo.com') {
                     message = JSON.parse(event.data);
-                    if (iframe.getAttribute('data-video-loop') !== 'true') {
-                      if (message.event == "finish") {
-                        this.externalPostCommand(iframe, 'play');
-                      }
-                    }
-                    if (message.event === 'play') {
-                      iframe.parentNode.classList.remove('paused');
-                      iframe.parentNode.classList.remove('function-paused');
-                    }
-                    if (message.event === 'pause') {
-                      iframe.parentNode.classList.add('paused');
+                    if (message.event == "finish") {
+                      this.play(iframe.parentNode);
                     }
                   }
                 }
@@ -240,6 +170,6 @@ if (!window.Eurus.loadedScript.has('video.js')) {
           }
         }
       });
-    }); 
+    });
   });
 }

@@ -50,7 +50,7 @@
     {% if section.settings.text_dark.alpha != 0.0 %}
       --colors-text: {{ section.settings.text_dark.red }},{{ section.settings.text_dark.green }},{{ section.settings.text_dark.blue }};
     {% else %}        
-      --colors-text: var(--colors-text);
+      --colors-text: var(--colors-text-secondary);
     {% endif %}
   }
   .header-table-{{ section.id }} {
@@ -109,61 +109,34 @@
       {% endif %}
     }  
   }
-  {% if section.settings.cell_light.alpha != 0.0 %}
-    .bg-cell-{{ section.id }} {
-      background: {{ section.settings.cell_light }};
-    }
-  {% endif %}
-  
-  .dark .bg-cell-{{ section.id }} {
-    {% if section.settings.cell_dark.alpha != 0.0 %}
-      background: {{ section.settings.cell_dark }};
-    {% else %}
-      background: transparent;
-    {% endif %}
-  }
-  .rte.conclusion-container * {
-    flex: 1;
-    margin-top: 0;
-  }
 {% endstyle %}
   {% render 'section-divider' %}
   
   <div x-data="{ active: 1 }" class="{% if section.index == 1 %}preload-image {% endif %}product-table-{{ section.id }} product-attribute-table color-text--{{ section.id }} relative bg-{{ section.id }} mx-auto pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
-    <div class="text-[rgb(var(--colors-text))]{% if section.settings.full_width %} full-width{% else %} x-pgw page-width{% endif %}">
+    <div class="text-[rgb(var(--colors-text))]{% if section.settings.full_width %} full-width{% else %} page-width{% endif %}">
       {%- if section.settings.subheading != blank or section.settings.heading != blank -%}
-        <div class="pb-5 md:pb-8 empty:hidden text-{{ section.settings.heading_alignment }} rtl:text-{% if section.settings.heading_alignment == 'center' %}center{% elsif section.settings.heading_alignment == 'left' %}right{% else %}left{% endif %}">
+        <div class="pb-5 md:pb-8">
           {%- if section.settings.subheading != blank -%}
-            <div class="mb-1.5{% unless settings.disable_heading_animation %} overflow-hidden{% endunless %}"{% unless settings.disable_heading_animation %} x-intersect.once="$el.querySelector('.anm-move-up')?.classList.add('active-anm-heading')"{% endunless %}>
-              <p class="rte{% unless settings.disable_heading_animation %} anm-move-up{% endunless %}">{{ section.settings.subheading }}</p>
-            </div>
+            <p class="rte mb-1.5 text-{{ section.settings.heading_alignment }}">{{ section.settings.subheading }}</p>
           {% endif %}
           {% if section.settings.heading != blank %}
-            {% render 'heading-highlight',
-              headingId: section.id,
-              heading: section.settings.heading,
-              highlight_type: section.settings.highlight_type,
-              class: 'h2 block empty:hidden leading-tight p-break-words',
-              heading_tag: section.settings.heading_tag,
-              animation_heading: true
-            %}
+            <{{ section.settings.heading_tag }} class="text-{{ section.settings.heading_alignment }} h2 block empty:hidden heading-{{ section.id }} leading-tight p-break-words">
+              {% render 'heading-highlight',
+                headingId: section.id,
+                heading: section.settings.heading,
+                highlight_type: section.settings.highlight_type
+              %}
+            </{{ section.settings.heading_tag }}>
           {% endif %}
         </div>
       {% endif %}
-      <div x-intersect.once='$el.classList.add("is-ready-to-animate")' class="x-block-attribute-images overflow-hidden flex flex-wrap justify-center{% if section.settings.content_layout_mobile == 'vertical' %} mb-5{% else %} mb-3{% endif %} md:mb-10" :class="active==0 && 'active-image'">
-        {%- capture onload -%}
-          this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');
-        {%- endcapture -%}
+      <div class="flex flex-wrap justify-center{% if section.settings.content_layout_mobile == 'vertical' %} mb-5{% else %} mb-3{% endif %} md:mb-10" :class="active==0 && 'active-image'">
         {% for block in section.blocks %}
-          {% style %}
-            .x-slide-animation-duration-{{ forloop.index }} {
-              --delay-time: {{ forloop.index0 | times: 100 | append: 'ms' }}
-            }
-          {% endstyle %}
           {% liquid
             if block.settings.product != blank
               if section.settings.criteria_option == 'product_specs'
                 if block.settings.product.metafields.custom.product_specs.value != blank
+                
                   if section.settings.list_option_show != blank
                     assign check_limit = true
                     assign limit_option = ';' | append: section.settings.list_option_show | newline_to_br | strip_newlines | replace: '<br />' , ';' | append: ';'
@@ -198,38 +171,29 @@
               endif
             endif
           %}
-          <div class="{% unless settings.disable_carousel_animation %}x-slide-animation x-slide-animation-duration-{{ forloop.index }}{% endunless %} w-1/{{ section.blocks.size }} md:w-[14%] w-1/{{ section.blocks.size }} md:w-[14%] pl-[5px] pr-[5px] lg:pl-3.5 lg:pr-5 lg:min-w-[180px] xxl:min-w-[300px] flex items-end">
-            <div class="" x-on:mouseover="active={{ forloop.index }}" x-on:click="active={{ forloop.index }}" :class="active!={{ forloop.index }} && 'opacity-50 image-table'">
-              <div class="overflow-hidden{% if settings.edges_type == 'rounded_corners' %} rounded-md{% endif %}">
-                {% if block.settings.product == blank and block.settings.image == blank %}
-                  <div class='bg-[#c9c9c9] flex justify-center w-full'>
-                    {%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}
+          <div class="w-1/{{ section.blocks.size }} md:w-[14%] pl-[5px] pr-[5px] lg:pl-3.5 lg:pr-5 lg:min-w-[180px] xxl:min-w-[300px] flex items-end" x-on:mouseover="active={{ forloop.index }}" x-on:click="active={{ forloop.index }}" :class="active!={{ forloop.index }} && 'opacity-50 image-table'">
+            <div class="overflow-hidden{% if settings.edges_type == 'rounded_corners' %} rounded-md{% endif %}">
+              {% if block.settings.product == blank and block.settings.image == blank %}
+                <div class='bg-[#c9c9c9] flex justify-center w-full'>
+                  {%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}
+                </div>
+              {% else %}
+                {% if block.settings.image != blank %}
+                  <div class="w-full animate_transition_slide__image" x-intersect.once="$el.classList.add('active')">
+                    {{ block.settings.image | image_url: width: 375 | image_tag: widths: '375', preload: true, loading: 'lazy' }}
                   </div>
                 {% else %}
-                  {% liquid
-                    if settings.enable_lazy_loading_image
-                      assign loading = 'lazy'
-                    else
-                      assign loading = 'eager'
-                    endif
-                  %}
-                  {% if block.settings.image != blank %}
-                    <div class="w-full animate_transition_slide__image animate-Xpulse skeleton-image" x-intersect.once="$el.classList.add('active')">
-                      {{ block.settings.image | image_url: width: 375 | image_tag: widths: '375', preload: true, loading: loading, onload: onload }}
+                  {% if block.settings.product.featured_media != blank %}
+                    <div class="w-full animate_transition_slide__image" x-intersect.once="$el.classList.add('active')">
+                      {{ block.settings.product.featured_media | image_url: width: 375 | image_tag: widths: '375', preload: true, loading: 'lazy' }}
                     </div>
                   {% else %}
-                    {% if block.settings.product.featured_media != blank %}
-                      <div class="w-full animate_transition_slide__image animate-Xpulse skeleton-image" x-intersect.once="$el.classList.add('active')">
-                        {{ block.settings.product.featured_media | image_url: width: 375 | image_tag: widths: '375', preload: true, loading: loading, onload: onload }}
-                      </div>
-                    {% else %}
-                      <div class='bg-[#c9c9c9] flex justify-center w-full animate_transition_slide__image' x-intersect.once="$el.classList.add('active')">
-                        {%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}
-                      </div>
-                    {% endif %}
+                    <div class='bg-[#c9c9c9] flex justify-center w-full animate_transition_slide__image' x-intersect.once="$el.classList.add('active')">
+                      {%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}
+                    </div>
                   {% endif %}
                 {% endif %}
-              </div>
+              {% endif %}
             </div>
           </div>
         {% endfor %}
@@ -296,7 +260,7 @@
               {% for atb in attributes %}
                 {% assign index_option = forloop.index %}
                 {% if atb != '' %}
-                  <div class="hidden md:flex grow basis-[0] justify-center ml-1 bg-cell-{{ section.id }} bg-hightlight-{{ section.id }} items-center border-solid border-b{% if first %} border-t mt-0.5{% endif %}">
+                  <div class="hidden md:flex grow basis-[0] justify-center ml-1 bg-hightlight-{{ section.id }} items-center border-solid border-b{% if first %} border-t mt-0.5{% endif %}">
                     {% if section.settings.criteria_option == 'product_specs' %}
                       {% if block.settings.product.metafields.custom.product_specs.value != blank %}
                           {% assign is_value = false %}
@@ -392,7 +356,7 @@
                     <div class="options-{{ index_option }} flex p-break-words justify-center items-center text-center{% if index != 1 %} ml-0.5{% endif %} md:ml-1 header-table-{{ section.id }}"><span class="pl-1 pr-1 pt-1 pb-1{% if option_blank %} w-1/2 h-3 bg-[#c9c9c9]{% endif %}">{{ atb }}</span></div>
                   </div>
                 {% for block in section.blocks %}
-                  <div class="flex grow basis-[0] justify-center ml-1 bg-cell-{{ section.id }} bg-hightlight-{{ section.id }} items-center mt-[1px] border-solid border-b{% if attribute_count == 1 %} border-t md:mt-[1px]{% else %} md:mt-0.5{% endif %}" x-on:mouseover="active={{ forloop.index }}" :class="active=={{ forloop.index }} && ' active-col'">
+                  <div class="flex grow basis-[0] justify-center ml-1 bg-hightlight-{{ section.id }} items-center mt-[1px] border-solid border-b{% if attribute_count == 1 %} border-t md:mt-[1px]{% else %} md:mt-0.5{% endif %}" x-on:mouseover="active={{ forloop.index }}" :class="active=={{ forloop.index }} && ' active-col'">
                     {% assign index_block = forloop.index %}
                     {% if section.settings.criteria_option == 'product_specs' %}
                       {% if block.settings.product.metafields.custom.product_specs.value != blank %}
@@ -452,28 +416,21 @@
           </div>
         </div>
       </div>
-      {%- if section.settings.conclusion != blank -%}
-        <div class="flex flex-col md:flex-row gap-5 md:gap-8 mt-10 md:mt-10">
-          <h3 class="h3 font-bold text-[rgba(var(--colors-text))]">{{ 'product-table.conclusion' | t }}</h3>
-          <div class="rte flex flex-col md:flex-row break-all gap-5 md:gap-8 conclusion-container">
-            {{ section.settings.conclusion }}
-          </div>
-        </div>
-      {%- endif -%}
       {%- if section.settings.button_label != blank -%}
         <div class="flex justify-center">
-          <a{% if section.settings.button_link != blank %} href="{{ section.settings.button_link }}"{% if section.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ section.id }} button-solid p-break-words border inline-block empty:hidden mt-7 md:mt-10 lg:mt-6 pl-6 pr-6 lg:pl-8 lg:pr-8 pt-2.5 pb-2.5 leading-normal md:pt-3 md:pb-3 cursor-pointer pointer-events-auto{% if section.settings.button_link == blank %} hover:cursor-not-allowed disable-btn-animation opacity-70{%- endif -%}">
+          <a{% if section.settings.button_link != blank %} href="{{ section.settings.button_link }}"{% if section.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ section.id }} button-solid p-break-words border inline-block empty:hidden mt-7 md:mt-10 lg:mt-6 pl-6 pr-6 lg:pl-8 lg:pr-8 pt-2.5 pb-2.5 leading-normal md:pt-3 md:pb-3 cursor-pointer pointer-events-auto{% if section.settings.button_link == blank %} hover:cursor-not-allowed opacity-70{%- endif -%}">
             {% render 'button-label', button_label: section.settings.button_label, show_button_style: 'primary' %}
           </a>
         </div>
       {% endif %}
+
     </div>
   </div>
 {% schema %}
 {
   "name": "t:sections.product-table.name",
   "tag": "section",
-  "class": "section x-section x-section-product-attribute-table",
+  "class": "section x-section",
   "disabled_on": {
     "groups": [
       "header",
@@ -482,10 +439,6 @@
     ]
   },
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "t:sections.user_guide_link.section_and_blocks.product_attribute_table"
-    },
     {
       "type": "text",
       "id": "criteria_option",
@@ -557,7 +510,7 @@
       "unit": "%",
       "step": 10,
       "default": 100,
-      "label": "t:sections.all.text.heading_size"
+      "label": "t:sections.collage.settings.heading_size.label"
     },
     {
       "type": "select",
@@ -599,7 +552,7 @@
       "type": "select",
       "id": "heading_alignment",
       "default": "center",
-      "label": "t:sections.all.text.heading_alignment",
+      "label": "t:sections.featured-collection.settings.heading_alignment.label",
       "options": [
         {
           "value": "left",
@@ -619,11 +572,6 @@
       "type": "text",
       "id": "subheading",
       "label": "t:sections.all.text.subheading"
-    },
-    {
-      "type": "richtext",
-      "id": "conclusion",
-      "label": "t:sections.product-table.settings.conclusion.label"
     },
     {
       "type": "text",
@@ -648,7 +596,7 @@
     {
       "type": "color",
       "id": "background_color_light",
-      "label": "t:sections.all.background.background_color_light",
+      "label": "t:sections.featured-product.settings.background_color_light.label",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -667,12 +615,6 @@
       "type": "color",
       "id": "line_border_light",
       "label": "t:sections.all.text.line_border",
-      "default": "rgba(0,0,0,0)"
-    },
-    {
-      "type": "color",
-      "id": "cell_light",
-      "label": "t:sections.product-table.settings.cell_light.label",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -702,7 +644,7 @@
     {
       "type": "color",
       "id": "background_color_dark",
-      "label": "t:sections.all.background.background_color_dark",
+      "label": "t:sections.featured-product.settings.background_color_dark.label",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -721,12 +663,6 @@
       "type": "color",
       "id": "line_border_dark",
       "label": "t:sections.all.text.line_border_dark",
-      "default": "rgba(0,0,0,0)"
-    },
-    {
-      "type": "color",
-      "id": "cell_dark",
-      "label": "t:sections.product-table.settings.cell_dark.label",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -763,11 +699,11 @@
       "options": [
         {
           "value": "horizontal",
-          "label": "t:sections.featured-collection.settings.slider_style.options__1"
+          "label": "t:sections.product-table.settings.content_layout.options__1.label"
         },
         {
           "value": "vertical",
-          "label": "t:sections.featured-collection.settings.slider_style.options__2"
+          "label": "t:sections.product-table.settings.content_layout.options__2.label"
         }
       ],
       "default": "horizontal",
@@ -783,7 +719,7 @@
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.rich-text.settings.show_section_divider.label"
     },
     {
       "type": "range",
@@ -815,11 +751,11 @@
       "options": [
         {
           "value": "horizontal",
-          "label": "t:sections.featured-collection.settings.slider_style.options__1"
+          "label": "t:sections.product-table.settings.content_layout.options__1.label"
         },
         {
           "value": "vertical",
-          "label": "t:sections.featured-collection.settings.slider_style.options__2"
+          "label": "t:sections.product-table.settings.content_layout.options__2.label"
         }
       ],
       "default": "horizontal",
@@ -829,7 +765,7 @@
       "id": "show_section_divider_mobile",
       "type": "checkbox",
       "default": false,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.collage.settings.show_divider.label"
     },
     {
       "type": "range",
@@ -855,13 +791,13 @@
   "blocks": [
     {
       "type": "product",
-      "name": "t:settings_schema.cart.product",
+      "name": "t:sections.collage.blocks.product.name",
       "limit": 5,
       "settings": [
         {
           "type": "product",
           "id": "product",
-          "label": "t:settings_schema.cart.product"
+          "label": "t:sections.collage.blocks.product.name"
         },
         {
           "type": "image_picker",
@@ -873,8 +809,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.product-table.name",
-      "category": "t:categories.products",
+      "name": "t:sections.product-table.presets.name",
       "blocks": [
         {
           "type": "product"

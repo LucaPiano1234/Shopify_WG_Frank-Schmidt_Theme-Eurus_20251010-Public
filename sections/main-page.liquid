@@ -2,11 +2,7 @@
 {%- liquid
   assign heading_size =  section.settings.heading_size | times: settings.heading_base_size | times: 0.000225
 -%}
-{%- style -%}
-  .x-section-page {
-    --max-width-page-container: calc((var(--page-width) + 40px) * {{ section.settings.max_container_page_width | times: 0.01 }});
-  }
-{%- endstyle -%}
+
 {% if settings.advanced_show_breadcrumbs and section.settings.show_breadcrumbs %}
   {% render 'breadcrumbs',
     background_color_light: section.settings.background_color_light,
@@ -23,27 +19,23 @@
   %}
 {% endif %}
 {% if page.content != blank or section.settings.show_heading %}
-  <div class="x-section-page pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] ltr">
-    <div class="page__container ml-auto mr-auto">
+  <div class="pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] ltr">
+    <div class="page__container">
       {% if section.settings.show_heading %}
         {%- style -%}
           .page__container .heading--{{ section.id }} { font-size: {{ heading_size | times: 0.6 }}rem; }
-          @media screen and (min-width: 1024px) {
+          @media screen and (min-width: 1025px) {
             .page__container .heading--{{ section.id }}{
               font-size: {{ heading_size }}rem;
             }  
           }
         {%- endstyle -%}
-        <div class="mb-4 md:mb-6">
-          {% unless settings.disable_heading_animation %}<div class="overflow-hidden" x-intersect.once="$el.querySelector('.anm-move-up')?.classList.add('active-anm-heading')">{% endunless %}
-            <{{ section.settings.heading_tag }} class="page__title h2 heading--{{ section.id }}{% unless settings.disable_heading_animation %} anm-move-up{% endunless %}">
-              {{ page.title | escape }}
-            </{{ section.settings.heading_tag }}>
-          {% unless settings.disable_heading_animation %}</div>{% endunless %}
-        </div>
+        <{{ section.settings.heading_tag }} class="page__title h2 mb-4 md:mb-6 heading--{{ section.id }}">
+          {{ page.title | escape }}
+        </{{ section.settings.heading_tag }}>
       {% endif %}
       {% if page.content != blank %}
-      <div class="page__body-container page__body anm-fade-paragraph">
+      <div class="page__body-container page__body-container page__body anm-fade-paragraph">
         <div class="rte anm-fade-element" x-intersect.once="$el.classList.add('is-visible')">
           {{ page.content }}
         </div>
@@ -55,9 +47,9 @@
 
 {% schema %}
 {
-  "name": "t:sections.section-page.name",
+  "name": "t:sections.main-page.name",
   "tag": "section",
-  "class": "section x-section x-section-page",
+  "class": "section x-section",
   "settings": [
     {
       "id": "show_heading",
@@ -74,8 +66,7 @@
       "step": 10,
       "unit": "%",
       "label": "t:sections.all.text.page_heading_size",
-      "default": 170,
-      "visible_if": "{{ section.settings.show_heading }}"
+      "default": 170
     },
     {
       "type": "select",
@@ -111,8 +102,7 @@
           "value": "p",
           "label": "p"
         }
-      ],
-      "visible_if": "{{ section.settings.show_heading }}"
+      ]
     },
     {
       "type": "header",
@@ -128,15 +118,13 @@
       "type": "checkbox",
       "id": "show_breadcrumbs_border",
       "default": false,
-      "label": "t:settings_schema.search_navigation.show_breadcrumb_borders",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:settings_schema.search_navigation.show_breadcrumb_borders"
     },
     {
       "type": "checkbox",
       "id": "full_width_breadcrumb",
       "default": true,
-      "label": "t:settings_schema.search_navigation.full_width",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:settings_schema.search_navigation.full_width"
     },
     {
       "type": "select",
@@ -144,20 +132,19 @@
       "options": [
         {
           "value": "text-left",
-          "label": "t:sections.all.content_alignment.options__1.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__1.label"
         },
         {
           "value": "text-center",
-          "label": "t:sections.all.content_alignment.options__2.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__2.label"
         },
         {
           "value": "text-right",
-          "label": "t:sections.all.content_alignment.options__3.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__3.label"
         }
       ],
       "default": "text-left",
-      "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.label",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.label"
     },
     {
       "type": "select",
@@ -165,76 +152,63 @@
       "options": [
         {
           "value": "text-left",
-          "label": "t:sections.all.content_alignment.options__1.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__1.label"
         },
         {
           "value": "text-center",
-          "label": "t:sections.all.content_alignment.options__2.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__2.label"
         },
         {
           "value": "text-right",
-          "label": "t:sections.all.content_alignment.options__3.label"
+          "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.options__3.label"
         }
       ],
       "default": "text-left",
-      "label": "t:sections.main-collection-banner.settings.mobile_content_alignment.label",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.settings.mobile_content_alignment.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-banner.block.header"
     },
     {
       "type": "color",
       "id": "background_color_light",
       "default": "#f2f2f2",
-      "label": "t:sections.all.background.background_color_light",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.block.background_color_light"
     },
     {
       "type": "color",
       "id": "text_color_light",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.all.text.color",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.block.text_color_light"
     },
     {
       "type": "color",
       "id": "textlink_color_light",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.main-collection-banner.block.textlink_color_light",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.block.textlink_color_light"
     },
     {
       "type": "color",
       "id": "background_color_dark",
       "default": "#313131",
-      "label": "t:sections.all.background.background_color_dark",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.block.background_color_dark"
     },
     {
       "type": "color",
       "id": "text_color_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.all.text.color_dark",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.block.text_color_dark"
     },
     {
       "type": "color",
       "id": "textlink_color_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.main-collection-banner.block.textlink_color_dark",
-      "visible_if": "{{ section.settings.show_breadcrumbs }}"
+      "label": "t:sections.main-collection-banner.block.textlink_color_dark"
     },
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "max_container_page_width",
-      "min": 50,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "label": "t:settings_schema.layout.page_width",
-      "default": 100
     },
     {
       "type": "range",

@@ -58,36 +58,21 @@
 {% render 'section-divider' %}
 
 <div class="collection-description bg--{{ section.id }} mx-auto pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
-  <div class="{% if section.settings.full_width %}full-width{% else %}x-pgw page-width{% endif %}">
+  <div class="{% if section.settings.full_width %} full-width{% else %} page-width{% endif %}">
     {% if section.settings.heading != blank %}
-      <div class="mb-6 md:mb-8">
+      <{{ section.settings.heading_tag }} class="heading-{{ section.id }} h2 mb-6 md:mb-8 block text-{{ section.settings.heading_alignment }}">
         {% render 'heading-highlight',
           headingId: section.id,
           heading: section.settings.heading,
           highlight_type: section.settings.highlight_type,
           color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
-          color_heading_highlight_light: section.settings.color_heading_highlight_light,
-          class: 'h2 block',
-          heading_tag: section.settings.heading_tag,
-          heading_alignment: section.settings.heading_alignment,
-          animation_heading: true
+          color_heading_highlight_light: section.settings.color_heading_highlight_light
         %}
-      </div>
+      </{{ section.settings.heading_tag }}>
     {% endif %}
     <div class="content--{{ section.id }} anm-fade-paragraph mx-auto text-[rgb(var(--colors-text))] p-break-words">
-      <div class="rte anm-fade-element
-        {%- if section.settings.desktop_content_alignment == 'text-center' %} md:text-center rtl:md:text-center{% elsif section.settings.desktop_content_alignment == 'text-left' %} md:text-left rtl:md:text-right{% else %} md:text-right rtl:md:text-left{% endif -%}
-        {%- if section.settings.mobile_content_alignment == 'text-center' %} text-center rtl:text-center{% elsif section.settings.mobile_content_alignment == 'text-left' %} text-left rtl:text-right{% else %} text-right rtl:text-left{% endif %}"
-        x-intersect.once="$el.classList.add('is-visible')"
-      >
-        {%- render 'truncate-text', 
-          number_of_lines_shown: section.settings.number_of_lines_shown 
-          blockID: section.id,
-          content: collection.description,
-          read_more_label: section.settings.read_more_label,
-          see_less_label: section.settings.see_less_label,
-          gradient_style: 'secondary'
-        -%}
+      <div class="rte anm-fade-element" x-intersect.once="$el.classList.add('is-visible')">
+      {{ collection.description }}
       </div>
     </div>
   </div>
@@ -176,7 +161,7 @@
       "type": "select",
       "id": "heading_alignment",
       "default": "center",
-      "label": "t:sections.all.text.heading_alignment",
+      "label": "t:sections.featured-collection.settings.heading_alignment.label",
       "options": [
         {
           "value": "left",
@@ -204,13 +189,13 @@
     },
     {
       "type": "header",
-      "content": "t:settings_schema.colors.name"
+      "content": "t:sections.main-collection-banner.block.header"
     },
     {
       "type": "color",
       "id": "background_color_light",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.all.background.background_color_light"
+      "label": "t:sections.main-collection-banner.block.background_color_light"
     },
     {
       "type": "color",
@@ -228,13 +213,13 @@
       "type": "color",
       "id": "text_color_light",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.all.text.color"
+      "label": "t:sections.main-collection-banner.block.text_color_light"
     },
     {
       "type": "color",
       "id": "background_color_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.all.background.background_color_dark"
+      "label": "t:sections.main-collection-banner.block.background_color_dark"
     },
     {
       "type": "color",
@@ -252,70 +237,11 @@
       "type": "color",
       "id": "text_color_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.all.text.color_dark"
+      "label": "t:sections.main-collection-banner.block.text_color_dark"
     },
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "select",
-      "id": "number_of_lines_shown",
-      "label": "t:sections.all.number_of_lines_shown.label",
-      "info": "t:sections.all.number_of_lines_shown.info",
-      "default": "none",
-      "options": [
-        {
-          "value": "none",
-          "label": "t:sections.all.number_of_lines_shown.default"
-        },
-        {
-          "value": "small",
-          "label": "t:sections.all.size.options__1.label"
-        },
-        {
-          "value": "medium",
-          "label": "t:sections.all.size.options__2.label"
-        },
-        {
-          "value": "large",
-          "label": "t:sections.all.size.options__3.label"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "id": "read_more_label",
-      "default": "Read more",
-      "label": "t:sections.all.read_more_label.label",
-      "visible_if": "{{ section.settings.number_of_lines_shown != 'none' }}"
-    },
-    {
-      "type": "text",
-      "id": "see_less_label",
-      "default": "See less",
-      "label": "t:sections.all.see_less_label.label",
-      "visible_if": "{{ section.settings.number_of_lines_shown != 'none' }}"
-    },
-    {
-      "type": "select",
-      "id": "desktop_content_alignment",
-      "options": [
-        {
-          "value": "text-left",
-          "label": "t:sections.all.content_alignment.options__1.label"
-        },
-        {
-          "value": "text-center",
-          "label": "t:sections.all.content_alignment.options__2.label"
-        },
-        {
-          "value": "text-right",
-          "label": "t:sections.all.content_alignment.options__3.label"
-        }
-      ],
-      "default": "text-left",
-      "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.label"
     },
     {
       "type": "range",
@@ -337,7 +263,7 @@
       "type": "checkbox",
       "id": "show_section_divider",
       "default": true,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.rich-text.settings.show_section_divider.label"
     },
     {
       "type": "range",
@@ -374,30 +300,10 @@
       "content": "t:sections.all.padding.section_layout_mobile"
     },
     {
-      "type": "select",
-      "id": "mobile_content_alignment",
-      "options": [
-        {
-          "value": "text-left",
-          "label": "t:sections.all.content_alignment.options__1.label"
-        },
-        {
-          "value": "text-center",
-          "label": "t:sections.all.content_alignment.options__2.label"
-        },
-        {
-          "value": "text-right",
-          "label": "t:sections.all.content_alignment.options__3.label"
-        }
-      ],
-      "default": "text-left",
-      "label": "t:sections.main-collection-banner.settings.mobile_content_alignment.label"
-    },
-    {
       "id": "show_section_divider_mobile",
       "type": "checkbox",
       "default": true,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.collage.settings.show_divider.label"
     },
     {
       "type": "range",
@@ -422,8 +328,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.collection-description.name",
-      "category": "t:categories.collections"
+      "name": "t:sections.collection-description.name"
     }
   ]
 }

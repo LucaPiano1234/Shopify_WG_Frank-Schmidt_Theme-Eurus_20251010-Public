@@ -1,16 +1,16 @@
 {%- style -%}
-  .heading-color--{{ section.id }} h1,
-  .heading-color--{{ section.id }} h2,
-  .heading-color--{{ section.id }} h3,
-  .heading-color--{{ section.id }} h4,
-  .heading-color--{{ section.id }} h5,
-  .heading-color--{{ section.id }} h6 {
-    {% if section.settings.heading_color.alpha == 0.0 %}
-      color: rgb(var(--colors-heading));
-    {% else %}
-      color: {{ section.settings.heading_color }};
-    {% endif %}
-  }
+.heading-color--{{ section.id }} h1,
+.heading-color--{{ section.id }} h2,
+.heading-color--{{ section.id }} h3,
+.heading-color--{{ section.id }} h4,
+.heading-color--{{ section.id }} h5,
+.heading-color--{{ section.id }} h6 {
+  {% if section.settings.heading_color.alpha == 0.0 %}
+    color: rgb(var(--colors-heading));
+  {% else %}
+    color: {{ section.settings.heading_color }};
+  {% endif %}
+}
   .text-color--{{ section.id }} {
     {% if section.settings.text_color.alpha == 0.0 %}
       color: rgb(var(--colors-text));
@@ -36,8 +36,7 @@
 <div class="relative flex flex-col justify-center w-full min-h-[450px] md:min-h-[650px] heading-color--{{ section.id }}">
   <div class="overflow-hidden h-full w-full relative md:absolute top-0 left-0{% unless section.settings.show_background_image %} hidden md:block{% endunless %}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}">
     {%- if section.settings.image != blank -%}
-      {% # theme-check-disable ImgLazyLoading %}
-      <parallax-image class="h-full w-full animate-Xpulse skeleton-image">
+      <parallax-image class="h-full w-full">
         <parallax-movement x-data="xParallax" x-intersect.once.margin.200px="load({{ settings.disable_parallax_effect }})">
           <img
             class="block max-w-full md:absolute top-0 left-0 h-full w-full object-cover object-center"
@@ -53,8 +52,7 @@
               {{ section.settings.image | image_url: width: 3840 }} 3840w"
             sizes="100vw"
             src="{{ section.settings.image | image_url: width: 3840 }}"
-            {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
-            onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
+            loading="lazy"
             alt="{{ section.settings.image.alt | escape }}"
             width="{{ section.settings.image.width }}"
             height="{{ section.settings.image.width | divided_by: section.settings.image.aspect_ratio }}"
@@ -62,15 +60,11 @@
           >
         </parallax-movement>
       </parallax-image>
-      {% # theme-check-enable ImgLazyLoading %}
       <span class="absolute top-0 left-0 bottom-0 right-0 image-treatment-overlay opacity-{{ section.settings.image_overlay_opacity }}"></span>
     {%- endif -%}
   </div>
-  <div class="md:pt-12 md:pr-12 md:pb-12 md:pl-12 flex relative w-full x-pgw page-width md:min-h-[650px] md:position--{{ section.settings.desktop_content_position }}">
-    <div class="pr-5 pl-5 pt-8 pb-8 md:pl-32 md:pr-32 md:pt-16 md:pb-16 w-full md:w-auto content--{{ section.id }} text-color--{{ section.id }} overflow-hidden md:w-3/4 md:relative h-fit md:max-w-4xl lg:w-3/5
-      {%- if section.settings.mobile_content_alignment == 'center' %} text-center rtl:text-center{% elsif section.settings.mobile_content_alignment == 'left' %} text-left rtl:text-right{% else %} text-right rtl:text-left{% endif -%}
-      {%- if section.settings.desktop_content_alignment == 'center' %} lg:text-center rtl:lg:text-center{% elsif section.settings.desktop_content_alignment == 'left' %} lg:text-left rtl:lg:text-right{% else %} lg:text-right rtl:lg:text-left{% endif %}"
-    >
+  <div class="md:pt-12 md:pr-12 md:pb-12 md:pl-12 flex relative w-full page-width md:min-h-[650px] md:position--{{ section.settings.desktop_content_position }}">
+    <div class="pr-5 pl-5 pt-8 pb-8 md:pl-32 md:pr-32 md:pt-16 md:pb-16 w-full md:w-auto content--{{ section.id }} text-color--{{ section.id }} overflow-hidden md:w-3/4 md:relative h-fit md:max-w-4xl lg:w-3/5 text-{{ section.settings.mobile_content_alignment }} lg:text-{{ section.settings.desktop_content_alignment }}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
@@ -99,7 +93,7 @@
               {% form 'customer', class: 'newsletter-form mt-5' %}
                 <input type="hidden" name="contact[tags]" value="newsletter">
                 <div class="newsletter-form__field-wrapper">
-                  <div class="flex pt-1.5 pb-1.5 pl-1.5 pr-1.5 border border-solid rounded-[var(--border-radius)] mb-1">
+                  <div class="flex pt-1.5 pb-1.5 pl-1.5 pr-1.5 border border-solid rounded-[var(--border-radius)]">
                     <div class="field flex-1 relative">
                       <input
                       id="NewsletterForm--{{ section.id }}"
@@ -122,7 +116,7 @@
                       required
                       >
                       <label class="leading-tight duration-200 absolute top-1/2{% if settings.lang_direction contains request.locale.iso_code %}  right-5 lg:right-6{% else %} left-5 lg:left-6{% endif %} -translate-y-1/2 input_focus:text-xs input_focus:top-2 input_not_empty:top-2 input_not_empty:text-xs" for="NewsletterForm--{{ section.id }}">
-                        {{ 'newsletter.label' | t }}
+                      {{ 'newsletter.label' | t }}
                       </label>
                     </div>
                     <button type="submit" class="button button-solid ml-0.5 pl-5 pr-5 lg:pl-12 lg:pr-12 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal cursor-pointer empty:hidden" name="commit" aria-label="{{ 'newsletter.button_label' | t }}">
@@ -166,11 +160,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "t:sections.user_guide_link.section_and_blocks.email_signup"
-    },
-    {
-      "type": "paragraph",
-      "content": "t:sections.footer.settings.paragraph.content"
+      "content": "t:sections.email-signup-banner.settings.paragraph.content"
     },
     {
       "type": "image_picker",
@@ -185,7 +175,7 @@
       "max": 100,
       "step": 10,
       "unit": "%",
-      "label": "t:sections.collection-list.settings.image_overlay_opacity.label",
+      "label": "t:sections.email-signup-banner.settings.image_overlay_opacity.label",
       "info": "t:sections.email-signup-banner.settings.image_overlay_opacity.info",
       "default": 0
     },
@@ -195,39 +185,39 @@
       "options": [
         {
           "value": "top-left",
-          "label": "t:sections.all.content_position.options__1.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__1.label"
         },
         {
           "value": "top-center",
-          "label": "t:sections.all.content_position.options__2.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__2.label"
         },
         {
           "value": "top-right",
-          "label": "t:sections.all.content_position.options__3.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__3.label"
         },
         {
           "value": "center-left",
-          "label": "t:sections.all.alignment.center_left.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__4.label"
         },
         {
           "value": "center",
-          "label": "t:sections.all.content_alignment.options__2.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__5.label"
         },
         {
           "value": "center-right",
-          "label": "t:sections.all.alignment.center_right.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__6.label"
         },
         {
           "value": "bottom-left",
-          "label": "t:sections.all.content_position.options__7.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__7.label"
         },
         {
           "value": "bottom-center",
-          "label": "t:sections.all.content_position.options__8.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__8.label"
         },
         {
           "value": "bottom-right",
-          "label": "t:sections.all.content_position.options__9.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_position.options__9.label"
         }
       ],
       "default": "center",
@@ -245,19 +235,19 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.all.content_alignment.options__1.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_alignment.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:sections.all.content_alignment.options__2.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_alignment.options__2.label"
         },
         {
           "value": "right",
-          "label": "t:sections.all.content_alignment.options__3.label"
+          "label": "t:sections.email-signup-banner.settings.desktop_content_alignment.options__3.label"
         }
       ],
       "default": "center",
-      "label": "t:sections.main-collection-banner.settings.desktop_content_alignment.label"
+      "label": "t:sections.email-signup-banner.settings.desktop_content_alignment.label"
     },
     {
       "type": "color",
@@ -269,7 +259,7 @@
       "type": "color",
       "id": "text_color",
       "default": "#000000",
-      "label": "t:sections.all.text.color_text"
+      "label": "t:sections.email-signup-banner.settings.text_color.label"
     },
     {
       "type": "color",
@@ -279,7 +269,7 @@
     },
     {
       "type": "header",
-      "content": "t:sections.all.padding.section_layout_mobile"
+      "content": "t:sections.email-signup-banner.settings.header.content"
     },
     {
       "type": "select",
@@ -287,19 +277,19 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.all.content_alignment.options__1.label"
+          "label": "t:sections.email-signup-banner.settings.mobile_content_alignment.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:sections.all.content_alignment.options__2.label"
+          "label": "t:sections.email-signup-banner.settings.mobile_content_alignment.options__2.label"
         },
         {
           "value": "right",
-          "label": "t:sections.all.content_alignment.options__3.label"
+          "label": "t:sections.email-signup-banner.settings.mobile_content_alignment.options__3.label"
         }
       ],
       "default": "center",
-      "label": "t:sections.main-collection-banner.settings.mobile_content_alignment.label"
+      "label": "t:sections.email-signup-banner.settings.mobile_content_alignment.label"
     },
     {
       "type": "checkbox",
@@ -328,7 +318,7 @@
           "step": 10,
           "unit": "%",
           "default": 100,
-          "label": "t:sections.all.text.heading_size"
+          "label": "t:sections.email-signup-banner.blocks.heading.settings.heading_size.label"
         },
         {
           "type": "select",
@@ -377,20 +367,19 @@
           "type": "richtext",
           "id": "text",
           "default": "<p>Be the first to know when we launch.</p>",
-          "label": "t:settings_schema.seo.business_description.label"
+          "label": "t:sections.email-signup-banner.blocks.paragraph.settings.paragraph.label"
         }
       ]
     },
     {
       "type": "email_form",
-      "name": "t:sections.header.blocks.contact_menu.settings.email_form.content",
+      "name": "t:sections.email-signup-banner.blocks.email_form.name",
       "limit": 1
     }
   ],
   "presets": [
     {
-      "name": "t:sections.email-signup-banner.name",
-      "category": "t:categories.forms",
+      "name": "t:sections.email-signup-banner.presets.name",
       "blocks": [
         {
           "type": "heading"

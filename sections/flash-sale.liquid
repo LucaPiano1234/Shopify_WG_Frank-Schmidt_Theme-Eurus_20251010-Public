@@ -1,32 +1,14 @@
 {%- liquid
-  assign image_url_mobile = section.settings.image
+  assign imageUrlMobile = section.settings.image
   if section.settings.image_mobile != blank
-    assign image_url_mobile = section.settings.image_mobile
+    assign imageUrlMobile = section.settings.image_mobile
   endif
   
-  assign rounded_desktop = section.settings.rounded_corner_image
-  assign rounded_mobile = section.settings.rounded_corner_image_mobile
-  if section.settings.adapt_corners_desktop 
-    if settings.edges_type == 'rounded_corners'
-      assign rounded_desktop = true
-    else
-      assign rounded_desktop = false
-    endif 
-  endif
-  if section.settings.adapt_corners_mobile
-    if settings.edges_type == 'rounded_corners'
-      assign rounded_mobile = true
-    else
-      assign rounded_mobile = false
-    endif 
-  endif
 -%}
 {% style %}
   .bg-{{ section.id }} {
     {% if section.settings.background_color_light.alpha != 0.0 %}
       --background-color: {{ section.settings.background_color_light.red }}, {{ section.settings.background_color_light.green }}, {{ section.settings.background_color_light.blue }};
-    {% else %}
-      --background-color: {{ settings.secondary_background.red }}, {{ settings.secondary_background.green }}, {{ settings.secondary_background.blue }};
     {% endif %}
     {% if section.settings.line_border_light.alpha != 0.0 %}
       --colors-line-and-border: {{ section.settings.line_border_light.red }},{{ section.settings.line_border_light.green }},{{ section.settings.line_border_light.blue }};
@@ -36,44 +18,40 @@
     {% if section.settings.background_color_dark.alpha != 0.0 %}
       --background-color: {{ section.settings.background_color_dark.red }}, {{ section.settings.background_color_dark.green }}, {{ section.settings.background_color_dark.blue }};
     {% else %}
-      --background-color: {{ settings.secondary_background_dark.red }}, {{ settings.secondary_background_dark.green }}, {{ settings.secondary_background_dark.blue }};
+      --background-color: transparent;
     {% endif %}
     {% if section.settings.line_border_dark.alpha != 0.0 %}
       --colors-line-and-border: {{ section.settings.line_border_dark.red }},{{ section.settings.line_border_dark.green }},{{ section.settings.line_border_dark.blue }};
     {% else %}        
-      --colors-line-and-border: {{ settings.colors_dark_line_and_borders.red }}, {{ settings.colors_dark_line_and_borders.green }}, {{ settings.colors_dark_line_and_borders.blue }};
+      --colors-line-and-border: {{ settings.colors_line_and_borders.red }}, {{ settings.colors_line_and_borders.green }}, {{ settings.colors_line_and_borders.blue }};
     {% endif %}
   }
   .content-{{ section.id }} {
     {% if section.settings.heading_light.alpha != 0.0 %}
       --colors-heading: {{ section.settings.heading_light.red }},{{ section.settings.heading_light.green }},{{ section.settings.heading_light.blue }};
-    {% else %}
-      --colors-heading: {{ settings.colors_heading.red }}, {{ settings.colors_heading.green }}, {{ settings.colors_heading.blue }};
     {% endif %}
     {% if section.settings.text_light.alpha != 0.0 %}
       --colors-text: {{ section.settings.text_light.red }},{{ section.settings.text_light.green }},{{ section.settings.text_light.blue }};
-    {% else %}
-      --colors-text: {{ settings.colors_text.red }}, {{ settings.colors_text.green }}, {{ settings.colors_text.blue }};
     {% endif %}
   }
   .dark .content-{{ section.id }} {
     {% if section.settings.text_dark.alpha != 0.0 %}
       --colors-text: {{ section.settings.text_dark.red }},{{ section.settings.text_dark.green }},{{ section.settings.text_dark.blue }};
     {% else %}        
-      --colors-text: {{ settings.colors_dark_text.red }}, {{ settings.colors_dark_text.green }}, {{ settings.colors_dark_text.blue }};
+      --colors-text: var(--colors-text-secondary);
     {% endif %}
     {% if section.settings.heading_dark.alpha != 0.0 %}
       --colors-heading: {{ section.settings.heading_dark.red }},{{ section.settings.heading_dark.green }},{{ section.settings.heading_dark.blue }};
     {% else %}        
-      --colors-heading: {{ settings.colors_dark_heading.red }}, {{ settings.colors_dark_heading.green }}, {{ settings.colors_dark_heading.blue }};
+      --colors-heading: var(--colors-heading-secondary);
     {% endif %}
   }
   .gap-{{ section.id }} {
     row-gap: {{ section.settings.spacing_row_mobile }}px;
   }
-  {%- if image_url_mobile != blank -%} 
+  {%- if imageUrlMobile != blank -%} 
     .image-{{ section.id }} {
-      object-position: {{ image_url_mobile.presentation.focal_point }}
+      object-position: {{ imageUrlMobile.presentation.focal_point }}
     }
   {%- endif -%}
   @media (min-width: 768px) {
@@ -90,32 +68,25 @@
 {% endstyle %}
 <div class="bg-{{ section.id }} pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
   <div class="promotion w-full flex relative overflow-hidden
-    {%- if rounded_desktop %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if rounded_mobile %} rounded-[10px]{% endif -%}
-    {%- if section.settings.full_width %}{% if section.settings.padding_full_width %} md:pl-5 md:pr-5 md:bg-none{% else %} md:pl-0 md:pr-0 md:bg-[rgba(var(--background-color))]{% endif %}{% else %} md:bg-none x-pgw page-width{% endif -%}
+    {%- if section.settings.rounded_corner_image %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %} rounded-[10px]{% endif -%}
+    {%- if section.settings.full_width %}{% if section.settings.padding_full_width %} md:pl-5 md:pr-5 md:bg-none{% else %} md:pl-0 md:pr-0 md:bg-[rgba(var(--background-color))]{% endif %}{% else %} md:bg-none page-width{% endif -%}
     {%- if section.settings.full_width_mobile %} full-width-mobile bg-[rgba(var(--background-color))]{% else %} pl-5 pr-5{% endif -%}"
   >
-    <div class="w-full h-full page-width relative overflow-hidden
-      {%- unless image_url_mobile %} bg-[rgba(var(--background-color))]{% endunless -%}
+    <div class="w-full h-full relative overflow-hidden
+      {%- unless imageUrlMobile %} bg-[rgba(var(--background-color))]{% endunless -%}
       {%- if section.settings.padding_full_width or section.settings.full_width == false %} md:bg-[rgba(var(--background-color))]{% endif %}
       {%- if section.settings.border_section == "dotted" %} border border-dashed{% endif -%}
-      {%- if rounded_desktop %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if rounded_mobile %} rounded-[10px]{% endif -%}"
+      {%- if section.settings.rounded_corner_image %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %} rounded-[10px]{% endif -%}"
     >
-      <div class="absolute top-0 left-0 bottom-0 right-0{% if section.settings.image == blank %} md:hidden{% endif %}{% unless image_url_mobile %} hidden{% endunless %}">
+      <div class="absolute top-0 left-0 bottom-0 right-0{% if section.settings.image == blank %} md:hidden{% endif %}{% unless imageUrlMobile %} hidden{% endunless %}">
         <span class="absolute top-0 left-0 bottom-0 right-0 z-10 image-treatment-overlay opacity-{{ section.settings.image_overlay_opacity }}"></span>
         {%- if section.settings.image != blank -%}
           {% if section.settings.show_hero %}
-            {% liquid
-              if settings.enable_lazy_loading_image
-                assign loading = 'lazy'
-              else
-                assign loading = 'eager'
-              endif
-            %}
             <div class="hidden">
               {%- if section.settings.image_mobile != blank -%}
-                {{ section.settings.image_mobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true, loading: loading }}
+                {{ section.settings.image_mobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true, loading: 'lazy' }}
               {%- endif -%}
-              {{ section.settings.image | image_url: width: 3840 | image_tag: widths: '450, 750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true, loading: loading }}
+              {{ section.settings.image | image_url: width: 3840 | image_tag: widths: '450, 750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true, loading: 'lazy' }}
             </div>
           {% endif %}
           {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
@@ -123,15 +94,15 @@
             <parallax-movement x-data="xParallax" x-intersect.once.margin.200px="load({{ settings.disable_parallax_effect }})">
               <picture>
                 <source
-                  srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
-                    {{ image_url_mobile | image_url: width: 450 }} 450w,
-                    {{ image_url_mobile | image_url: width: 750 }} 750w,
-                    {{ image_url_mobile | image_url: width: 900 }} 900w,
-                    {{ image_url_mobile | image_url: width: 1100 }} 1100w,
-                    {{ image_url_mobile | image_url: width: 1500 }} 1500w"
+                  srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
+                    {{ imageUrlMobile | image_url: width: 450 }} 450w,
+                    {{ imageUrlMobile | image_url: width: 750 }} 750w,
+                    {{ imageUrlMobile | image_url: width: 900 }} 900w,
+                    {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
+                    {{ imageUrlMobile | image_url: width: 1500 }} 1500w"
                   media="(max-width: 767px)"
-                  width="{{ image_url_mobile.width }}"
-                  height="{{ image_url_mobile.height }}"
+                  width="{{ imageUrlMobile.width }}"
+                  height="{{ imageUrlMobile.height }}"
                 />
                 <img
                   srcset="{{ section.settings.image | image_url: width: 450 }} 750w
@@ -144,11 +115,7 @@
                     {{ section.settings.image | image_url: width: 3000 }} 3000w,
                     {{ section.settings.image | image_url: width: 3840 }} 3840w"
                   {% unless section.settings.show_hero %}
-                    {% if settings.enable_lazy_loading_image %}
-                      loading="lazy"
-                    {% else %}
-                      loading="eager"
-                    {% endif %}
+                    loading="lazy"
                   {% else %}
                     loading="eager"
                     fetchpriority="high"
@@ -156,9 +123,12 @@
                   {% endunless %}
                   sizes="100vw"
                   src="{{ section.settings.image | image_url: width: 3840 }}"
-                  alt="{{ section.settings.image.alt | escape }}"
-                  class="object-cover h-full w-full image-{{ section.id }} animate-Xpulse skeleton-image"
-                  onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
+                  {% if section.settings.image_mobile != blank %}
+                    :alt="(screen.width < 768) ? '{{ section.settings.image_mobile.alt }}' : '{{ section.settings.image.alt }}'"
+                  {% else %}
+                    alt="{{ section.settings.image.alt | escape }}"
+                  {% endif %}
+                  class="object-cover h-full w-full image-{{ section.id }}"
                   width="{{ section.settings.image.width }}"
                   height="{{ section.settings.image.height }}"
                 />
@@ -181,14 +151,9 @@
                 sizes="100vw"
                 src="{{ section.settings.image_mobile | image_url: width: 750 }}"
                 alt="{{ section.settings.image_mobile.alt | escape }}"
-                class="object-cover h-full w-full{% if section.settings.image_mobile != blank %} md:hidden{% endif %} animate-Xpulse skeleton-image"
-                onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
+                class="object-cover h-full w-full{% if section.settings.image_mobile != blank %} md:hidden{% endif %}"
                 {% unless section.settings.show_hero %}
-                  {% if settings.enable_lazy_loading_image %}
-                    loading="lazy"
-                  {% else %}
-                    loading="eager"
-                  {% endif %}
+                  loading="lazy"
                 {% else %}
                   loading="eager"
                   fetchpriority="high"
@@ -203,13 +168,24 @@
           </parallax-image>
         {%- endif %}
       </div>
-      <div class="content-{{ section.id }} content-flashsale-{{ section.settings.content_layout }} gap-{{ section.id }} z-20 relative pt-5 pb-5 lg:pt-7 lg:pb-7
-        {%- if section.settings.border_section == 'none' and section.settings.full_width == false -%}
-          {%- if section.settings.image == blank %} lg:pl-7 lg:pr-7{% endif -%}
-          {%- if image_url_mobile == blank %} pl-5 pr-5{% endif -%}
-        {%- else %} pl-0 pr-0
-        {%- endif -%}"
-      >
+      <div class="content-{{ section.id }} content-flashsale-{{ section.settings.content_layout }} gap-{{ section.id }} z-20 relative pt-5 pb-5 lg:pt-7 lg:pb-7 
+        {%- if section.settings.border_section == 'none' %}
+          {%- if section.settings.image == blank %}
+            {%- if section.settings.background_color_light.alpha != 0.0 %} md:pl-7 md:pr-7{% else %} md:pl-0 md:pr-0{% endif %}
+            {%- if section.settings.background_color_dark.alpha != 0.0 %} dark:md:pl-7 dark:md:pr-7{% else %} dark:md:pl-0 dark:md:pr-0{% endif %}
+          {%- else %}
+            lg:pl-7 lg:pr-7
+          {%- endif %}
+          {%- if imageUrlMobile == blank %}
+            {%- if section.settings.background_color_light.alpha != 0.0 %} pl-5 pr-5{% endif %}
+            {%- if section.settings.background_color_dark.alpha != 0.0 %} dark:pl-5 dark:pr-5{% else %} dark:pl-0 dark:pr-0{% endif %}
+          {%- else %}
+            pl-5 pr-5
+          {%- endif %}
+        {%- else %}
+          pl-5 pr-5 lg:pl-7 lg:pr-7
+        {%- endif %}"
+        >
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'image_banner' -%}
@@ -234,110 +210,89 @@
                 }
               {%- endstyle -%} 
               {%- if block.settings.heading != blank or block.settings.text != blank -%}
-                <div class="flash-sale-text grow flex-wrap md:flex-col xl:flex-row xl:items-center
-                  {%- if section.settings.content_alignment_mobile == 'center' %} text-center rtl:text-center{% elsif section.settings.content_alignment_mobile == 'left' %} text-left rtl:text-right{% else %} text-right rtl:text-left{% endif -%}
-                  {%- if section.settings.content_alignment == 'center' %} lg:text-center rtl:lg:text-center{% elsif section.settings.content_alignment == 'left' %} lg:text-left rtl:lg:text-right{% else %} lg:text-right rtl:lg:text-left{% endif -%}
-                  {%- if section.settings.content_alignment == 'left' %} xl:justify-start{% elsif section.settings.content_alignment == 'right' %} xl:justify-end{% else %} xl:justify-center{% endif %}" 
-                  {{ block.shopify_attributes }}
-                >
-                  <div>
-                    {%- if block.settings.heading != blank -%}
+                <div class="flash-sale-text grow flex-wrap text-{{ section.settings.content_alignment_mobile }} lg:text-{{ section.settings.content_alignment }} md:flex-col xl:flex-row xl:items-center" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <{{ block.settings.heading_tag }} class="heading-{{ block.id }} empty:hidden h2 block leading-tight p-break-words anm-fade-element" x-intersect.once="$el.classList.add('is-visible')">
                       {% render 'heading-highlight',
                         headingId: block.id,
                         heading: block.settings.heading,
                         highlight_type: block.settings.highlight_type,
                         color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
-                        color_heading_highlight_light: section.settings.color_heading_highlight_light,
-                        class: 'h2 block leading-tight p-break-words',
-                        heading_tag: block.settings.heading_tag,
-                        is_intersect: true,
-                        animation_heading: false
+                        color_heading_highlight_light: section.settings.color_heading_highlight_light
                       %}
-                    {%- endif -%}
-                    {%- if block.settings.text != blank -%}
-                      <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element text-[rgb(var(--colors-text))] content-text-{{ block.id }}">
-                        {{ block.settings.text }}
-                      </div>
-                    {%- endif -%}
-                  </div>
-                  {% if block.settings.coupon_code != blank %}
-                    {%- capture coupon_code -%}
-                      {%- style -%}
-                        {% if block.settings.text contains 'coupon_code' %}
-                          .content-text-{{ block.id }}.rte p {
-                            display: inline;
+                    </{{ block.settings.heading_tag }}>
+                  {%- endif -%}
+                  {%- if block.settings.text != blank -%}
+                    {% if block.settings.coupon_code != blank %}
+                      {%- capture couponCode -%}
+                        {%- style -%}
+                          {% if block.settings.text contains 'coupon_code' %}
+                            .content-text-{{ block.id }}.rte p {
+                              display: inline;
+                            }
+                          {% endif %}
+                          .border-text-{{ section.id }} {
+                            {%- if block.settings.coupon_color.alpha != 0 -%}
+                              border-color: {{ block.settings.coupon_color }};
+                              color: {{ block.settings.coupon_color }};
+                            {% else %}
+                              color: var(--colors-button-hover);
+                              border-color: var(--colors-button-hover);
+                            {%- endif -%}
                           }
-                        {% endif %}
-                        .border-text-{{ section.id }} {
-                          {%- if block.settings.coupon_color.alpha != 0 -%}
-                            color: {{ block.settings.coupon_color }};
-                          {% else %}
-                            color: var(--colors-text);
-                          {%- endif -%}
-                          {%- if section.settings.line_border_light.alpha != 0.0 -%}
-                            border-color: {{ section.settings.line_border_light }};
-                          {% else %}
-                            border-color: {{ settings.colors_line_and_borders }};
-                          {%- endif -%}
-                        }
-                        .dark .border-text-{{ section.id }} {
-                          {%- if block.settings.coupon_color_dark.alpha != 0 -%}
-                            color: {{ block.settings.coupon_color_dark }};
-                          {% else %}
-                            color: var(--colors-text);
-                          {%- endif -%}
-                          {%- if section.settings.line_border_dark.alpha != 0.0 -%}
-                            border-color: {{ section.settings.line_border_dark }};
-                          {% else %}
-                            border-color: {{ settings.colors_dark_line_and_borders }};
-                          {%- endif -%}
-                        }
-                      {%- endstyle -%}
-                      <div :title="copySuccess?'{{ 'general.global.copied' | t }}':'{{ 'general.global.copy_code' | t }}'" x-data='xCouponCode' x-on:click="copyCode()" class="button-coupon--{{ block.id }} border-text-{{ section.id }} gap-x-3{% if block.settings.text contains 'coupon_code' %} ml-2.5 mr-2.5{% endif %} lg:pl-4 lg:pr-4 lg:pt-2.5 lg:pb-2.5 cursor-pointer border rounded-full overflow-hidden items-center w-fit inline-flex btn--{{ block.id }} none_transition empty:hidden center pl-2 pr-2 pt-1 pb-1 md:pl-3 md:pr-2.5">
-                        <span x-ref="code_value" class="leading-none">
-                          {{ block.settings.coupon_code | escape }}
-                        </span>
-                        <div class="flex items-center">
-                          <span class="w-3 h-3 inline-block" x-show="!copySuccess"
-                            x-transition:enter="transition-all absolute ease-in-out duration-300"
-                            x-transition:enter-start="opacity-0 absolute transform translate-y-full"
-                            x-transition:enter-end="opacity-100 absolute transform translate-y-0"
-                            x-transition:leave="transition-all absolute ease-in-out duration-300"
-                            x-transition:leave-end="opacity-0 transform absolute -translate-y-full">
-                          {% render 'icon-alls', icon: 'icon-copy' %}
+                          .dark .border-text-{{ section.id }} {
+                            {%- if block.settings.coupon_color_dark.alpha != 0 -%}
+                              border-color: {{ block.settings.coupon_color_dark }};
+                              color: {{ block.settings.coupon_color_dark }};
+                            {% else %}
+                              color: var(--colors-button-hover);
+                              border-color: var(--colors-button-hover);      
+                            {%- endif -%}
+                          }
+                        {%- endstyle -%}
+                        <div :title="copySuccess?'{{ 'general.global.copied' | t }}':'{{ 'general.global.copy_code' | t }}'" x-data='xCouponCode' x-on:click="copyCode()" class="button-coupon--{{ block.id }} border-text-{{ section.id }} gap-x-3{% if block.settings.text contains 'coupon_code' %} ml-2.5 mr-2.5{% endif %} lg:pl-4 lg:pr-4 lg:pt-2.5 lg:pb-2.5 cursor-pointer border rounded-full border-dashed overflow-hidden items-center w-fit inline-flex btn--{{ block.id }} none_transition empty:hidden center pl-2 pr-2 pt-1 pb-1 md:pl-3 md:pr-2.5">
+                          <span x-ref="code_value" class="leading-none">
+                            {{ block.settings.coupon_code | escape }}
                           </span>
-                          <span class="w-3 h-3 inline-block" x-show="copySuccess" x-cloak
-                            x-transition:enter="transition-all ease-in-out duration-300"
-                            x-transition:enter-start="opacity-0 transform translate-y-full"
-                            x-transition:enter-end="opacity-100 transform translate-y-0"
-                            x-transition:leave="transition-all ease-in-out duration-300"
-                            x-transition:leave-end="opacity-0 transform -translate-y-full">
-                            {% render 'icon-alls', icon: 'icon-check' %}
-                          </span>
+                          <div class="flex items-center">
+                            <span class="w-3 h-3 inline-block" x-show="!copySuccess"
+                              x-transition:enter="transition-all absolute ease-in-out duration-300"
+                              x-transition:enter-start="opacity-0 absolute transform translate-y-full"
+                              x-transition:enter-end="opacity-100 absolute transform translate-y-0"
+                              x-transition:leave="transition-all absolute ease-in-out duration-300"
+                              x-transition:leave-end="opacity-0 transform absolute -translate-y-full">
+                            {% render 'icon-alls', icon: 'icon-copy' %}
+                            </span>
+                            <span class="w-3 h-3 inline-block" x-show="copySuccess" x-cloak
+                              x-transition:enter="transition-all ease-in-out duration-300"
+                              x-transition:enter-start="opacity-0 transform translate-y-full"
+                              x-transition:enter-end="opacity-100 transform translate-y-0"
+                              x-transition:leave="transition-all ease-in-out duration-300"
+                              x-transition:leave-end="opacity-0 transform -translate-y-full">
+                              {% render 'icon-alls', icon: 'icon-check' %}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    {% endcapture %}
-                  {% endif %}
+                      {% endcapture %}
+                    {% endif %}
 
-                  <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element content-text-{{ block.id }} text-[rgb(var(--colors-text))] p-break-words rte leading-tight after:hidden">
+                    <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element content-text-{{ block.id }} min-w-[90%] md:min-w-[270px] text-[rgb(var(--colors-text))] gap-y-2{% unless block.settings.text contains 'coupon_code' %} gap-x-2.5 flex flex-col items-{{ section.settings.content_alignment_mobile }} lg:items-{{ section.settings.content_alignment }}{% else %} items-center{% endunless %} flex-1 flex-wrap p-break-words rte leading-tight after:hidden justify-{{ section.settings.content_alignment_mobile }} lg:justify-{{ section.settings.content_alignment }}">
+                      {%- if block.settings.coupon_code != blank and block.settings.text contains 'coupon_code' -%}
+                        {{ block.settings.text | replace: "coupon_code", couponCode }}
+                      {%- else -%}
+                        <div>{{ block.settings.text }}</div>
+                        {{ couponCode }}
+                      {%- endif -%}
+                    </div>
                     {%- if block.settings.coupon_code != blank -%}
-                      {{ coupon_code }}
+                      <script src="{{ 'coupon-code.js' | asset_url }}" defer></script>
                     {%- endif -%}
-                  </div>
-                  {%- if block.settings.coupon_code != blank -%}
-                    <script src="{{ 'coupon-code.js' | asset_url }}" defer></script>
                   {%- endif -%}
                 </div>
               {%- endif -%}
             {%- when 'buttons' -%}
               {%- if block.settings.button_label != blank -%}
-                <div x-intersect.once="$el.classList.add('is-visible')"
-                  class="x-block-button anm-fade-element
-                    {%- if section.settings.content_alignment_mobile == 'center' %} text-center rtl:text-center{% elsif section.settings.content_alignment_mobile == 'left' %} text-left rtl:text-right{% else %} text-right rtl:text-left{% endif -%}
-                    {%- if section.settings.content_alignment == 'center' %} lg:text-center rtl:lg:text-center{% elsif section.settings.content_alignment == 'left' %} lg:text-left rtl:lg:text-right{% else %} lg:text-right rtl:lg:text-left{% endif -%}
-                    {%- if section.settings.content_layout == 'vertical' %} lg:mt-4{% endif %}"
-                  {{ block.shopify_attributes }}
-                >
+                <div x-intersect.once="$el.classList.add('is-visible')" class="text-{{ section.settings.content_alignment_mobile }} anm-fade-element lg:text-{{ section.settings.content_alignment }}{% if section.settings.content_layout == 'vertical' %} lg:mt-4{% endif %}" {{ block.shopify_attributes }}>
                   {%- style -%}
                     .button--{{ block.id }} .button-text {
                       white-space: nowrap;
@@ -377,7 +332,7 @@
                       }
                     {% endif %}
                   {%- endstyle -%}
-                  <a {%- if block.settings.button_link %} href="{{ block.settings.button_link }}"{% if block.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style == 'secondary' %} button-outline{% elsif block.settings.show_button_style == 'text-link' %} button-text-link {% else %} button-solid{% endif %} text-center inline-block border empty:hidden pl-6 pr-6 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link %} hover:cursor-not-allowed disable-btn-animation opacity-70{% endunless %}">
+                  <a{% if block.settings.button_link %} href="{{ block.settings.button_link }}"{% if block.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style == 'secondary' %} button-outline{% elsif block.settings.show_button_style == 'text-link' %} button-text-link {% else %} button-solid{% endif %} text-center inline-block border empty:hidden pl-6 pr-6 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link %} hover:cursor-not-allowed opacity-70{% endunless %}">
                     {% render 'button-label', button_label: block.settings.button_label, show_button_style: block.settings.show_button_style %}
                   </a>
                 </div>
@@ -389,14 +344,14 @@
                   {% unless block.settings.timer_color_countdown.alpha == 0.0 %}
                     color: {{ block.settings.timer_color_countdown }};
                   {% else %}
-                    color: rgba(var(--colors-heading));
+                    color: var(--colors-button-hover);
                   {% endunless %}
                 }
                 .dark .timer--{{ block.id }} {
                   {% unless block.settings.timer_color_countdown.alpha == 0.0 %}
                     color: {{ block.settings.timer_color_countdown }};
                   {% else %}
-                    color: rgba(var(--colors-heading));
+                    color: var(--colors-button-hover);
                   {% endunless %}
                 }
                 .x-countdown-{{ block.id }} {
@@ -438,7 +393,7 @@
               {%- endstyle -%}
               <div 
                 id="x-countdown-banner"
-                class="block-promotion-banner anm-fade-element{% if block.settings.timer_style == 'rounded' %} lg:grow{% endif %}"
+                class="block-promotion-banner anm-fade-element mt-1 mb-1{% if block.settings.timer_style == 'rounded' %} lg:grow{% endif %}"
                 x-data="{ loading: true, textLoad: '-', days: 0, hours: 0, minutes: 0, seconds: 0 }"
                 x-intersect.once="$el.classList.add('is-visible')"
                 x-intersect.once.margin.200px='$nextTick(() => {
@@ -450,8 +405,7 @@
                     "end_day": {{ block.settings.end_day | default: 0 }},
                     "end_hour": {{ block.settings.end_hour | default: 0 }},
                     "end_minute": {{ block.settings.end_minute | default: 0 }},
-                    "reset": {% if block.settings.countdown_type == 'evergreen' %}true{% else %}false{% endif %},
-                    "duration": {% if block.settings.interval_unit == 'day' %}{{ block.settings.countdown_interval | times: 86400000 }}{% else %}{{ block.settings.countdown_interval | times: 3600000 }}{% endif %}
+                    "justify": "{{ section.settings.content_alignment }}"
                   }, (canShow, s, m, h, d) => {
                     days = d;
                     hours = h;
@@ -462,69 +416,49 @@
                 })'
                 {{ block.shopify_attributes }}
               >
-                <div class="x-countdown-promo-banner x-countdown-{{ block.id }} flex rtl:flex-row-reverse
-                  {%- if section.settings.content_alignment_mobile == 'center' %} justify-center rtl:justify-center{% elsif section.settings.content_alignment_mobile == 'left' %} justify-left rtl:justify-right{% else %} justify-right rtl:justify-left{% endif -%}
-                  {%- if section.settings.content_alignment == 'center' %} lg:justify-center rtl:lg:justify-center{% elsif section.settings.content_alignment == 'left' %} lg:justify-left rtl:lg:justify-right{% else %} lg:justify-right rtl:lg:justify-left{% endif %}"
-                >
-                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[80px]
+                <div class="x-countdown-promo-banner x-countdown-{{ block.id }} justify-{{ section.settings.content_alignment_mobile }} lg:justify-{{ section.settings.content_alignment }} flex rtl:flex-row-reverse">
+                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[90px]
                     {%- if block.settings.border_style == 'border' %} border border-dashed border-color--{{ block.id }}{% endif -%}
-                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif -%}
-                      {%- else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]
-                    {%- endif %}"
+                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif %}{% else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]{% endif -%}"
                   >
-                    <div class="flex{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %} flex-row{% else %} flex-col{% endif %} items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute top-0 left-0{% endif %} h-full w-full">
+                    <div class="flex flex-col items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute{% endif %} top-0 left-0 h-full w-full">
                       <span x-html="loading?textLoad:days" class="h2 timer--{{ block.id }}"></span>
-                      <span class="{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}-translate-y-2 ml-0.5{% endif %}">
-                        {% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}{{ 'sections.flash-sale.days' | t }}{% else %}{{ 'sections.promotion_banner.days' | t }}{% endif %}
-                      </span>
+                      <span>{{ 'sections.promotion_banner.days' | t }}</span>
                     </div>
                   </div>
                   {%- if block.settings.border_style == "line_vertical" and block.settings.bg_color_countdown.alpha == 0.0 %}
                     <div class="line-{{ block.id }} relative after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-0 after:border-solid after:h-[50%] after:border-l"></div>
                   {% endif -%}
-                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[80px]
+                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[90px]
                     {%- if block.settings.border_style == 'border' %} border border-dashed border-color--{{ block.id }}{% endif -%}
-                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif -%}
-                      {%- else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]
-                    {%- endif %}"
+                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif %}{% else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]{% endif -%}"
                   >
-                    <div class="flex{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %} flex-row{% else %} flex-col{% endif %} items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute top-0 left-0{% endif %} h-full w-full">
+                    <div class="flex flex-col items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute{% endif %} top-0 left-0 h-full w-full">
                       <span x-html="loading?textLoad:hours" class="h2 timer--{{ block.id }}"></span>
-                      <span class="{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}-translate-y-2 ml-0.5{% endif %}">
-                        {% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}{{ 'sections.flash-sale.hours' | t }}{% else %}{{ 'sections.promotion_banner.hours' | t }}{% endif %}
-                      </span>
+                      <span>{{ 'sections.promotion_banner.hours' | t }}</span>
                     </div>
                   </div>
                   {%- if block.settings.border_style == "line_vertical" and block.settings.bg_color_countdown.alpha == 0.0 %}
                     <div class="line-{{ block.id }} relative after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-0 after:border-solid after:h-[50%] after:border-l"></div>
                   {% endif -%}
-                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[80px]
+                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[90px]
                     {%- if block.settings.border_style == 'border' %} border border-dashed border-color--{{ block.id }}{% endif -%}
-                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif -%}
-                      {%- else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]
-                    {%- endif %}"
+                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif %}{% else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]{% endif -%}"
                   >
-                    <div class="flex{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %} flex-row{% else %} flex-col{% endif %} items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute top-0 left-0{% endif %} h-full w-full">
+                    <div class="flex flex-col items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute{% endif %} top-0 left-0 h-full w-full">
                       <span x-html="loading?textLoad:minutes" class="h2 timer--{{ block.id }}"></span>
-                      <span class="{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}-translate-y-2 ml-0.5{% endif %}">
-                        {% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}{{ 'sections.flash-sale.mins' | t }}{% else %}{{ 'sections.promotion_banner.mins' | t }}{% endif %}
-                      </span>
+                      <span>{{ 'sections.promotion_banner.mins' | t }}</span>
                     </div>
                   </div>
                   {%- if block.settings.border_style == "line_vertical" and block.settings.bg_color_countdown.alpha == 0.0 %}
                     <div class="line-{{ block.id }} relative after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-0 after:border-solid after:h-[50%] after:border-l"></div>
                   {% endif -%}
-                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[80px]
-                    {%- if block.settings.border_style == 'border' %} border border-dashed border-color--{{ block.id }}{% endif -%}
-                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif -%}
-                      {%- else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]
-                    {%- endif %}"
-                  >
-                    <div class="flex{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %} flex-row{% else %} flex-col{% endif %} items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute top-0 left-0{% endif %} h-full w-full">
+                  <div class="countdown--{{ block.id }} relative bg-color--{{ block.id }} w-full min-h-[60px] md:min-h-[80px] max-w-[86px] md:max-w-[112px] lg:min-w-[90px]
+                    {%- if block.settings.border_style == 'border' %} border border-dashed border-color--{{ block.id }}{% endif %}
+                    {%- if block.settings.timer_style == 'square' %}{% if settings.edges_type == 'rounded_corners' %} rounded{% endif %}{% else %} flex-1 rounded-full before:block before:h-0 before:pb-[100%]{% endif -%}">
+                    <div class="flex flex-col items-center justify-center{% if block.settings.timer_style == 'rounded' %} absolute{% endif %} top-0 left-0 h-full w-full">
                       <span x-html="loading?textLoad:seconds" class="h2 timer--{{ block.id }}"></span>
-                      <span class="{% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}-translate-y-2 ml-0.5{% endif %}">
-                        {% if block.settings.text_position == 'aside' and block.settings.border_style == 'none' %}{{ 'sections.flash-sale.secs' | t }}{% else %}{{ 'sections.promotion_banner.secs' | t }}{% endif %}
-                      </span>
+                      <span>{{ 'sections.promotion_banner.secs' | t }}</span>
                     </div>
                   </div>
                 </div>
@@ -539,7 +473,7 @@
 {
   "name": "t:sections.flash-sale.name",
   "tag": "section",
-  "class": "section section-flash-sale",
+  "class": "section section-promotion-banner",
   "disabled_on": {
     "groups": [
       "header",
@@ -548,10 +482,6 @@
     ]
   },
   "settings": [
-    {
-      "type": "paragraph",
-      "content": "t:sections.user_guide_link.section_and_blocks.flash_sale"
-    },
     {
       "type": "image_picker",
       "id": "image",
@@ -571,7 +501,7 @@
       "max": 100,
       "step": 10,
       "unit": "%",
-      "label": "t:sections.collection-list.settings.image_overlay_opacity.label",
+      "label": "t:sections.promotion-banner.settings.image_overlay_opacity.label",
       "default": 0
     },
     {
@@ -587,7 +517,7 @@
       "options": [
         {
           "value": "none",
-          "label": "t:sections.all.icon.options.none"
+          "label": "t:sections.multicolumn.settings.line_border.options__1.label"
         },
         {
           "value": "dotted",
@@ -607,21 +537,21 @@
       "options": [
         {
           "value": "horizontal",
-          "label": "t:sections.featured-collection.settings.slider_style.options__1"
+          "label": "t:sections.flash-sale.settings.content_layout.options__1.label"
         },
         {
           "value": "vertical",
-          "label": "t:sections.featured-collection.settings.slider_style.options__2"
+          "label": "t:sections.flash-sale.settings.content_layout.options__2.label"
         }
       ],
       "default": "horizontal",
-      "label": "t:sections.image-with-text.settings.content_layout.label"
+      "label": "t:sections.flash-sale.settings.content_layout.label"
     },
     {
       "type": "select",
       "id": "content_alignment",
       "default": "left",
-      "label": "t:sections.all.content_alignment.label",
+      "label": "t:sections.all.alignment.label",
       "options": [
         {
           "value": "left",
@@ -641,28 +571,20 @@
       "type": "checkbox",
       "id": "full_width",
       "default": false,
-      "label": "t:sections.all.full_width.label"
+      "label": "t:sections.text-column-image.settings.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "padding_full_width",
       "default": false,
       "label": "t:sections.all.padding.padding_full_width.label",
-      "info": "t:sections.all.padding.padding_full_width.info",
-      "visible_if": "{{ section.settings.full_width }}"
-    },
-    {
-      "type": "checkbox",
-      "id": "adapt_corners_desktop",
-      "label": "t:sections.slideshow.settings.enable_adapt",
-      "default": true
+      "info": "t:sections.all.padding.padding_full_width.info"
     },
     {
       "type": "checkbox",
       "id": "rounded_corner_image",
       "default": true,
-      "label": "t:sections.featured-product.blocks.rounded_corner.label",
-      "visible_if": "{{ section.settings.adapt_corners_desktop == false }}"
+      "label": "t:sections.promotion-grid.blocks.promotion.settings.rounded_corner_image.label"
     },
     {
       "type": "range",
@@ -712,7 +634,7 @@
       "type": "select",
       "id": "content_alignment_mobile",
       "default": "center",
-      "label": "t:sections.all.content_alignment.label",
+      "label": "t:sections.all.alignment.label",
       "options": [
         {
           "value": "left",
@@ -732,20 +654,13 @@
       "type": "checkbox",
       "id": "full_width_mobile",
       "default": false,
-      "label": "t:sections.all.full_width.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "adapt_corners_mobile",
-      "label": "t:sections.slideshow.settings.enable_adapt",
-      "default": true
+      "label": "t:sections.text-column-image.settings.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "rounded_corner_image_mobile",
       "default": true,
-      "label": "t:sections.featured-product.blocks.rounded_corner.label",
-      "visible_if": "{{ section.settings.adapt_corners_mobile == false }}"
+      "label": "t:sections.promotion-grid.blocks.promotion.settings.rounded_corner_image.label"
     },
     {
       "type": "range",
@@ -778,10 +693,6 @@
       "label": "t:sections.all.padding.padding_bottom"
     },
     {
-      "type": "header",
-      "content": "t:settings_schema.colors.name"
-    },
-    {
       "type": "color",
       "id": "background_color_light",
       "default": "rgba(0,0,0,0)",
@@ -795,14 +706,14 @@
     },
     {
       "type": "color",
-      "id": "color_heading_highlight_light",
-      "label": "t:sections.all.text.color_heading_highlight_light",
+      "id": "text_light",
+      "label": "t:sections.all.text.color",
       "default": "rgba(0,0,0,0)"
     },
     {
       "type": "color",
-      "id": "text_light",
-      "label": "t:sections.all.text.color",
+      "id": "color_heading_highlight_light",
+      "label": "t:sections.all.text.color_heading_highlight_light",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -825,14 +736,14 @@
     },
     {
       "type": "color",
-      "id": "color_heading_highlight_dark",
-      "label": "t:sections.all.text.color_heading_highlight_dark",
+      "id": "text_dark",
+      "label": "t:sections.all.text.color_dark",
       "default": "rgba(0,0,0,0)"
     },
     {
       "type": "color",
-      "id": "text_dark",
-      "label": "t:sections.all.text.color_dark",
+      "id": "color_heading_highlight_dark",
+      "label": "t:sections.all.text.color_heading_highlight_dark",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -878,7 +789,7 @@
           "max": 200,
           "step": 10,
           "unit": "%",
-          "label": "t:sections.all.text.heading_size",
+          "label": "t:sections.promotion-banner.blocks.image_banner.settings.heading_size.label",
           "default": 100
         },
         {
@@ -920,8 +831,9 @@
         {
           "type": "richtext",
           "id": "text",
-          "default": "<p>Hurry up! Get the best deal at best price</p>",
-          "label": "t:sections.all.text.text"
+          "default": "<p>Hurry up! Get the best deal at best price. coupon_code</p>",
+          "label": "t:sections.all.text.text",
+          "info": "t:sections.promotion-popup.blocks.text.settings.text.info"
         },
         {
           "type": "range",
@@ -930,32 +842,32 @@
           "max": 200,
           "step": 10,
           "unit": "%",
-          "label": "t:sections.all.text.text_size",
+          "label": "t:sections.promotion-banner.blocks.image_banner.settings.text_size.label",
           "default": 100
         },
         {
           "type": "text",
           "id": "coupon_code",
-          "default": "#SALECODE",
-          "label": "t:sections.announcement-bar.blocks.promo_code.coupon_code.label"
+          "default": "Flashsale45",
+          "label": "t:sections.promotion-popup.blocks.text.settings.coupon_code.label"
         },
         {
           "type": "color",
           "id": "coupon_color",
-          "label": "t:sections.announcement-bar.blocks.promo_code.coupon_code.color_light",
+          "label": "t:sections.promotion-popup.blocks.text.settings.coupon_code.color_light",
           "default": "rgba(0,0,0,0)"
         },
         {
           "type": "color",
           "id": "coupon_color_dark",
-          "label": "t:sections.announcement-bar.blocks.promo_code.coupon_code.color_dark",
+          "label": "t:sections.promotion-popup.blocks.text.settings.coupon_code.color_dark",
           "default": "rgba(0,0,0,0)"
         }
       ]
     },
     {
       "type": "buttons",
-      "name": "t:settings_schema.colors.colors_button",
+      "name": "t:sections.scrolling_promotion.blocks.button.name",
       "limit": 1,
       "settings": [
         {
@@ -989,7 +901,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:settings_schema.colors.colors_text_link"
+              "label": "t:sections.all.button.button_style.text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -997,7 +909,7 @@
         },
         {
           "type": "header",
-          "content": "t:settings_schema.colors.name"
+          "content": "t:sections.promotion-banner.blocks.buttons.settings.header_style.content"
         },
         {
           "type": "color",
@@ -1045,7 +957,7 @@
     },
     {
       "type": "countdown_timer",
-      "name": "t:sections.announcement-bar.blocks.announcement.countdown-timer.name",
+      "name": "t:sections.promotion-banner.blocks.countdown.name",
       "limit": 1,
       "settings": [
         {
@@ -1054,178 +966,119 @@
         },
         {
           "type": "select",
-          "id": "countdown_type",
-          "options": [
-            {
-              "value": "standard",
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.standard"
-            },
-            {
-              "value": "evergreen",
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.evergreen"
-            }
-          ],
-          "default": "standard",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.label",
-          "info": "t:sections.promotion-banner.blocks.countdown.settings.countdown_type.info"
-        },
-        {
-          "type": "range",
-          "id": "countdown_interval",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.countdown_interval.label",
-          "default": 7,
-          "max": 30,
-          "min": 1,
-          "step": 1,
-          "visible_if": "{{ block.settings.countdown_type == 'evergreen' }}"
-        },
-        {
-          "type": "select",
-          "id": "interval_unit",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.interval_unit.label",
-          "options": [
-            {
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.interval_unit.options.days",
-              "value": "day"
-            },
-            {
-              "label": "t:sections.promotion-banner.blocks.countdown.settings.interval_unit.options.hours",
-              "value": "hour"
-            }
-          ],
-          "default": "day",
-          "visible_if": "{{ block.settings.countdown_type == 'evergreen' }}"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.event-calendar.blocks.event.settings.start_date.content",
-          "info": "t:sections.promotion-banner.blocks.countdown.settings.start_date_group.info",
-          "visible_if": "{{ block.settings.countdown_type == 'evergreen' }}"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.event-calendar.blocks.event.settings.end_date.content",
-          "visible_if": "{{ block.settings.countdown_type == 'standard' }}"
-        },
-        {
-          "type": "select",
           "id": "timezone",
           "options": [
             {
               "value": "-12",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-12.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-12.label"
             },
             {
               "value": "-11",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-11.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-11.label"
             },
             {
               "value": "-10",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-10.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-10.label"
             },
             {
               "value": "-9",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-9.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-9.label"
             },
             {
               "value": "-8",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-8.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-8.label"
             },
             {
               "value": "-7",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-7.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-7.label"
             },
             {
               "value": "-6",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-6.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-6.label"
             },
             {
               "value": "-5",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-5.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-5.label"
             },
             {
               "value": "-4",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-4.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-4.label"
             },
             {
               "value": "-3",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-3.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-3.label"
             },
             {
               "value": "-2",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-2.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-2.label"
             },
             {
               "value": "-1",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__-1.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-1.label"
             },
             {
               "value": "0",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__0.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__0.label"
             },
             {
               "value": "1",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__1.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__1.label"
             },
             {
               "value": "2",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__2.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__2.label"
             },
             {
               "value": "3",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__3.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__3.label"
             },
             {
               "value": "4",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__4.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__4.label"
             },
             {
               "value": "5",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__5.label"
-            },
-            {
-              "value": "5.5",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__15.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__5.label"
             },
             {
               "value": "6",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__6.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__6.label"
             },
             {
               "value": "7",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__7.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__7.label"
             },
             {
               "value": "8",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__8.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__8.label"
             },
             {
               "value": "9",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__9.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__9.label"
             },
             {
               "value": "10",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__10.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__10.label"
             },
             {
               "value": "11",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__11.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__11.label"
             },
             {
               "value": "12",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__12.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__12.label"
             },
             {
               "value": "13",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__13.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__13.label"
             },
             {
               "value": "14",
-              "label": "t:sections.announcement-bar.blocks.timezone.options__14.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__14.label"
             }
           ],
           "default": "-4",
-          "label": "t:sections.announcement-bar.blocks.timezone.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.label"
         },
         {
           "type": "number",
@@ -1239,51 +1092,51 @@
           "options": [
             {
               "value": "1",
-              "label": "t:sections.announcement-bar.blocks.month.options__1.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__1.label"
             },
             {
               "value": "2",
-              "label": "t:sections.announcement-bar.blocks.month.options__2.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__2.label"
             },
             {
               "value": "3",
-              "label": "t:sections.announcement-bar.blocks.month.options__3.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__3.label"
             },
             {
               "value": "4",
-              "label": "t:sections.announcement-bar.blocks.month.options__4.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__4.label"
             },
             {
               "value": "5",
-              "label": "t:sections.announcement-bar.blocks.month.options__5.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__5.label"
             },
             {
               "value": "6",
-              "label": "t:sections.announcement-bar.blocks.month.options__6.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__6.label"
             },
             {
               "value": "7",
-              "label": "t:sections.announcement-bar.blocks.month.options__7.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__7.label"
             },
             {
               "value": "8",
-              "label": "t:sections.announcement-bar.blocks.month.options__8.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__8.label"
             },
             {
               "value": "9",
-              "label": "t:sections.announcement-bar.blocks.month.options__9.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__9.label"
             },
             {
               "value": "10",
-              "label": "t:sections.announcement-bar.blocks.month.options__10.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__10.label"
             },
             {
               "value": "11",
-              "label": "t:sections.announcement-bar.blocks.month.options__11.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__11.label"
             },
             {
               "value": "12",
-              "label": "t:sections.announcement-bar.blocks.month.options__12.label"
+              "label": "t:sections.promotion-banner.blocks.countdown.settings.month.options__12.label"
             }
           ],
           "default": "1",
@@ -1523,7 +1376,7 @@
             }
           ],
           "default": "0",
-          "label": "t:settings_schema.shipping_delivery.estimate_delivery.cutoff_hour.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_hour.label"
         },
         {
           "type": "select",
@@ -1547,28 +1400,7 @@
             }
           ],
           "default": "0",
-          "label": "t:settings_schema.shipping_delivery.estimate_delivery.cutoff_minute.label"
-        },
-        {
-          "type": "header",
-          "content": "t:sections.promotion-banner.blocks.countdown.settings.timer_style_group.content"
-        },
-        {
-          "type": "select",
-          "id": "text_position",
-          "options": [
-            {
-              "value": "below",
-              "label": "t:sections.flash-sale.blocks.countdown_timer.text_position.below"
-            },
-            {
-              "value": "aside",
-              "label": "t:sections.main-collection-product-grid.settings.filter_type.options__2.label"
-            }
-          ],
-          "default": "below",
-          "label": "t:sections.image-with-text.settings.text_position.label",
-          "info": "t:sections.flash-sale.blocks.countdown_timer.text_position.info"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_minute.label"
         },
         {
           "type": "select",
@@ -1576,11 +1408,11 @@
           "options": [
             {
               "value": "square",
-              "label": "t:settings_schema.products.square"
+              "label": "t:sections.promotion-banner.blocks.image_banner.settings.content_box_type.options__1.label"
             },
             {
               "value": "rounded",
-              "label": "t:settings_schema.products.round"
+              "label": "t:sections.promotion-banner.blocks.image_banner.settings.content_box_type.options__2.label"
             }
           ],
           "default": "square",
@@ -1592,7 +1424,7 @@
           "options": [
             {
               "value": "none",
-              "label": "t:sections.all.icon.options.none"
+              "label": "t:sections.multicolumn.settings.line_border.options__1.label"
             },
             {
               "value": "border",
@@ -1618,7 +1450,7 @@
         },
         {
           "type": "header",
-          "content": "t:settings_schema.colors.name"
+          "content": "t:sections.promotion-banner.blocks.countdown.settings.header_style.label"
         },
         {
           "type": "color",
@@ -1629,13 +1461,13 @@
         {
           "type": "color",
           "id": "text_color_countdown",
-          "label": "t:sections.all.text.color_text",
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.text_color.label",
           "default": "rgba(0,0,0,0)"
         },
         {
           "type": "color",
           "id": "bg_color_countdown",
-          "label": "t:sections.all.background.background_color",
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.bg_color.label",
           "default": "rgba(0,0,0,0)"
         },
         {
@@ -1671,8 +1503,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.flash-sale.name",
-      "category": "t:categories.promotions",
+      "name": "t:sections.flash-sale.presets.name",
       "blocks": [
         {
           "type": "image_banner"

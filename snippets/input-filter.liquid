@@ -12,45 +12,25 @@
   {% render 'facets', results: collection, enable_filtering: true, enable_sorting: true %}
 {% endcomment %}
 {% liquid 
-  assign total_active_values = total_active_values | plus: filter.active_values.size
-  case filter.presentation
-    when 'swatch'
-      assign has_visual_display = true
-    when 'image'
-      assign has_visual_display = true
+    assign total_active_values = total_active_values | plus: filter.active_values.size
+    case filter.presentation
+      when 'swatch'
+        assign has_visual_display = true
+      else
+        assign has_visual_display = false
+    endcase
+    if settings.lang_direction contains request.locale.iso_code
+      assign is_rtl = true
     else
-      assign has_visual_display = false
-  endcase
-  if settings.lang_direction contains request.locale.iso_code
-    assign is_rtl = true
-  else
-    assign is_rtl = false
-  endif
-    
-  assign rounded_filter = 'square'
-  if section.settings.filter_edge_style == 'rounded'
-    assign rounded_filter = 'rounded'
-  elsif section.settings.filter_edge_style == 'adapt'
-    if settings.buttons_type == 'mixed' or settings.buttons_type == 'rounded_corners'
-      assign rounded_filter = 'rounded_corners'
-    elsif settings.buttons_type == 'rounded'
-      assign rounded_filter = 'rounded'
+      assign is_rtl = false
     endif
-  endif
 %}
 {% case filter.type %}
   {% when 'boolean' or 'list' %}
-    <div @click="getPopupPosition($el)" x-data="{open: {{ expand_filter }}}" class="js-filter relative" data-index="{{ filter_type }}-{{ index }}"{% if filter_type == 'above' %} x-intersect.once="setPositionOptionFilter($el)"{% endif %}>
-      <button 
-        @click.prevent="open=!open" 
-        {% if filter_type == 'above' %}:class="open && 'md:shadow-[rgba(0,0,0,0.16)_0px_0px_0px,rgb(var(--colors-heading))_0px_0px_0px_1px] md:border-[rgb(var(--colors-heading))]'"{% endif %} 
-        class="facets__summary w-full relative cursor-pointer flex pt-3 pb-3 border-solid items-center border-b justify-between
-          {%- if filter_type == 'above' %} md:border md:py-3 md:px-4
-            {%- if rounded_filter == 'rounded' %} rounded-full{% elsif rounded_filter == 'rounded_corners' %} rounded{% endif -%}
-          {%- endif -%}
-        "
-        aria-label="{{ filter.label }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})"
-      >
+    <div x-data="{open: {{ expand_filter }}}" class="js-filter relative" data-index="{{ filter_type }}-{{ index }}"{% if filter_type == 'above' %} x-intersect.once="setPositionOptionFilter($el)"{% endif %}>
+      <button @click.prevent="open=!open" {% if filter_type == 'above' %}:class="open && 'md:shadow-[rgba(0,0,0,0.16)_0px_0px_0px,rgb(var(--colors-heading))_0px_0px_0px_1px] md:border-[rgb(var(--colors-heading))]'"{% endif %} 
+        class="facets__summary w-full relative cursor-pointer flex py-2 border-solid items-center border-b justify-between{% if filter_type == 'above' %} md:border md:py-3 md:px-4{% if settings.edges_type == 'rounded_corners' %} rounded{% endif %}{% endif %}"
+        aria-label="{{ filter.label }} ({{ 'products.facets.filters_selected.one' | t: count: filter.active_values.size }})">
         <span class="text-medium text-[rgba(var(--colors-heading))]{% if filter_type == 'above' %}{% if is_rtl %} md:ml-7{% else %} md:mr-7{% endif %}{% endif %}">{{ filter.label | escape }}<span class="{% if filter.active_values.size == 0 %} hidden{% endif %}"> ({{ filter.active_values.size }})</span></span>
         <span class="h-2.5 w-2.5 inline-block duration-300{% if expand_filter %} rotate-180{% endif %}" :class="open ? 'rotate-180':'rotate-0'">{% render 'icon-alls', icon: 'icon-caret' %}</span>
       </button>
@@ -83,11 +63,7 @@
                     class="{% if value.count > 0 %}cursor-pointer {% endif %}relative{% if settings.filter_display_text %} flex{% else %} inline-block{% endif %}">
                     <input type="checkbox"
                       id="Filter-{{ filter_type }}-{{ filter.label | escape }}-{{ forloop.index }}"
-                      class="input-color-filter checkbox checkbox-checked opacity-0 checked:border-[rgba(var(--colors-text-link))] checked:bg-[rgba(var(--colors-text-link))] absolute cursor-pointer
-                        {%- if is_rtl %} ml-3{% else %} mr-3{% endif -%}
-                        {%- if settings.visual_value_style == "compact" %} min-w-[24px] h-6 w-6{% else %} h-[70px] min-w-[70px]{% endif -%}
-                        {%- if filter.operator == 'AND' %} filter-and{% endif %}{% if rounded_filter != 'square' %} rounded{% else %} rounded-none{% endif -%}
-                      "
+                      class="input-color-filter checkbox checkbox-checked opacity-0{% if is_rtl %} ml-3{% else %} mr-3{% endif %}{% if settings.visual_value_style == "compact" %} min-w-[20px] h-5{% else %}h-[70px] min-w-[70px]{% endif %} border checked:border-[rgba(var(--colors-text-link))] checked:bg-[rgba(var(--colors-text-link))] absolute cursor-pointer{% if filter.operator == 'AND' %} filter-and{% endif %}{% if settings.edges_type == 'rounded_corners' %} rounded{% else %} rounded-none{% endif %}"
                       name="{{ value.param_name }}"
                       value="{{ value.value }}"
                       {% if value.active %}checked{% endif %}
@@ -96,8 +72,8 @@
                     >
                       {% render 'visual-display',
                         filter_value: value,
+                        type: value.display.type,
                         value: value.display.value,
-                        swatch: value.swatch,
                         presentation: filter.presentation
                       %}
                   </label>
@@ -121,7 +97,7 @@
                         assign color_value = option_value
                         break
                       endif
-                      assign multi_colors = option_value | remove_first: '#' | split: '#'
+                      assign multiColors = option_value | remove_first: '#' | split: '#'
                       if option_key == value.label
                         assign color_custom = option_key
                         assign color_value = option_value
@@ -135,13 +111,13 @@
                       [data-swatch-filter="{{ color_custom }}"]:before {
                         background-image: url({{ color_value | file_img_url: "100x100" }});
                       }
-                    {% elsif multi_colors.size == 3 %}
+                    {% elsif multiColors.size == 3 %}
                       [data-swatch-filter="{{ color_custom }}"]:before {
-                        background: linear-gradient(45deg, {{ '#' | append: multi_colors[0] }}, {{ '#' | append: multi_colors[0] }} 33.3%, {{ '#' | append: multi_colors[1] }} 33.3%, {{ '#' | append: multi_colors[1] }} 66.6%, {{ '#' | append: multi_colors[2] }} 66.6%, {{ '#' | append: multi_colors[2] }});
+                        background: linear-gradient(45deg, {{ '#' | append: multiColors[0] }}, {{ '#' | append: multiColors[0] }} 33.3%, {{ '#' | append: multiColors[1] }} 33.3%, {{ '#' | append: multiColors[1] }} 66.6%, {{ '#' | append: multiColors[2] }} 66.6%, {{ '#' | append: multiColors[2] }});
                       }
-                    {% elsif multi_colors.size == 2 %}
+                    {% elsif multiColors.size == 2 %}
                       [data-swatch-filter="{{ color_custom }}"]:before {
-                        background: linear-gradient(45deg, {{ '#' | append: multi_colors[0] }}, {{ '#' | append: multi_colors[0] }} 50%, {{ '#' | append: multi_colors[1] }} 50%, {{ '#' | append: multi_colors[1] }});
+                        background: linear-gradient(45deg, {{ '#' | append: multiColors[0] }}, {{ '#' | append: multiColors[0] }} 50%, {{ '#' | append: multiColors[1] }} 50%, {{ '#' | append: multiColors[1] }});
                       }
                     {% else %}
                       [data-swatch-filter="{{ color_custom }}"]:before {
@@ -150,22 +126,18 @@
                     {% endif %}
                   {%- endstyle %}
                 {% endif %}
-                <li class="list-none mb-3 eurus pl-0.5">
+                <li class="list-none mb-3 eurus pl-px">
                   <label for="Filter-{{ filter_type }}-{{ filter.label | escape }}-{{ forloop.index }}" class="flex items-center relative{% if value.count > 0 %} cursor-pointer{% endif %}">
                     <input type="checkbox"
                       id="Filter-{{ filter_type }}-{{ filter.label | escape }}-{{ forloop.index }}"
-                      class="input-color-filter checkbox checkbox-checked opacity-0 h-6 w-6 min-w-[24px] checked:border-[rgba(var(--colors-text-link))] checked:bg-[rgba(var(--colors-text-link))] relative cursor-pointer
-                        {%- if is_rtl %} ml-3{% else %} mr-3{% endif -%}
-                        {%- if filter.operator == 'AND' %} filter-and{% endif -%}
-                        {%- if rounded_filter != 'square' %} rounded{% else %} rounded-none{% endif -%}
-                      "
+                      class="input-color-filter checkbox checkbox-checked opacity-0{% if is_rtl %} ml-3{% else %} mr-3{% endif %} h-4 w-4 min-w-[16px] border checked:border-[rgba(var(--colors-text-link))] checked:bg-[rgba(var(--colors-text-link))] relative cursor-pointer{% if filter.operator == 'AND' %} filter-and{% endif %}{% if settings.edges_type == 'rounded_corners' %} rounded{% else %} rounded-none{% endif %}"
                       name="{{ value.param_name }}"
                       value="{{ value.value }}"
                       {% if value.active %}checked{% endif %}
                       {% if value.count == 0 and value.active == false %}disabled{% endif %}
                       @change="onSubmit()"
                     >
-                    <span class="color-filter absolute top-0{% if is_rtl %} right-0{% else %} left-0{% endif %} h-6 w-6 rounded-full"
+                    <span class="color-filter absolute top-0{% if is_rtl %} right-0{% else %} left-0{% endif %} h-5 w-5 border-2 rounded-full"
                       {% if color_custom != blank %}
                         data-swatch-filter="{{ color_custom }}"
                       {% else %}
@@ -184,11 +156,7 @@
                   <label for="Filter-{{ filter_type }}-{{ filter.label | escape }}-{{ forloop.index }}" class="flex items-center{% if value.count > 0 %} cursor-pointer{% endif %}">
                     <input type="checkbox"
                       id="Filter-{{ filter_type }}-{{ filter.label | escape }}-{{ forloop.index }}"
-                      class="checkbox checkbox-checked h-6 w-6 min-w-[24px] border checked:border-[rgba(var(--colors-text-link))] checked:bg-[rgba(var(--colors-text-link))] relative cursor-pointer
-                        {%- if is_rtl %} ml-2{% else %} mr-2{% endif -%}
-                        {%- if filter.operator == 'AND' %} filter-and{% endif -%}
-                        {%- if rounded_filter != 'square' %} rounded{% else %} rounded-none{% endif -%}
-                      "
+                      class="checkbox checkbox-checked{% if is_rtl %} ml-2{% else %} mr-2{% endif %} h-4 w-4 min-w-[16px] border checked:border-[rgba(var(--colors-text-link))] checked:bg-[rgba(var(--colors-text-link))] relative cursor-pointer{% if filter.operator == 'AND' %} filter-and{% endif %}{% if settings.edges_type == 'rounded_corners' %} rounded{% else %} rounded-none{% endif %}"
                       name="{{ value.param_name }}"
                       value="{{ value.value }}"
                       {% if value.active %}checked{% endif %}
@@ -213,15 +181,8 @@
       endif
     %}
     <div x-data="{open: {{ expand_filter }}}" class="js-filter relative" data-index="{{ filter_type }}-{{ index }}"{% if filter_type == 'above' %}  x-intersect.once="setPositionOptionFilter($el)"{% endif %}>
-      <button 
-        @click.prevent="open=!open"
-        {% if filter_type == 'above' %}:class="open && 'md:shadow-[rgba(0,0,0,0.16)_0px_0px_0px,rgb(var(--colors-heading))_0px_0px_0px_1px] md:border-[rgb(var(--colors-heading))]'"{% endif %} 
-        class="facets__summary w-full relative cursor-pointer flex pt-3 pb-3 border-solid items-center border-b justify-between
-          {%- if filter_type == 'above' %} md:border md:py-3 md:px-4
-            {%- if rounded_filter == 'rounded' %} rounded-full{% elsif rounded_filter == 'rounded_corners' %} rounded{% endif -%}
-          {%- endif -%}
-        "
-      >
+      <button @click.prevent="open=!open" {% if filter_type == 'above' %}:class="open && 'md:shadow-[rgba(0,0,0,0.16)_0px_0px_0px,rgb(var(--colors-heading))_0px_0px_0px_1px] md:border-[rgb(var(--colors-heading))]'"{% endif %} 
+        class="facets__summary w-full relative cursor-pointer flex py-2 border-solid items-center border-b justify-between{% if filter_type == 'above' %} md:border md:py-3 md:px-4{% if settings.edges_type == 'rounded_corners' %} rounded{% endif %}{% endif %}">
         <span class="text-medium text-[rgba(var(--colors-heading))]{% if filter_type == 'above' %}{% if is_rtl %} md:ml-7{% else %} md:mr-7{% endif %}{% endif %}">{{ filter.label | escape }}</span>
         <span class="h-2.5 w-2.5 inline-block duration-300{% if expand_filter %} rotate-180{% endif %}" :class="open ? 'rotate-180':'rotate-0'">{% render 'icon-alls', icon: 'icon-caret' %}</span>
       </button>
@@ -238,12 +199,7 @@
                 <div style="{% if is_rtl %}left: var(--right_range); right: var(--left_range);{% else %}left: var(--left_range); right: var(--right_range);{% endif %}" class="progress h-full absolute bg-[rgb(var(--colors-text-link))] left-0 right-0"></div>
               </div>
               <div class="range-input relative">
-                <input 
-                  @change="onSubmit()"
-                  class="absolute -translate-x-1 rtl:translate-x-1 range-min w-full bg-none h-1.5 -top-1.5 pointer-events-none appearance-none
-                    {%- if rounded_filter != 'square' %} rounded-range{% else %} square-range{% endif -%}
-                    {%- if filter.operator == 'AND' %} filter-and{% endif -%}
-                  "
+                <input @change="onSubmit()" class="absolute -translate-x-1 rtl:translate-x-1 range-min w-full bg-none h-1.5 -top-1.5 pointer-events-none appearance-none{% if filter.operator == 'AND' %} filter-and{% endif %}"
                   name="{{ filter.min_value.param_name }}"
                   {%- if filter.min_value.value -%}
                     {%- if uses_comma_decimals -%}value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"{%- else -%}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
@@ -254,19 +210,12 @@
                   placeholder="0"
                   min="0"
                   defaultValue="0"
-                  {%- if uses_comma_decimals -%}max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"{%- else -%}max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"{% endif %}
+                  {%- if uses_comma_decimals -%}max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.'  }}"{%- else -%}max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"{% endif %}
                   step=".01"
                   form="ranger-price"
                   id="Filter-{{ filter_type }}-{{ filter.label | escape }}-{{ forloop.index }}-range-min"
                 >
-                <input 
-                  @change="onSubmit()"
-                  class="absolute translate-x-1 rtl:-translate-x-1 range-max w-full bg-none h-1.5 -top-1.5 pointer-events-none appearance-none
-                    {%- if rounded_filter != 'square' %} rounded-range{% else %} square-range{% endif -%}
-                    {%- if filter.operator == 'AND' %} filter-and{% endif -%}
-                  "
-                  type="range"
-                  min="1"
+                <input @change="onSubmit()" class="absolute translate-x-1 rtl:-translate-x-1 range-max w-full bg-none h-1.5 -top-1.5 pointer-events-none appearance-none{% if filter.operator == 'AND' %} filter-and{% endif %}"  type="range" min="1"
                   {%- if filter.max_value.value -%}
                     {%- if uses_comma_decimals -%}value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"{%- else -%}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
                   {%- else -%}
@@ -296,7 +245,7 @@
                 placeholder="0"
                 min="0"
                 defaultValue="0"
-                {%- if uses_comma_decimals -%}max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"{%- else -%}max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"{% endif %}
+                {%- if uses_comma_decimals -%}max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.'  }}"{%- else -%}max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"{% endif %}
                 step=".01"
                 id="Filter-{{ filter_type }}-{{ filter.label | escape }}-{{ forloop.index }}-min"
               >
@@ -332,7 +281,7 @@
                   <span>{{ cart.currency.symbol }}</span>
                   <p class="price-preview">
                     {%- if filter.max_value.value -%}
-                      {{ filter.max_value.value | money_without_currency }}
+                      {{ filter.max_value.value | money_without_currency  }}
                     {%- else -%}
                       {{ filter.range_max | money_without_currency }}
                     {%- endif -%}

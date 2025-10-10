@@ -160,27 +160,10 @@ document.addEventListener('alpine:init', () => {
     },
     _renderFilters(html) {
       const parsedHTML = new DOMParser().parseFromString(html, 'text/html');
-      let blockFiltesDrawer = '.form-drawer';
-      let blockFiltesAside = '.form-aside';
-      const selectBlockFiltesDrawer = document.querySelector(blockFiltesDrawer);
-      const selectBlockFiltesAside = document.querySelector(blockFiltesAside);
-      let activeTag = document.getElementById("active-filter-tag")
-
-      if (activeTag) {
-        activeTag.innerHTML = parsedHTML.getElementById("active-filter-tag").innerHTML;   
-      }
-      if (selectBlockFiltesDrawer) {
-        if (this.$el.id) {  
-          const eleOpening = parsedHTML.getElementById(this.$el.id) ? parsedHTML.getElementById(this.$el.id).closest('.js-filter') : undefined;
-          if (eleOpening) {
-            eleOpening.setAttribute('x-data', '{open: true}');
-            parsedHTML.getElementById(this.$el.id).closest('.js-filter').innerHTML = eleOpening.innerHTML;
-          }
-        }
-        selectBlockFiltesDrawer.innerHTML = parsedHTML.querySelector(blockFiltesDrawer).innerHTML;
-        this._renderAdditionalElements(parsedHTML);
-      };
-      if (selectBlockFiltesAside) {
+      let blockFiltes = '.form-drawer'
+      if (parsedHTML.querySelector('.form-aside')) blockFiltes = '.form-aside';
+      const selectBlockFiltes = document.querySelector(blockFiltes);
+      if (selectBlockFiltes) {
         if (this.$el.id) {
           const eleOpening = parsedHTML.getElementById(this.$el.id) ? parsedHTML.getElementById(this.$el.id).closest('.js-filter') : undefined;
           if (eleOpening) {
@@ -188,7 +171,7 @@ document.addEventListener('alpine:init', () => {
             parsedHTML.getElementById(this.$el.id).closest('.js-filter').innerHTML = eleOpening.innerHTML;
           }
         }
-        selectBlockFiltesAside.innerHTML = parsedHTML.querySelector(blockFiltesAside).innerHTML;
+        selectBlockFiltes.innerHTML = parsedHTML.querySelector(blockFiltes).innerHTML;
         this._renderAdditionalElements(parsedHTML);
       };
       this._renderAdvancedFilters(parsedHTML);
@@ -235,23 +218,12 @@ document.addEventListener('alpine:init', () => {
       elRect = el.getBoundingClientRect();
       const elPopup = el.getElementsByClassName('popup-above')[0];
       let spacingRight = window.innerWidth - elRect.left;
-      let checkSpacing = spacingRight - el.innerWidth;
+      let checkSpacing = spacingRight - 320;
       if (checkSpacing >= 0) {
         elPopup.style.left = '0px';
       } else {
         elPopup.style.left = checkSpacing+ 'px';
       }
-    },
-    getPopupPosition(el) {
-      this.$nextTick(() => {
-        const elPopup = el.getElementsByClassName('popup-above')[0];
-        if (elPopup) {
-          const popupRect = elPopup.getBoundingClientRect();
-          if( popupRect.right > window.innerWidth){
-            elPopup.style.right = 0;
-          }
-        }
-      });
     }
   }));
 });

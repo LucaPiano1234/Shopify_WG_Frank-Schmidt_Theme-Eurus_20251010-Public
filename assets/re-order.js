@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.has('re-order.js')) {
-  window.Eurus.loadedScript.add('re-order.js');
+if (!window.Eurus.loadedScript.includes('re-order.js')) {
+  window.Eurus.loadedScript.push('re-order.js');
 
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {
@@ -8,7 +8,6 @@ if (!window.Eurus.loadedScript.has('re-order.js')) {
         orderName: '',
         itemsCart: '',
         itemsCartNew: [],
-        properties: '',
         errorMessage: false,
         loading: false,
         clearSuccess: false,
@@ -23,7 +22,6 @@ if (!window.Eurus.loadedScript.has('re-order.js')) {
           this.itemsCart = xParseJSON(data).map((product) => (product.variant_available && product.available ) ? { ...product, title: this.unescapeText(product.title) } : { ...product, disable: true, title: this.unescapeText(product.title) });
           this.disableReorder = this.itemsCart.findIndex((element) => !element.disable) == -1 ? true : false;
           this.itemsCartNew = this.itemsCart;
-          this.properties = this.itemsCart.map(product => product.properties);
         },
         setItemsCart(product) {
           let newItems = [];
@@ -35,31 +33,13 @@ if (!window.Eurus.loadedScript.has('re-order.js')) {
           });
           this.itemsCartNew = newItems;
         },
-        async handleAddToCart(el) {
+        handleAddToCart(el) {
           this.loading = true;
           this.clearSuccess = false;
-          await Alpine.store('xCartHelper').waitForEstimateUpdate();
-          window.updatingEstimate = true;
-
           let items = [];
           let formData = new FormData();
 
-          JSON.parse(JSON.stringify(this.itemsCartNew)).filter(itemCart => {
-            if (!itemCart.disable) {
-              let item = {
-                "id": itemCart.variant_id,
-                "quantity": itemCart.quantity
-              };
-              if (itemCart.properties && Array.isArray(itemCart.properties)) {
-                let propertiesObj = {};
-                itemCart.properties.forEach(([key, value]) => {
-                  propertiesObj[key] = value;
-                });
-                item.properties = propertiesObj;
-              }
-              items.push(item);
-            }
-          });
+          JSON.parse(JSON.stringify(this.itemsCartNew)).filter(itemCart => !itemCart.disable && items.push({ "id": itemCart.variant_id, "quantity": itemCart.quantity }));
           formData.append(
             'sections',
             Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id)
@@ -87,31 +67,24 @@ if (!window.Eurus.loadedScript.has('re-order.js')) {
             this.closeReorderPopup();
             
             Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-              section.selector.split(',').forEach((selector) => {
-                const sectionElement = document.querySelector(selector);
-                if (sectionElement) {
-                  if (response.sections[section.id])
-                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
-                }
-              })
+              const sectionElement = document.querySelector(section.selector);
+
+              if (sectionElement) {
+                if (response.sections[section.id])
+                  sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
+              }
             }));
             if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
               Alpine.store('xQuickView').show = false;
             }
             Alpine.store('xPopup').close();
-            if (Alpine.store('xCartNoti') && Alpine.store('xCartNoti').enable) {
-              Alpine.store('xCartNoti').setItem(response); 
-            } else {
-              Alpine.store('xMiniCart').openCart();
-              document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));
-            }
+            Alpine.store('xMiniCart').openCart();
             Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
             document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
           })
           .catch((error) => {
             console.error('Error:', error);
           }).finally(() => {
-            Alpine.store('xCartHelper').updateEstimateShippingFull();
             this.loading = false;
           })
         },
@@ -129,13 +102,11 @@ if (!window.Eurus.loadedScript.has('re-order.js')) {
           .then((response) => {
             this.clearSuccess = true;
             Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-              section.selector.split(',').forEach((selector) => {
-                const sectionElement = document.querySelector(selector);
-                if (sectionElement) {
-                  if (response.sections[section.id])
-                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
-                }
-              });
+              const sectionElement = document.querySelector(section.selector);
+              if (sectionElement) {
+                if (response.sections[section.id])
+                  sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
+              }
             }));
             Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
             document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));

@@ -1,13 +1,7 @@
 {% render 'section-divider' %}
 
-{% style %}
-  .custom-liquid ul {
-    list-style: disc;
-  }
-{% endstyle %}
-
 <div class="relative mx-auto pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
-  <div class="custom-liquid {% if section.settings.full_width %} full-width{% else %} x-pgw page-width{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% endif %}">
+  <div class="{% if section.settings.full_width %} full-width{% else %} page-width{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% endif %}">
     {{ section.settings.custom_liquid }}
   </div>
 </div>
@@ -23,13 +17,9 @@
   },
   "settings": [
     {
-      "type": "paragraph",
-      "content": "t:sections.user_guide_link.section_and_blocks.custom_liquid"
-    },
-    {
       "type": "liquid",
       "id": "custom_liquid",
-      "label": "t:sections.custom-liquid.name",
+      "label": "t:sections.custom-liquid.settings.custom_liquid.label",
       "info": "t:sections.custom-liquid.settings.custom_liquid.info"
     },
     {
@@ -46,7 +36,7 @@
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.rich-text.settings.show_section_divider.label"
     },
     {
       "type": "range",
@@ -82,7 +72,7 @@
       "id": "show_section_divider_mobile",
       "type": "checkbox",
       "default": false,
-      "label": "t:sections.all.show_section_divider.label"
+      "label": "t:sections.collage.settings.show_divider.label"
     },
     {
       "type": "range",
@@ -107,8 +97,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.custom-liquid.name",
-      "category": "t:categories.utilities_and_layout"
+      "name": "t:sections.custom-liquid.presets.name"
     }
   ]
 }

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
@@ -17,10 +26,10 @@
             "button_label_or_code": "Shop Now",
             "button_link": "",
             "open_new_window_button": false,
-            "button_color": "#f6e7d7",
-            "button_text_color": "#0e333c",
-            "button_color_dark": "#f6e7d7",
-            "button_text_color_dark": "#0e333c",
+            "button_color": "rgba(0,0,0,0)",
+            "button_text_color": "#ffffff",
+            "button_color_dark": "rgba(0,0,0,0)",
+            "button_text_color_dark": "#ffffff",
             "timezone": "-4",
             "end_year": 2023,
             "end_month": "1",
@@ -62,12 +71,12 @@
         "enable": true,
         "show_only_on_homepage": false,
         "enable_carousel_on_desktop": true,
-        "backgound_color": "#ffffff",
-        "text_color": "#0e333c",
-        "textlink_color_light": "#846e45",
-        "backgound_color_dark": "#0e1b1f",
+        "backgound_color": "#3e2b21",
+        "text_color": "#ffffff",
+        "textlink_color_light": "#c2a27a",
+        "backgound_color_dark": "#2e1c13",
         "text_color_dark": "#ffffff",
-        "textlink_color_dark": "#9b814f",
+        "textlink_color_dark": "#c2a27a",
         "auto_switch_bar": true,
         "change_bar_every": 5,
         "show_navigation": true,
@@ -92,11 +101,11 @@
         "enable_on_collection_page": false,
         "shadow": 50,
         "text_color_light": "#ffffff",
-        "textlink_color_light": "#93691a",
+        "textlink_color_light": "#c2a27a",
         "text_color_dark": "#ffffff",
-        "textlink_color_dark": "#93691a",
-        "shadow_color": "#0e1b1f",
-        "shadow_color_dark": "#0e1b1f",
+        "textlink_color_dark": "#c2a27a",
+        "shadow_color": "#ffffff",
+        "shadow_color_dark": "#ffffff",
         "header_show_language_selector": false,
         "header_show_currency_selector": false,
         "show_section_divider": false,
@@ -129,12 +138,10 @@
         "show_currency_selector": true,
         "background_color": "#ffffff",
         "text_color": "#2e2e2e",
-        "colors_text_link": "#846e45",
-        "divider_color": "#f3eae1",
-        "background_color_dark": "#0e1b1f",
-        "text_color_dark": "#ffffff",
-        "colors_text_link_dark": "#9b814f",
-        "divider_color_dark": "#263135"
+        "divider_color": "#f2f2f2",
+        "background_color_dark": "#292929",
+        "text_color_dark": "#999999",
+        "divider_color_dark": "#333333"
       }
     }
   },

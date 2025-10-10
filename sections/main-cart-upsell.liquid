@@ -5,7 +5,7 @@
 </div>
 {% schema %}
 {
-  "name": "t:settings_schema.cart.cart_upsell",
+  "name": "t:sections.main-cart-upsell.name",
   "class": "main-cart-upsell",
   "settings": [
     {
@@ -51,25 +51,13 @@
       "max": 5,
       "step": 1,
       "default": 4,
-      "label": "t:sections.collection-list.settings.columns_desktop.label"
+      "label": "t:sections.main-cart-upsell.settings.number_of_columns_on_desktop"
     },
     {
       "type": "checkbox",
       "id": "show_quickview",
       "default": true,
       "label": "t:sections.quick_view.show_quickview_button"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_highlighted_features",
-      "default": true,
-      "label": "t:sections.product-recommendations.settings.show_highlighted_features.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_highlighted_attributes",
-      "default": true,
-      "label": "t:sections.product-recommendations.settings.show_highlighted_attributes.label"
     },
     {
       "type": "header",

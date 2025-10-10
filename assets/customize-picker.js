@@ -1,13 +1,11 @@
-if (!window.Eurus.loadedScript.has('customize-picker.js')) {
-  window.Eurus.loadedScript.add('customize-picker.js');
+if (!window.Eurus.loadedScript.includes('customize-picker.js')) {
+  window.Eurus.loadedScript.push('customize-picker.js');
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
       Alpine.data('xCustomizePicker', () => ({
         dataCheckbox: [],
-        dataCheckboxTitle: [],
         disableInput: true,
         radioChecked: '',
-        radioCheckedTitle: '',
         validation(el) {
           if (el.value == "") {
             el.classList.add("required-picker");
@@ -18,26 +16,11 @@ if (!window.Eurus.loadedScript.has('customize-picker.js')) {
           this.validateErrorBtn(el);
         },
         validateErrorBtn(el) {
-          let hasRequiredInput = false;
-          let allInputsHaveValue = true;
           var productInfo = el.closest('.product-info');
           var paymentBtn = productInfo.querySelector(".payment-button--clone");
-          var propertiesInput = productInfo.querySelectorAll(".customization-picker");
-          for (const input of propertiesInput) {
-            if (input.required) {
-              hasRequiredInput = true;
-              if (input.value == ''){
-                allInputsHaveValue = false
-                break
-              }
-            }
-          }
-          if (hasRequiredInput) {
-            if (allInputsHaveValue){
-              paymentBtn?.classList.add('hidden');
-            } else {
-              paymentBtn?.classList.remove('hidden');
-            }           
+          var propertiesInput = productInfo.querySelectorAll(".customization-picker.required-picker");
+          if (propertiesInput.length) {
+            paymentBtn?.classList.remove('hidden');
           }
           else {
             paymentBtn?.classList.add('hidden');
@@ -50,7 +33,7 @@ if (!window.Eurus.loadedScript.has('customize-picker.js')) {
             this.disableInput = false;
           }
         },
-        validateErrorAddAsBundle(el) {
+        validateError(el) {
           var productInfo = el.closest('.product-info');
           var propertiesInput = productInfo.querySelectorAll(".customization-picker");
           var optionValid = true;
@@ -60,28 +43,6 @@ if (!window.Eurus.loadedScript.has('customize-picker.js')) {
               if (optionValid) optionValid = false;
             }
           });
-          return optionValid;
-        },
-        validateError(el) {
-          var productInfo = el.closest('.product-info');
-          var propertiesInput = productInfo.querySelectorAll(".customization-picker");
-          let scrollStatus = false;
-          var optionValid = true;
-          propertiesInput.length && propertiesInput.forEach((input) => {
-            if (input.required && input.value.trim() == '' || input.classList.contains("validate-checkbox")) {
-              input.classList.add("required-picker");
-              if(!scrollStatus){
-                input.parentElement.querySelector('.text-required').scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'center',
-                });
-                scrollStatus = true;
-              }              
-            } else {
-              input.classList.remove("required-picker")
-            }   
-          });
-          
           return optionValid;
         },
         validateCheckBox(el, minLimit, maxLimit) {
