@@ -279,7 +279,7 @@
     "header": {
       "type": "header",
       "custom_css": [
-        ".w-\\[90px\\] {z-index: 10;}"
+        ".transparent-header .sticky-header-content:not(.sticky-header-active) .header {--colors-text-link: 246, 246, 246; padding-top: 0px;}"
       ],
       "settings": {
         "menu": "main-menu",
