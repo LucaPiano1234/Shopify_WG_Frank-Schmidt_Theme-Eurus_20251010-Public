@@ -1,0 +1,273 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "90ca5b13-ef05-4f1c-9911-8f88cc59affb": {
+      "type": "promotion-banner",
+      "blocks": {
+        "template--21419910594861__90ca5b13-ef05-4f1c-9911-8f88cc59affb-image_banner-1": {
+          "type": "image_banner",
+          "settings": {
+            "heading": "Contact Us",
+            "heading_size": 170,
+            "subheading": "",
+            "text": "",
+            "text_size": 130,
+            "content_box_type": "square",
+            "add_frame": false,
+            "color_content_box_light": "rgba(0,0,0,0)",
+            "color_content_box_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21419910594861__90ca5b13-ef05-4f1c-9911-8f88cc59affb-image_banner-1"
+      ],
+      "settings": {
+        "heading": "Promotion Banner",
+        "image_link": "",
+        "open_new_window": false,
+        "image_overlay_opacity": 0,
+        "content_position": "custom",
+        "content_horizontal": 50,
+        "content_vertical": 90,
+        "position_content_mobile": "center",
+        "content_alignment": "center",
+        "show_hero": false,
+        "full_width": true,
+        "padding_full_width": false,
+        "rounded_corner_image": false,
+        "desktop_height": "450px",
+        "padding_top": 0,
+        "padding_bottom": 52,
+        "full_width_mobile": true,
+        "rounded_corner_image_mobile": false,
+        "mobile_height": "250px",
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 16
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_heading": false,
+        "heading_size": 170,
+        "show_breadcrumbs": false,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-center",
+        "mobile_content_alignment": "text-left",
+        "text_color_light": "#202020",
+        "textlink_color_light": "#058942",
+        "background_color_dark": "#fb8500",
+        "text_color_dark": "#058942",
+        "textlink_color_dark": "#ce021e",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "d0d13eb3-5963-452c-a393-1d69bebd6854": {
+      "type": "rich-text",
+      "blocks": {
+        "template--21419910594861__d0d13eb3-5963-452c-a393-1d69bebd6854-text-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Questions? Comments? Let your customers get in touch with you by filling out the email form below. <br/>Reassure them that someone will get back to them within a certain timeframe</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21419910594861__d0d13eb3-5963-452c-a393-1d69bebd6854-text-1"
+      ],
+      "settings": {
+        "background_color_light": "",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "padding_top": 0,
+        "padding_bottom": 28,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "f5b1a0e3-35de-4d97-a576-6b7264a24061": {
+      "type": "contact-form",
+      "blocks": {
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-name-1": {
+          "type": "name",
+          "settings": {
+            "heading": "Name",
+            "mark_as_required": false
+          }
+        },
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-email-1": {
+          "type": "email",
+          "settings": {
+            "heading": "Email"
+          }
+        },
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-phone-1": {
+          "type": "phone",
+          "settings": {
+            "heading": "Phone number",
+            "mark_as_required": false
+          }
+        },
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-message-1": {
+          "type": "message",
+          "settings": {
+            "heading": "Message",
+            "mark_as_required": false
+          }
+        }
+      },
+      "block_order": [
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-name-1",
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-email-1",
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-phone-1",
+        "template--21419910594861__f5b1a0e3-35de-4d97-a576-6b7264a24061-message-1"
+      ],
+      "settings": {
+        "heading": "Questions? Send us an email",
+        "heading_size": 70,
+        "heading_alignment": "left",
+        "text": "",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "button_label": "Send",
+        "button_alignment": "left",
+        "success_message": "Thanks for contacting us. We'll get back to you as soon as possible.",
+        "show_content": "info",
+        "form_alignment": "left",
+        "contact_heading": "Contact infomation",
+        "infomation": "",
+        "address": "Viwaseen Tower, Nam Tu Liem Dist., Hanoi, Vietnam",
+        "phone_nummber": "+1234567890",
+        "email_address": "support@bsscommerce.com",
+        "contact_text": "",
+        "full_width": false,
+        "show_section_divider": false,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "full_width_mobile": false,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 8,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "plane",
+            "custom_icon": "",
+            "title": "Shipping & Return",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 90,
+            "text": "<p>If your aren't perfect, return them within 30 days for a full refund.</p>"
+          }
+        },
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "box",
+            "custom_icon": "",
+            "title": "Safe Payment",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 90,
+            "text": "<p>Pay with the world's most popular and secure payment methods</p>"
+          }
+        },
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "settings",
+            "custom_icon": "",
+            "title": "Shop with Confidence",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 90,
+            "text": "<p>Our Buyer Protection covers your purchase from click to delivery.</p>"
+          }
+        },
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-4": {
+          "type": "column",
+          "settings": {
+            "icon": "check-mark",
+            "custom_icon": "",
+            "title": "Shipping & Return",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 90,
+            "text": "<p>If your plant aren't perfect, return them within 30 days</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-1",
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-2",
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-3",
+        "template--21419910594861__4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa-column-4"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "secondary_background": "none",
+        "border_column": "line_vertical",
+        "column_content_alignment": "center",
+        "icon_position": "above",
+        "icon_size": 30,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "change_bar_every": 5,
+        "background_color_light": "#f6f6f6",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "color_icon_light": "#17532d",
+        "background_color_dark": "#2a2a2a",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "#17532d",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-7",
+        "spacing_desktop": 14,
+        "full_width": false,
+        "show_section_divider": false,
+        "padding_top": 44,
+        "padding_bottom": 68,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-5",
+        "spacing_mobile": 10,
+        "full_width_mobile": false,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 48
+      }
+    }
+  },
+  "order": [
+    "90ca5b13-ef05-4f1c-9911-8f88cc59affb",
+    "main",
+    "d0d13eb3-5963-452c-a393-1d69bebd6854",
+    "f5b1a0e3-35de-4d97-a576-6b7264a24061",
+    "4d01cc64-bd38-49dc-ac47-bd3a39c7f0fa"
+  ]
+}

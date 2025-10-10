@@ -1,0 +1,103 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "featured_image": {
+          "type": "featured_image",
+          "settings": {
+            "desktop_height": "auto",
+            "full_width": false,
+            "mobile_height": "auto",
+            "full_width_mobile": false
+          }
+        },
+        "breadcrumbs": {
+          "type": "breadcrumbs",
+          "settings": {
+            "show_breadcrumbs_border": false,
+            "full_width_breadcrumb": false,
+            "desktop_content_alignment": "text-left",
+            "mobile_content_alignment": "text-left",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_color_light": "rgba(0,0,0,0)",
+            "textlink_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_color_dark": "rgba(0,0,0,0)",
+            "textlink_color_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "blog_show_author": false,
+            "blog_show_date": false
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "show_back_to_blog": true,
+            "blog_show_tags": true,
+            "blog_show_share_social": true
+          }
+        }
+      },
+      "block_order": [
+        "featured_image",
+        "breadcrumbs",
+        "title",
+        "content",
+        "button"
+      ],
+      "settings": {
+        "blog_show_comment_counts": false,
+        "top_padding": 0,
+        "bottom_padding": 0
+      }
+    },
+    "c76580cd-4e30-403e-a8b4-d687105c2965": {
+      "type": "rich-text",
+      "blocks": {
+        "template--15961075744868__c76580cd-4e30-403e-a8b4-d687105c2965-text-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--15961075744868__c76580cd-4e30-403e-a8b4-d687105c2965-text-1"
+      ],
+      "settings": {
+        "background_color_light": "",
+        "background_color_dark": "",
+        "content_alignment": "left",
+        "show_section_divider": false,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "content_alignment_mobile": "left",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "c76580cd-4e30-403e-a8b4-d687105c2965"
+  ]
+}

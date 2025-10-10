@@ -1,0 +1,43 @@
+{% capture icon_highlight %}
+  {% if highlight_type == "underline" %}
+    <svg class="svg-highlight svg-underline absolute left-0 top-auto w-full h-[30%] -bottom-[20%]" xmlns="http://www.w3.org/2000/svg" width="216" height="13" viewBox="0 0 216 13" fill="none" style="fill: none;" preserveAspectRatio="none">
+      <path d="M0.406646 9.68922C49.5975 4.73865 161.298 -2.39378 214.572 8.68106" vector-effect="non-scaling-stroke" stroke="var(--color-highlight);" stroke-width="4px" style="stroke: var(--color-highlight);"/>
+    </svg>
+  {% endif %}
+{% endcapture %}
+
+{% style %}
+  .heading-{{ headingId }} {
+    {% if color_heading_highlight_light != blank and color_heading_highlight_light.alpha != 0.0 %}
+      --color-highlight: {{ color_heading_highlight_light }};
+    {% endif %}
+  }
+  .dark .heading-{{ headingId }} {
+    {% if color_heading_highlight_dark != blank and color_heading_highlight_dark.alpha != 0.0 %}
+      --color-highlight: {{ color_heading_highlight_dark }};
+    {% else %}
+      --color-highlight: {{ settings.colors_dark_heading_highlight }};
+    {% endif %}
+  }
+{% endstyle %}
+
+{% liquid 
+  assign intersect_leave = ''
+  case highlight_type
+    when 'underline'
+      if intersectLeaveSlide
+        assign heading_highlight = '<span class="highlight relative inline-block hl-underline mb-2.5" x-data="{ isIntersecting: false }" x-intersect.once.margin.-25%.0px.-25%.0px="isIntersecting = true" :class="isIntersecting && effect && `highlight-anm-start`" ' | append: intersect_leave | append: '>'
+      else
+        assign heading_highlight = '<span class="highlight relative inline-block hl-underline mb-2.5" x-data="{ isIntersecting: false }" x-intersect.once.margin.-25%.0px.-25%.0px="isIntersecting = true" :class="isIntersecting && `highlight-anm-start`" ' | append: intersect_leave | append: '>'
+      endif
+    when 'font_highlight'
+      assign heading_highlight = '<span class="highlight relative inline-block hl-font">'
+  endcase
+
+  assign icon_highlight = icon_highlight | append: "</span>"
+%}
+{% if heading contains '[' and heading contains ']' %}
+  {{ heading | escape | replace: '[', heading_highlight | replace: ']', icon_highlight }}
+{% else %}
+  {{ heading | escape }}
+{% endif %}

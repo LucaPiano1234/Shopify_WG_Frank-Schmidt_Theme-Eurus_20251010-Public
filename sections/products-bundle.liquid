@@ -1,0 +1,757 @@
+{%- liquid
+  assign size_heading = section.settings.heading_size | times: settings.heading_base_size | times: 0.000225
+
+  if section.settings.products != blank
+    assign productCount = section.settings.products.count
+  elsif section.settings.collection.products_count != 0 and section.settings.collection != blank
+    if section.settings.product_to_show < section.settings.collection.products_count
+      assign productCount = section.settings.product_to_show
+    else
+      assign productCount = section.settings.collection.products_count
+    endif
+  else
+    assign productCount = 3
+  endif
+
+  if settings.edges_type == 'rounded_corners'
+    assign rounded_corner = true
+  endif
+  if settings.lang_direction contains request.locale.iso_code
+    assign is_rtl = true
+  else
+    assign is_rtl = false
+  endif
+-%}
+
+{%- style -%}
+  .heading-{{ section.id }} { 
+    font-size: {{ size_heading | times: 0.6 }}rem; 
+  }
+  .heading-bundler--{{ section.id }} { 
+    font-size: {{ size_heading | times: 0.5 }}rem; 
+  }
+  .gap-mobile-{{ section.id }} {
+    gap: {{ section.settings.spacing_mobile }}px;
+  }
+  @media screen and (min-width: 768px) {
+    .heading-{{ section.id }}{ font-size: {{ size_heading }}rem; } 
+    .heading-bundler--{{ section.id }}{ font-size: {{ size_heading | times: 0.65 }}rem; } 
+    .gap-{{ section.id }} {
+      gap: {{ section.settings.spacing }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% render 'section-divider' %}
+
+<div class="pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]"
+  x-data="xProductBundle('{{ section.id }}', {{ section.settings.minimum_items }}, {% if settings.currency_code_enable %}'{{ shop.money_with_currency_format | escape  }}'{% else %}'{{ shop.money_format | escape }}'{% endif %}, '{{ section.settings.discount_type }}', '{{ section.settings.discount_value }}', {{ section.settings.apply_discount_once_per_order }})"
+  @init-run.window="initBandle($el)"
+  x-intersect.margin.200px="showBundleContent = true"
+  x-intersect:leave="showBundleContent = false"
+>
+  {% if section.settings.heading != blank or section.settings.subheading != blank %}
+    <div class="mb-5 text-{{ section.settings.heading_alignment }} pr-5 pl-5{% unless section.settings.full_width %} page-width{% endunless %}">
+      {%- if section.settings.heading != blank -%}
+        <{{ section.settings.heading_tag }} class="heading-{{ section.id }} h2 block leading-tight flex-auto p-break-words">
+          {% render 'heading-highlight',
+            headingId: section.id,
+            heading: section.settings.heading,
+            highlight_type: section.settings.highlight_type
+          %}
+        </{{ section.settings.heading_tag }}>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="leading-tight p-break-words lg:mb-8 mt-2.5">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+  {% endif %}
+  <div class="mx-auto product-bundler-wrapper{% if section.settings.full_width %} full-width{% else %} page-width{% endif %} pl-5 pr-5">
+    <div 
+      id="x-collection-{{ section.id }}" 
+      class="{% if is_rtl %}ltr {% endif %} flex flex-col md:flex-row gap-mobile-{{ section.id }} gap-{{ section.id }}{% if section.settings.summary_position == "left" %} md:flex-row-reverse{% endif %}"
+    >
+      <div class="{% if is_rtl %}rtl {% endif %}grid grid-cols-1 w-full md:w-2/3{% if productCount > 2 %} lg:w-3/4 md:grid-cols-3{% else %} md:grid-cols-{{ productCount }}{% endif %} gap-mobile-{{ section.id }} gap-{{ section.id }}">
+        {% if section.settings.products != blank %}
+          {%- for product in section.settings.products -%}
+            {% liquid 
+              assign page_param = forloop.index | plus: 0
+              assign section_id = section.id | append: "-" | append: forloop.index
+            %}
+            {% render 'card-product-bundle',
+              card_product: product,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              media_aspect_ratio: section.settings.image_ratio,
+              section_id: section_id,
+              block_id: forloop.index,
+              full_width: section.settings.full_width,
+              rounded_corner: rounded_corner,
+              each_product_can_added_to_bundle_once: section.settings.each_product_can_added_to_bundle_once,
+              page_param: page_param
+            %}
+          {%- endfor -%}
+        {% elsif section.settings.collection.products.size > 0 %}
+          {%- for product in section.settings.collection.products limit: section.settings.product_to_show -%}
+            {% liquid 
+              assign page_param = forloop.index | plus: 0
+              assign section_id = section.id | append: "-" | append: forloop.index
+            %}
+            {% render 'card-product-bundle',
+              card_product: product,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              media_aspect_ratio: section.settings.image_ratio,
+              section_id: section_id,
+              block_id: forloop.index,
+              full_width: section.settings.full_width,
+              rounded_corner: rounded_corner,
+              each_product_can_added_to_bundle_once: section.settings.each_product_can_added_to_bundle_once,
+              page_param: page_param
+            %}
+          {%- endfor -%}
+        {% else %}
+          {%- for product in (1..3) -%}
+            {% render 'card-product-bundle',
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              media_aspect_ratio: section.settings.image_ratio,
+              section_id: section_id,
+              block_id: forloop.index,
+              full_width: section.settings.full_width,
+              each_product_can_added_to_bundle_once: section.settings.each_product_can_added_to_bundle_once
+            %}
+          {%- endfor -%}
+        {% endif %}
+      </div>
+      <div class="{% if is_rtl %}rtl {% endif %}w-full md:w-1/3{% if productCount > 2 %} lg:w-1/4{% endif %} sticky md:relative{% if template.name == "product" %} bottom-14{% else %} bottom-5{% endif %} md:bottom-auto z-10">
+        {% style %}
+          #bundler-sticky-{{ section.id }} {
+            {%- if section.settings.background_color_light.alpha != 0.0 -%}
+              --colors-line-and-border: {{ section.settings.background_color_light.red }}, {{ section.settings.background_color_light.green }}, {{ section.settings.background_color_light.blue }};
+              --background-color: {{ section.settings.background_color_light.red }}, {{ section.settings.background_color_light.green }}, {{ section.settings.background_color_light.blue }};
+            {%- else -%}
+              --background-color: {{ settings.colors_background.red }}, {{ settings.colors_background.green }}, {{ settings.colors_background.blue }};
+            {%- endif -%}
+          }
+          .dark #bundler-sticky-{{ section.id }} {
+            {%- if section.settings.background_color_dark.alpha != 0.0 -%}
+              --background-color: {{ section.settings.background_color_dark.red }}, {{ section.settings.background_color_dark.green }}, {{ section.settings.background_color_dark.blue }};
+              --colors-line-and-border: {{ section.settings.background_color_dark.red }}, {{ section.settings.background_color_dark.green }}, {{ section.settings.background_color_dark.blue }};
+            {%- else -%}
+              --colors-line-and-border: {{ settings.colors_dark_line_and_borders.red }}, {{ settings.colors_dark_line_and_borders.green }}, {{ settings.colors_dark_line_and_borders.blue }};
+              --background-color: {{ settings.colors_dark_background.red }}, {{ settings.colors_dark_background.green }}, {{ settings.colors_dark_background.blue }};
+            {%- endif -%}
+          }
+          #bundler-sticky-{{ section.id }}, #bundler-sticky-{{ section.id }} *:before {
+            {% if section.settings.title_color.alpha != 0.0 %}
+              --colors-heading: {{ section.settings.title_color.red }}, {{ section.settings.title_color.green }}, {{ section.settings.title_color.blue }};
+            {% endif %}
+            {% if section.settings.text_light.alpha != 0.0 %}
+              --colors-text: {{ section.settings.text_light.red }}, {{ section.settings.text_light.green }}, {{ section.settings.text_light.blue }};
+            {% endif %}
+            {% if section.settings.button_light.alpha != 0.0 %}
+              --colors-button: {{ section.settings.button_light.red }}, {{ section.settings.button_light.green }}, {{ section.settings.button_light.blue }};
+            {% endif %}
+            {% if section.settings.button_text_light.alpha != 0.0 %}
+              --colors-button-text: {{ section.settings.button_text_light.red }}, {{ section.settings.button_text_light.green }}, {{ section.settings.button_text_light.blue }};
+            {% endif %}
+            {% if section.settings.button_hover_light.alpha != 0.0 %}
+              --colors-button-hover: rgb({{ section.settings.button_hover_light.red }}, {{ section.settings.button_hover_light.green }}, {{ section.settings.button_hover_light.blue }});
+            {% endif %}
+            {% if section.settings.button_text_hover_light.alpha != 0.0 %}
+              --colors-button-text-hover: {{ section.settings.button_text_hover_light.red }}, {{ section.settings.button_text_hover_light.green }}, {{ section.settings.button_text_hover_light.blue }};
+            {% endif %}
+            {% if section.settings.line_border.alpha != 0.0 %}
+              --colors-line-and-border: {{ section.settings.line_border.red }},{{ section.settings.line_border.green }},{{ section.settings.line_border.blue }};
+            {% endif %}
+            {%- if section.settings.background_color_light.alpha != 0.0 -%}
+              --colors-line-and-border: {{ section.settings.background_color_light.red }}, {{ section.settings.background_color_light.green }}, {{ section.settings.background_color_light.blue }};
+            {%- endif -%}
+          }
+          .dark #bundler-sticky-{{ section.id }}, .dark #bundler-sticky-{{ section.id }} *:before {
+            {% if section.settings.title_color_dark.alpha != 0.0 %}
+              --colors-heading: {{ section.settings.title_color_dark.red }}, {{ section.settings.title_color_dark.green }}, {{ section.settings.title_color_dark.blue }};
+            {% else %}        
+              --colors-heading: {{ settings.colors_dark_heading.red }}, {{ settings.colors_dark_heading.green }}, {{ settings.colors_dark_heading.blue }};
+            {% endif %}
+            {% if section.settings.text_dark.alpha != 0.0 %}
+              --colors-text: {{ section.settings.text_dark.red }}, {{ section.settings.text_dark.green }}, {{ section.settings.text_dark.blue }};
+            {% else %}        
+              --colors-text: {{ settings.colors_dark_text.red }}, {{ settings.colors_dark_text.green }}, {{ settings.colors_dark_text.blue }};
+            {% endif %}
+            {% if section.settings.button_dark.alpha != 0.0 %}
+              --colors-button: {{ section.settings.button_dark.red }}, {{ section.settings.button_dark.green }}, {{ section.settings.button_dark.blue }};
+            {% else %}  
+              --colors-button: {{ settings.colors_dark_button.red }}, {{ settings.colors_dark_button.green }}, {{ settings.colors_dark_button.blue }};
+            {% endif %}
+            {% if section.settings.button_text_dark.alpha != 0.0 %}
+              --colors-button-text: {{ section.settings.button_text_dark.red }}, {{ section.settings.button_text_dark.green }}, {{ section.settings.button_text_dark.blue }};
+            {% else %} 
+              --colors-button-text: {{ settings.colors_dark_button_text.red }}, {{ settings.colors_dark_button_text.green }}, {{ settings.colors_dark_button_text.blue }}; 
+            {% endif %}
+            {% if section.settings.button_hover_dark.alpha != 0.0 %}
+              --colors-button-hover: rgb({{ section.settings.button_hover_dark.red }}, {{ section.settings.button_hover_dark.green }}, {{ section.settings.button_hover_dark.blue }});
+            {% else %}  
+              --colors-button-hover: rgb({{ settings.colors_dark_button_hover.red }}, {{ settings.colors_dark_button_hover.green }}, {{ settings.colors_dark_button_hover.blue }});
+            {% endif %}
+            {% if section.settings.button_text_hover_dark.alpha != 0.0 %}
+              --colors-button-text-hover: {{ section.settings.button_text_hover_dark.red }}, {{ section.settings.button_text_hover_dark.green }}, {{ section.settings.button_text_hover_dark.blue }};
+            {% else %}  
+              --colors-button-text-hover: {{ settings.colors_dark_button_text_hover.red }}, {{ settings.colors_dark_button_text_hover.green }}, {{ settings.colors_dark_button_text_hover.blue }};
+            {% endif %}
+            {% if section.settings.line_border_dark.alpha != 0.0 %}
+              --colors-line-and-border: {{ section.settings.line_border_dark.red }},{{ section.settings.line_border_dark.green }},{{ section.settings.line_border_dark.blue }};
+            {% else %}        
+              --colors-line-and-border: {{ settings.colors_line_and_borders.red }}, {{ settings.colors_line_and_borders.green }}, {{ settings.colors_line_and_borders.blue }};
+            {% endif %}
+            {%- if section.settings.background_color_dark.alpha != 0.0 -%}
+              --colors-line-and-border: {{ section.settings.background_color_dark.red }}, {{ section.settings.background_color_dark.green }}, {{ section.settings.background_color_dark.blue }};
+            {%- endif -%}
+          }
+        {% endstyle %}
+
+        <div 
+          id="bundler-sticky-{{ section.id }}" 
+          class="bundler-sticky pb-5{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %} bg-[rgba(var(--background-color))] md:sticky top-[calc(var(--height-header)+5rem)] md:pl-5 md:pr-5 md:pt-5 md:pb-5 lg:pl-8 lg:pr-8 lg:pt-8 lg:pb-8 lg:block border-[2px] mt-[2px]"
+          :class="showBundleContent ? 'block' : 'hidden'"
+          x-data="{ showContent: true }"
+        >
+          <div class="bundler__header relative pl-5 pr-5 pt-5 md:pl-0 md:pr-0 md:pt-0">
+            <h3 class="heading-bundler--{{ section.id }} title">
+              {{- section.settings.bundler_heading | escape -}}
+            </h3>
+            <p class="subheading text-medium text-[rgba(var(--colors-text))] mt-1.5">{{ section.settings.bundler_text }}</p>
+            <button 
+              class="text-[rgba(var(--colors-text))] md:hidden absolute top-1/2 right-5 rtl:left-5 rtl:right-auto -translate-y-1/2 opacity-70 cursor-pointer" 
+              @click="showContent=!showContent"
+              x-cloak :class="JSON.parse(JSON.stringify(productsBundle)).length > 0 ? 'block': 'hidden'"
+            >
+              <span x-cloak :class="showContent ? 'hidden' : 'block'">
+                {% render 'icon-alls', icon: 'icon-plus', class: "w-5" %}
+              </span>
+              <span class="block" :class="showContent ? 'block' : 'hidden'">
+                {% render 'icon-alls', icon: 'icon-minus', class: "w-5" %}
+              </span>
+            </button>
+          </div>
+
+          <div 
+            x-show="showContent"
+            x-collapse
+          >
+            <div class="pl-5 pr-5 md:pl-0 md:pr-0" :class="JSON.parse(JSON.stringify(productsBundle)).length > 0 ? 'hidden': 'block'">
+              <p class="text-[rgba(var(--colors-text))] mt-4">{{ 'sections.product-bundle.bundle_empty' | t }}</p>
+            </div>
+            
+            <div class="flex relative w-full mt-2 pt-3 pb-3 pr-3.5 pl-3.5 bg-[rgba(var(--color-error),0.2)]{% if settings.edges_type == 'rounded_corners' %} rounded-md{% endif %}" x-cloak x-show="errorMessage">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 w-3">{% render 'icon-alls', icon: 'icon-error' %}</span>
+              <span class="cart-warning text-small pl-5"></span>
+            </div>
+            <div x-cloak :class="JSON.parse(JSON.stringify(productsBundle)).length > 0 ? 'block': 'hidden'">
+              <div class="bundler-content md:mt-5 pl-5 pr-5 md:pl-0 md:pr-0" :class="JSON.parse(JSON.stringify(productsBundle)).length > 0 && 'mt-5'">
+                <div class="w-full overflow-hidden">
+                  <div class="w-full visible flex flex-row overflow-x-auto md:overflow-x-hidden md:overflow-y-auto scrollbar-body scrollbar-horizontal md:flex-col scrollbar-visible md:max-h-[400px] pb-2">
+                    <template x-for="(item,index) in Object.values(productsBundle)" :key="index">
+                      <div 
+                        class="md:w-full flex flex-shrink-0 bundler-product relative pt-1.5 pb-1.5 gap-2.5"
+                        x-data="{ 
+                          item: JSON.parse(JSON.stringify(item))
+                        }"
+                        :class="JSON.parse(JSON.stringify(productsBundle)).length > 1 ? 'w-3/4' : 'w-full'"
+                      >
+                        <div class="bundler-product-image w-[70px] h-[70px] relative">
+                          <a x-bind:href="item.productUrl" class="block disable-effect w-full">
+                            <div class="relative w-full overflow-hidden float-left before:h-0 before:block before:pb-[100.0%]{% if rounded_corner %} rounded-md{% endif %}">
+                              <img
+                                x-show="item.featured_image"
+                                class="absolute top-0 right-0 left-0 bottom-0 object-cover h-full w-full image-hover" 
+                                x-bind:src="`${ item.featured_image }`"
+                                loading="lazy" 
+                                width="150"
+                                height="auto"
+                              >
+                              <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full" x-show="!item.featured_image">{%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}</div>
+                            </div>
+                          </a>
+                          <div class="bundler-button-remove cursor-pointer absolute rtl:-left-1.5 rtl:right-auto -top-1.5 pl-1 pr-1 pt-1 pb-1 -right-1.5 text-[rgba(var(--colors-text))] border border-[rgba(var(--colors-text),0.5)] bg-[rgba(var(--background-color))] rounded-full" @click="removeBundle($el, index)">
+                            <span class="w-2 h-2 block">{% render 'icon-alls', icon: 'icon-close' %}</span>
+                          </div>
+                        </div>
+                        <div class="bundler-product-text flex-1 pr-2.5 lg:pr-0">
+                          <div>
+                            <a x-bind:href="item.productUrl" class="text-[rgba(var(--colors-heading))] mr-0 duration-200 transition disable-effect hover-text-link p-break-words" x-text="item.product_name">
+                            </a>
+                            <p class="text-[rgba(var(--colors-text))] text-normal mt-1 opacity-70" x-show="item.title" x-text="item.title"></p>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </div>
+
+              {% if section.settings.collection.products_count != 0 or section.settings.products != blank %}
+                <div class="bundler-footer pl-5 pr-5 md:pl-0 md:pr-0 mt-1">
+                  <div class="mb-5 pt-2.5 flex justify-between text-medium" role="status">
+                    <p class="h5 text-[rgba(var(--colors-heading))] text-medium">{{ 'sections.cart.headings.total' | t }}</p>
+                    <p x-show="totalDiscount == 0" class="h5 text-[rgba(var(--colors-heading))] text-medium" id="total-price" x-html="totalPrice"></p>
+                    <div class="ml-8 rtl:ml-0 rtl:mr-8 text-left flex items-end flex-col" x-show="totalDiscount != 0">
+                      <p class="h5 text-medium" id="total-price-discount" x-show="totalDiscount != 0" x-html="totalDiscount"></p>
+                      <p class="text-small text-left" x-html="`(${amountPrice})`"></p>
+                    </div>
+                  </div>
+                  <button
+                    class="button-atc button button-solid block w-full pl-7 pr-7 pt-3 pb-3 disabled:cursor-not-allowed disabled:opacity-60"
+                    @click="handleAddToCart($el)"
+                    disabled
+                  >
+                    {% assign button_label = 'products.product.add_to_cart' | t %}
+                    <span :class="{ 'lg:block opacity-0 is-focus-button' : loading }">
+                      <span class="flex items-center justify-center">
+                        {% render 'button-label', button_label: button_label, show_button_style: 'primary' %}
+                      </span>
+                    </span>
+
+                    <div class="lg:inline-block animate-spin w-4 h-4 md:w-5 md:h-5 absolute top-[calc(50%-8px)] left-[calc(50%-8px)] md:top-[calc(50%-10px)] md:left-[calc(50%-10px)]" x-show="loading" x-cloak>
+                      {% render 'icon-alls', icon: 'icon-loading' %}
+                    </div>
+                  </button>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if product and settings.enable_combined %}
+  <div id="card-product-bundle-{{ section.id }}" class="hidden">
+    {%- paginate pages by 1 -%}
+    {%- assign section_id = section.id | append: "-" | append: paginate.current_page -%}
+    {% render 'card-product-bundle',
+      card_product: product,
+      show_vendor: section.settings.show_vendor,
+      show_rating: section.settings.show_rating,
+      media_aspect_ratio: section.settings.image_ratio,
+      section_id: section_id,
+      full_width: section.settings.full_width,
+      each_product_can_added_to_bundle_once: section.settings.each_product_can_added_to_bundle_once,
+      page_param: paginate.current_page
+    %}
+    {% endpaginate %}
+  </div>
+{% endif %}
+<script src="{{ 'product-bundle.js' | asset_url }}" defer></script>  
+<script src="{{ 'variant-select.js' | asset_url }}" defer></script>
+<script src="{{ 'preview-color-swatches.js' | asset_url }}" defer></script>
+{% schema %}
+{
+  "name": "t:sections.products-bundle.name",
+  "tag": "section",
+  "class": "section section-collection-list x-section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "aside"
+    ]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Product bundles",
+      "label": "t:sections.all.text.heading",
+      "info": "t:settings_schema.typography.settings.heading_highlight_type.info"
+    },
+    {
+      "type": "select",
+      "id": "highlight_type",
+      "default": "underline",
+      "label": "t:settings_schema.typography.settings.heading_highlight_type.label",
+      "options": [
+        {
+          "value": "underline",
+          "label": "t:settings_schema.typography.settings.heading_highlight_type.option__1.label"
+        },
+        {
+          "value": "font_highlight",
+          "label": "t:settings_schema.typography.settings.heading_highlight_type.option__3.label"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "%",
+      "default": 100,
+      "label": "t:sections.collection-list.settings.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "default": "h2",
+      "label": "t:sections.all.text.heading_tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "H1"
+        },
+        {
+          "value": "h2",
+          "label": "H2"
+        },
+        {
+          "value": "h3",
+          "label": "H3"
+        },
+        {
+          "value": "h4",
+          "label": "H4"
+        },
+        {
+          "value": "h5",
+          "label": "H5"
+        },
+        {
+          "value": "h6",
+          "label": "H6"
+        },
+        {
+          "value": "p",
+          "label": "p"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "Create a bundle and save up to 30%!",
+      "label": "t:sections.all.text.text"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "default": "center",
+      "label": "t:sections.featured-collection.settings.heading_alignment.label",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_atb_label",
+      "default": "ADD TO BUNDLE",
+      "label": "t:sections.products-bundle.settings.add_to_bundle_button_label.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.products-bundle.settings.header.content"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:sections.products-bundle.settings.select_collection.label"
+    },
+    {
+      "type": "range",
+      "id": "product_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 3,
+      "info": "t:sections.products-bundle.settings.select_collection.info",
+      "label": "t:sections.products-bundle.settings.products_to_show.label"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "limit": 12,
+      "label": "t:sections.products-bundle.settings.select_products.label",
+      "info": "t:sections.products-bundle.settings.select_products.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "each_product_can_added_to_bundle_once",
+      "default": true,
+      "label": "t:sections.products-bundle.settings.each_product_can_added_to_bundle_once.label",
+      "info": "t:sections.products-bundle.settings.each_product_can_added_to_bundle_once.info"
+    },
+    {
+      "type": "range",
+      "id": "minimum_items",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.products-bundle.settings.minimum_items.label"
+    },
+    {
+      "type": "select",
+      "id": "discount_type",
+      "default": "percentage",
+      "label": "t:sections.products-bundle.settings.discount_type.label",
+      "info": "t:sections.products-bundle.settings.discount_type.info",
+      "options": [
+        {
+          "value": "percentage",
+          "label": "t:sections.products-bundle.settings.discount_type.options__1.label"
+        },
+        {
+          "value": "amount",
+          "label": "t:sections.products-bundle.settings.discount_type.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "discount_value",
+      "label": "t:sections.products-bundle.settings.discount_value.label",
+      "info": "t:sections.products-bundle.settings.discount_value.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "apply_discount_once_per_order",
+      "default": false,
+      "label": "t:sections.products-bundle.settings.apply_discount_once_per_order.label",
+      "info": "t:sections.products-bundle.settings.apply_discount_once_per_order.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.products-bundle.settings.bundle_summary.label"
+    },
+    {
+      "type": "select",
+      "id": "summary_position",
+      "default": "right",
+      "label": "t:sections.products-bundle.settings.bundle_position.label",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "bundler_heading",
+      "default": "Bundle Contents",
+      "label": "t:sections.products-bundle.settings.bundle_heading.label"
+    },
+    {
+      "type": "text",
+      "id": "bundler_text",
+      "default": "Add at least 3 items to get 33% Off",
+      "label": "t:sections.products-bundle.settings.bundle_text.label"
+    },
+    {
+      "type": "color",
+      "id": "background_color_light",
+      "default": "rgba(0,0,0,0)",
+      "label": "t:sections.all.background.background_color_light"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "default": "rgba(0,0,0,0)",
+      "label": "t:sections.all.text.colors_title_light"
+    },
+    {
+      "type": "color",
+      "id": "text_light",
+      "label": "t:sections.all.text.color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_light",
+      "label": "t:sections.all.button.primary_button_light",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_text_light",
+      "label": "t:sections.all.button.primary_button_text_light",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_light",
+      "label": "t:sections.all.button.primary_button_hover_light",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_text_hover_light",
+      "label": "t:sections.all.button.primary_button_hover_text_light",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "line_border",
+      "label": "t:sections.all.text.line_border",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "background_color_dark",
+      "default": "rgba(0,0,0,0)",
+      "label": "t:sections.all.background.background_color_dark"
+    },
+    {
+      "type": "color",
+      "id": "title_color_dark",
+      "default": "rgba(0,0,0,0)",
+      "label": "t:sections.all.text.colors_title_dark"
+    },
+    {
+      "type": "color",
+      "id": "text_dark",
+      "label": "t:sections.all.text.color_dark",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_dark",
+      "label": "t:sections.all.button.primary_button_dark",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_text_dark",
+      "label": "t:sections.all.button.primary_button_text_dark",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_dark",
+      "label": "t:sections.all.button.primary_button_hover_dark",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "button_text_hover_dark",
+      "label": "t:sections.all.button.primary_button_hover_text_dark",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "line_border_dark",
+      "label": "t:sections.all.text.line_border_dark",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 4,
+      "label": "t:sections.all.spacing.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_divider",
+      "default": false,
+      "label": "t:sections.collection-list.settings.show_section_divider.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": false,
+      "label": "t:sections.collection-list.settings.full_width.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "step": 4,
+      "default": 28,
+      "label": "t:sections.all.padding.padding_top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "step": 4,
+      "default": 28,
+      "label": "t:sections.all.padding.padding_bottom"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_layout_mobile"
+    },
+    {
+      "type": "range",
+      "id": "spacing_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 4,
+      "label": "t:sections.all.spacing.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section_divider_mobile",
+      "default": false,
+      "label": "t:sections.collection-list.settings.show_section_divider.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "step": 4,
+      "default": 28,
+      "label": "t:sections.all.padding.padding_top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "step": 4,
+      "default": 28,
+      "label": "t:sections.all.padding.padding_bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.products-bundle.presets.name"
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,0 +1,6 @@
+<div id="eurus-popup" class="fixed inset-0 z-[60] pointer-events-none md:block flex flex-col-reverse" x-cloak></div>
+{%- if settings.position_minimal == 'left' -%}
+  <div id="popup-minimal-left" class="fixed z-40 bottom-4 md:bottom-8 left-4 md:left-8 pr-4 md:pr-8 pointer-events-auto"></div>
+{%- else -%}
+  <div id="popup-minimal-right" class="fixed z-40 bottom-4 md:bottom-8 right-4 md:right-8 pl-4 md:pl-8 pointer-events-auto flex flex-col items-end"></div>
+{%- endif -%}

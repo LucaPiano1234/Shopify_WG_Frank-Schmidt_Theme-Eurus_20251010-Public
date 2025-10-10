@@ -1,0 +1,320 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_heading": true,
+        "heading_size": 170,
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "#f2f2f2",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#313131",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "f1a986c0-860f-4369-8872-1b34f8b0c302": {
+      "type": "rich-text",
+      "blocks": {
+        "template--21744683647277__f1a986c0-860f-4369-8872-1b34f8b0c302-heading-1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Gift Card",
+            "heading_size": 160
+          }
+        },
+        "template--21744683647277__f1a986c0-860f-4369-8872-1b34f8b0c302-text-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store. Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744683647277__f1a986c0-860f-4369-8872-1b34f8b0c302-heading-1",
+        "template--21744683647277__f1a986c0-860f-4369-8872-1b34f8b0c302-text-1"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 56,
+        "padding_bottom": 28,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "a8a50c6b-8214-42f3-a710-607dd5edc807": {
+      "type": "media-gallery",
+      "blocks": {
+        "template--21744683647277__a8a50c6b-8214-42f3-a710-607dd5edc807-media-2": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": false,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 2,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "LIGHT CARD",
+            "title_size": 70,
+            "text": "<p>Perfect Gift</p>",
+            "text_size": 100,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        },
+        "template--21744683647277__a8a50c6b-8214-42f3-a710-607dd5edc807-media-3": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": false,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 2,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "REGULAR CARD",
+            "title_size": 70,
+            "text": "<p>Perfect Gift</p>",
+            "text_size": 100,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        },
+        "e159fc83-073a-4336-80e8-dfb575cd7e8a": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": false,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 2,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "PERMIUM CARD",
+            "title_size": 70,
+            "text": "<p>Perfect Gift</p>",
+            "text_size": 100,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744683647277__a8a50c6b-8214-42f3-a710-607dd5edc807-media-2",
+        "template--21744683647277__a8a50c6b-8214-42f3-a710-607dd5edc807-media-3",
+        "e159fc83-073a-4336-80e8-dfb575cd7e8a"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "subheading": "",
+        "text": "",
+        "max_columns": 3,
+        "spacing": 20,
+        "height_desktop": 300,
+        "show_section_divider": false,
+        "full_width": false,
+        "padding_full_width": false,
+        "padding_top": 20,
+        "padding_bottom": 96,
+        "min_columns_mobile": "1",
+        "spacing_mobile": 16,
+        "height_mobile": 200,
+        "show_section_divider_mobile": false,
+        "full_width_mobile": false,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 40
+      }
+    },
+    "a4415918-c557-4c04-9acc-78592197ebeb": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "truck",
+            "custom_icon": "",
+            "title": "Free Shipping",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "box",
+            "custom_icon": "",
+            "title": "Big Saving",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "chat-bubble",
+            "custom_icon": "",
+            "title": "Online Support",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a": {
+          "type": "column",
+          "settings": {
+            "icon": "check-mark",
+            "custom_icon": "",
+            "title": "Flexible Payment",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2",
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "secondary_background": "section",
+        "border_column": "line_vertical",
+        "column_content_alignment": "start",
+        "icon_position": "above",
+        "icon_size": 36,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "change_bar_every": 3,
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "color_icon_light": "#c2a27a",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "#c2a27a",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-0",
+        "spacing_desktop": 40,
+        "full_width": false,
+        "padding_full_width": false,
+        "show_section_divider": false,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-0",
+        "spacing_mobile": 0,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "f1a986c0-860f-4369-8872-1b34f8b0c302",
+    "a8a50c6b-8214-42f3-a710-607dd5edc807",
+    "a4415918-c557-4c04-9acc-78592197ebeb"
+  ]
+}

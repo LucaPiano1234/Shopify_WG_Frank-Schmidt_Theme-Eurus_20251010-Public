@@ -1,0 +1,277 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.group.aside.name",
+  "type": "aside",
+  "sections": {
+    "product-labels-and-badges": {
+      "type": "product-labels-and-badges",
+      "blocks": {
+        "product-labels-and-badges-0": {
+          "type": "sale-label",
+          "settings": {
+            "show_on_product_card": true,
+            "show_on_product_page": true,
+            "icon": "none",
+            "custom_icon": "",
+            "content": "-{sale}",
+            "display_type": "round",
+            "font_size": 80,
+            "size": 1,
+            "opacity": 100,
+            "position": "top-left",
+            "horizontal_position": 95,
+            "vertical_position": 5,
+            "background_color": "#e12b28",
+            "text_color": "#ffffff",
+            "background_color_dark": "#e12b28",
+            "text_color_dark": "#ffffff"
+          }
+        },
+        "product-labels-and-badges-1": {
+          "type": "sold-out-label",
+          "settings": {
+            "show_on_product_card": true,
+            "show_on_product_page": false,
+            "icon": "none",
+            "custom_icon": "",
+            "content": "Sold out",
+            "display_type": "round",
+            "font_size": 80,
+            "size": 1,
+            "opacity": 100,
+            "position": "top-left",
+            "horizontal_position": 5,
+            "vertical_position": 5,
+            "background_color": "#d7e5e5",
+            "text_color": "#618482",
+            "background_color_dark": "#d7e5e5",
+            "text_color_dark": "#618482"
+          }
+        }
+      },
+      "block_order": [
+        "product-labels-and-badges-0",
+        "product-labels-and-badges-1"
+      ],
+      "settings": {
+        "enable": true
+      }
+    },
+    "quick-view": {
+      "type": "quick-view",
+      "blocks": {
+        "ddc0171b-7de1-4b50-b04a-6d693125a5f0": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "ecdb0844-04b3-4f77-a3e5-de3beef32f1d": {
+          "type": "product_name",
+          "settings": {}
+        },
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_in_tab": false
+          }
+        },
+        "variant-picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_option": true,
+            "enable_color_swatches": true
+          }
+        },
+        "quantity-selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy-buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "preorder_button_label": "",
+            "preorder_message": "<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!</p>",
+            "preorder_show_dynamic_button": false,
+            "show_background": false,
+            "box_type": "square",
+            "background_color_light": "rgba(0,0,0,0)",
+            "message_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "message_color_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "ddc0171b-7de1-4b50-b04a-6d693125a5f0",
+        "ecdb0844-04b3-4f77-a3e5-de3beef32f1d",
+        "badges",
+        "price",
+        "description",
+        "variant-picker",
+        "quantity-selector",
+        "buy-buttons"
+      ],
+      "settings": {
+        "product": "",
+        "show_product_name": false,
+        "show_vendor": false,
+        "desktop_layout": "right",
+        "image_ratio": "natural",
+        "show_arrow_button": true,
+        "show_thumbnails": true,
+        "thumbnail_position": "horizontal",
+        "enable_video_autoplay": true,
+        "enable_video_loop": false,
+        "show_first_image_avaiable": true,
+        "show_atc_button": true,
+        "enable_quickview": true,
+        "quickview_label": "Quick view",
+        "color_button": "#F7f7f7",
+        "color_text_button": "#687373",
+        "color_button_hover": "rgba(0,0,0,0)",
+        "color_text_button_hover": "rgba(0,0,0,0)"
+      }
+    },
+    "popup-promotion": {
+      "type": "popup-promotion",
+      "blocks": {
+        "sections--18371362324774__2eca4af3-5277-406b-a4de-c52946c34b5f-1680002178ae4a2c07-0": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Sign up and save",
+            "heading_color": "#0a1e33",
+            "heading_color_dark": "#ffffff"
+          }
+        },
+        "sections--18371362324774__2eca4af3-5277-406b-a4de-c52946c34b5f-1680002178ae4a2c07-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Simply enter code coupon_code at checkout</p>",
+            "coupon_code": "SAMPLECODE",
+            "coupon_color": "rgba(0,0,0,0)",
+            "coupon_color_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "sections--18371362324774__2eca4af3-5277-406b-a4de-c52946c34b5f-1680002178ae4a2c07-2": {
+          "type": "button",
+          "settings": {
+            "button_label": "SHOP NOW",
+            "button_link": "",
+            "open_new_window": false,
+            "button_color": "rgba(0,0,0,0)",
+            "button_text_color": "rgba(0,0,0,0)",
+            "button_color_dark": "rgba(0,0,0,0)",
+            "button_text_color_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "sections--18371362324774__2eca4af3-5277-406b-a4de-c52946c34b5f-1680002178ae4a2c07-0",
+        "sections--18371362324774__2eca4af3-5277-406b-a4de-c52946c34b5f-1680002178ae4a2c07-1",
+        "sections--18371362324774__2eca4af3-5277-406b-a4de-c52946c34b5f-1680002178ae4a2c07-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "popup_position": "bottom-left",
+        "content_position": "left",
+        "content_alignment": "center",
+        "background_color_light": "#f8f8f8",
+        "text_color_light": "#334354",
+        "background_color_dark": "#171f1e",
+        "text_color_dark": "#b6cdcc",
+        "show_for_guests_only": true,
+        "show_on_mobile": false,
+        "schedule_enabled": false,
+        "delay": 5,
+        "reappear_after": 7
+      }
+    },
+    "popup-age-verification": {
+      "type": "popup-age-verification",
+      "blocks": {
+        "content-0": {
+          "type": "content",
+          "settings": {
+            "heading": "Confirm your age",
+            "text": "<p>Please verify that you are 18 years of age or older to enter this site.</p>",
+            "heading_color": "rgba(0,0,0,0)",
+            "text_color_light": "rgba(0,0,0,0)",
+            "heading_color_dark": "rgba(0,0,0,0)",
+            "text_color_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "buttons-0": {
+          "type": "buttons",
+          "settings": {
+            "decline_button_label": "Disagree",
+            "decline_button_link": "",
+            "open_new_window": false,
+            "accept_button_label": "Agree",
+            "accept_button_background": "rgba(0,0,0,0)",
+            "accept_button_text": "rgba(0,0,0,0)",
+            "accept_button_background_dark": "rgba(0,0,0,0)",
+            "accept_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "content-0",
+        "buttons-0"
+      ],
+      "disabled": true,
+      "settings": {
+        "overlay_opacity": 80,
+        "content_alignment": "center",
+        "reappear_after": 1,
+        "background_color_light": "#f8f8f8",
+        "background_color_dark": "#171f1e"
+      }
+    },
+    "cookie-banner": {
+      "type": "cookie-banner",
+      "settings": {
+        "cookie_enabled": true,
+        "cookie_notice": "<p>We use cookies and similar technologies to provide the best experience on our website. </p>",
+        "cookie_delay": 4,
+        "content_alignment": "",
+        "button_accept": "Got it!",
+        "button_decline": "Decline",
+        "background_color_cookie_light": "#334354",
+        "text_color_cookie_light": "#ffffff",
+        "accept_button_background": "#2cb29b",
+        "accept_button_text": "#ffffff",
+        "background_color_cookie_dark": "#334354",
+        "text_color_cookie_dark": "#ffffff",
+        "accept_button_background_dark": "#2cb29b",
+        "accept_button_text_dark": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "product-labels-and-badges",
+    "quick-view",
+    "popup-promotion",
+    "popup-age-verification",
+    "cookie-banner"
+  ]
+}

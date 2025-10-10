@@ -1,0 +1,520 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "ffacb41b-c15e-41ee-864a-cfbf155d407d": {
+          "type": "estimate_delivery",
+          "settings": {
+            "message": "<p>Estimated Delivery between <strong>earliest_delivery_date and latest_delivery_date.</strong></p>",
+            "tooltip_text": "",
+            "tooltip_icon": "none",
+            "custom_icon": "",
+            "tooltip_icon_position": "left",
+            "tooltip_message": "",
+            "show_background": true,
+            "box_type": "square",
+            "background_color_light": "#e4edfa",
+            "message_color_light": "#568ddd",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "message_color_dark": "rgba(0,0,0,0)",
+            "bg_tooltip_color_light": "rgba(0,0,0,0)",
+            "tooltip_color_light": "rgba(0,0,0,0)",
+            "bg_tooltip_color_dark": "rgba(0,0,0,0)",
+            "tooltip_color_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "2d1ca612-410c-4034-8dcf-fbfd41466564": {
+          "type": "text",
+          "settings": {
+            "text": "<p>A rich oil blend with antioxidant properties helps protect your skin while leaving it feeling smooth and silky. This gentle formula provides deep hydration without clogging pores.</p>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_option": true,
+            "enable_color_swatches": true
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "0a47c2ee-9a52-4609-8dc0-b66ec6df90ec": {
+          "type": "gift_wrapping",
+          "settings": {
+            "text_gift": "Gift wrap this product",
+            "color_icon_light": "rgba(0,0,0,0)",
+            "color_icon_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "pickup_availability": true,
+            "preorder_button_label": "Pre-order",
+            "preorder_message": "<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!</p>",
+            "preorder_show_dynamic_button": false,
+            "show_background": false,
+            "box_type": "square",
+            "background_color_light": "rgba(0,0,0,0)",
+            "message_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "message_color_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "bee5e1a9-d8fc-498b-b52f-b013e9d0e205": {
+          "type": "description",
+          "settings": {
+            "show_in_tab": true,
+            "open_by_default": true
+          }
+        },
+        "79b0384e-5236-43cf-98c8-6d44c84496dd": {
+          "type": "complementary",
+          "settings": {
+            "heading": "Buy It With",
+            "show_tab": true,
+            "show_background": false,
+            "max_product_show": 3,
+            "number_product_per_page": 3,
+            "enable_carousel_desktop": false,
+            "enable_swiper_mobile": true,
+            "image_ratio": "square",
+            "show_vendor": false,
+            "show_product_rating": false
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_by_default": false,
+            "heading": "Returns + Exchanges",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "2eb91535-cf35-48d6-a638-58f30c774399": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_by_default": false,
+            "heading": "Giving Back",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "b2203506-34c9-4c53-a8c1-f7610edd29fd": {
+          "type": "back_in_stock_alert",
+          "settings": {
+            "show_when_product_unavailable": false,
+            "heading": "Back in stock",
+            "text_info": "<p>Sign up to be the first to know when it's back in stock.</p>",
+            "button_label": "Send",
+            "text_success": "Thank you for signing up. We'll get back to you as soon as possible."
+          }
+        },
+        "social-sharing": {
+          "type": "social_sharing",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "badges",
+        "price",
+        "ffacb41b-c15e-41ee-864a-cfbf155d407d",
+        "2d1ca612-410c-4034-8dcf-fbfd41466564",
+        "variant_picker",
+        "quantity_selector",
+        "0a47c2ee-9a52-4609-8dc0-b66ec6df90ec",
+        "buy_buttons",
+        "bee5e1a9-d8fc-498b-b52f-b013e9d0e205",
+        "79b0384e-5236-43cf-98c8-6d44c84496dd",
+        "collapsible-row-1",
+        "2eb91535-cf35-48d6-a638-58f30c774399",
+        "b2203506-34c9-4c53-a8c1-f7610edd29fd",
+        "social-sharing"
+      ],
+      "settings": {
+        "enable_sticky_image": true,
+        "show_product_name": true,
+        "title_size": 100,
+        "show_vendor": false,
+        "desktop_layout": "left",
+        "desktop_media_layout": "stacked",
+        "show_arrow_button": true,
+        "mobile_media_size": "full_width",
+        "show_thumnail_mobile": false,
+        "image_ratio": "natural",
+        "thumbnail_position": "horizontal",
+        "enable_image_zoom": false,
+        "enable_video_autoplay": false,
+        "enable_video_loop": false,
+        "show_first_image_avaiable": true,
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": true,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-center",
+        "mobile_content_alignment": "text-center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "full_width": false,
+        "spacing_col": "small",
+        "padding_top": 60,
+        "padding_bottom": 100,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "331e6fca-2947-4a19-89c5-9396be0d666a": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "flower",
+            "custom_icon": "",
+            "title": "SKINCARE BENEFITS",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>EWG VERIFIED™, made with 99.9%+ natural origin ingredients* including phytoglycogen.</p>"
+          }
+        },
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "planet",
+            "custom_icon": "",
+            "title": "PLASTIC-FREE MAKEUP",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>Eco-innovative plastic-free packaging made from FSC-certified biodegradable cardboard.</p>"
+          }
+        },
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "star",
+            "custom_icon": "",
+            "title": "NATURAL GLOWY LOOK",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>EWG VERIFIED™, made with 99.9%+ natural origin ingredients* including phytoglycogen.</p>"
+          }
+        },
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-4": {
+          "type": "column",
+          "settings": {
+            "icon": "cloud-rain",
+            "custom_icon": "",
+            "title": "SWIPE, BLEND, GO",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>Buildable makeup sticks that blend naturally for all skin tones. Swipe, blend, go!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-1",
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-2",
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-3",
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-4"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "secondary_background": "section",
+        "border_column": "none",
+        "column_content_alignment": "center",
+        "icon_position": "above",
+        "icon_size": 45,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "change_bar_every": 5,
+        "background_color_light": "#eae1d2",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "#eae1d2",
+        "color_icon_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#2a2a2a",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-7",
+        "spacing_desktop": 28,
+        "full_width": false,
+        "show_section_divider": false,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-5",
+        "spacing_mobile": 16,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "ee1a9d1f-908b-45b3-a61a-f2378a6ed960": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21919954370875__ee1a9d1f-908b-45b3-a61a-f2378a6ed960-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Ready To Gift",
+            "heading_base_size": 100,
+            "text": "<p>Lorem ipsumt venenatis iaculis iaculis. Integer sit amet auctor justo, ac vestibulum orci. Aenean ultrices magna at porttitor eleifend. Nam sodales scelerisque sedve stibulum aliquam euismod mi vitae nibh odales scelerisque ipsum sed vestibulum aliquam euismod mi vitae blandit libero at mauris condimentum scelerisque. In scelerisque in mauris ut malesuada sodales scelerisque.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "template--21919954370875__ee1a9d1f-908b-45b3-a61a-f2378a6ed960-button-1": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21919954370875__ee1a9d1f-908b-45b3-a61a-f2378a6ed960-heading-1",
+        "template--21919954370875__ee1a9d1f-908b-45b3-a61a-f2378a6ed960-button-1"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "400px",
+        "desktop_image_width": "large",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 100,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 40,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "9447db34-bbe3-43fe-bc6c-6983abadec45": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21919954370875__9447db34-bbe3-43fe-bc6c-6983abadec45-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Daily Routine",
+            "heading_base_size": 100,
+            "text": "<p>Lorem ipsumt venenatis iaculis iaculis. Integer sit amet auctor justo, ac vestibulum orci. Aenean ultrices magna at porttitor eleifend. Nam sodales scelerisque sedve stibulum aliquam euismod mi vitae nibh odales scelerisque ipsum sed vestibulum aliquam euismod mi vitae blandit libero at mauris condimentum scelerisque. In scelerisque in mauris ut malesuada sodales scelerisque.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "template--21919954370875__9447db34-bbe3-43fe-bc6c-6983abadec45-button-1": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21919954370875__9447db34-bbe3-43fe-bc6c-6983abadec45-heading-1",
+        "template--21919954370875__9447db34-bbe3-43fe-bc6c-6983abadec45-button-1"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "400px",
+        "desktop_image_width": "large",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 4,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 4,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "heading": "You May Also Like...",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "products_to_show": 5,
+        "background_color_light": "",
+        "background_color_dark": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "show_quickview": true,
+        "enable_carousel_desktop": false,
+        "enable_swiper_mobile": true,
+        "columns_desktop": 5,
+        "full_width": true,
+        "show_section_divider": false,
+        "spacing": 28,
+        "padding_top": 56,
+        "padding_bottom": 88,
+        "columns_mobile": "1",
+        "show_section_divider_mobile": false,
+        "spacing_mobile": 16,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "featured_collection_8AhxTA": {
+      "type": "featured-collection",
+      "blocks": {
+        "collection_KaiDYj": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "show_description": true,
+            "description": "",
+            "show_vendor": false,
+            "show_rating": false,
+            "show_quickview": true,
+            "show_promotion": false,
+            "promotion_position": "left",
+            "card_link": "",
+            "open_new_window": false,
+            "enable_text_overlay": false,
+            "overlay_opacity": 0,
+            "image_ratio": "100",
+            "heading": "Featured collection",
+            "heading_size": 70,
+            "content": "<p>Announce a promotion.</p>",
+            "text_size": 100,
+            "content_alignment": "center",
+            "content_position": "bottom",
+            "button_label": "See more",
+            "button_link": "",
+            "open_new_window_button": false,
+            "background_color": "rgba(0,0,0,0)",
+            "color_text": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "color_text_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_text_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "collection_KaiDYj"
+      ],
+      "settings": {
+        "title": "SUBSCRIBE & SAVE 10%",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "subheading": "EXPLORE OUR BESTSELLERS",
+        "text": "",
+        "show_view_all": false,
+        "view_all_position": "top",
+        "title_size": 120,
+        "title_style": "none",
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": false,
+        "auto_play": false,
+        "change_slides_speed": 5,
+        "columns_desktop": 4,
+        "rows_desktop": 1,
+        "spacing": 28,
+        "full_width": true,
+        "show_section_divider": false,
+        "padding_top": 100,
+        "padding_bottom": 32,
+        "columns_mobile": "2",
+        "spacing_mobile": 16,
+        "full_width_mobile": false,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 60,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "331e6fca-2947-4a19-89c5-9396be0d666a",
+    "ee1a9d1f-908b-45b3-a61a-f2378a6ed960",
+    "9447db34-bbe3-43fe-bc6c-6983abadec45",
+    "product-recommendations",
+    "featured_collection_8AhxTA"
+  ]
+}

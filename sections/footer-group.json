@@ -1,0 +1,172 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "newsletter_PGyBAW": {
+      "type": "newsletter",
+      "blocks": {
+        "heading_dKRFAK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to our emails",
+            "heading_size": 80,
+            "heading_tag": "h2"
+          }
+        },
+        "paragraph_pYKcP4": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Be the first to know about new collections and exclusive offers.</p>"
+          }
+        },
+        "email_form_CAEgrz": {
+          "type": "email_form",
+          "settings": {
+            "button_label": "Subscribe",
+            "form_width": "large"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dKRFAK",
+        "paragraph_pYKcP4",
+        "email_form_CAEgrz"
+      ],
+      "settings": {
+        "overlay_opacity": 0,
+        "background_color_light": "#ededea",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "button_light": "rgba(0,0,0,0)",
+        "button_text_light": "rgba(0,0,0,0)",
+        "button_hover_light": "rgba(0,0,0,0)",
+        "button_text_hover_light": "rgba(0,0,0,0)",
+        "line_border": "#dfdfdc",
+        "background_color_dark": "#313030",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "button_dark": "rgba(0,0,0,0)",
+        "button_text_dark": "rgba(0,0,0,0)",
+        "button_hover_dark": "rgba(0,0,0,0)",
+        "button_text_hover_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "#3C3B3B",
+        "desktop_height": "450px",
+        "show_section_divider": false,
+        "padding_top": 68,
+        "padding_bottom": 0,
+        "mobile_height": "300px",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "footer-2": {
+          "type": "text",
+          "settings": {
+            "open_by_default": false,
+            "heading_text": "About",
+            "subtext": "<p>Share store details, promotions, or brand content with your customers.</p>",
+            "show_social_icons": false,
+            "image_width": 100,
+            "link_image_footer": "",
+            "open_new_window": false
+          }
+        },
+        "footer-0": {
+          "type": "link_list",
+          "settings": {
+            "open_by_default": false,
+            "heading_menu": "Popular Shop",
+            "menu": "main-menu",
+            "show_social_icons": false
+          }
+        },
+        "footer-1": {
+          "type": "link_list",
+          "settings": {
+            "open_by_default": false,
+            "heading_menu": "Explore",
+            "menu": "main-menu",
+            "show_social_icons": false
+          }
+        },
+        "link_list_i9gHXh": {
+          "type": "link_list",
+          "settings": {
+            "open_by_default": false,
+            "heading_menu": "Information",
+            "menu": "main-menu",
+            "show_social_icons": false
+          }
+        },
+        "contact_LbERbb": {
+          "type": "contact",
+          "settings": {
+            "open_by_default": false,
+            "heading_menu": "Need help",
+            "icon_1": "question-mark",
+            "custom_icon": "",
+            "title_1": "Got questions? Call us 24/7",
+            "text_1": "1908474783",
+            "text_link_1": "",
+            "open_new_window_1": false,
+            "enable_text_link_1": true,
+            "icon_2": "message-text",
+            "custom_icon_2": "",
+            "title_2": "Need help with your order?",
+            "text_2": "Contact",
+            "text_link_2": "",
+            "open_new_window_2": false,
+            "enable_text_link_2": true,
+            "icon_3": "chat-bubble",
+            "custom_icon_3": "",
+            "title_3": "Available 24/7 via chat",
+            "text_3": "Chat With US",
+            "text_link_3": "",
+            "open_new_window_3": false,
+            "enable_text_link_3": true
+          }
+        }
+      },
+      "block_order": [
+        "footer-2",
+        "footer-0",
+        "footer-1",
+        "link_list_i9gHXh",
+        "contact_LbERbb"
+      ],
+      "settings": {
+        "columns_desktop": 5,
+        "show_language_selector": true,
+        "show_currency_selector": true,
+        "show_social_icons": false,
+        "payment_enable": true,
+        "show_copyright": true,
+        "add_copyright_text": "",
+        "additional_layout": "horizontal",
+        "show_powered": true,
+        "enable_follow_on_shop": false,
+        "top_padding": 0,
+        "bottom_padding": 40,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "newsletter_PGyBAW",
+    "footer"
+  ]
+}

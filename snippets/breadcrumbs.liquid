@@ -1,0 +1,112 @@
+{% style %}
+  .bg-breadcrumb--{{ section.id }} {
+    {% unless background_color_light.alpha == 0.0 %}
+      background: {{ background_color_light }};
+    {% endunless %}
+  }
+  .breadcrumb__divider,
+  .bg-breadcrumb--{{ section.id }}, .bg-breadcrumb--{{ section.id }} .before-link::before, .bg-breadcrumb--{{ section.id }} .nav-link:before {
+    {% unless text_color_light.alpha == 0.0 %}
+      --colors-text: {{ text_color_light.red }},{{ text_color_light.green }},{{ text_color_light.blue }};
+    {% endunless %}
+    {% unless textlink_color_light.alpha == 0.0 %}
+      --colors-text-link: {{ textlink_color_light.red }},{{ textlink_color_light.green }},{{ textlink_color_light.blue }};
+    {% endunless %}
+  }
+  .dark .bg-breadcrumb--{{ section.id }} {
+    {% unless background_color_dark.alpha == 0.0 %}
+      background: {{ background_color_dark }};
+    {% else %}
+      background: {{ settings.colors_dark_background }};
+    {% endunless %}
+  }
+  .dark .breadcrumb__divider,
+  .dark .bg-breadcrumb--{{ section.id }}, .dark .bg-breadcrumb--{{ section.id }} .before-link::before, .dark .bg-breadcrumb--{{ section.id }} .nav-link::before {
+    {%- unless text_color_dark.alpha == 0.0 -%}
+      --colors-text: {{ text_color_dark.red }},{{ text_color_dark.green }},{{ text_color_dark.blue }};
+    {% else %}  
+      --colors-text: transparent;
+    {% endunless %}
+    {%- unless textlink_color_dark.alpha == 0.0 -%}
+      --colors-text-link: {{ textlink_color_dark.red }},{{ textlink_color_dark.green }},{{ textlink_color_dark.blue }};
+    {% else %}  
+      --colors-text-link: {{ settings.colors_dark_text_link.red }}, {{ settings.colors_dark_text_link.green }}, {{ settings.colors_dark_text_link.blue }};
+    {% endunless %}
+  }
+{% endstyle %}
+
+{% liquid
+  if show_breadcrumbs_border
+    if show_image_banner
+      assign class_border_desktop = " md:border-b"
+      assign class_border_mobile = " border-b"
+    else 
+      assign class_border_desktop = " md:border-b md:border-t"
+      assign class_border_mobile = " border-b border-t"
+    endif
+  endif
+  assign iconBreadcrumbs = settings.breadcrumbs_separator
+%}
+<div class="bg-breadcrumb--{{ section.id }} {{ class_border_desktop }} {{ class_border_mobile }} ltr">
+  <div class="w-full pt-3.5 pb-3.5 text-[rgb(var(--colors-text))]{% if full_width_breadcrumb %} md:pl-5 md:pr-5 {% else %} page-width{% endif %} pl-5 pr-5">
+    <div class="md:pl-0 md:pr-0 {{ mobile_content_alignment }} md:{{ desktop_content_alignment }}">
+      {% unless template == 'index' or template == 'cart' %}
+        <div class="capitalize block" role="navigation" aria-label="breadcrumbs">
+          <a 
+            class="nav-link text-[rgba(var(--colors-text-link))] relative h-fit before-link" 
+            href="{{ routes.root_url }}" 
+            title="Home"
+          >{{ 'general.breadcrumbs.home' | t }}</a>
+          <span class="breadcrumb__divider border-[rgba(var(--colors-text))]{% if iconBreadcrumbs == "—" %} w-2.5 border-b{% endif %} inline-block bottom-1 ml-1 mr-1" aria-hidden="true">{% if iconBreadcrumbs != "—" %}{{ iconBreadcrumbs  }}{% endif %}</span>
+          {% if template contains 'page' %}
+            <span>{{ page.title | escape }}</span>
+          {% elsif template contains 'product' %}
+            {% if collection %}
+              <a
+                class="nav-link text-[rgba(var(--colors-text-link))] relative h-fit before-link"
+                href="{{ collection.url }}"
+                title="{{ collection.title }}"
+              >{{ collection.title | escape }}</a>
+              <span class="breadcrumb__divider border-[rgba(var(--colors-text))]{% if iconBreadcrumbs == "—" %} w-2.5 border-b{% endif %} inline-block bottom-1 ml-1 mr-1" aria-hidden="true">{% if iconBreadcrumbs != "—" %}{{ iconBreadcrumbs  }}{% endif %}</span>
+            {% endif %}
+            <span>{{ product.title | escape }}</span>
+          {% elsif template contains 'collection' and collection.handle %}
+            {% if current_tags %}
+              <a 
+                class="nav-link text-[rgba(var(--colors-text-link))] relative h-fit before-link" 
+                href="{{ collection.url }}" 
+                title="{{ collection.title }}"
+              >{{ collection.title | escape }}</a>
+              <span class="breadcrumb__divider border-[rgba(var(--colors-text))]{% if iconBreadcrumbs == "—" %} w-2.5 border-b{% endif %} inline-block bottom-1 ml-1 mr-1" aria-hidden="true">{% if iconBreadcrumbs != "—" %}{{ iconBreadcrumbs  }}{% endif %}</span>
+              <span>{{ current_tags | join: " + " }}</span>
+            {% else %}
+              <span>{{ collection.title | escape }}</span>
+            {% endif %}
+          {% elsif template == 'blog' %}
+            {% if current_tags %}
+              <a 
+                class="nav-link text-[rgba(var(--colors-text-link))] relative h-fit before-link" 
+                href="{{ blog.url }}" 
+                title="{{ blog.title }}"
+              >{{ blog.title | escape }}</a>
+              <span class="breadcrumb__divider border-[rgba(var(--colors-text))]{% if iconBreadcrumbs == "—" %} w-2.5 border-b{% endif %} inline-block bottom-1 ml-1 mr-1" aria-hidden="true">{% if iconBreadcrumbs != "—" %}{{ iconBreadcrumbs  }}{% endif %}</span>
+              <span>{{ current_tags | join: " + " }}</span>
+            {% else %}
+            <span>{{ blog.title | escape }}</span>
+            {% endif %}
+          {% elsif template == 'article' %}
+            <a 
+              class="nav-link text-[rgba(var(--colors-text-link))] relative h-fit" 
+              href="{{ blog.url }}" 
+              title="{{ blog.title }}"
+            >{{ blog.title | escape }}</a>
+            <span class="breadcrumb__divider border-[rgba(var(--colors-text))]{% if iconBreadcrumbs == "—" %} w-2.5 border-b{% endif %} inline-block bottom-1 ml-1 mr-1" aria-hidden="true">{% if iconBreadcrumbs != "—" %}{{ iconBreadcrumbs  }}{% endif %}</span>
+            <span>{{ article.title | escape }}</span>
+          {% else %}
+          <span>{{ page_title | escape }}</span>
+          {% endif %}
+        </div>
+      {% endunless %}
+    </div>
+  </div>
+</div>

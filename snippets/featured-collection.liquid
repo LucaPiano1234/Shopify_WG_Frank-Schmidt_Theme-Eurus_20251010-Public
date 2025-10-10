@@ -1,0 +1,657 @@
+{%- liquid
+  assign columns_desktop = section.settings.columns_desktop | plus: 0
+  assign columns_mobile = section.settings.columns_mobile | plus: 0
+  assign rows_desktop = section.settings.rows_desktop | plus: 0
+  assign grid_items_count = section.settings.rows_desktop | times: columns_desktop
+  assign enable_desktop_slider = section.settings.enable_desktop_slider
+  assign swiper_on_mobile = section.settings.swiper_on_mobile
+  if section.settings.enable_desktop_slider and section.settings.slider_style == "vertical"
+    assign enable_slider_vertical = true
+  else 
+    assign enable_slider_vertical = false
+  endif
+  if settings.lang_direction contains request.locale.iso_code
+    assign is_rtl = true
+  else
+    assign is_rtl = false
+  endif
+-%}
+
+<div class="mb-4 md:mb-2 relative">
+  <div class="relative w-full bg-transparent">
+    {%- paginate pages by 1 -%}
+      <div
+        class="featured-collection relative min-h-[300px] left-0 right-0 bg-[rgba(var(--background-color))] pb-2"
+        x-data='xFeaturedCollection("{{ section.id }}", "{{ paginate.page_param }}", $el)'
+        x-intersect.once.margin.200px="showCollection = true";
+      >
+        {% if section.blocks.size > 1 %}
+          <div class="h-10 md:h-auto relative lg:mb-4 mb-2 mr-5 ml-5 z-20 overflow-auto hide-scrollbar{% unless section.settings.full_width %} pl-0 pr-0 page-width md:mx-auto{% else %} md:ml-0 md:mr-0{% endunless %}">
+            <div class="flex flex-row items-center h-full md:justify-center">
+              {%- for block in section.blocks -%}
+                {%- liquid
+                  assign collection = collections[block.settings.collection]
+                  if collection != empty
+                    assign title = collection.title
+                  else
+                    assign title = 'sections.featured_collection.collection_title' | t
+                  endif
+                -%}
+                <button
+                  class="collection-title max-w-[75%] md:max-w-[30%] px-1 md:px-2{%- unless forloop.first %} md:border-solid md:border-l rtl:border-l-0 rtl:md:border-r{% endunless -%}"
+                  @click="select({{ forloop.index }}); scrollIntoView($el)" 
+                  :class="currentTab === {{ forloop.index }} || 'opacity-60'"
+                  {{ block.shopify_attributes }}
+                  {% unless forloop.first %}
+                    x-intersect.once='loadData({{ forloop.index }})'
+                  {% endunless %}
+                >
+                  <span 
+                    class="{{ title_style }} inline-block h4 text-sm whitespace-nowrap overflow-hidden text-ellipsis px-2.5 py-1.5 cursor-pointer w-full md:leading-none md:text-[120%] md:px-3.5 md:py-2.5 hover:bg-[rgb(var(--colors-heading),0.1)] duration-300
+                    {%- if section.blocks.size > 1 %} leading-snug{% endif -%}
+                    {%- if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif -%}"
+                    {% if section.blocks.size > 1 %} :class="currentTab === {{ forloop.index }} && 'bg-[rgb(var(--colors-heading),0.1)]'"{% endif %}
+                  >
+                    {{ title }}
+                  </span>
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {% endif %}
+        <div class="{% if section.settings.full_width %} md:pl-5 md:pr-5{% else %} page-width mx-auto{% endif %}{% if section.settings.full_width_mobile %} {{ full_width_mobile }}{% else %} page-width-mobile{% endif %}" x-show="loading">
+          {%- for block in section.blocks -%}
+            {% unless forloop.first %}
+              {% liquid
+                assign collection_skeleton = collections[block.settings.collection]
+              %}
+              <div :class="currentTab === {{ forloop.index }}? '!block': 'hidden'" class="hidden{% unless block.settings.show_description and block.settings.description != blank or collection.description != blank %} lg:mt-8{% endunless %}">
+                {% render 'skeleton-featured-collection', 
+                  section_id: section.id,
+                  block_id: forloop.index,
+                  columns_desktop: columns_desktop,
+                  columns_mobile: columns_mobile,
+                  rows_desktop: rows_desktop,
+                  products_count: collection_skeleton.all_products_count,
+                  swiper_on_mobile: swiper_on_mobile,
+                  enable_desktop_slider: enable_desktop_slider,
+                  slider_style: section.settings.slider_style,
+                  show_promotion: block.settings.show_promotion,
+                  postion_promotion: block.settings.promotion_position,
+                  enable_text_overlay: block.settings.enable_text_overlay,
+                  image_ratio: block.settings.image_ratio,
+                  spacing: spacing,
+                  spacing_mobile: spacing_mobile,
+                  heading_alignment: section.settings.heading_alignment
+                %}
+              </div>
+            {% endunless %}
+          {% endfor %}
+        </div>
+        {% liquid
+          assign block_index = paginate.current_page | minus: 1
+          assign block = section.blocks[block_index]
+          assign collection = collections[block.settings.collection]
+        %}
+        <div>
+          {% for block in section.blocks %}
+            {% liquid 
+              assign collection_description = collections[block.settings.collection]
+            %}
+            {%- if block.settings.show_description and block.settings.description != blank or collection_description.description != blank -%}
+              <div :class="currentTab === {{ forloop.index }}? '!block': 'hidden'" class="{% unless forloop.first %}hidden {% endunless %}collection-description mb-6 md:mb-10 pl-5 pr-5 text-center{% unless section.settings.full_width %} page-width md:mx-auto{% endunless %} rte md:text-{{ section.settings.heading_alignment }}">
+                {% liquid
+                  assign content_truncate = collection_description.description
+                  if block.settings.description != blank
+                    assign content_truncate = block.settings.description
+                  endif
+                %}
+                {%- render 'truncate-text', 
+                  number_of_lines_shown: block.settings.number_of_lines_shown 
+                  blockID: block.id,
+                  content: content_truncate,
+                  read_more_label: block.settings.read_more_label,
+                  see_less_label: block.settings.see_less_label,
+                  text_alignment_mobile: 'center',
+                  text_alignment: section.settings.heading_alignment
+                -%}
+              </div>
+            {%- endif -%}
+          {% endfor %}
+        </div>
+        <div class="animate-fade-in relative md:mt-4 lg:mt-8"
+          id="x-fc-{{ section.id }}-{{ paginate.current_page }}" x-show="currentTab == {{ paginate.current_page }}"
+        >
+          {%- liquid
+            if rows_desktop == 1 or collection.products_count <= columns_desktop and collection.products_count != 0
+              assign enable_desktop_slider = false
+            endif
+            if collection.products_count <= columns_mobile and collection.products_count != 0
+              assign swiper_on_mobile = false
+            endif
+            
+            if block.settings.show_promotion
+              assign full_width_mobile = "full-width-mobile"
+            elsif swiper_on_mobile == false
+              assign full_width_mobile = "pl-5 pr-5"
+            elsif swiper_on_mobile
+              assign full_width_mobile = "pl-0 pr-0 md:pl-5 md:pr-5"
+            endif
+            assign disable_quickview = true
+            if block.settings.show_quickview
+              assign disable_quickview = false
+            endif 
+          %}
+          {% style %}
+          {% if swiper_on_mobile %}
+            @media (max-width: 767px) {
+              .preload-slide-mobile--{{ block.id }}{{ section.id }} {
+                {%- if settings.lang_direction contains request.locale.iso_code %} 
+                  margin-left: {{ section.settings.spacing_mobile }}px;
+                {% else %}
+                  margin-right: {{ section.settings.spacing_mobile }}px;
+                {% endif %}
+                width: calc(((100% + {{ section.settings.spacing_mobile }}px) / {{ columns_mobile }}) - {{ section.settings.spacing_mobile }}px);
+              }
+            }
+          {% endif %}
+          
+          {% if enable_desktop_slider and enable_slider_vertical == false %}
+            @media (min-width: 768px){
+              .preload-slide-{{ block.id }}{{ section.id }} {
+                {%- if settings.lang_direction contains request.locale.iso_code %} 
+                  margin-left: {{ section.settings.spacing }}px;
+                {% else %}
+                  margin-right: {{ section.settings.spacing }}px;
+                {% endif %}
+                {% if columns_desktop == 5 %}
+                  width: calc(((100% + {{ section.settings.spacing }}px) / 4) - {{ section.settings.spacing }}px);
+                {% else %}
+                  width: calc(((100% + {{ section.settings.spacing }}px) / {{ columns_desktop }}) - {{ section.settings.spacing }}px);
+                {% endif %}
+              }
+            }
+            {% if columns_desktop == 5 %}
+              @media (min-width: 1024px){
+                .preload-slide-{{ block.id }}{{ section.id }} {
+                  width: calc(((100% + {{ section.settings.spacing }}px) / {{ columns_desktop }}) - {{ section.settings.spacing }}px);
+                }
+              }
+            {% endif %}
+          {% endif %}
+          
+          {% endstyle %}
+          <template x-if="showCollection">
+            <div
+              class="{% if is_rtl %}ltr {% endif %}{% if block.settings.show_promotion %}promotion-position-{{ block.settings.promotion_position }}{% endif %}{% if swiper_on_mobile %} carousel-mobile{% endif %}{% if enable_desktop_slider and block.settings.show_promotion == false %} carousel-tablet{% endif %}{% if section.settings.full_width %} md:pl-5 md:pr-5{% else %} page-width mx-auto{% endif %}{% if section.settings.full_width_mobile %} {{ full_width_mobile }}{% else %} pl-5 pr-5{% endif %}"
+              x-intersect.once.margin.-200px='$store.xCustomerEvent.fire("list_product_viewed", $el, {list: { title: `{{ collection.title | escape }}`, id: "collection" }})'
+            >
+              {%- if block.settings.show_promotion -%}
+                {%- assign heading_size =  block.settings.heading_size | times: settings.heading_base_size | times: 0.000225 -%}
+                {%- style -%}
+                  .text-{{ block.id }} {
+                    {%- unless block.settings.color_text.alpha == 0.0 -%}
+                      color: {{ block.settings.color_text }};
+                      --colors-text: {{ block.settings.color_text.red }}, {{ block.settings.color_text.green }}, {{ block.settings.color_text.blue }};
+                      --colors-heading: {{ block.settings.color_text.red }}, {{ block.settings.color_text.green }}, {{ block.settings.color_text.blue }};
+                    {%- endunless -%}
+                  }
+                  .sub-heading-{{ block.id }} {
+                    font-size: {{ heading_size | times: 0.5 }}rem;
+                  }
+                  .heading-{{ block.id }} {
+                    font-size: {{ heading_size | times: 0.7 }}rem;
+                  }
+                  {% if section.settings.full_width_mobile == false and swiper_on_mobile %}
+                    .card-title-{{ section.id }}-{{ block.id }} {
+                      margin-left: 1.25rem;
+                      margin-right: 1.25rem;  
+                    }
+                  {% endif %}
+                  @media (min-width: 768px) {
+                    .sub-heading-{{ block.id }} {
+                      font-size: {{ heading_size | times: 0.58 }}rem;
+                    }
+                    .heading-{{ block.id }} {
+                      font-size: {{ heading_size }}rem; 
+                    }
+                    .card-title-{{ section.id }}-{{ block.id }} {
+                      {% if block.settings.promotion_position == 'left' %}
+                        margin-right: {{ section.settings.spacing }}px;
+                        margin-left: 0;
+                      {% else %}
+                        margin-left: {{ section.settings.spacing }}px;
+                        margin-right: 0
+                      {% endif %}
+                    }
+                  }
+                  {%- unless block.settings.background_color.alpha == 0.0 -%}
+                    .background-color-{{ block.id }} {
+                      background: {{ block.settings.background_color }};
+                    }
+                  {%- endunless -%}
+                  {%- if block.settings.show_button_style == 'primary' -%}
+                    .button--{{ block.id }}.button-solid,
+                    .button--{{ block.id }}.button-solid:before { 
+                      {%- unless block.settings.color_button.alpha == 0.0 -%}
+                        --colors-line-and-border: {{ block.settings.color_button.red }}, {{ block.settings.color_button.green }}, {{ block.settings.color_button.blue }};
+                        --colors-button: {{ block.settings.color_button.red }}, {{ block.settings.color_button.green }}, {{ block.settings.color_button.blue }};
+                      {%- else -%}
+                        --colors-line-and-border: var(--colors-button);
+                      {%- endunless -%}
+                      {%- unless block.settings.color_button_hover.alpha == 0.0 -%}
+                        --colors-button-hover: rgb({{ block.settings.color_button_hover.red }}, {{ block.settings.color_button_hover.green }}, {{ block.settings.color_button_hover.blue }});
+                      {%- endunless -%}
+                      {%- unless block.settings.color_text_button.alpha == 0.0 -%}
+                        --colors-button-text: {{ block.settings.color_text_button.red }}, {{ block.settings.color_text_button.green }}, {{ block.settings.color_text_button.blue }};
+                      {%- endunless -%}
+                      {%- unless block.settings.color_text_button_hover.alpha == 0.0 -%}
+                        --colors-button-text-hover: {{ block.settings.color_text_button_hover.red }}, {{ block.settings.color_text_button_hover.green }}, {{ block.settings.color_text_button_hover.blue }};
+                      {%- endunless -%}
+                    }
+                  {%- endif -%}
+                {%- endstyle -%}
+                {% liquid 
+                  assign check_video = false
+                  if block.settings.video_url.type == 'youtube'
+                    assign video_type = 'youtube'
+                    assign check_video = true
+                    assign video_id = block.settings.video_url.id
+                  endif
+                  if block.settings.video_url.type == 'vimeo'
+                    assign video_type = 'vimeo'
+                    assign check_video = true
+                    assign video_id = block.settings.video_url.id
+                  endif
+                
+                  if block.settings.video != null 
+                    assign video_type = 'video_select'
+                    assign check_video = true
+                  endif
+                  assign video_alt = block.settings.video_alt_text
+                  assign show_icon_atc = false
+                  if section.settings.columns_desktop == 3
+                    assign class_sticky_content = 'md:w-2/5'
+                    assign class_grid = 'md:w-3/5'
+                  elsif section.settings.columns_desktop == 4
+                    assign class_sticky_content = 'md:w-1/3'
+                    assign class_grid = 'md:w-2/3'
+                    assign show_icon_atc = true
+                  elsif section.settings.columns_desktop == 5
+                    assign class_sticky_content = 'md:w-1/5'
+                    assign class_grid = 'md:w-4/5'
+                    assign show_icon_atc = true
+                  else 
+                    assign class_sticky_content = 'md:w-1/2'
+                    assign class_grid = 'md:w-1/2'
+                  endif
+                %}
+                <div
+                  x-data="{open: false}" 
+                  class="card-title-{{ section.id }}-{{ block.id }} relative {{ class_sticky_content }} my-4 md:mt-0{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}"
+                >
+                  {% if block.settings.product_card != blank %}
+                    {% assign index_param = section.index | append: forloop.index | plus: 0 %}
+                    <div class="sticky-content background-color-{{ block.id }} h-auto{% if enable_slider_vertical %} sticky top-[calc(var(--height-header)+1rem)]{% else %} relative{% endif %}">
+                      {% render 'card-product',
+                        card_product: block.settings.product_card,
+                        show_vendor: block.settings.show_vendor,
+                        show_rating: block.settings.show_rating,
+                        section_id: section.id,
+                        class_slide: 'h-auto',
+                        columns_desktop: columns_desktop,
+                        column_mobile: columns_mobile,
+                        index: forloop.index,
+                        list_name: collection.title,
+                        collection: collection,
+                        enable_desktop_slider: enable_desktop_slider,
+                        block_id: block.id,
+                        product_card_id: forloop.index,
+                        disable_quickview: disable_quickview,
+                        index_param: index_param,
+                        show_icon_atc: show_icon_atc,
+                        animation_loading: true,
+                        show_price_range: true
+                      %}
+                    </div>
+                  {% elsif check_video %}
+                    {% if block.settings.enable_video_autoplay %}
+                      <div class="w-full{% if block.settings.video_url != blank %} flex items-center{% endif %}{% if enable_slider_vertical %} sticky top-[calc(var(--height-header)+1rem)]{% endif %}"> 
+                        <div class="relative external-video{% if video_type != 'video_select' %} h-0 {% if request.design_mode %} pb-[55.75%]{% else %} pb-[56.25%]{% endif %} md:h-full{% else %} h-0{% endif %} w-full overflow-hidden video-hero{% if settings.edges_type == 'rounded_corners' %} md:rounded-[10px]{% unless section.settings.full_width_mobile %} rounded-[10px]{% endunless %}{% endif %}" 
+                          aria-label="{{ 'sections.video.load_video' | t: video_alt_text: block.settings.video_alt_text | escape }}"
+                          x-intersect:leave="$store.xVideo.pause($el)"
+                          x-intersect="$store.xVideo.play($el)"
+                          {% if block.settings.video != blank %}
+                            style="padding-bottom: {{ 1 | divided_by: block.settings.video.aspect_ratio | times: 100 }}%;"
+                          {% endif %}
+                        >
+                          {%- render 'media-video',
+                            collage: true,
+                            enable_video_autoplay: true,
+                            loop: true,
+                            video_type: video_type,
+                            video_id: video_id,
+                            video_alt: video_alt,
+                            video: block.settings.video,
+                            cover_image: block.settings.image,
+                            show_sound_control: block.settings.show_sound_control
+                          -%}
+                        </div>
+                      </div>
+                    {% else %}
+                      {% capture button_play %}
+                        <button 
+                          class="group button-play absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16{% if columns_desktop == 5 %} lg:w-24 lg:h-24{% else %} md:w-24 md:h-24{% endif %} rounded-full p-5 bg-[rgba(var(--image-treatment-text),0.3)] bg-opacity-30 disabled:cursor-not-allowed"
+                          @click.prevent="$store.xVideo.externalLoad($el, '{{ video_type }}', '{{ video_id }}', {{ section.settings.enable_video_loop | default: false }}, 'video-featured-collection')"
+                          aria-label="image-cover"
+                        >
+                          <span class="pointer-events-none duration-200 group-hover:scale-125 bg-button-play absolute w-6 h-6 lg:w-10 lg:h-10 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-[rgba(var(--image-treatment-text))]">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" class="w-full h-full" fill="none" viewBox="0 0 10 14">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M1.48177 0.814643C0.81532 0.448245 0 0.930414 0 1.69094V12.2081C0 12.991 0.858787 13.4702 1.52503 13.0592L10.5398 7.49813C11.1918 7.09588 11.1679 6.13985 10.4965 5.77075L1.48177 0.814643Z" fill="currentColor"/>
+                            </svg>
+                          </span>
+                        </button>
+                      {% endcapture %}
+                      {% if video_type == 'youtube' %}
+                        {% comment %}theme-check-disable RemoteAsset{% endcomment %}
+                        <div class="w-full h-0 video external-video pb-[100%]{% if enable_slider_vertical %} sticky top-[calc(var(--height-header)+1rem)]{% else %} relative{% endif %}"
+                          x-intersect:leave="$store.xVideo.pause($el)"
+                        >
+                          <picture>
+                            <source type="image/webp" srcset="{{ video_id | prepend: 'https://i.ytimg.com/vi_webp/' | append: '/maxresdefault.webp' }}">
+                            <source type="image/jpeg" srcset="{{ video_id | prepend: 'https://i.ytimg.com/vi/' | append: '/maxresdefault.jpg' }}">
+                            <img 
+                              src="{{ video_id | prepend: 'https://i.ytimg.com/vi_webp/' | append: '/maxresdefault.webp' }}" 
+                              loading="lazy" 
+                              class="w-full h-full absolute object-cover" 
+                              alt="{{ video_alt }}" 
+                              width="1280" 
+                              height="980"
+                            />
+                          </picture>
+                          {{ button_play }}
+                        </div>
+                        {% comment %}theme-check-enable RemoteAsset{% endcomment %}
+                      {% elsif video_type == 'vimeo' %}
+                        {%- capture options -%}
+                          {
+                            'alt': '{{ video_alt }}',
+                            'width': 1280
+                          }
+                        {%- endcapture -%}
+                        <div class="external-video w-full h-0 video external-video pb-[56.25%]{% if enable_slider_vertical %} sticky top-[calc(var(--height-header)+1rem)]{% else %} relative{% endif %}"
+                          x-intersect:leave="$store.xVideo.pause($el)"
+                        >
+                          <div x-init="$store.xVideo.renderVimeoFacade($el, '{{ video_id }}', {{ options }})"></div>
+                          {{ button_play }}
+                        </div>
+                      {% elsif video_type == 'video_select' %}
+                        <div class="w-full video external-video{% if enable_slider_vertical %} sticky top-[calc(var(--height-header)+1rem)]{% else %} relative{% endif %}"
+                          x-intersect:leave="$store.xVideo.pause($el)"
+                          style="padding-bottom: {{ 1 | divided_by: block.settings.video.aspect_ratio | times: 100 }}%;"
+                        >
+                          {{ block.settings.video
+                            | video_tag:
+                              image_size: "1100x",
+                              loop: false,
+                              controls: false,
+                              muted: false,
+                              class: "w-full h-full absolute video",
+                              alt: block.settings.video.alt
+                          }}
+                          <button 
+                            class="group button-play absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16{% if columns_desktop == 5 %} lg:w-24 lg:h-24{% else %} md:w-24 md:h-24{% endif %} rounded-full p-5 bg-[rgba(var(--image-treatment-text),0.3)] bg-opacity-30 disabled:cursor-not-allowed"
+                            @click.prevent="$store.xVideo.mp4Thumbnail($el)"
+                            aria-label="image-cover"
+                          >
+                            <span class="pointer-events-none duration-200 group-hover:scale-125 bg-button-play absolute w-6 h-6{% if columns_desktop == 5 %} lg:w-10 lg:h-10{% else %} md:w-10 md:h-10{% endif %} top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-[rgba(var(--image-treatment-text))]">
+                              <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" role="presentation" class="w-full h-full" fill="none" viewBox="0 0 10 14">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M1.48177 0.814643C0.81532 0.448245 0 0.930414 0 1.69094V12.2081C0 12.991 0.858787 13.4702 1.52503 13.0592L10.5398 7.49813C11.1918 7.09588 11.1679 6.13985 10.4965 5.77075L1.48177 0.814643Z" fill="currentColor"/>
+                              </svg>
+                            </span>
+                          </button>
+                        </div>
+                      {% endif %}
+                    {% endif %}
+                    <script src="{{ 'video.js' | asset_url }}" defer></script>
+                  {% else %}
+                    <div class="sticky-content{% if enable_slider_vertical %} sticky top-[calc(var(--height-header)+1rem)]{% else %} relative{% endif %}{% if enable_slider_vertical %}{% if block.settings.enable_text_overlay%} h-1/2{% else %} h-auto{% endif %}{% else %} h-full{% endif %}">
+                      {% if block.settings.card_link != blank %}
+                        <a href="{{ block.settings.card_link }}"{% if block.settings.open_new_window %} target="_blank"{% endif %} class="absolute top-0 left-0 right-0 bottom-0 z-10"></a>
+                      {% endif %}
+                      {% render 'promotion-image',
+                        blockID: block.id,
+                        image: block.settings.image,
+                        image_ratio: block.settings.image_ratio,
+                        enable_text_overlay: block.settings.enable_text_overlay,
+                        heading: block.settings.heading,
+                        content: block.settings.content,
+                        button_label: block.settings.button_label,
+                        button_link: block.settings.button_link,
+                        content_alignment: block.settings.content_alignment,
+                        background_color: block.settings.background_color,
+                        full_width: section.settings.full_width,
+                        overlay_opacity: block.settings.overlay_opacity,
+                        show_button_style: block.settings.show_button_style,
+                        color_text: block.settings.color_text,
+                        color_button: block.settings.color_button,
+                        color_text_button: block.settings.color_text_button,
+                        color_button_hover: block.settings.color_button_hover,
+                        color_text_button_hover: block.settings.color_text_button_hover,
+                        color_button_secondary: block.settings.color_button_secondary,
+                        secondary_button_text: block.settings.secondary_button_text,
+                        heading_size: block.settings.heading_size,
+                        text_size: block.settings.text_size,
+                        content_position: block.settings.content_position,
+                        open_new_window : block.settings.open_new_window_button,
+                        colors_text_link: block.settings.colors_text_link,
+                        heading_highlight: true,
+                        color_heading_highlight_dark: block.settings.color_heading_highlight_dark,
+                        color_heading_highlight_light: block.settings.color_heading_highlight_light,
+                        highlight_type: block.settings.highlight_type
+                      %}
+                    </div>
+                  {% endif %}
+                </div>
+              {%- endif -%}
+              <div {% if block.settings.show_promotion %}
+                class="{{ class_grid }} {% if section.settings.full_width_mobile and swiper_on_mobile == false %} full-width md:pl-0 md:pr-0{% endif %}"
+                {% endif %}
+              >
+                {%- liquid
+                  assign progress_bar = grid_items_count                       
+                  if collection.all_products_count < grid_items_count
+                    assign progress_bar = collection.all_products_count
+                  endif
+                -%}
+                <div
+                  id="x-collection-{{ block.id }}"
+                  class="collection{% if enable_desktop_slider or swiper_on_mobile %} overflow-hidden x-splide visible splide{% endif %}{% if swiper_on_mobile and section.settings.full_width_mobile %} pl-5 pr-5 md:pl-0 md:pr-0{% endif %}"
+                  {% if enable_desktop_slider or swiper_on_mobile -%}
+                    x-data-slider="{{ section.id }}"
+                    x-intersect.once.margin.200px='$store.xSplide.load($el, {
+                      "speed": 1000,
+                      "pagination": false, 
+                      "mediaQuery": "min",
+                      "updateOnMove": "true",
+                      "pauseOnHover": true,
+                      "pauseOnFocus": false,
+                      {% unless section.settings.enable_desktop_slider and section.settings.slider_style == 'horizontal' %}
+                        "arrows": false,
+                      {% endunless %}
+                      {% if settings.lang_direction contains request.locale.iso_code %} 
+                      "direction": "rtl",
+                      {% endif %}
+                      {%- if section.settings.auto_play -%}
+                        "rewind": true,
+                        "autoplay": true,
+                        "interval": {{ section.settings.change_slides_speed | times: 1000 }},
+                      {%- endif %}
+                      "progressBar": {{ progress_bar }},
+                      "breakpoints": {
+                        300: {
+                          {% if swiper_on_mobile == false -%}
+                            "destroy": true,
+                          {%- endif -%}
+                          "gap": "{{ section.settings.spacing_mobile }}px",
+                          "perPage": {{ columns_mobile }},
+                          "perMove": {{ columns_mobile }}
+                        },
+                        768: {
+                          {% if enable_desktop_slider == false or enable_slider_vertical -%}
+                            "destroy": true,
+                          {%- else -%}
+                            "destroy": false,
+                          {%- endif %}
+                          "gap": "{{ section.settings.spacing }}px",
+                          {% if columns_desktop == 5 %}
+                            "perPage": 4,
+                            "perMove": 4
+                          {% else %}
+                            "perPage": {{ columns_desktop }},
+                            "perMove": {{ columns_desktop }}
+                          {% endif %}
+                        },
+                        1024: {
+                          "perPage": {{ columns_desktop }},
+                          "perMove": {{ columns_desktop }}
+                        }
+                      },
+                      "events": [
+                        {
+                          "event": "ready",
+                          "callback": () => {
+                            document.dispatchEvent(new CustomEvent("eurus:{{ section.id }}:splide-ready"));
+                          }
+                        }
+                      ]
+                    })'
+                  {%- endif -%}>
+                  {% style %}
+                    .gap-mobile-{{ block.id }}-{{ section.id }} {
+                      gap: {{ spacing_mobile }}px;
+                    }
+                    @media (min-width: 768px) {
+                      .gap-{{ block.id }}-{{ section.id }} {
+                        {% if enable_desktop_slider and section.settings.slider_style != "vertical" %}
+                          gap: 0px;
+                        {% else %}
+                          gap: {{ spacing }}px;
+                        {% endif %}
+                      }
+                    }
+                  {% endstyle %}
+                  {%- if enable_desktop_slider and section.settings.slider_style != "vertical" -%}
+                    <div class="splide__arrows lg:block gap-2 hidden">
+                      <button class="splide__arrow splide__arrow--prev button-arrow hidden lg:block absolute top-1/2 -mt-6 p-4 rounded-full none_border z-10 w-12 h-12 after:text-[20px] rtl:right-0 rtl:-rotate-90 rtl:left-auto left-0 rotate-90 duration-200 opacity-60 hover:opacity-100 disabled:cursor-not-allowed transition-all ease-in-out lg:-translate-x-full rtl:lg:translate-x-full disabled:opacity-30" aria-label="previous slide">
+                        {% render 'icon-alls', icon: 'icon-caret' %}
+                      </button>
+                      <button class="splide__arrow splide__arrow--next button-arrow hidden lg:block absolute top-1/2 -mt-6 p-4 rounded-full none_border z-10 w-12 h-12 after:text-[20px] rtl:left-0 rtl:rotate-90 rtl:right-auto right-0 -rotate-90 duration-200 opacity-60 hover:opacity-100 disabled:cursor-not-allowed transition-all ease-in-out lg:translate-x-full rtl:lg:-translate-x-full disabled:opacity-30" aria-label="previous slide">
+                        {% render 'icon-alls', icon: 'icon-caret' %}
+                      </button>
+                    </div>
+                  {%- endif -%}
+                  <div class="splide__track{% if enable_desktop_slider %} md:cursor-grab{% endif %}{% if swiper_on_mobile %} pl-5 pr-5{% endif %}{% if block.settings.show_promotion %} md:pl-0 md:pr-0{% endif %} lg:pl-0 lg:pr-0">
+                    <div class="splide__list gap-{{ block.id }}-{{ section.id }}{% if enable_desktop_slider == false or enable_slider_vertical %} md:grid{% if columns_desktop == 5 %} md:grid-cols-4{% else %} md:grid-cols-{{ columns_desktop }}{% endif %} lg:grid-cols-{{ columns_desktop }}{% else %} md:grid-cols-none md:flex md:w-full md:gap-0{% endif %}{% if swiper_on_mobile %} flex w-full{% else %} grid grid-cols-{{ columns_mobile }} gap-mobile-{{ block.id }}-{{ section.id }}{% endif %}">
+                      {%- for product in collection.products limit: grid_items_count -%}
+                        {%- liquid
+                          assign product_card_id = current_page | append: "-" | append: forloop.index
+                          assign preload_slide_class = 'preload-slide-' | append: block.id | append: section.id | append: ' preload-slide-mobile--' | append: block.id | append: section.id
+                          if enable_desktop_slider or swiper_on_mobile
+                            assign class_slide = 'splide__slide x-splide-slide h-auto ' | append: preload_slide_class
+                          endif
+                          assign index_param = section.index | append: block_index | append: forloop.index | plus: 0
+                        -%}
+                        {% render 'card-product',
+                          card_product: product, 
+                          show_vendor: block.settings.show_vendor,
+                          show_rating: block.settings.show_rating,
+                          section_id: section.id,
+                          class_slide: class_slide,
+                          columns_desktop: columns_desktop,
+                          column_mobile: columns_mobile,
+                          index: forloop.index,
+                          list_name: collection.title,
+                          collection: collection,
+                          enable_desktop_slider: enable_desktop_slider,
+                          swiper_on_mobile: swiper_on_mobile,
+                          block_id: block.id,
+                          product_card_id: product_card_id,
+                          disable_quickview: disable_quickview,
+                          index_param: index_param,
+                          show_icon_atc: show_icon_atc,
+                          animation_loading: true,
+                          show_price_range: true
+                        %}
+                      {%- else -%}
+                        {%- for i in (1..grid_items_count) -%}
+                          {%- liquid 
+                            assign ratio = 100 
+                            case settings.product_image_ratio
+                              when "portrait"
+                                assign ratio = 150.0
+                              when "landscape"
+                                assign ratio = 75.0
+                              when "wide"
+                                assign ratio = 56.25
+                              when "3/4"
+                                assign ratio = 133
+                            endcase
+                            assign preload_slide_class = 'preload-slide-' | append: block.id | append: section.id | append: ' preload-slide-mobile--' | append: block.id | append: section.id
+                          -%}
+                          <div x-slide-index="{{ forloop.index | minus: 1 }}" class="grid-item{% if swiper_on_mobile or enable_desktop_slider and section.settings.slider_style != "vertical" %} splide__slide x-splide-slide {{  preload_slide_class }}{% endif %} relative">
+                            <div>
+                              <div class="relative{% if settings.edges_type == 'rounded_corners' %} rounded-[10px] overflow-hidden{% endif %}{% unless media_aspect_ratio == "natural" %} pb-[{{ ratio }}%]{% endunless %}"> 
+                                {% render 'icon-placeholder', icon: 'icon-product', class: 'bg-[#c9c9c9] absolute top-0 left-0 w-full h-full' %}
+                              </div>
+                              <div class="pt-4 pb-4 text-{{ settings.info_alignment_card_product }}">
+                                <p class="leading-tight mb-2">
+                                  {{ 'sections.featured_collection.product_title' | t }}
+                                </p>
+                                <p class="text-[{{ settings.text_base_size | times: 0.007875 }}rem] md:text-[{{ settings.text_base_size | times: 0.00875 }}rem]">
+                                  {% if settings.currency_code_enable %}
+                                    {{ 3000 | money_with_currency }}
+                                  {% else %}
+                                    {{ 3000 | money }}
+                                  {% endif %}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        {%- endfor -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                  {%- if swiper_on_mobile or enable_desktop_slider and section.settings.slider_style != "vertical" -%}
+                    <div class="{% if enable_desktop_slider and section.settings.slider_style != "vertical" %} md:flex{% else %} md:hidden{% endif %} items-center{% if swiper_on_mobile %} flex w-full{% else %} hidden{% endif %} gap-5 mt-2.5 md:mt-5 md:w-3/4 ml-auto mr-auto">
+                      <div class="splide-progress inline-block grow rounded-md">
+                        {% liquid
+                          assign my_float = columns_desktop | times: 1.0
+                          assign width_bar = my_float | divided_by: progress_bar                       
+                          assign mobile_float = columns_mobile | times: 1.0
+                          assign mobile_width_bar = mobile_float | divided_by: progress_bar 
+                        %} 
+                        {%- style -%}
+                          .splide-progress-bar-{{ section.id }}-{{ block.id }} {
+                            width: {{ mobile_width_bar | times: 100 }}%;
+                          }
+                          @media (min-width: 768px) {
+                            .splide-progress-bar-{{ section.id }}-{{ block.id }} {
+                              width: {{ width_bar | times: 100 }}%;
+                            }
+                          }
+                        {%- endstyle -%}
+                        <div class="splide-progress-bar-{{ section.id }}-{{ block.id }} splide-progress-bar rounded-md"></div>
+                      </div>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    {%- endpaginate %}
+  </div>
+</div>
+<script src="{{ 'preview-color-swatches.js' | asset_url }}" defer></script>

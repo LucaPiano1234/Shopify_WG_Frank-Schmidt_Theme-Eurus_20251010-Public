@@ -1,0 +1,333 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_heading": true,
+        "heading_size": 170,
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "#f2f2f2",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#313131",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "b42d8edf-4509-4747-9b36-c56b5ade893d": {
+      "type": "promotion-banner",
+      "blocks": {
+        "template--21744624894253__b42d8edf-4509-4747-9b36-c56b5ade893d-image_banner-1": {
+          "type": "image_banner",
+          "settings": {
+            "heading": "FAQs",
+            "heading_size": 170,
+            "subheading": "",
+            "text": "",
+            "text_size": 130,
+            "content_box_type": "square",
+            "add_frame": false,
+            "color_content_box_light": "rgba(0,0,0,0)",
+            "color_content_box_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744624894253__b42d8edf-4509-4747-9b36-c56b5ade893d-image_banner-1"
+      ],
+      "settings": {
+        "heading": "Promotion Banner",
+        "image_link": "",
+        "open_new_window": false,
+        "image_overlay_opacity": 0,
+        "content_position": "custom",
+        "content_horizontal": 50,
+        "content_vertical": 90,
+        "position_content_mobile": "bottom-center",
+        "content_alignment": "center",
+        "show_hero": true,
+        "full_width": true,
+        "padding_full_width": false,
+        "rounded_corner_image": false,
+        "desktop_height": "650px",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "full_width_mobile": true,
+        "rounded_corner_image_mobile": false,
+        "mobile_height": "250px",
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "5105504b-9704-47a7-80d9-dedd99dba321": {
+      "type": "faq",
+      "blocks": {
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-1": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Will your template be fully compatible with Shopify?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-2": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "What is included in the theme package?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-3": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Do you guys offer a refund or exchange?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-4": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Would assistance be available to upload the template if needed?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "f1015c68-0f33-4136-ad63-a6875f15266b": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Do you guys offer customisation services for your themes?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-1",
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-2",
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-3",
+        "template--21744624894253__5105504b-9704-47a7-80d9-dedd99dba321-frequently_asked_question-4",
+        "f1015c68-0f33-4136-ad63-a6875f15266b"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "row_background": false,
+        "collapsible": true,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "button_link": "",
+        "open_new_window": false,
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "desktop_layout": "1",
+        "image_alignment": "left",
+        "desktop_height": "400px",
+        "show_section_divider": false,
+        "make_full_page_width": false,
+        "padding_top": 72,
+        "padding_bottom": 100,
+        "image_alignment_mobile": "left",
+        "mobile_height": "250px",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 48
+      }
+    },
+    "aa46638c-a246-453c-9ecc-6158fbaed09b": {
+      "type": "contact-form",
+      "blocks": {
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-name-1": {
+          "type": "name",
+          "settings": {
+            "heading": "Name",
+            "mark_as_required": false
+          }
+        },
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-email-1": {
+          "type": "email",
+          "settings": {
+            "heading": "Email"
+          }
+        },
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-phone-1": {
+          "type": "phone",
+          "settings": {
+            "heading": "Phone number",
+            "mark_as_required": false
+          }
+        },
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-message-1": {
+          "type": "message",
+          "settings": {
+            "heading": "Message",
+            "mark_as_required": false
+          }
+        }
+      },
+      "block_order": [
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-name-1",
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-email-1",
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-phone-1",
+        "template--21744624894253__aa46638c-a246-453c-9ecc-6158fbaed09b-message-1"
+      ],
+      "settings": {
+        "heading": "Do You Have Any Question?",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "text": "<p>If you do not find the answer to your question in our FAQ, you can send us a message by filling out the form below.</p>",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "button_label": "SEND MESSAGE",
+        "button_alignment": "center",
+        "success_message": "Thanks for contacting us. We'll get back to you as soon as possible.",
+        "show_content": "none",
+        "form_alignment": "left",
+        "desktop_height": "550px",
+        "mobile_height": "400px",
+        "contact_heading": "Contact infomation",
+        "infomation": "",
+        "address": "75 9th Ave, New York, NY 10011-7006",
+        "phone_nummber": "+1234567890",
+        "email_address": "info@yourstore.com",
+        "contact_text": "<p>Opening hours</p><p>Mon - Fri, 8:30am - 10:30pm,<br/>Saturday, 8:30am - 10:30pm,<br/>Sunday, 8:30am - 10:30pm</p>",
+        "full_width": false,
+        "show_section_divider": false,
+        "padding_top": 48,
+        "padding_bottom": 72,
+        "full_width_mobile": false,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "a4415918-c557-4c04-9acc-78592197ebeb": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "truck",
+            "custom_icon": "",
+            "title": "Free Shipping",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "box",
+            "custom_icon": "",
+            "title": "Big Saving",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "chat-bubble",
+            "custom_icon": "",
+            "title": "Online Support",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a": {
+          "type": "column",
+          "settings": {
+            "icon": "check-mark",
+            "custom_icon": "",
+            "title": "Flexible Payment",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2",
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "secondary_background": "section",
+        "border_column": "line_vertical",
+        "column_content_alignment": "start",
+        "icon_position": "above",
+        "icon_size": 36,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "change_bar_every": 3,
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "color_icon_light": "#c2a27a",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "#c2a27a",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-0",
+        "spacing_desktop": 40,
+        "full_width": false,
+        "padding_full_width": false,
+        "show_section_divider": false,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-0",
+        "spacing_mobile": 0,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "b42d8edf-4509-4747-9b36-c56b5ade893d",
+    "5105504b-9704-47a7-80d9-dedd99dba321",
+    "aa46638c-a246-453c-9ecc-6158fbaed09b",
+    "a4415918-c557-4c04-9acc-78592197ebeb"
+  ]
+}

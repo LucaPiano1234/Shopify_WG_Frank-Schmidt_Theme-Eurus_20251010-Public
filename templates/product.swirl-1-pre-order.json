@@ -1,0 +1,645 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "632d00de-db79-4f53-b572-97b93a690272": {
+          "type": "vendor",
+          "settings": {
+            "select_page": "",
+            "link": "",
+            "open_new_window": false
+          }
+        },
+        "a68f48b3-fdba-4747-8bfe-72120c5c768a": {
+          "type": "product_name",
+          "settings": {}
+        },
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_option": true,
+            "enable_color_swatches": true
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "eb2f7f32-0104-470b-b87a-59379d76ca56": {
+          "type": "inventory_status",
+          "settings": {}
+        },
+        "9cf2b8e7-83d0-4848-8f1a-68d4e80ffe25": {
+          "type": "gift_wrapping",
+          "settings": {
+            "text_gift": "Wrap this for me",
+            "color_icon_light": "rgba(0,0,0,0)",
+            "color_icon_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "pickup_availability": true,
+            "preorder_button_label": "Pre-order",
+            "preorder_message": "<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!</p>",
+            "preorder_show_dynamic_button": false,
+            "show_background": false,
+            "box_type": "square",
+            "background_color_light": "rgba(0,0,0,0)",
+            "message_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "message_color_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "c831b757-ddd8-4a3d-b2b0-6b03360465e8": {
+          "type": "complementary",
+          "settings": {
+            "heading": "Pairs well with",
+            "show_tab": false,
+            "show_background": false,
+            "max_product_show": 3,
+            "number_product_per_page": 3,
+            "enable_carousel_desktop": false,
+            "enable_swiper_mobile": true,
+            "image_ratio": "square",
+            "show_vendor": false,
+            "show_product_rating": false
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_in_tab": false
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping and Returns",
+            "tab_content": "<ul><li>Returns accepted for 30 days</li><li>Free return shipping</li><li>No restocking fee</li><li>No final sale items</li></ul>"
+          }
+        },
+        "social-sharing": {
+          "type": "social_sharing",
+          "settings": {}
+        },
+        "sticky-atc": {
+          "type": "sticky_add_to_cart",
+          "settings": {
+            "desktop_display_type": "popup",
+            "show_quantity_selector": false
+          }
+        }
+      },
+      "block_order": [
+        "632d00de-db79-4f53-b572-97b93a690272",
+        "a68f48b3-fdba-4747-8bfe-72120c5c768a",
+        "badges",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "eb2f7f32-0104-470b-b87a-59379d76ca56",
+        "9cf2b8e7-83d0-4848-8f1a-68d4e80ffe25",
+        "buy_buttons",
+        "c831b757-ddd8-4a3d-b2b0-6b03360465e8",
+        "description",
+        "collapsible-row-1",
+        "social-sharing",
+        "sticky-atc"
+      ],
+      "settings": {
+        "enable_sticky_image": true,
+        "show_product_name": false,
+        "show_vendor": false,
+        "desktop_layout": "left",
+        "desktop_media_layout": "2_columns",
+        "show_arrow_button": true,
+        "mobile_media_size": "75%",
+        "show_thumnail_mobile": false,
+        "image_ratio": "square",
+        "thumbnail_position": "horizontal",
+        "enable_image_zoom": true,
+        "enable_video_autoplay": false,
+        "enable_video_loop": false,
+        "show_first_image_avaiable": true,
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "rgba(0,0,0,0)",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "full_width": true,
+        "spacing_col": "small",
+        "padding_top": 24,
+        "padding_bottom": 32,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd": {
+      "type": "testimonials",
+      "blocks": {
+        "template--15961077874788__57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd-testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "4_star",
+            "custom_icon": "",
+            "title": "Very pleased!",
+            "text": "<p>This is such a beautiful shirt! In person it is very vibrant, and I’m very impressed with the quality! I’m very impressed with the quality! </p>",
+            "author": "Jonson",
+            "author_note": "<p>Bostom, MA</p>"
+          }
+        },
+        "template--15961077874788__57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd-testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "Melanin Onesie",
+            "text": "<p>I bought this onesie from Eurus Kids, and I'm very satisfied with my purchase. The onesie is made of fleece, which is warm, cozy, and soft. The onesie has a cute and colorful Yoshi design, with a hood, a tail, and a shell.</p>",
+            "author": "Sammy",
+            "author_note": "<p>Bostom, MA</p>"
+          }
+        },
+        "template--15961077874788__57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd-testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "Beautiful and Well Made !",
+            "text": "<p>Thank you so much for my shirts! They definitely exceeded my expectations. They are very soft and comfortable They are very soft and comfortable to ...</p>",
+            "author": "Haley",
+            "author_note": "<p>Bostom, MA</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--15961077874788__57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd-testimonial-1",
+        "template--15961077874788__57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd-testimonial-2",
+        "template--15961077874788__57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd-testimonial-3"
+      ],
+      "settings": {
+        "heading": "WHAT ARE CUSTOMERS SAYING?",
+        "heading_size": 80,
+        "text_alignment": "center",
+        "testimonial_items_view": "multiple",
+        "show_arrow": true,
+        "show_pagination": false,
+        "show_author_image": true,
+        "background_color_light": "rgba(0,0,0,0)",
+        "item_background_color_light": "#ffffff",
+        "heading_and_title_light": "rgba(0,0,0,0)",
+        "item_text_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "item_background_color_dark": "#000000",
+        "heading_and_title_dark": "rgba(0,0,0,0)",
+        "item_text_color_dark": "rgba(0,0,0,0)",
+        "show_section_divider": false,
+        "top_padding": 32,
+        "bottom_padding": 32,
+        "show_section_divider_mobile": false,
+        "top_padding_mobile": 20,
+        "bottom_padding_mobile": 20
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "OFTEN BOUGHT TOGETHER WITH",
+        "heading_size": 80,
+        "heading_alignment": "center",
+        "products_to_show": 10,
+        "background_color_light": "",
+        "background_color_dark": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "show_quickview": true,
+        "enable_carousel_desktop": true,
+        "enable_swiper_mobile": true,
+        "columns_desktop": 5,
+        "full_width": true,
+        "show_section_divider": false,
+        "spacing": 30,
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "columns_mobile": "1",
+        "show_section_divider_mobile": false,
+        "spacing_mobile": 20,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "92d78f2a-a051-4b5e-89ef-8d66960386a2": {
+      "type": "logo-list",
+      "blocks": {
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-1": {
+          "type": "logo",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false
+          }
+        },
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-2": {
+          "type": "logo",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false
+          }
+        },
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-3": {
+          "type": "logo",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false
+          }
+        },
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-4": {
+          "type": "logo",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false
+          }
+        },
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-5": {
+          "type": "logo",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false
+          }
+        },
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-6": {
+          "type": "logo",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-1",
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-2",
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-3",
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-4",
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-5",
+        "template--15961077874788__92d78f2a-a051-4b5e-89ef-8d66960386a2-logo-6"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "corner_image": 0,
+        "show_border": true,
+        "image_ratio": "56",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "enable_carousel_on_desktop": false,
+        "auto_switch_bar": true,
+        "change_bar_every": 3,
+        "show_navigation": true,
+        "columns_desktop": 6,
+        "full_width": false,
+        "show_section_divider": false,
+        "spacing": 15,
+        "padding_top": 16,
+        "padding_bottom": 24,
+        "layout_mobile": "carousel",
+        "columns_mobile": "2",
+        "show_section_divider_mobile": false,
+        "spacing_mobile": 16,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "6b504b40-501f-4312-a65b-67c394ab93be": {
+      "type": "media-gallery",
+      "blocks": {
+        "template--15961077874788__6b504b40-501f-4312-a65b-67c394ab93be-media-1": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "bottom",
+            "overlay_opacity": 10,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "WINTER COLLECTION",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "#2cb29b",
+            "background_button": "#ffffff",
+            "color_button_hover": "#ffffff",
+            "background_button_hover": "#2cb29b"
+          }
+        },
+        "template--15961077874788__6b504b40-501f-4312-a65b-67c394ab93be-media-2": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "bottom",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "ROOM DECOR",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "#2cb29b",
+            "background_button": "#ffffff",
+            "color_button_hover": "#ffffff",
+            "background_button_hover": "#2cb29b"
+          }
+        },
+        "template--15961077874788__6b504b40-501f-4312-a65b-67c394ab93be-media-3": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "bottom",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "BABY TOYS",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "#2cb29b",
+            "background_button": "#ffffff",
+            "color_button_hover": "#ffffff",
+            "background_button_hover": "#2cb29b"
+          }
+        }
+      },
+      "block_order": [
+        "template--15961077874788__6b504b40-501f-4312-a65b-67c394ab93be-media-1",
+        "template--15961077874788__6b504b40-501f-4312-a65b-67c394ab93be-media-2",
+        "template--15961077874788__6b504b40-501f-4312-a65b-67c394ab93be-media-3"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "max_columns": 3,
+        "spacing": 30,
+        "height_desktop": 300,
+        "show_section_divider": false,
+        "full_width": true,
+        "padding_full_width": true,
+        "padding_top": 32,
+        "padding_bottom": 32,
+        "min_columns_mobile": "1",
+        "spacing_mobile": 16,
+        "height_mobile": 250,
+        "show_section_divider_mobile": false,
+        "full_width_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "15bcc07d-099f-489c-9bb2-ba9a17bfdc74": {
+      "type": "media-gallery",
+      "blocks": {
+        "template--15961077874788__15bcc07d-099f-489c-9bb2-ba9a17bfdc74-media-1": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)"
+          }
+        },
+        "template--15961077874788__15bcc07d-099f-489c-9bb2-ba9a17bfdc74-media-2": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)"
+          }
+        },
+        "template--15961077874788__15bcc07d-099f-489c-9bb2-ba9a17bfdc74-media-3": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)"
+          }
+        },
+        "6f3bbc18-fe3e-4f7a-a392-9dab2f9dfa3f": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)"
+          }
+        },
+        "4d6579f1-b75c-4261-97c0-0ff8aeec9c79": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--15961077874788__15bcc07d-099f-489c-9bb2-ba9a17bfdc74-media-1",
+        "template--15961077874788__15bcc07d-099f-489c-9bb2-ba9a17bfdc74-media-2",
+        "template--15961077874788__15bcc07d-099f-489c-9bb2-ba9a17bfdc74-media-3",
+        "6f3bbc18-fe3e-4f7a-a392-9dab2f9dfa3f",
+        "4d6579f1-b75c-4261-97c0-0ff8aeec9c79"
+      ],
+      "settings": {
+        "heading": "FROM CUSTOMERS WITH #EURUSKIDS INSTAGRAM",
+        "heading_size": 80,
+        "heading_alignment": "center",
+        "max_columns": 5,
+        "spacing": 30,
+        "height_desktop": 300,
+        "show_section_divider": true,
+        "full_width": true,
+        "padding_full_width": true,
+        "padding_top": 64,
+        "padding_bottom": 32,
+        "min_columns_mobile": "1",
+        "spacing_mobile": 20,
+        "height_mobile": 250,
+        "show_section_divider_mobile": true,
+        "full_width_mobile": false,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "57c9d0bf-6cf6-495a-ae8e-54480bd0f3bd",
+    "product-recommendations",
+    "92d78f2a-a051-4b5e-89ef-8d66960386a2",
+    "6b504b40-501f-4312-a65b-67c394ab93be",
+    "15bcc07d-099f-489c-9bb2-ba9a17bfdc74"
+  ]
+}

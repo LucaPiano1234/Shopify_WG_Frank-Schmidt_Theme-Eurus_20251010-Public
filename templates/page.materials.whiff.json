@@ -1,0 +1,749 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_heading": true,
+        "heading_size": 170,
+        "heading_tag": "h1",
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "#f2f2f2",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#313131",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "image_with_text_rnxFqj": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_teXHK8": {
+          "type": "heading",
+          "settings": {
+            "subheading": "Materials & Care",
+            "heading": "Expertly Crafted & Responsibly Sourced",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "",
+            "heading_light": "#ffffff",
+            "text_light": "#ffffff",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_teXHK8"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#574136",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "text_column_with_image_7azaLt": {
+      "type": "text-column-with-image",
+      "blocks": {
+        "column_QWQ3yi": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Natural Diamonds",
+            "heading_size": 200,
+            "text": "<p>Diamonds are one of the hardest natural substances found on earth. All of our natural diamonds are within the GHI color range and SI-I 1-2 clarity. In addition, our trusted partners only use Kimberley Process-compliant natural diamonds.</p><p> </p><p>The Kimberley Process (KP) is a multilateral trade regime established in 2003 with the goal of preventing the flow of conflict diamonds. The core of this regime is the Kimberley Process Certification Scheme (KPCS) under which States implement safeguards on shipments of rough diamonds and certify them as “conflict free\". Today, participants actively prevent 99.8% of worldwide trade.</p><p> </p>",
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false
+          }
+        },
+        "column_8jj4Ax": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Lab Grown Diamonds",
+            "heading_size": 200,
+            "text": "<p>Same sparkly quality, made by science. Our lab grown diamonds feature the same physical and chemical properties as natural diamonds and are a solid option for those seeking great value and incredible diamond payoff.</p><p>  </p><p>Lab grown diamonds are graded the same as natural diamonds, assessing the 4 Cs (carat, clarity, color, and cut). They can be produced with fewer impurities and inclusions, leading to potentially higher clarity and color grades.They are also SCS Global certified, recognized as the top benchmark for sustainability, meaning each stone meets the highest responsible luxury standards for lab grown diamonds.</p><p> </p>",
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_QWQ3yi",
+        "column_8jj4Ax"
+      ],
+      "settings": {
+        "title": "Diamonds",
+        "heading_size": 110,
+        "heading_tag": "h2",
+        "secondary_background": "column",
+        "image_ratio": "75%",
+        "rounded_corner_image": false,
+        "column_content_alignment": "center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/2",
+        "spacing_desktop": 10,
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "column_layout_mobile": "w-full",
+        "spacing_mobile": 16,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "rich_text_xQyXDj": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_49mbP6": {
+          "type": "heading",
+          "settings": {
+            "heading": "Precious Metals",
+            "heading_size": 110,
+            "heading_tag": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_49mbP6"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 20,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "024df5c5-5fe3-46fa-8380-7d6cc1f91912": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__024df5c5-5fe3-46fa-8380-7d6cc1f91912-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "14k Gold",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Solid gold is a precious metal that will not oxidize or discolor. 14k gold has a higher percentage of alloyed metal making it more durable and resistant to everyday wear than 18k gold. Our 14k white gold pieces are finished in rhodium plating, which gives them extra shine and durability. </p><p>To help reduce our impact on the environment while still supporting local communities that rely on mining, all our pieces are made from 95% recycled gold and 5% newly mined gold (including 14k gold and 18k gold vermeil). There is no difference in quality between recycled and newly-mined gold.</p><p>We aim to prioritize certified recycled gold across our collections while ensuring any new, responsibly mined gold is traceable to suppliers who are certified against international sustainability standards and best practices such as the Responsible Jewelry Council. </p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_4tKnBn": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__024df5c5-5fe3-46fa-8380-7d6cc1f91912-heading-1",
+        "button_4tKnBn"
+      ],
+      "custom_css": [
+        "@media (min-width: 768px) {.x-section {padding-left: 1.25rem; padding-right: 1.25rem; }}"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "text_column_with_image_DEzkGT": {
+      "type": "text-column-with-image",
+      "blocks": {
+        "column_zbk6FL": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Sterling Silver",
+            "heading_size": 140,
+            "text": "<p>In 2022, we worked with our suppliers to produce 92% of our silver jewelry from recycled sources. This recycled percentage highlights our continued efforts to reduce our impact on the environment and increase traceability of precious materials across our supply chain.</p>",
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        },
+        "column_w3KBAt": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "18k Gold Vermeil",
+            "heading_size": 140,
+            "text": "<p>Not to be confused with regular gold plating, gold vermeil is a thick, long-lasting layer of 18k solid gold over high-quality sterling silver. We use 18k gold that is 2.5 microns thick, as required by the Federal Trade Commission to classify vermeil, layered over 925 sterling silver. </p>",
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        },
+        "column_ijxVb6": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Titanium",
+            "heading_size": 140,
+            "text": "<p>Titanium is a durable, highly corrosion-resistant, and lightweight metal, making it extremely comfortable to wear.</p><p> </p><p> </p><p></p>",
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_zbk6FL",
+        "column_w3KBAt",
+        "column_ijxVb6"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "secondary_background": "column",
+        "image_ratio": "75%",
+        "rounded_corner_image": false,
+        "column_content_alignment": "center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/3",
+        "spacing_desktop": 10,
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "padding_top": 12,
+        "padding_bottom": 40,
+        "column_layout_mobile": "w-full",
+        "spacing_mobile": 16,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "text_column_with_image_9Gk4bm": {
+      "type": "text-column-with-image",
+      "blocks": {
+        "column_9YpzrE": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Natural Gemstones",
+            "heading_size": 140,
+            "text": "<p>All of our gemstones are genuine mineral stones that are highly valued for their beauty, longevity and rarity. We use an array of high-quality, natural gemstones.</p>",
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        },
+        "column_dpEgye": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Pearls",
+            "heading_size": 140,
+            "text": "<p>We use cultured pearls from oysters and freshwater mussels that we carefully select for our pieces. Pearls are sensitive in nature, so be sure to treat them with love. </p>",
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        },
+        "column_yGqaNT": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Enamel",
+            "heading_size": 140,
+            "text": "<p>Enameling is a technique where a glossy substance is applied to the surface of metal. To ensure our pieces are more durable, we use cold enamel, a.k.a epoxy resin enamel, that doesn’t contain glass.</p>",
+            "button_label": "Button label",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_9YpzrE",
+        "column_dpEgye",
+        "column_yGqaNT"
+      ],
+      "settings": {
+        "title": "More Materials",
+        "heading_size": 110,
+        "heading_tag": "h2",
+        "secondary_background": "column",
+        "image_ratio": "75%",
+        "rounded_corner_image": false,
+        "column_content_alignment": "center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/3",
+        "spacing_desktop": 10,
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "column_layout_mobile": "w-full",
+        "spacing_mobile": 16,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "testimonials_9tKeBP": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_CRprxy": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<h4><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></h4><h4> </h4>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        },
+        "testimonial_f4ed9r": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<h4><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></h4><p> </p>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        },
+        "testimonial_A84NBK": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<h4><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></h4><p> </p>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        },
+        "testimonial_WWfghN": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<h4><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></h4><p> </p>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_CRprxy",
+        "testimonial_f4ed9r",
+        "testimonial_A84NBK",
+        "testimonial_WWfghN"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "text_alignment": "center",
+        "testimonial_items_view": "multiple",
+        "show_arrow": true,
+        "show_pagination": false,
+        "show_author_image": false,
+        "author_image": "top",
+        "image_ratio": "round",
+        "desktop_height": 300,
+        "background_color_light": "rgba(0,0,0,0)",
+        "item_background_color_light": "#fbf6ee",
+        "heading_and_title_light": "rgba(0,0,0,0)",
+        "item_text_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "item_background_color_dark": "rgba(0,0,0,0)",
+        "heading_and_title_dark": "rgba(0,0,0,0)",
+        "item_text_color_dark": "rgba(0,0,0,0)",
+        "show_section_divider": false,
+        "top_padding": 28,
+        "bottom_padding": 40,
+        "show_section_divider_mobile": false,
+        "top_padding_mobile": 28,
+        "bottom_padding_mobile": 28
+      }
+    },
+    "flow_iYV8HD": {
+      "type": "flow",
+      "blocks": {
+        "media_penhRg": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Responsibility Report",
+            "description": "<p>Use this section to show a list of product or collection features, guide your customers through a process or share customers' reviews and case studies.</p>",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_tMfMaN": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Materials & Care",
+            "description": "<p>We put a lot of consideration into the materials that we use at Eurus Jewelry and strive to use only the best.Any wastage that is created from our production process is recycled and eventually makes its way back into a different cast piece.</p>",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_RRMqtJ": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Recycle Your  Jewelry",
+            "description": "",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_Cid4B9": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Our Warranty",
+            "description": "",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        }
+      },
+      "block_order": [
+        "media_penhRg",
+        "media_tMfMaN",
+        "media_RRMqtJ",
+        "media_Cid4B9"
+      ],
+      "custom_css": [
+        "h2 {display: none;}"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "content_position": "middle",
+        "content_alignment": "left",
+        "open_first_tab": true,
+        "image_corner_radius": 0,
+        "heading_color": "rgba(0,0,0,0)",
+        "text_color": "rgba(0,0,0,0)",
+        "background_color": "#fbf6ee",
+        "heading_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_position": "second",
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "desktop_height": "750px",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "image_position_mobile": "second",
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "mobile_height": "400px",
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "a4415918-c557-4c04-9acc-78592197ebeb": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Amazing Value",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>The highest-quality design at a great price.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Expert Guidance",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>The original online jeweler since 1999.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Peace of Mind",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>30-day returns, diamond price-match guarantee and more.</p>"
+          }
+        },
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Inspiring Assortment",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>The perfect pieces for every occasion.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2",
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "secondary_background": "none",
+        "border_column": "line_vertical",
+        "column_content_alignment": "center",
+        "icon_position": "next",
+        "icon_size": 36,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "change_bar_every": 3,
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "color_icon_light": "#c2a27a",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "#c2a27a",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-0",
+        "spacing_desktop": 40,
+        "full_width": false,
+        "padding_full_width": false,
+        "show_section_divider": false,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-0",
+        "spacing_mobile": 0,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "Event Calendar",
+            "heading": "Upcoming Events",
+            "heading_base_size": 110,
+            "heading_tag": "h2",
+            "text": "<p>Venenatis iaculis iaculis. Integer sit amet auctor justo, ac vestibulum orci. Aenean ultrices magna at porttitor eleifend. Aliquam euismod mi vitae nibh odales scelerisque ipsum sed vestibulum aliquam euismod mi vitae blandit libero at mauris condimentum scelerisque.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_89jMWj": {
+          "type": "button",
+          "settings": {
+            "button_label": "Our Events",
+            "button_link": "shopify://collections",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1",
+        "button_89jMWj"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 40,
+        "bottom_padding": 12,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_rnxFqj",
+    "text_column_with_image_7azaLt",
+    "rich_text_xQyXDj",
+    "024df5c5-5fe3-46fa-8380-7d6cc1f91912",
+    "text_column_with_image_DEzkGT",
+    "text_column_with_image_9Gk4bm",
+    "testimonials_9tKeBP",
+    "flow_iYV8HD",
+    "a4415918-c557-4c04-9acc-78592197ebeb",
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9"
+  ]
+}

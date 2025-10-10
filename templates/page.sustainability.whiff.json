@@ -1,0 +1,719 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_pWFpN3": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_jaPBLH": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Sustainability At Jewelry Eurus",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Learn more about how our beautiful heirlooms are made </p><p>and discover our key sustainability </p><p>commitments and goals.</p>",
+            "heading_light": "#ffffff",
+            "text_light": "#ffffff",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_jaPBLH"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#574136",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_heading": true,
+        "heading_size": 170,
+        "heading_tag": "h1",
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "#f2f2f2",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#313131",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "rich_text_nVBf7d": {
+      "type": "rich-text",
+      "blocks": {
+        "text_LPDV4j": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>A Commitment to Protecting</h2><h2>Our Environment</h2><p>A real luxury purchase is one you can feel good about buying. We’re on a mission to transform the luxury jewelry industry to one that </p><p>is regenerative, ethical and transparent.</p><p>Every key decision we make – from where we source our precious gold and diamonds to the beautiful blush pink packaging that </p><p>wraps every Jewelry Eurus piece – is viewed through the lens of sustainability. We don’t have all the answers, but we are constantly</p><p> assessing the impacts of our choices, and exploring how we can make better ones.</p><ul><li>Every Jewelry Eurus piece is made using 100% recycled solid gold.</li><li>All of our lab-grown diamonds are fully traceable and carbon-neutral.</li><li>Over 80% of the classic diamonds in our collections are recycled.</li><li>The packaging used to ship our products is recyclable and our mailers are 100% compostable.</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "text_LPDV4j"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "multicolumn_wxrdqr": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_8CBNqg": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Leave No Trace",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 140,
+            "text": "<p>We aim to be zero waste and carbon neutral by 2030, leaving just beautiful heirlooms, to be handed down for generations to come.</p>"
+          }
+        },
+        "column_TTfHEU": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Buy Less, But Better",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 140,
+            "text": "<p>We know that a treasured jewellery collection is built over time. We take a non-seasonal approach to designing our collections and deliberately keep them small to avoid overproduction and waste.</p>"
+          }
+        },
+        "column_z9RwGz": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Transparency",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 140,
+            "text": "<p>Each precious Jewelry Eurus piece is created with sustainability in mind. We work hard to source innovative, traceable and sustainable materials wherever possible in our supply chain.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "column_8CBNqg",
+        "column_TTfHEU",
+        "column_z9RwGz"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "secondary_background": "section",
+        "border_column": "line_vertical",
+        "column_content_alignment": "center",
+        "icon_position": "above",
+        "icon_size": 45,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": false,
+        "change_bar_every": 5,
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "color_icon_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/3",
+        "section_height_desktop": "md:py-7",
+        "spacing_desktop": 28,
+        "full_width": false,
+        "padding_full_width": false,
+        "show_section_divider": false,
+        "padding_top": 32,
+        "padding_bottom": 60,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-5",
+        "spacing_mobile": 16,
+        "full_width_mobile": false,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "media_gallery_bFgQU7": {
+      "type": "media-gallery",
+      "blocks": {
+        "media_WLqdiG": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": true,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 3,
+            "number_of_row": 2,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "media_WLqdiG"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "subheading": "",
+        "text": "",
+        "max_columns": 3,
+        "spacing": 28,
+        "height_desktop": 500,
+        "show_section_divider": false,
+        "full_width": true,
+        "padding_full_width": false,
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "min_columns_mobile": "1",
+        "spacing_mobile": 16,
+        "height_mobile": 250,
+        "show_section_divider_mobile": false,
+        "full_width_mobile": true,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "rich_text_xQyXDj": {
+      "type": "rich-text",
+      "blocks": {
+        "text_zpA4Lw": {
+          "type": "text",
+          "settings": {
+            "text": "<h3><strong>“We worked with Mejuri to approach sustainability with social justice in </strong></h3><h3><strong>mind including the health and wellbeing of their employees and </strong></h3><h3><strong>communities. By working with other brands, this work will help them to use</strong></h3><h3><strong> their influence to support women’s access to safe healthcare.”</strong></h3><p> </p><p>Saka. Tran</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_zpA4Lw"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "text_column_with_image_7azaLt": {
+      "type": "text-column-with-image",
+      "blocks": {
+        "column_QWQ3yi": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "",
+            "heading_size": 100,
+            "text": "<h2>Our Gold</h2><h2></h2><p>From the casts to the clasps, each of our precious pieces is made using 100 percent recycled gold. Our recycled gold is sourced from our carbon-neutral partner supplier in Germany, who uses renewable energy and clean, closed-loop systems to reduce energy and waste in the refinement process.</p><p>&nbsp;</p><p>Every Jewelry Eurus piece is made using 100% recycled solid gold</p>",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window": false
+          }
+        },
+        "column_8jj4Ax": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "",
+            "heading_size": 100,
+            "text": "<h2>Our Diamonds</h2><p>We are committed to reducing the demand for mining wherever possible. We work with recycled diamonds in our classic collections and have introduced incredible carbon-neutral lab-grown diamonds. We also continue to champion the unique beauty of grey diamonds, long considered a by-product of the diamond industry.</p><p>&nbsp;</p><p>Over 80 per cent of the classic diamonds in our collection are recycledDiscover Design ProcessShop Now</p>",
+            "button_label": "",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_QWQ3yi",
+        "column_8jj4Ax"
+      ],
+      "settings": {
+        "title": "Our Precious Heirlooms",
+        "heading_size": 140,
+        "heading_tag": "h2",
+        "secondary_background": "column",
+        "image_ratio": "75%",
+        "rounded_corner_image": false,
+        "column_content_alignment": "center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/2",
+        "spacing_desktop": 10,
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "padding_top": 40,
+        "padding_bottom": 12,
+        "column_layout_mobile": "w-full",
+        "spacing_mobile": 16,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "flow_YEaQQr": {
+      "type": "flow",
+      "blocks": {
+        "media_6Nc3yw": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Lab-Grown Diamonds",
+            "description": "<p>Use this section to show a list of product or collection features, guide your customers through a process or share customers' reviews and case studies.</p>",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_KVbYiQ": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Recycled Diamonds",
+            "description": "<p>Millions of diamonds have already been extracted from the earth. We work with long-standing trusted partners to select the finest recycled stones from around the world.</p><p>The beauty of using diamonds that already exist in the world is their minimal environmental and social impact – they are of the highest quality and in pristine condition, they just didn’t come from newly mined materials.All of our recycled diamonds receive GIA certifications.Discover NowExplore Now</p>",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_dWJYDU": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Mined Diamonds",
+            "description": "",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        }
+      },
+      "block_order": [
+        "media_6Nc3yw",
+        "media_KVbYiQ",
+        "media_dWJYDU"
+      ],
+      "custom_css": [
+        "h2 {display: none;}"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "content_position": "middle",
+        "content_alignment": "left",
+        "open_first_tab": true,
+        "image_corner_radius": 0,
+        "heading_color": "rgba(0,0,0,0)",
+        "text_color": "rgba(0,0,0,0)",
+        "background_color": "rgba(0,0,0,0)",
+        "heading_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_position": "second",
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "desktop_height": "650px",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "image_position_mobile": "second",
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "mobile_height": "400px",
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "image_with_text_rnxFqj": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_teXHK8": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Our Process",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Every Chupi piece is made by hand by our dedicated goldsmiths and jewellery team. We are incredibly proud of the care that goes into making each piece and are committed to keeping these generations-old crafts in Ireland.</p><p>We take a non-seasonal approach to designing our collections and deliberately keep them small to avoid overproduction and waste. Our pieces are created in small batches or individually made to order.</p><p>We are as passionate about embracing new technologies like CAD and cutting edge materials like lab-grown diamonds as we are about supporting traditional crafts and techniques, such as lost wax casting, an ancient craft that dates back thousands of years.</p>",
+            "heading_light": "#000000",
+            "text_light": "#000000",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_teXHK8"
+      ],
+      "custom_css": [
+        "@media (min-width: 768px) {.x-section {padding-left: 1.25rem; padding-right: 1.25rem; }}"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "550px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 40,
+        "bottom_padding": 40,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Regeneration: A RevolutionaryRe-mining Initiative",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Hundreds of thousands of abandoned mines, deemed “legacy mines,” exist around the world. If left untreated, some legacy mines pollute sensitive watersheds, ecosystems, and native species.</p><p>  </p><p>We’re proud Founding Partners and the exclusive jewelry sector partner of Regeneration, a revolutionary re-mining initiative from RESOLVE, dedicated to the rehabilitation of legacy mining sites and the restoration of surrounding natural environments.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1"
+      ],
+      "custom_css": [
+        "@media (min-width: 768px) {.x-section {padding-left: 1.25rem; padding-right: 1.25rem; }}"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 40,
+        "bottom_padding": 40,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "rich_text_8qtcpi": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_gKiPNW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Responsible Sourcing",
+            "heading_size": 140,
+            "heading_tag": "h2"
+          }
+        },
+        "text_9W4tnr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We believe that the highest levels of accountability and transparency are the future of modern luxury, and we’re committed to helping</p><p> to drive this meaningful change across our industry.</p><p>To do this, we’ve partnered with a number of players across the industry to support one another in our collective mission towards </p><p>improving our social and environmental performance.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_gKiPNW",
+        "text_9W4tnr"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 12,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "faq_PUNcCE": {
+      "type": "faq",
+      "blocks": {
+        "frequently_asked_question_t9jd3k": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "1. Code of Conduct",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_JdK7fa": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "2. Social & Environmental Accountability (SEA) Program",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_rgnPFB": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "3. Certifications & Memberships",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_hbTUnD": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "4. United Nations (UN) Global Compact",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_qA3iEP": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "5. United Nations (UN) Women’s Empowerment Principles",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "frequently_asked_question_t9jd3k",
+        "frequently_asked_question_JdK7fa",
+        "frequently_asked_question_rgnPFB",
+        "frequently_asked_question_hbTUnD",
+        "frequently_asked_question_qA3iEP"
+      ],
+      "custom_css": [
+        ".faq-item button .font-medium {font-weight: 600;}"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "row_background": false,
+        "collapsible": true,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "button_link": "",
+        "open_new_window": false,
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "desktop_layout": "1",
+        "image_alignment": "left",
+        "desktop_height": "400px",
+        "show_section_divider": false,
+        "make_full_page_width": false,
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "image_alignment_mobile": "left",
+        "mobile_height": "250px",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "featured_blog_pcNbP9": {
+      "type": "featured-blog",
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "blog": "",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "title_size": 140,
+        "content_alignment": "left",
+        "show_image": true,
+        "image_ratio": "75",
+        "item_secondary_background": false,
+        "show_author": true,
+        "show_name": false,
+        "show_date": true,
+        "show_excerpt": false,
+        "show_tag": false,
+        "show_comment_counts": true,
+        "show_read_more": true,
+        "button_read_more_label": "Read Now",
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": false,
+        "auto_play": false,
+        "change_slides_speed": 5,
+        "full_width": false,
+        "spacing": 10,
+        "show_section_divider": false,
+        "padding_top": 0,
+        "padding_bottom": 80,
+        "columns_mobile": "1",
+        "spacing_mobile": 28,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "image_with_text_pWFpN3",
+    "main",
+    "rich_text_nVBf7d",
+    "multicolumn_wxrdqr",
+    "media_gallery_bFgQU7",
+    "rich_text_xQyXDj",
+    "text_column_with_image_7azaLt",
+    "flow_YEaQQr",
+    "image_with_text_rnxFqj",
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9",
+    "rich_text_8qtcpi",
+    "faq_PUNcCE",
+    "featured_blog_pcNbP9"
+  ]
+}

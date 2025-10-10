@@ -1,0 +1,156 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to our emails",
+            "heading_size": 100
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Get the first look at new products, collaborations, events, sales and more</p>"
+          }
+        },
+        "form": {
+          "type": "email_form",
+          "settings": {
+            "button_label": "Subscribe",
+            "form_width": "large"
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "form"
+      ],
+      "settings": {
+        "background_color_light": "#224229",
+        "heading_light": "#ffffff",
+        "text_light": "#ffffff",
+        "button_light": "#ededdd",
+        "button_text_light": "#4b4949",
+        "button_hover_light": "#c8c8b1",
+        "button_text_hover_light": "#4b4949",
+        "line_border": "#2f4d36",
+        "background_color_dark": "#224229",
+        "heading_dark": "#ffffff",
+        "text_dark": "#ffffff",
+        "button_dark": "#ededdd",
+        "button_text_dark": "#4b4949",
+        "button_hover_dark": "#c8c8b1",
+        "button_text_hover_dark": "#4b4949",
+        "line_border_dark": "#2f4d36",
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "238dd22e-a62b-4240-9454-15807d221202": {
+          "type": "contact",
+          "settings": {
+            "heading_menu": "Need help",
+            "icon_1": "question-mark",
+            "custom_icon": "",
+            "title_1": "Got questions? Call us 24/7",
+            "text_1": "1908474783",
+            "text_link_1": "",
+            "open_new_window_1": false,
+            "enable_text_link_1": true,
+            "icon_2": "message-text",
+            "custom_icon_2": "",
+            "title_2": "Need help with your order?",
+            "text_2": "Contact",
+            "text_link_2": "",
+            "open_new_window_2": false,
+            "enable_text_link_2": true,
+            "icon_3": "chat-bubble",
+            "custom_icon_3": "",
+            "title_3": "Available 24/7 via chat",
+            "text_3": "Chat With US",
+            "text_link_3": "",
+            "open_new_window_3": false,
+            "enable_text_link_3": true
+          }
+        },
+        "footer-1": {
+          "type": "link_list",
+          "settings": {
+            "heading_menu": "Explore",
+            "menu": "footer",
+            "show_social_icons": false
+          }
+        },
+        "footer-0": {
+          "type": "link_list",
+          "settings": {
+            "heading_menu": "Shop",
+            "menu": "footer",
+            "show_social_icons": false
+          }
+        },
+        "957d2028-0587-47a8-bad4-ad9cc83ba459": {
+          "type": "link_list",
+          "settings": {
+            "heading_menu": "Information",
+            "menu": "footer",
+            "show_social_icons": false
+          }
+        },
+        "footer-2": {
+          "type": "text",
+          "settings": {
+            "heading_text": "Let's connect",
+            "subtext": "<p>Follow us on our Social Media Channels.</p>",
+            "show_social_icons": true
+          }
+        }
+      },
+      "block_order": [
+        "238dd22e-a62b-4240-9454-15807d221202",
+        "footer-1",
+        "footer-0",
+        "957d2028-0587-47a8-bad4-ad9cc83ba459",
+        "footer-2"
+      ],
+      "settings": {
+        "columns_desktop": 5,
+        "show_language_selector": true,
+        "show_currency_selector": true,
+        "payment_enable": true,
+        "show_copyright": true,
+        "add_copyright_text": "",
+        "show_powered": true,
+        "enable_follow_on_shop": false,
+        "top_padding": 12,
+        "bottom_padding": 40,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "newsletter",
+    "footer"
+  ]
+}

@@ -1,0 +1,185 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main-collection-list-banner": {
+      "type": "main-collection-list-banner",
+      "settings": {
+        "heading": "",
+        "size_title": 170,
+        "heading_tag": "h1",
+        "title_position": "text-left",
+        "image_overlay_opacity": 20,
+        "desktop_height": "450px",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "mobile_height": "300px",
+        "full_width_mobile": true,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "promotion_banner_cxYnxF": {
+      "type": "promotion-banner",
+      "blocks": {
+        "image_banner_fEhLqN": {
+          "type": "image_banner",
+          "settings": {
+            "heading": "FÜR JEDEN GESCHMACK ETWAS DABEI",
+            "heading_size": 120,
+            "heading_tag": "h2",
+            "subheading": "Weingut Frank schmidt",
+            "text": "HERZLICH WILKOMMEN!",
+            "text_size": 200,
+            "content_box_type": "square",
+            "add_frame": false,
+            "color_content_box_light": "rgba(0,0,0,0)",
+            "color_content_box_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "buttons_W8nqq4": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Alle Weine entdecken",
+            "button_link": "",
+            "open_new_window_button": false,
+            "show_button_style_1": "primary",
+            "button_label_2": "",
+            "button_link_2": "",
+            "open_new_window_button_2": false,
+            "show_button_style_2": "primary",
+            "color_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_text_button": "rgba(0,0,0,0)",
+            "color_text_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)",
+            "colors_text_link": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "image_banner_fEhLqN",
+        "buttons_W8nqq4"
+      ],
+      "settings": {
+        "heading": "Promotion Banner",
+        "image": "shopify://shop_images/Etiketten_79480fcc-12b9-4dad-864f-33ecd3fdafdc.jpg",
+        "image_link": "",
+        "open_new_window": false,
+        "image_overlay_opacity": 30,
+        "content_position": "center",
+        "content_horizontal": 50,
+        "content_vertical": 50,
+        "position_content_mobile": "center",
+        "content_alignment": "center",
+        "show_hero": false,
+        "full_width": true,
+        "padding_full_width": false,
+        "rounded_corner_image": false,
+        "desktop_height": "750px",
+        "padding_top": 0,
+        "padding_bottom": 28,
+        "full_width_mobile": true,
+        "rounded_corner_image_mobile": false,
+        "mobile_height": "400px",
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "scrolling_banner_XarPgY": {
+      "type": "scrolling-banner",
+      "blocks": {
+        "icon_68L74k": {
+          "type": "icon",
+          "settings": {
+            "icon": "delivery-truck",
+            "custom_icon": "",
+            "height_icon": 35,
+            "spacing_left": 0,
+            "spacing_right": 0,
+            "spacing_left_mobile": 0,
+            "spacing_right_mobile": 0
+          }
+        },
+        "text_XLQ9Yp": {
+          "type": "text",
+          "settings": {
+            "text": "VERSANDKOSTENFREIE LIEFERUNG AB 12 FLASCHEN",
+            "text_size": 100,
+            "text_color": "primary",
+            "spacing_left": 0,
+            "spacing_right": 0,
+            "spacing_left_mobile": 0,
+            "spacing_right_mobile": 0
+          }
+        }
+      },
+      "block_order": [
+        "icon_68L74k",
+        "text_XLQ9Yp"
+      ],
+      "settings": {
+        "show_border": true,
+        "speed": 20,
+        "direction": "right",
+        "pause_hover": true,
+        "bg_light": "rgba(0,0,0,0)",
+        "color_text_light": "rgba(0,0,0,0)",
+        "color_text_light_2": "rgba(0,0,0,0)",
+        "bg_dark": "rgba(0,0,0,0)",
+        "color_text_dark": "rgba(0,0,0,0)",
+        "color_text_dark_2": "rgba(0,0,0,0)",
+        "space_block": 110,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "space_block_mobile": 110,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "title": "Collections",
+        "heading_tag": "h1",
+        "show_collection": "all",
+        "sort": "alphabetical",
+        "collection_metafield": "",
+        "image_ratio": "square",
+        "title_size": 80,
+        "show_text_overlay": false,
+        "content_alignment": "center",
+        "content_position": "bottom",
+        "image_overlay_opacity": 5,
+        "title_color": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "title_color_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "show_item_count": true,
+        "columns_desktop": 5,
+        "spacing": 28,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "columns_mobile": "2",
+        "spacing_mobile": 20,
+        "padding_top_mobile": 32,
+        "padding_bottom_mobile": 32
+      }
+    }
+  },
+  "order": [
+    "main-collection-list-banner",
+    "promotion_banner_cxYnxF",
+    "scrolling_banner_XarPgY",
+    "main"
+  ]
+}

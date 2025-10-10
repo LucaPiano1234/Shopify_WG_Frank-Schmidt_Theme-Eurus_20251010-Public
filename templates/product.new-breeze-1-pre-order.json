@@ -1,0 +1,595 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "rating_6wq9Xd": {
+          "type": "rating",
+          "settings": {}
+        },
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "separator_c7pQc4": {
+          "type": "separator",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_option": true,
+            "enable_color_swatches": true
+          }
+        },
+        "separator_BfkdYG": {
+          "type": "separator",
+          "settings": {}
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "pickup_availability": true,
+            "hide_when_pre_order": true,
+            "preorder_button_label": "Pre-order",
+            "preorder_message": "<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!</p>",
+            "preorder_show_dynamic_button": false,
+            "show_background": false,
+            "box_type": "square",
+            "background_color_light": "rgba(0,0,0,0)",
+            "message_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "message_color_dark": "rgba(0,0,0,0)",
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "separator_KweHU8": {
+          "type": "separator",
+          "settings": {}
+        },
+        "feature_icon_pECDiW": {
+          "type": "feature_icon",
+          "settings": {
+            "heading_size": 100,
+            "icon_size": 30,
+            "border_column": "none",
+            "content_alignment": "start",
+            "background_color_light": "rgba(0,0,0,0)",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "line_border_light": "rgba(0,0,0,0)",
+            "color_icon_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)",
+            "line_border_dark": "rgba(0,0,0,0)",
+            "color_icon_dark": "rgba(0,0,0,0)",
+            "icon_1": "truck",
+            "custom_icon_1": "",
+            "title_1": "Free delivery over PLN 300",
+            "text_1": "",
+            "link_1": "",
+            "open_new_window_1": false,
+            "icon_2": "calendar",
+            "custom_icon_2": "",
+            "title_2": "30 days to return the product",
+            "text_2": "",
+            "link_2": "",
+            "open_new_window_2": false,
+            "icon_3": "gift",
+            "custom_icon_3": "",
+            "title_3": "Buy the product now and pay within 30 days",
+            "text_3": "",
+            "link_3": "",
+            "open_new_window_3": false,
+            "icon_4": "award",
+            "custom_icon_4": "",
+            "title_4": "Easy Returns & Free Exchanges",
+            "text_4": "",
+            "link_4": "",
+            "open_new_window_4": false,
+            "icon_5": "truck",
+            "custom_icon_5": "",
+            "title_5": "",
+            "text_5": "<p>Add details on availability, style, or even provide a review.</p>",
+            "link_5": "",
+            "open_new_window_5": false,
+            "icon_6": "truck",
+            "custom_icon_6": "",
+            "title_6": "",
+            "text_6": "<p>Add details on availability, style, or even provide a review.</p>",
+            "link_6": "",
+            "open_new_window_6": false
+          }
+        },
+        "separator_UPqJGx": {
+          "type": "separator",
+          "settings": {}
+        },
+        "frequently_bought_YtHWHj": {
+          "type": "frequently_bought",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "text": "Frequently Bought Together",
+            "list_products": [
+              "advocate-backpack",
+              "twisted-top-handle-satchel",
+              "womens-avalon-small-tote-bag",
+              "mens-high-top-sneaker"
+            ],
+            "variant_type": "button"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_in_tab": false,
+            "open_by_default": false,
+            "make_content_center": false,
+            "read_more_label": "Read more"
+          }
+        },
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_by_default": false,
+            "heading": "Materials",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_by_default": false,
+            "heading": "Sizing & Weight",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "social-sharing": {
+          "type": "social_sharing",
+          "settings": {}
+        },
+        "sticky-atc": {
+          "type": "sticky_add_to_cart",
+          "settings": {
+            "desktop_display_type": "popup",
+            "show_quantity_selector": false
+          }
+        }
+      },
+      "block_order": [
+        "rating_6wq9Xd",
+        "badges",
+        "price",
+        "separator_c7pQc4",
+        "variant_picker",
+        "separator_BfkdYG",
+        "quantity_selector",
+        "buy_buttons",
+        "separator_KweHU8",
+        "feature_icon_pECDiW",
+        "separator_UPqJGx",
+        "frequently_bought_YtHWHj",
+        "description",
+        "collapsible-row-0",
+        "collapsible-row-1",
+        "social-sharing",
+        "sticky-atc"
+      ],
+      "settings": {
+        "enable_sticky_image": true,
+        "show_product_name": true,
+        "title_size": 100,
+        "heading_tag": "h1",
+        "show_vendor": false,
+        "make_content_center": true,
+        "desktop_layout": "left",
+        "desktop_media_layout": "stacked",
+        "show_arrow_button": true,
+        "mobile_media_size": "full_width",
+        "show_thumnail_mobile": true,
+        "image_ratio": "portrait",
+        "thumbnail_position": "horizontal",
+        "enable_image_zoom": false,
+        "enable_video_autoplay": false,
+        "enable_video_loop": false,
+        "show_first_image_avaiable": true,
+        "show_media_with_variant_selected": false,
+        "option_to_classify_variant_media": "",
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": true,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-center",
+        "mobile_content_alignment": "text-center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "full_width": false,
+        "spacing_col": "small",
+        "padding_top": 24,
+        "padding_bottom": 40,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "image_with_text_qXxYHj": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_R4PDxU": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Made by Women, for Women",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Fashion clothes and bags normally come with variations of 2-5 mm in the seams. Yet every single Eurus bag is handcrafted to its exact measurements – because a variation as tiny as ½ mm means the laptop would not fit.</p><p>All Eurus bags in leather are made from 100% leather sourced from a single tannery in Italy. This tannery uses proprietary technology to make their leather scratch-proof, waterproof, and UV resistant so your Eurus bag will look like the day you unboxed it for years to come.</p>",
+            "read_more_label": "Read more",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_w8jehV": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "show_button_style": "primary",
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_R4PDxU",
+        "button_w8jehV"
+      ],
+      "custom_css": [
+        ".iwt-content-no-overlap {justify-content: center;}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/img_-_2024-05-23T164301.759.png",
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "500px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#ededea",
+        "background_color_dark": "#3c3b3b",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "image_with_text_PQVqtm": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_ddC8ew": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Every stitch has to be Perfect",
+            "heading_base_size": 160,
+            "heading_tag": "h2",
+            "text": "<p>Like you, we understand that a woman’s bag is not just a bag. You are carrying your entire life with you. Which is why your Eurus bag comes with multiple inner compartments designed to help you keep your life organised as you go about your day.</p><p>You deserve nothing less than a bag that is as stunning as it is practical, so you can showcase your unique sense of taste and style no matter what you do or where you go.</p>",
+            "read_more_label": "Read more",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_exaYnH": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "show_button_style": "primary",
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_ddC8ew",
+        "button_exaYnH"
+      ],
+      "custom_css": [
+        ".iwt-content-no-overlap {justify-content: center;}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/img_-_2024-05-23T164313.305.png",
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "500px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#ededea",
+        "background_color_dark": "#3c3b3b",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "image_with_text_rG8Ttb": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_77DhYM": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Fast fashion is not true Fashion",
+            "heading_base_size": 160,
+            "heading_tag": "h2",
+            "text": "<p>Your style is not expressed in the items you wear once – it is reflected in what you wear day after day, season after season.</p><p>Your Eurus bag has been designed with elegant, minimalistic Art Deco lines to reflect your timeless sense of style and grace, and comes in gorgeous classic colors for a stunning, complementary look any time of day, all year long.</p>",
+            "read_more_label": "Read more",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_Btangg": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "show_button_style": "primary",
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_77DhYM",
+        "button_Btangg"
+      ],
+      "custom_css": [
+        ".iwt-content-no-overlap {justify-content: center;}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/img_-_2024-05-23T160908.943.png",
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "500px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#ededea",
+        "background_color_dark": "#3c3b3b",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You May Also Like...",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "products_to_show": 5,
+        "background_color_light": "",
+        "background_color_dark": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "show_quickview": true,
+        "enable_carousel_desktop": false,
+        "enable_swiper_mobile": true,
+        "columns_desktop": 5,
+        "full_width": true,
+        "show_section_divider": false,
+        "spacing": 5,
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "columns_mobile": "1",
+        "show_section_divider_mobile": false,
+        "spacing_mobile": 16,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "faq_E9XWFr": {
+      "type": "faq",
+      "blocks": {
+        "frequently_asked_question_qmtjM8": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "1. Do you have a warranty?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_JtjJza": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "2. What is the return policy?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_PmTRED": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "3. Can I cancel or update my order? or change my shipping address?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_VGqMEp": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "4. How can I track my order?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_rrGAHm": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "5. What is the Return Policy for exclusive Eurus Jewelry membership products?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "frequently_asked_question_qmtjM8",
+        "frequently_asked_question_JtjJza",
+        "frequently_asked_question_PmTRED",
+        "frequently_asked_question_VGqMEp",
+        "frequently_asked_question_rrGAHm"
+      ],
+      "settings": {
+        "heading": "FAQ's",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "row_background": false,
+        "collapsible": true,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "button_link": "",
+        "open_new_window": false,
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "enable_microdata_schema": false,
+        "desktop_layout": "1",
+        "image_alignment": "left",
+        "desktop_height": "400px",
+        "show_section_divider": false,
+        "make_full_page_width": false,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "image_alignment_mobile": "left",
+        "mobile_height": "250px",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_qXxYHj",
+    "image_with_text_PQVqtm",
+    "image_with_text_rG8Ttb",
+    "product-recommendations",
+    "faq_E9XWFr"
+  ]
+}

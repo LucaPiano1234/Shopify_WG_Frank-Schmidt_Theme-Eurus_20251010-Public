@@ -1,0 +1,654 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_heading": true,
+        "heading_size": 170,
+        "heading_tag": "h1",
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "#f2f2f2",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#313131",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "promotion_banner_tRnLjW": {
+      "type": "promotion-banner",
+      "blocks": {
+        "image_banner_RBPfLN": {
+          "type": "image_banner",
+          "settings": {
+            "heading": "Transforming Mission Into Impact",
+            "heading_size": 140,
+            "heading_tag": "h1",
+            "subheading": "Our Commitments",
+            "text": "",
+            "text_size": 130,
+            "content_box_type": "square",
+            "add_frame": false,
+            "color_content_box_light": "rgba(0,0,0,0)",
+            "color_content_box_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "image_banner_RBPfLN"
+      ],
+      "settings": {
+        "heading": "Promotion Banner",
+        "image_link": "",
+        "open_new_window": false,
+        "image_overlay_opacity": 0,
+        "content_position": "center-left",
+        "content_horizontal": 50,
+        "content_vertical": 50,
+        "position_content_mobile": "center-left",
+        "content_alignment": "left",
+        "show_hero": false,
+        "full_width": true,
+        "padding_full_width": false,
+        "rounded_corner_image": false,
+        "desktop_height": "750px",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "full_width_mobile": true,
+        "rounded_corner_image_mobile": false,
+        "mobile_height": "400px",
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "image_with_text_rnxFqj": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_teXHK8": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "2030 Sustainability Goals",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>We’re committed to making a positive impact in the fine jewelry industry and within our communities. That’s why we’re sharing our long-term goals across four key impact areas: People, planet, product, and philanthropy. We’ve aligned our ambitions with international best practices and frameworks and our eyes are firmly set on achieving these goals by 2030.</p><p>Continuing our commitment to report twice a year, we’ll share timelines and key indicators of success toward our goals in our Sustainability Report in May 2024.</p>",
+            "heading_light": "#000000",
+            "text_light": "#000000",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_JrFKyc": {
+          "type": "button",
+          "settings": {
+            "button_label": "Sustainability Report",
+            "button_link": "shopify://collections",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_teXHK8",
+        "button_JrFKyc"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "550px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 40,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "text_column_with_image_7azaLt": {
+      "type": "text-column-with-image",
+      "blocks": {
+        "column_QWQ3yi": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "People",
+            "heading_size": 200,
+            "text": "<p>An Emboldened Community: We will support Mejuri’s growing team and our community by setting ambitious standards for our partners and suppliers.</p><p> </p><p>A Culture of Belonging & Growth: We will strive to create an authentic, connected community, one in which every member influences our culture as a whole, all while emphasizing personal and professional development.Discover Design ProcessShop Now</p>",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window": false
+          }
+        },
+        "column_8jj4Ax": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Product",
+            "heading_size": 200,
+            "text": "<p>100% Traceability of Precious Materials: We will educate customers about the origins of their responsibly sourced products, from the precious materials we use to the location of craftsmanship.</p><p> </p><p>100% Circularity: We will design products and packaging with their full lifecycle in mind, creating circular pathways such as repair, resale, and recycling.</p><p> </p><p> </p>",
+            "button_label": "",
+            "button_link": "shopify://collections",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_QWQ3yi",
+        "column_8jj4Ax"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "secondary_background": "column",
+        "image_ratio": "75%",
+        "rounded_corner_image": false,
+        "column_content_alignment": "center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/2",
+        "spacing_desktop": 10,
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "padding_top": 12,
+        "padding_bottom": 0,
+        "column_layout_mobile": "w-full",
+        "spacing_mobile": 10,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "text_column_with_image_PLcNtT": {
+      "type": "text-column-with-image",
+      "blocks": {
+        "column_m9gLYM": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Planet",
+            "heading_size": 200,
+            "text": "<p>Climate Positive: We will go beyond carbon neutral in our value chain by working to remove extra carbon from the atmosphere through restoration and conservation projects where we and our suppliers operate.Discover Design ProcessShop Now</p>",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window": false
+          }
+        },
+        "column_8GQ9HK": {
+          "type": "column",
+          "settings": {
+            "sub_title": "",
+            "title": "Philanthropy",
+            "heading_size": 200,
+            "text": "<p>Empowerment of Women & Underrepresented Communities: We will support underrepresented people in our community, helping them to achieve their goals through education, upskilling, and advocacy, underpinned by collaborations, partnerships, scholarships and bursaries, and donations.</p><p> </p>",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_m9gLYM",
+        "column_8GQ9HK"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "secondary_background": "column",
+        "image_ratio": "75%",
+        "rounded_corner_image": false,
+        "column_content_alignment": "center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/2",
+        "spacing_desktop": 10,
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "padding_top": 12,
+        "padding_bottom": 40,
+        "column_layout_mobile": "w-full",
+        "spacing_mobile": 16,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "rich_text_xQyXDj": {
+      "type": "rich-text",
+      "blocks": {
+        "text_zpA4Lw": {
+          "type": "text",
+          "settings": {
+            "text": "<h3><strong>“We worked with Mejuri to approach sustainability with social justice in </strong></h3><h3><strong>mind including the health and wellbeing of their employees and </strong></h3><h3><strong>communities. By working with other brands, this work will help them to use</strong></h3><h3><strong> their influence to support women’s access to safe healthcare.”</strong></h3><p> </p><p>Saka. Tran</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_zpA4Lw"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "024df5c5-5fe3-46fa-8380-7d6cc1f91912": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__024df5c5-5fe3-46fa-8380-7d6cc1f91912-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Charitable Initiatives",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Established in 2020, our Empowerment Fund supports women and non-binary people's access to skills through traditional or non-traditional education in order to help them design the life they want. Since then, we’ve donated over $324,000 USD in post-secondary scholarships to initiatives such as:</p><ul><li>Indspire: Building Brighter Futures (BBF)</li><li>United Negro College Fund (UNCF)</li><li>Black Business and Professional Association (BBPA)</li></ul><p> </p><p>We’ve also donated $100,000 USD to additional corporate giving initiatives for nonprofits such as Stop AAPI Hate and Stonewall Community Foundation.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_4tKnBn": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__024df5c5-5fe3-46fa-8380-7d6cc1f91912-heading-1",
+        "button_4tKnBn"
+      ],
+      "custom_css": [
+        "@media (min-width: 768px) {.x-section {padding-left: 1.25rem; padding-right: 1.25rem; }}"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 16,
+        "bottom_padding": 40,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "rich_text_hHcfz7": {
+      "type": "rich-text",
+      "blocks": {
+        "text_6tPR69": {
+          "type": "text",
+          "settings": {
+            "text": "<h3><strong>“This bursary will help me cover some of the expenses of the cost of</strong></h3><h3><strong> attending post-secondary school and living away from my family. Becoming </strong></h3><h3><strong>a speech pathologist will be so rewarding because speech is an essential part </strong></h3><h3><strong>of life, and being able to help a child achieve that will be the best feeling in </strong></h3><h3><strong>the world.”</strong></h3>"
+          }
+        }
+      },
+      "block_order": [
+        "text_6tPR69"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Regeneration: A RevolutionaryRe-mining Initiative",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Hundreds of thousands of abandoned mines, deemed “legacy mines,” exist around the world. If left untreated, some legacy mines pollute sensitive watersheds, ecosystems, and native species.</p><p>  </p><p>We’re proud Founding Partners and the exclusive jewelry sector partner of Regeneration, a revolutionary re-mining initiative from RESOLVE, dedicated to the rehabilitation of legacy mining sites and the restoration of surrounding natural environments.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_89jMWj": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Our Events",
+            "button_link": "shopify://collections",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1",
+        "button_89jMWj"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 40,
+        "bottom_padding": 40,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "rich_text_8qtcpi": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_gKiPNW": {
+          "type": "heading",
+          "settings": {
+            "heading": "Responsible Sourcing",
+            "heading_size": 140,
+            "heading_tag": "h2"
+          }
+        },
+        "text_9W4tnr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We believe that the highest levels of accountability and transparency are the future of modern luxury, and we’re committed to helping</p><p> to drive this meaningful change across our industry.</p><p>To do this, we’ve partnered with a number of players across the industry to support one another in our collective mission towards </p><p>improving our social and environmental performance.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_gKiPNW",
+        "text_9W4tnr"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 12,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "faq_PUNcCE": {
+      "type": "faq",
+      "blocks": {
+        "frequently_asked_question_t9jd3k": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "1. Code of Conduct",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_JdK7fa": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "2. Social & Environmental Accountability (SEA) Program",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_rgnPFB": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "3. Certifications & Memberships",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_hbTUnD": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "4. United Nations (UN) Global Compact",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_qA3iEP": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "5. United Nations (UN) Women’s Empowerment Principles",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "frequently_asked_question_t9jd3k",
+        "frequently_asked_question_JdK7fa",
+        "frequently_asked_question_rgnPFB",
+        "frequently_asked_question_hbTUnD",
+        "frequently_asked_question_qA3iEP"
+      ],
+      "custom_css": [
+        ".faq-item button .font-medium {font-weight: 600;}"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "row_background": false,
+        "collapsible": true,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "button_link": "",
+        "open_new_window": false,
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "desktop_layout": "1",
+        "image_alignment": "left",
+        "desktop_height": "400px",
+        "show_section_divider": false,
+        "make_full_page_width": false,
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "image_alignment_mobile": "left",
+        "mobile_height": "250px",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "featured_blog_pcNbP9": {
+      "type": "featured-blog",
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "blog": "",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "title_size": 140,
+        "content_alignment": "left",
+        "show_image": true,
+        "image_ratio": "75",
+        "item_secondary_background": false,
+        "show_author": true,
+        "show_name": false,
+        "show_date": true,
+        "show_excerpt": false,
+        "show_tag": false,
+        "show_comment_counts": true,
+        "show_read_more": true,
+        "button_read_more_label": "Read Now",
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": false,
+        "auto_play": false,
+        "change_slides_speed": 5,
+        "full_width": false,
+        "spacing": 10,
+        "show_section_divider": false,
+        "padding_top": 0,
+        "padding_bottom": 80,
+        "columns_mobile": "1",
+        "spacing_mobile": 28,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "promotion_banner_tRnLjW",
+    "image_with_text_rnxFqj",
+    "text_column_with_image_7azaLt",
+    "text_column_with_image_PLcNtT",
+    "rich_text_xQyXDj",
+    "024df5c5-5fe3-46fa-8380-7d6cc1f91912",
+    "rich_text_hHcfz7",
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9",
+    "rich_text_8qtcpi",
+    "faq_PUNcCE",
+    "featured_blog_pcNbP9"
+  ]
+}

@@ -1,0 +1,612 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "show_heading": true,
+        "heading_size": 170,
+        "heading_tag": "h1",
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "#f2f2f2",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#313131",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "image_with_text_rnxFqj": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_teXHK8": {
+          "type": "heading",
+          "settings": {
+            "subheading": "About Us",
+            "heading": "Were AreEurus Jewelry",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "",
+            "heading_light": "#ffffff",
+            "text_light": "#ffffff",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_teXHK8"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "large",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#574136",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "rich_text_nVBf7d": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_bDtEnQ": {
+          "type": "heading",
+          "settings": {
+            "heading": "Since being founded in 1999, Eurus Jewelry has turned fine jewelry into an everyday occasion while working towards making a positive impact in our communities, the industry, and the world.",
+            "heading_size": 100,
+            "heading_tag": "h2"
+          }
+        },
+        "text_adty8d": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Because jewelry is an expression of self, and how you show up in the world should have no limits. That’s why we work with trusted suppliers across the globe, using high-quality, responsibly-sourced materials to create pieces meant to last a lifetime—that feel like you.</p><p>Venenatis iaculis iaculis. Integer sit amet auctor justo, ac vestibulum orci. Aenean ultrices magna at porttitor eleifend.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_bDtEnQ",
+        "text_adty8d"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "background_color_light": "",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Modular Design",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>A modular collection made to mix and match. Pick a base and choose from the menu of add-ons to start building your idyl collection. </p><p>All of our studs fit perfectly into all of our earring add-ons as well as our chain into our necklace add-ons. Perfect to mix and match to your hearts content.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_89jMWj": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__4cc40ef4-d5f9-461b-a2fa-56f494c058b9-heading-1",
+        "button_89jMWj"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "650px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 40,
+        "bottom_padding": 12,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "024df5c5-5fe3-46fa-8380-7d6cc1f91912": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__024df5c5-5fe3-46fa-8380-7d6cc1f91912-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Sustainability Report",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>Lab-Grown Diamonds: Let us be very clear, our diamonds are the real deal. They’re neither fake nor artificial. By sight and science, there’s no difference between them, only their origin. Sustainable and kind to the planet, we believe diamonds should be accessible to all and shouldn’t cost the Earth.</p><p> </p><p>Traceable Solid Gold: We use 100% conflict-free and traceable 14K solid gold.It will not oxidize or discolor and can withstand everyday wear.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_4tKnBn": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__024df5c5-5fe3-46fa-8380-7d6cc1f91912-heading-1",
+        "button_4tKnBn"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 12,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "058b35c5-5cae-47c2-833a-3a5cacfbe9dc": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21744477274413__058b35c5-5cae-47c2-833a-3a5cacfbe9dc-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Our Commitments",
+            "heading_base_size": 140,
+            "heading_tag": "h2",
+            "text": "<p>We aim to create deep, long-standing relationships with our communities and have a measurable impact over time. In 2020, we established an Empowerment Fund to support women and non-binary people's access to skills through traditional or non-traditional education. </p><p> </p><p>In 2022, we launched “A Year of Action”—a committee of like-minded brands created in partnership with Don’t Ban Equality— to use our voice and reach to help protect access to reproductive healthcare and advocate for equal rights.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "template--21744477274413__058b35c5-5cae-47c2-833a-3a5cacfbe9dc-button-1": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21744477274413__058b35c5-5cae-47c2-833a-3a5cacfbe9dc-heading-1",
+        "template--21744477274413__058b35c5-5cae-47c2-833a-3a5cacfbe9dc-button-1"
+      ],
+      "custom_css": [
+        "@media (min-width: 768px) {.iwt-content {max-width: 38rem; }}"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "750px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": true,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": false,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "testimonials_9tKeBP": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_CRprxy": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<p><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></p>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        },
+        "testimonial_f4ed9r": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<p><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></p>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        },
+        "testimonial_A84NBK": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<p><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></p>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        },
+        "testimonial_WWfghN": {
+          "type": "testimonial",
+          "settings": {
+            "icon_star": "5_star",
+            "custom_icon": "",
+            "title": "",
+            "text": "<p><strong>“Ipsum dolor amet, consectetur adipiscing elit. Fringilla tincidunt ipsum. Lulvinar egestas adipiscing felis faucibus. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare. Adipiscing felis, vel faucibus in. Hendrerit viverra elementum venenatis pellentesque pellentesque ornare“</strong></p>",
+            "author": "Author’s name",
+            "author_note": "<p>Note</p>"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_CRprxy",
+        "testimonial_f4ed9r",
+        "testimonial_A84NBK",
+        "testimonial_WWfghN"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "text_alignment": "center",
+        "testimonial_items_view": "multiple",
+        "show_arrow": true,
+        "show_pagination": false,
+        "show_author_image": false,
+        "author_image": "top",
+        "image_ratio": "round",
+        "desktop_height": 300,
+        "background_color_light": "rgba(0,0,0,0)",
+        "item_background_color_light": "#fbf6ee",
+        "heading_and_title_light": "rgba(0,0,0,0)",
+        "item_text_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "item_background_color_dark": "rgba(0,0,0,0)",
+        "heading_and_title_dark": "rgba(0,0,0,0)",
+        "item_text_color_dark": "rgba(0,0,0,0)",
+        "show_section_divider": false,
+        "top_padding": 40,
+        "bottom_padding": 40,
+        "show_section_divider_mobile": false,
+        "top_padding_mobile": 28,
+        "bottom_padding_mobile": 28
+      }
+    },
+    "flow_iYV8HD": {
+      "type": "flow",
+      "blocks": {
+        "media_penhRg": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Responsibility Report",
+            "description": "<p>Use this section to show a list of product or collection features, guide your customers through a process or share customers' reviews and case studies.</p>",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_tMfMaN": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Materials & Care",
+            "description": "<p>We put a lot of consideration into the materials that we use at Eurus Jewelry and strive to use only the best.Any wastage that is created from our production process is recycled and eventually makes its way back into a different cast piece.</p>",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_RRMqtJ": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Recycle Your  Jewelry",
+            "description": "",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        },
+        "media_Cid4B9": {
+          "type": "media",
+          "settings": {
+            "video_url": "",
+            "video_alt_text": "",
+            "enable_video_autoplay": false,
+            "heading": "Our Warranty",
+            "description": "",
+            "button_text": "View more",
+            "button_link": "",
+            "open_new_window_button": false
+          }
+        }
+      },
+      "block_order": [
+        "media_penhRg",
+        "media_tMfMaN",
+        "media_RRMqtJ",
+        "media_Cid4B9"
+      ],
+      "custom_css": [
+        "h2 {display: none;}"
+      ],
+      "settings": {
+        "heading": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "content_position": "middle",
+        "content_alignment": "left",
+        "open_first_tab": true,
+        "image_corner_radius": 0,
+        "heading_color": "rgba(0,0,0,0)",
+        "text_color": "rgba(0,0,0,0)",
+        "background_color": "#fbf6ee",
+        "heading_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_position": "second",
+        "full_width": true,
+        "padding_full_width": true,
+        "show_section_divider": false,
+        "desktop_height": "750px",
+        "padding_top": 40,
+        "padding_bottom": 28,
+        "image_position_mobile": "second",
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "mobile_height": "400px",
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "a4415918-c557-4c04-9acc-78592197ebeb": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Amazing Value",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>The highest-quality design at a great price.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Expert Guidance",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>The original online jeweler since 1999.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Peace of Mind",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>30-day returns, diamond price-match guarantee and more.</p>"
+          }
+        },
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a": {
+          "type": "column",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "title": "Inspiring Assortment",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>The perfect pieces for every occasion.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2",
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "secondary_background": "none",
+        "border_column": "line_vertical",
+        "column_content_alignment": "center",
+        "icon_position": "next",
+        "icon_size": 36,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "change_bar_every": 3,
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "color_icon_light": "#c2a27a",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "#c2a27a",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-0",
+        "spacing_desktop": 40,
+        "full_width": false,
+        "padding_full_width": false,
+        "show_section_divider": false,
+        "padding_top": 40,
+        "padding_bottom": 80,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-0",
+        "spacing_mobile": 0,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_rnxFqj",
+    "rich_text_nVBf7d",
+    "4cc40ef4-d5f9-461b-a2fa-56f494c058b9",
+    "024df5c5-5fe3-46fa-8380-7d6cc1f91912",
+    "058b35c5-5cae-47c2-833a-3a5cacfbe9dc",
+    "testimonials_9tKeBP",
+    "flow_iYV8HD",
+    "a4415918-c557-4c04-9acc-78592197ebeb"
+  ]
+}

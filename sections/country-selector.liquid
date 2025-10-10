@@ -1,0 +1,17 @@
+<div id="list-country">
+  <ul role="list">
+    {% for country in localization.available_countries %}
+      <li class="cursor-pointer py-1 duration-200 transition">
+        <a 
+          class="nav-link hover-text-link relative{% if country.iso_code == localization.country.iso_code %} border-b effect-inline{% endif %}"
+          href="#"
+          data-no-instant
+          @click="submit('{{ country.iso_code }}', 'currency_selector')">
+          <span>
+            {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+          </span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</div>

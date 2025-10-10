@@ -1,0 +1,205 @@
+{% comment %}
+  Renders product media gallery
+
+  Accepts:
+  - video: {Object} Video object (optional)
+  - enable_video_autoplay: {Boolean} Enable autoplay video. Default: false (optional)
+  - video_id: {String} Video ID
+  - video_alt: {Boolean} Video alt text.
+  - columns_desktop: {Integer} Number of columns on desktop.
+
+  Usage:
+  {% render 'media-video', lazy_load: false %}
+{% endcomment %}
+
+{%- if enable_video_autoplay -%}
+  {%- if video_type == 'youtube' or video_type == 'vimeo' -%}
+    <div
+      class="w-full h-full absolute"
+      x-intersect="$store.xVideo.externalLoad($el, '{{ video_type }}', '{{ video_id }}', {{ enable_video_autoplay }}, `{{ video_alt }}`, 0)"
+    >
+    </div>
+  {%- endif -%}
+  {% if video_type == 'video_select' %}
+    {% liquid
+      assign classVideo = "w-full h-full absolute top-0 left-0 video object-cover"
+    %}
+    <div class="min-h-[1px]">
+      {{ video | video_tag: autoplay: enable_video_autoplay,loop: true, controls: false, loading: 'lazy', class: classVideo, poster: '' | replace: '<img ', '<img loading="lazy" hidden alt="" ' }}
+      {% if show_sound_control %}
+        <button x-data="{ muted: true }" class="button-sound-control bg-[rgba(var(--image-treatment-text),0.3)] bg-opacity-30 rounded-full flex items-center justify-center absolute right-2 rtl:left-2 rtl:right-auto cursor-pointer{% if show_sound_icon_small %} top-2 w-10 h-10 md:w-12 md:h-12{%else %} bottom-2 w-10 h-10 lg:w-14 lg:h-14{% endif %}" @click="$store.xVideo.toggleMute($el); muted=!muted" aria-label="button sound control">
+          <span class="w-5 h-5 lg:w-6 lg:h-6 image-treatment-text" x-show="muted">
+            {% render 'icon-media', icon: 'icon-unmute' %}
+          </span>
+           <span class="w-5 h-5 lg:w-6 lg:h-6 image-treatment-text" x-show="!muted" x-cloak>
+            {% render 'icon-media', icon: 'icon-mute' %}
+          </span>
+        </button>
+      {% endif %}
+    </div>
+  {% endif %}
+{%- else -%}
+  {%- liquid
+    if video_type == 'video_select' and cover_image == blank
+      assign cover_image = video.preview_image
+    endif
+    if video_type == 'video_select' and image_mobile == blank
+      if cover_image == blank
+        assign image_mobile = video.preview_image
+      else 
+        assign image_mobile = cover_image
+      endif
+    endif
+    if video_type != 'video_select' and cover_image != blank and image_mobile == blank
+      assign image_mobile = cover_image
+    endif
+  -%}
+  {%- capture button_play -%}
+    <button 
+      class="button-play absolute z-[18] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16{% if columns_desktop > 1 %} md:w-24 md:h-24{% endif %} rounded-full p-5 bg-[rgba(var(--image-treatment-text),0.3)] bg-opacity-30 disabled:cursor-not-allowed"
+      {% if video_type == 'video_select' %}@click.prevent="$store.xVideo.mp4Thumbnail($el)"{% endif %}
+      {% if video_type == 'youtube' or video_type == 'vimeo' %}@click.prevent="$store.xVideo.externalLoad($el, '{{ video_type }}', '{{ video_id }}', false, '{{ video_alt }}')"{% endif %}
+      aria-label="image-video"
+    >
+      <span class="pointer-events-none duration-200 bg-button-play absolute w-6 h-6{% if columns_desktop > 1 %} md:w-10 md:h-10{% endif %} top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-[rgba(var(--image-treatment-text))]">
+        {% render 'icon-media', icon: 'icon-play', class: 'w-full h-full' %}
+      </span>
+    </button>
+  {%- endcapture -%}
+  {% if cover_image != blank or image_mobile != blank %}
+    {% if cover_image != blank %}
+      <picture>
+        <source 
+          srcset="{{ cover_image | image_url: width: 375 }} 375w,
+          {{ cover_image | image_url: width: 450 }} 450w,
+          {{ cover_image | image_url: width: 750 }} 750w,
+          {{ cover_image | image_url: width: 900 }} 900w,
+          {{ cover_image | image_url: width: 1100 }} 1100w,
+          {{ cover_image | image_url: width: 1500 }} 1500w" 
+          media="(max-width: 767px)" 
+          width="{{ cover_image.width }}" 
+          height="{{ cover_image.height }}"
+        />
+        <img
+          srcset="{{ cover_image | image_url: width: 375 }} 375w,
+          {{ cover_image | image_url: width: 450 }} 450w,
+          {{ cover_image | image_url: width: 750 }} 750w,
+          {{ cover_image | image_url: width: 900 }} 900w,
+          {{ cover_image | image_url: width: 1100 }} 1100w,
+          {{ cover_image | image_url: width: 1500 }} 1500w,
+          {{ cover_image | image_url: width: 1780 }} 1780w,
+          {{ cover_image | image_url: width: 2000 }} 2000w,
+          {{ cover_image | image_url: width: 3000 }} 3000w,
+          {{ cover_image | image_url: width: 3840 }} 3840w"
+          sizes="100vw"
+          src="{{ cover_image | image_url: width: 3840 }}"
+          alt="{{ cover_image.alt | escape }}"
+          class="object-cover z-10 absolute top-0 left-0 h-full w-full img-thumbnail image-hover hidden md:flex"
+          loading="lazy"
+          width="{{ cover_image.width }}"
+          height="{{ cover_image.height }}"
+          style="object-position:{{ cover_image.presentation.focal_point }};"
+        >
+      </picture>
+    {% elsif video_type == 'youtube' %}
+      <div
+        class="absolute h-full w-full video"
+        aria-label="image-video">
+        <picture>
+          <source type="image/webp" srcset="{{ video_id | prepend: 'https://i.ytimg.com/vi_webp/' | append: '/maxresdefault.webp' }}">
+          <source type="image/jpeg" srcset="{{ video_id | prepend: 'https://i.ytimg.com/vi/' | append: '/maxresdefault.jpg' }}">
+          <img src="{{ video_id | prepend: 'https://i.ytimg.com/vi_webp/' | append: '/maxresdefault.webp' }}" loading="lazy" class="w-full h-full object-cover" alt="{{ video_alt }}" width="1280" height="890"/>
+        </picture>
+      </div>
+    {% elsif video_type == 'vimeo'%}
+      {%- capture options -%}
+        {
+          'alt': '{{ video_alt }}',
+          'width': 1280
+        }
+      {%- endcapture -%}
+      <div class="absolute external-video w-full h-full bg-black">
+        <div class="h-full w-full" x-init="$store.xVideo.renderVimeoFacade($el, '{{ video_id }}', {{ options }})"></div>
+      </div>
+    {% endif %}
+    
+    {%- if image_mobile != blank -%}
+      <img
+        srcset="{{ image_mobile | image_url: width: 375 }} 375w,
+        {{ image_mobile | image_url: width: 450 }} 450w,
+        {{ image_mobile | image_url: width: 750 }} 750w,
+        {{ image_mobile | image_url: width: 900 }} 900w,
+        {{ image_mobile | image_url: width: 1100 }} 1100w,
+        {{ image_mobile | image_url: width: 1500 }} 1500w"
+        sizes="100vw"
+        src="{{ image_mobile | image_url: width: 750 }}"
+        alt="{{ image_mobile.alt | escape }}"
+        class="object-cover z-10 absolute top-0 left-0 h-full w-full md:hidden animate_transition_slide__image img-thumbnail"
+        loading="lazy"  
+        width="{{ image_mobile.width }}"
+        height="{{ image_mobile.height }}"
+        style="object-position: {{ image_mobile.presentation.focal_point }}"
+        x-intersect.once="$el.classList.add('active')"
+      />  
+    {%- endif %}
+    {{ button_play }}
+    {% if video_type == 'video_select' %}
+      <div x-data="{load: false}" x-intersect.once.margin.200px="load = true;" class="min-h-[1px]">
+        <template x-if="load">
+          {{ video
+            | video_tag:
+              image_size: "1100x",
+              loop: false,
+              controls: true,
+              muted: false,
+              class: "w-full h-full absolute top-0 left-0 video object-cover",
+              alt: video.alt
+          }}
+        </template>
+      </div>
+    {% endif %}
+  {% else %}
+    {% if video_type == 'youtube' %}
+      {% comment %}theme-check-disable RemoteAsset{% endcomment %}
+      <div
+        class="absolute h-full w-full video"
+        aria-label="image-video">
+        <picture>
+          <source type="image/webp" srcset="{{ video_id | prepend: 'https://i.ytimg.com/vi_webp/' | append: '/maxresdefault.webp' }}">
+          <source type="image/jpeg" srcset="{{ video_id | prepend: 'https://i.ytimg.com/vi/' | append: '/maxresdefault.jpg' }}">
+          <img src="{{ video_id | prepend: 'https://i.ytimg.com/vi_webp/' | append: '/maxresdefault.webp' }}" loading="lazy" class="w-full h-full object-cover" alt="{{ video_alt }}" width="1280" height="890"/>
+        </picture>
+      </div>
+      {% comment %}theme-check-enable RemoteAsset{% endcomment %}
+      {{ button_play }}
+    {% elsif video_type == 'vimeo' %}
+      {%- capture options -%}
+        {
+          'alt': '{{ video_alt }}',
+          'width': 1280
+        }
+      {%- endcapture -%}
+      <div class="absolute external-video w-full h-full bg-black">
+        <div class="h-full w-full" x-init="$store.xVideo.renderVimeoFacade($el, '{{ video_id }}', {{ options }})"></div>
+        {{ button_play }}
+      </div>
+    {% elsif video_type == 'video_select' %}
+    <div x-data="{load: false}" x-intersect.once.margin.200px="load = true;">
+      <template x-if="load">
+        {{ video
+          | video_tag:
+            image_size: "1100x",
+            loop: false,
+            controls: true,
+            muted: false,
+            class: "w-full h-full absolute video object-cover",
+            alt: video.alt
+        }}
+      </template>
+      {{ button_play }}
+    </div>
+    {% endif %}
+  {% endif %}
+{%- endif -%}
+
+<script src="{{ 'video.js' | asset_url }}" defer></script>

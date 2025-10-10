@@ -1,0 +1,359 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_option": true,
+            "enable_color_swatches": true
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "pickup_availability": true,
+            "preorder_button_label": "Pre-order",
+            "preorder_message": "<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!</p>",
+            "preorder_show_dynamic_button": false,
+            "show_background": true,
+            "box_type": "round",
+            "background_color_light": "#e4edfa",
+            "message_color_light": "#568ddd",
+            "background_color_dark": "#122540",
+            "message_color_dark": "#568ddd"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_in_tab": false
+          }
+        },
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Additional Information",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping and Returns",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "8607df6c-bc3d-4e31-8e1e-4a4847d94b7a": {
+          "type": "social_sharing",
+          "settings": {}
+        },
+        "0a15073f-ff42-43c0-a1d0-015c97a0b110": {
+          "type": "sticky_add_to_cart",
+          "settings": {
+            "desktop_display_type": "full_width",
+            "show_quantity_selector": false
+          }
+        }
+      },
+      "block_order": [
+        "badges",
+        "price",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "collapsible-row-0",
+        "collapsible-row-1",
+        "8607df6c-bc3d-4e31-8e1e-4a4847d94b7a",
+        "0a15073f-ff42-43c0-a1d0-015c97a0b110"
+      ],
+      "settings": {
+        "enable_sticky_image": true,
+        "show_product_name": true,
+        "show_vendor": false,
+        "desktop_layout": "left",
+        "desktop_media_layout": "thumbnail_slider",
+        "show_arrow_button": true,
+        "mobile_media_size": "full_width",
+        "show_thumnail_mobile": false,
+        "image_ratio": "portrait",
+        "thumbnail_position": "vertical",
+        "enable_image_zoom": false,
+        "enable_video_autoplay": false,
+        "enable_video_loop": false,
+        "show_first_image_avaiable": true,
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": true,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-center",
+        "mobile_content_alignment": "text-center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "full_width": true,
+        "spacing_col": "small",
+        "padding_top": 60,
+        "padding_bottom": 80,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "112bd756-97fc-43b2-874a-75a863bb6bf7": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21416161116461__112bd756-97fc-43b2-874a-75a863bb6bf7-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "Our Sustainability Promise",
+            "heading": "We Plant Trees for Global Reforestation.",
+            "heading_base_size": 100,
+            "text": "<p>These colourful interiors feature a unique double-walled layer of insulation, which protects plant’s roots all year round.<br/>Europe outdoor pots are also lightweight, making them a hassle-free solution for growing plants indoors and outdoors.</p>"
+          }
+        },
+        "template--21416161116461__112bd756-97fc-43b2-874a-75a863bb6bf7-button-1": {
+          "type": "button",
+          "settings": {
+            "button_label": "More Info",
+            "button_link": "",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "template--21416161116461__112bd756-97fc-43b2-874a-75a863bb6bf7-heading-1",
+        "template--21416161116461__112bd756-97fc-43b2-874a-75a863bb6bf7-button-1"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "550px",
+        "mobile_height": "400px",
+        "desktop_image_width": "large",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f6f6f0",
+        "background_color_dark": "#2a2a2a",
+        "image_alignment": "left",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "16906cbb-53b2-453b-98d3-60126bbc109d": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21416161116461__16906cbb-53b2-453b-98d3-60126bbc109d-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "Our Sustainability Promise",
+            "heading": "RecyclablePackaging & CO2 Neutral Delivery",
+            "heading_base_size": 100,
+            "text": "<p>These colourful interiors feature a unique double-walled layer of insulation, which protects plant’s roots all year round.<br/>Europe outdoor pots are also lightweight, making them a hassle-free solution for growing plants indoors and outdoors.</p>"
+          }
+        },
+        "template--21416161116461__16906cbb-53b2-453b-98d3-60126bbc109d-button-1": {
+          "type": "button",
+          "settings": {
+            "button_label": "More Info",
+            "button_link": "",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "template--21416161116461__16906cbb-53b2-453b-98d3-60126bbc109d-heading-1",
+        "template--21416161116461__16906cbb-53b2-453b-98d3-60126bbc109d-button-1"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "550px",
+        "mobile_height": "400px",
+        "desktop_image_width": "large",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#f6f6f0",
+        "background_color_dark": "#2a2a2a",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 4,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": true,
+        "top_padding_mobile": 4,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "47ef2f4e-6a8e-4db1-a733-3513b9c0997d": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "plane",
+            "custom_icon": "",
+            "title": "Shipping & Return",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>If your aren't perfect, return them within 30 days for a full refund.</p>"
+          }
+        },
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "box",
+            "custom_icon": "",
+            "title": "Safe Payment",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>Pay with the world's most popular and secure payment methods</p>"
+          }
+        },
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "megaphone",
+            "custom_icon": "",
+            "title": "Shop with Confidence",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>Our Buyer Protection covers your purchase from click to delivery.</p>"
+          }
+        },
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-4": {
+          "type": "column",
+          "settings": {
+            "icon": "clock",
+            "custom_icon": "",
+            "title": "Shipping & Return",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 100,
+            "text": "<p>If your plant aren't perfect, return them within 30 days</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-1",
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-2",
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-3",
+        "template--21381747048749__47ef2f4e-6a8e-4db1-a733-3513b9c0997d-column-4"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "secondary_background": "none",
+        "border_column": "line_vertical",
+        "column_content_alignment": "center",
+        "icon_position": "above",
+        "icon_size": 33,
+        "enable_desktop_slider": true,
+        "swiper_on_mobile": true,
+        "change_bar_every": 5,
+        "background_color_light": "#ededdd",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "color_icon_light": "rgba(0,0,0,0)",
+        "background_color_dark": "#2a2a2a",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-7",
+        "spacing_desktop": 40,
+        "full_width": false,
+        "show_section_divider": false,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-5",
+        "spacing_mobile": 16,
+        "full_width_mobile": false,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You May Also Like...",
+        "heading_size": 100,
+        "products_to_show": 5,
+        "background_color_light": "",
+        "background_color_dark": "",
+        "show_vendor": false,
+        "show_rating": false,
+        "show_quickview": true,
+        "enable_carousel_desktop": false,
+        "enable_swiper_mobile": true,
+        "columns_desktop": 5,
+        "full_width": true,
+        "show_section_divider": true,
+        "spacing": 20,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "columns_mobile": "2",
+        "show_section_divider_mobile": true,
+        "spacing_mobile": 16,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "112bd756-97fc-43b2-874a-75a863bb6bf7",
+    "16906cbb-53b2-453b-98d3-60126bbc109d",
+    "47ef2f4e-6a8e-4db1-a733-3513b9c0997d",
+    "product-recommendations"
+  ]
+}

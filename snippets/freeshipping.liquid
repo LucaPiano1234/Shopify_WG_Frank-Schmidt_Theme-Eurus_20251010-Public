@@ -1,0 +1,72 @@
+{% comment %}
+  Renders freeshipping bar
+{% endcomment %}
+{%- if settings.enable_free_shipping -%}
+  {% liquid
+    assign cart_total = cart.total_price | divided_by: 100.00
+
+    assign freeshipping_thresholds = settings.order_amount_freeshipping | newline_to_br | strip_newlines | split: '<br />'
+    if settings.order_amount_freeshipping contains ';'
+      assign freeshipping_thresholds = settings.order_amount_freeshipping | remove: " " | split: ';'
+    endif
+    
+    for threshold in freeshipping_thresholds
+      unless threshold contains ':' 
+        if threshold != blank 
+          assign check_currency = threshold | remove: "0" | remove: "1" | remove: "2" | remove: "3" | remove: "4" | remove: "5" | remove: "6" | remove: "7" | remove : "8" | remove: "9" | remove: ":" | remove: " "
+          if check_currency == '' or check_currency == '.'
+            assign freeshipping_threshold_all = threshold | strip | plus: 0
+          endif
+        endif
+      else 
+        assign check_currency_first = threshold | split: ":" | first 
+        assign check_currency_last = threshold | split: ":" | last 
+        assign check_currency = threshold | remove_first: check_currency_first | remove: check_currency_last
+        if check_currency == ':'
+          if check_currency_first == cart.currency.iso_code
+            assign freeshipping_threshold_currency = check_currency_last | strip | plus: 0
+          endif 
+        else
+          assign check_currency_country = check_currency | remove: ":"
+          if check_currency_first == localization.country.iso_code and check_currency_country == cart.currency.iso_code
+            assign freeshipping_threshold_country = check_currency_last | strip | plus: 0
+          endif
+        endif 
+      endunless
+    endfor
+    if freeshipping_threshold_all
+      assign freeshipping_threshold = freeshipping_threshold_all
+    endif 
+    if freeshipping_threshold_currency
+      assign freeshipping_threshold = freeshipping_threshold_currency
+    endif 
+    if freeshipping_threshold_country
+      assign freeshipping_threshold = freeshipping_threshold_country
+    endif 
+  %}
+  {% if cart.item_count > 0 and freeshipping_threshold %}
+    {% liquid
+      assign amount_to_freeshipping = freeshipping_threshold | minus: cart_total
+
+      assign under_line_width = 0
+      assign freeshipping_percent = cart_total | divided_by: freeshipping_threshold
+      if freeshipping_percent < 1 
+        assign under_line_width = freeshipping_percent | times: 100
+      endif
+    %}
+    {% style %}
+      .message-freeshipping:after {
+        background: var(--colors-button-hover);
+        width: {{ under_line_width }}%;
+      }
+    {% endstyle %}
+    <div class="mb-4">
+      {% if amount_to_freeshipping > 0 %}
+        {% assign amount_to_freeshipping = amount_to_freeshipping | times: 100 | money %}
+        <p class="pb-1.5 border-b-2 border-[rgba(var(--colors-line-and-border))] relative after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:z-20 message-freeshipping">{{- 'general.cart.enable_amount_freeship_html' | t: amount_to_freeshipping: amount_to_freeshipping -}}</p>
+      {% else %}
+        <p class="pb-1.5 border-b-2 border-[rgba(var(--color-success))]">{{ 'general.cart.freeshipping' | t }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+{%- endif -%}

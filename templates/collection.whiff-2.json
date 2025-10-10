@@ -1,0 +1,608 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "blocks": {
+        "breadcrumbs": {
+          "type": "breadcrumbs",
+          "settings": {
+            "show_breadcrumbs_border": true,
+            "full_width_breadcrumb": true,
+            "desktop_content_alignment": "text-center",
+            "mobile_content_alignment": "text-center",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_color_light": "rgba(0,0,0,0)",
+            "textlink_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_color_dark": "rgba(0,0,0,0)",
+            "textlink_color_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "breadcrumbs"
+      ],
+      "settings": {
+        "show_collection_image": false,
+        "image_overlay_opacity": 20,
+        "title_position": "text-center",
+        "size_title": 170,
+        "full_width_title": false,
+        "desktop_height": "450px",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "mobile_height": "300px",
+        "full_width_mobile": true,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 16
+      }
+    },
+    "1153e127-f094-4a71-8d82-4fa2be8e8c82": {
+      "type": "image-with-text",
+      "blocks": {
+        "template--21733833244973__1153e127-f094-4a71-8d82-4fa2be8e8c82-heading-1": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "Media with text",
+            "heading_base_size": 100,
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "template--21733833244973__1153e127-f094-4a71-8d82-4fa2be8e8c82-button-1": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21733833244973__1153e127-f094-4a71-8d82-4fa2be8e8c82-heading-1",
+        "template--21733833244973__1153e127-f094-4a71-8d82-4fa2be8e8c82-button-1"
+      ],
+      "settings": {
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "450px",
+        "mobile_height": "400px",
+        "desktop_image_width": "large",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 0,
+        "bottom_padding": 24,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": false,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 40
+      }
+    },
+    "989ca900-dd4c-4024-b95b-607476afaea1": {
+      "type": "flash-sale",
+      "blocks": {
+        "template--21733703418157__989ca900-dd4c-4024-b95b-607476afaea1-image_banner-1": {
+          "type": "image_banner",
+          "settings": {
+            "heading": "Announce a promotion",
+            "heading_size": 110,
+            "text": "<p>Share something special with your customers. coupon_code</p>",
+            "text_size": 100,
+            "coupon_code": "Flashsale45",
+            "coupon_color": "#c2a27a",
+            "coupon_color_dark": "#c2a27a"
+          }
+        },
+        "template--21733703418157__989ca900-dd4c-4024-b95b-607476afaea1-countdown_timer-1": {
+          "type": "countdown_timer",
+          "settings": {
+            "timezone": "-4",
+            "end_year": 2024,
+            "end_month": "1",
+            "end_day": "1",
+            "end_hour": "0",
+            "end_minute": "0",
+            "timer_style": "square",
+            "border_style": "line_vertical",
+            "overlay_opacity": 100,
+            "timer_color_countdown": "#c2a27a",
+            "text_color_countdown": "rgba(0,0,0,0)",
+            "bg_color_countdown": "rgba(0,0,0,0)",
+            "spacing_col": 40,
+            "spacing_col_mobile": 8
+          }
+        },
+        "template--21733703418157__989ca900-dd4c-4024-b95b-607476afaea1-buttons-1": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_text_button": "rgba(0,0,0,0)",
+            "color_text_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21733703418157__989ca900-dd4c-4024-b95b-607476afaea1-image_banner-1",
+        "template--21733703418157__989ca900-dd4c-4024-b95b-607476afaea1-countdown_timer-1",
+        "template--21733703418157__989ca900-dd4c-4024-b95b-607476afaea1-buttons-1"
+      ],
+      "settings": {
+        "image_overlay_opacity": 0,
+        "show_hero": false,
+        "border_section": "dotted",
+        "content_layout": "horizontal",
+        "content_alignment": "left",
+        "full_width": false,
+        "padding_full_width": false,
+        "rounded_corner_image": true,
+        "spacing_col": 40,
+        "spacing_row": 32,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "content_alignment_mobile": "center",
+        "full_width_mobile": false,
+        "rounded_corner_image_mobile": true,
+        "spacing_row_mobile": 20,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20,
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "blocks": {
+        "7dad774c-e708-41c8-aee2-e8bfc912cf65": {
+          "type": "promotion_block",
+          "settings": {
+            "heading": "Announce a promotion",
+            "title_size": 80,
+            "content": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Share something special with your customers.</p>",
+            "text_size": 100,
+            "image_overlay_opacity": 10,
+            "position": 4,
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "alignment": "center",
+            "content_position": "center",
+            "background_color_light": "#0c1b54",
+            "text_color_light": "#ffffff",
+            "background_color_dark": "#0c1b54",
+            "text_color_dark": "#ffffff",
+            "color_button": "rgba(0,0,0,0)",
+            "color_text_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_text_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "#ffffff",
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "number_of_columns_mobile": "1",
+            "number_of_row_mobile": "1"
+          }
+        },
+        "71ba41d2-e184-42da-a360-d3d10d78ffbe": {
+          "type": "promotion_block",
+          "settings": {
+            "heading": "Announce a promotion",
+            "title_size": 90,
+            "content": "",
+            "text_size": 100,
+            "image_overlay_opacity": 10,
+            "position": 8,
+            "button_label": "Button label",
+            "button_link": "",
+            "open_new_window": false,
+            "alignment": "center",
+            "content_position": "center",
+            "background_color_light": "#0c1b54",
+            "text_color_light": "#ffffff",
+            "background_color_dark": "#0c1b54",
+            "text_color_dark": "#ffffff",
+            "color_button": "rgba(0,0,0,0)",
+            "color_text_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_text_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "#ffffff",
+            "number_of_columns": 4,
+            "number_of_row": 1,
+            "number_of_columns_mobile": "2",
+            "number_of_row_mobile": "1"
+          }
+        }
+      },
+      "block_order": [
+        "7dad774c-e708-41c8-aee2-e8bfc912cf65",
+        "71ba41d2-e184-42da-a360-d3d10d78ffbe"
+      ],
+      "settings": {
+        "enable_filtering": true,
+        "sticky_filtering": false,
+        "filter_type": "drawer",
+        "enable_collection_count": true,
+        "enable_sorting": true,
+        "products_per_page": "15",
+        "products_per_row_on_desktop": 4,
+        "products_per_row_on_mobile": "2",
+        "paginate_type": "underline",
+        "show_vendor": false,
+        "show_rating": false,
+        "show_quickview": true,
+        "full_width": false,
+        "spacing_col": 4,
+        "spacing_row": 50,
+        "padding_top": 24,
+        "padding_bottom": 52,
+        "spacing_col_mobile": 14,
+        "spacing_row_mobile": 20,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "b84ad124-a083-44ac-82f0-33b146a44236": {
+      "type": "media-gallery",
+      "blocks": {
+        "template--21733304697133__b84ad124-a083-44ac-82f0-33b146a44236-media-1": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": true,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        },
+        "template--21733304697133__b84ad124-a083-44ac-82f0-33b146a44236-media-2": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": true,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        },
+        "template--21733304697133__b84ad124-a083-44ac-82f0-33b146a44236-media-3": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": true,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        },
+        "aa3f0c15-e89f-4b65-a534-8cc8f583a498": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": true,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        },
+        "580a3362-ff6d-493c-b5e4-e0b6fb275cb2": {
+          "type": "media",
+          "settings": {
+            "image_link": "",
+            "open_new_window": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "enable_content_overlay": true,
+            "content_position": "center",
+            "overlay_opacity": 0,
+            "number_of_columns": 1,
+            "number_of_row": 1,
+            "icon": "none",
+            "custom_icon": "",
+            "icon_size": 45,
+            "sub_title": "",
+            "title": "",
+            "title_size": 80,
+            "text": "",
+            "text_size": 130,
+            "text_align": "center",
+            "media_position": "top",
+            "button_label": "",
+            "button_link": "",
+            "open_new_window_button": false,
+            "color_overlay": "rgba(0,0,0,0)",
+            "title_color": "rgba(0,0,0,0)",
+            "text_color": "rgba(0,0,0,0)",
+            "color_button": "rgba(0,0,0,0)",
+            "background_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "background_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "template--21733304697133__b84ad124-a083-44ac-82f0-33b146a44236-media-1",
+        "template--21733304697133__b84ad124-a083-44ac-82f0-33b146a44236-media-2",
+        "template--21733304697133__b84ad124-a083-44ac-82f0-33b146a44236-media-3",
+        "aa3f0c15-e89f-4b65-a534-8cc8f583a498",
+        "580a3362-ff6d-493c-b5e4-e0b6fb275cb2"
+      ],
+      "settings": {
+        "heading": "Get Inspired With @Eurus Jewelry",
+        "heading_size": 110,
+        "heading_alignment": "center",
+        "max_columns": 5,
+        "spacing": 4,
+        "height_desktop": 300,
+        "show_section_divider": true,
+        "full_width": true,
+        "padding_full_width": false,
+        "padding_top": 68,
+        "padding_bottom": 8,
+        "min_columns_mobile": "1",
+        "spacing_mobile": 4,
+        "height_mobile": 250,
+        "show_section_divider_mobile": false,
+        "full_width_mobile": false,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 8
+      }
+    },
+    "a4415918-c557-4c04-9acc-78592197ebeb": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "truck",
+            "custom_icon": "",
+            "title": "Free Shipping",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "box",
+            "custom_icon": "",
+            "title": "Big Saving",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "chat-bubble",
+            "custom_icon": "",
+            "title": "Online Support",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        },
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a": {
+          "type": "column",
+          "settings": {
+            "icon": "check-mark",
+            "custom_icon": "",
+            "title": "Flexible Payment",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 120,
+            "text": "<p>Add a short tagline or description.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-1",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-3",
+        "template--16227738386592__a4415918-c557-4c04-9acc-78592197ebeb-column-2",
+        "04286afd-6c86-4011-b8eb-5c4d1fe9720a"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "secondary_background": "section",
+        "border_column": "line_vertical",
+        "column_content_alignment": "start",
+        "icon_position": "above",
+        "icon_size": 36,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "change_bar_every": 3,
+        "background_color_light": "#f7f7f7",
+        "heading_light": "#0d0d0d",
+        "text_light": "#0d0d0d",
+        "line_border_light": "#e3e3e3",
+        "color_icon_light": "#0d0d0d",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "#ffffff",
+        "text_dark": "#ffffff",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "#ffffff",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-0",
+        "spacing_desktop": 40,
+        "full_width": false,
+        "show_section_divider": false,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "column_layout_mobile": "w-full",
+        "section_height_mobile": "py-0",
+        "spacing_mobile": 0,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "1153e127-f094-4a71-8d82-4fa2be8e8c82",
+    "989ca900-dd4c-4024-b95b-607476afaea1",
+    "product-grid",
+    "b84ad124-a083-44ac-82f0-33b146a44236",
+    "a4415918-c557-4c04-9acc-78592197ebeb"
+  ]
+}

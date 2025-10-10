@@ -1,0 +1,824 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "badges": {
+          "type": "badges",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": false
+          }
+        },
+        "gift_wrapping_cawwgy": {
+          "type": "gift_wrapping",
+          "settings": {
+            "text_gift": "Gift wrapping by Eurus Jewelry",
+            "color_icon_light": "rgba(0,0,0,0)",
+            "color_icon_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_xxYMRq": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "gift",
+            "custom_icon": "",
+            "icon_size": 20,
+            "text": "<p>Handmade from ❤️ in Warsaw</p>",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_jLDWnG": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "map-pin",
+            "custom_icon": "",
+            "icon_size": 20,
+            "text": "<p>Find in store - Check availability now</p>",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_B4rg69": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "chat-bubble",
+            "custom_icon": "",
+            "icon_size": 20,
+            "text": "<p>Book Appointments</p>",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_option": true,
+            "enable_color_swatches": true
+          }
+        },
+        "size_chart_YrAHRk": {
+          "type": "size_chart",
+          "settings": {
+            "heading": "Size chart",
+            "select_page": "size-chart"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "pickup_availability": false,
+            "hide_when_pre_order": false,
+            "preorder_button_label": "Pre-order",
+            "preorder_message": "<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!</p>",
+            "preorder_show_dynamic_button": false,
+            "show_background": true,
+            "box_type": "square",
+            "background_color_light": "#574136",
+            "message_color_light": "#ffffff",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "message_color_dark": "rgba(0,0,0,0)",
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "feature_icon_VegkJF": {
+          "type": "feature_icon",
+          "settings": {
+            "heading_size": 80,
+            "icon_size": 30,
+            "border_column": "none",
+            "content_alignment": "start",
+            "background_color_light": "rgba(0,0,0,0)",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "line_border_light": "rgba(0,0,0,0)",
+            "color_icon_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)",
+            "line_border_dark": "rgba(0,0,0,0)",
+            "color_icon_dark": "rgba(0,0,0,0)",
+            "icon_1": "calendar",
+            "custom_icon_1": "",
+            "title_1": "30 days to return the product",
+            "text_1": "",
+            "link_1": "",
+            "open_new_window_1": false,
+            "icon_2": "truck",
+            "custom_icon_2": "",
+            "title_2": "Free delivery over PLN 300",
+            "text_2": "",
+            "link_2": "",
+            "open_new_window_2": false,
+            "icon_3": "gift",
+            "custom_icon_3": "",
+            "title_3": "Buy the product now and pay within 30 days",
+            "text_3": "",
+            "link_3": "",
+            "open_new_window_3": false,
+            "icon_4": "packages",
+            "custom_icon_4": "",
+            "title_4": "Easy Returns & Free Exchanges",
+            "text_4": "",
+            "link_4": "",
+            "open_new_window_4": false,
+            "icon_5": "none",
+            "custom_icon_5": "",
+            "title_5": "",
+            "text_5": "",
+            "link_5": "",
+            "open_new_window_5": false,
+            "icon_6": "none",
+            "custom_icon_6": "",
+            "title_6": "",
+            "text_6": "",
+            "link_6": "",
+            "open_new_window_6": false
+          }
+        },
+        "85013fef-9944-4d4d-8abc-74cdda4d0971": {
+          "type": "complementary",
+          "settings": {
+            "heading": "Complete Your Look",
+            "show_tab": false,
+            "show_background": false,
+            "max_product_show": 6,
+            "number_product_per_page": 3,
+            "enable_carousel_desktop": true,
+            "enable_swiper_mobile": true,
+            "image_ratio": "square",
+            "show_vendor": false,
+            "show_product_rating": false
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_in_tab": false,
+            "open_by_default": false
+          }
+        },
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_by_default": false,
+            "heading": "Modular Design",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "open_by_default": false,
+            "heading": "Returns + Exchanges",
+            "tab_content": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "customize_picker_JQAC8J": {
+          "type": "customize_picker",
+          "settings": {
+            "width_block": "w-full",
+            "picker_type": "radio_button",
+            "option_name": "Box option",
+            "required": true,
+            "option_text_note": "",
+            "option_list": "Velvet box;Leather box;Cardboard box with hinged lid",
+            "option_select_note": "",
+            "minimum_select_value": 2,
+            "option_file_note": "",
+            "swatch_value": "",
+            "swatch_style": "round",
+            "min_date": "2023-12-12",
+            "max_date": "2023-12-31"
+          }
+        },
+        "customize_picker_Vnd4qf": {
+          "type": "customize_picker",
+          "settings": {
+            "width_block": "w-full",
+            "picker_type": "single_text",
+            "option_name": "Free Engraving Text (Optional)",
+            "required": false,
+            "option_text_note": "",
+            "option_list": "Option 1;Option 2;Option 3",
+            "option_select_note": "",
+            "minimum_select_value": 2,
+            "option_file_note": "",
+            "swatch_value": "",
+            "swatch_style": "round",
+            "min_date": "2023-12-12",
+            "max_date": "2023-12-31"
+          }
+        },
+        "social-sharing": {
+          "type": "social_sharing",
+          "settings": {}
+        },
+        "sticky-atc": {
+          "type": "sticky_add_to_cart",
+          "settings": {
+            "desktop_display_type": "full_width",
+            "show_quantity_selector": false
+          }
+        }
+      },
+      "block_order": [
+        "badges",
+        "price",
+        "gift_wrapping_cawwgy",
+        "icon_text_xxYMRq",
+        "icon_text_jLDWnG",
+        "icon_text_B4rg69",
+        "variant_picker",
+        "size_chart_YrAHRk",
+        "quantity_selector",
+        "buy_buttons",
+        "feature_icon_VegkJF",
+        "85013fef-9944-4d4d-8abc-74cdda4d0971",
+        "description",
+        "collapsible-row-0",
+        "collapsible-row-1",
+        "customize_picker_JQAC8J",
+        "customize_picker_Vnd4qf",
+        "social-sharing",
+        "sticky-atc"
+      ],
+      "settings": {
+        "enable_sticky_image": true,
+        "show_product_name": true,
+        "title_size": 70,
+        "heading_tag": "h1",
+        "show_vendor": true,
+        "desktop_layout": "left",
+        "desktop_media_layout": "stacked",
+        "show_arrow_button": true,
+        "mobile_media_size": "full_width",
+        "show_thumnail_mobile": false,
+        "image_ratio": "natural",
+        "thumbnail_position": "horizontal",
+        "enable_image_zoom": false,
+        "enable_video_autoplay": false,
+        "enable_video_loop": false,
+        "show_first_image_avaiable": true,
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": false,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-left",
+        "background_color_light": "rgba(0,0,0,0)",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "full_width": true,
+        "spacing_col": "small",
+        "padding_top": 32,
+        "padding_bottom": 40,
+        "padding_top_mobile": 16,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "product_specifications_YEFqWL": {
+      "type": "product-specifications",
+      "blocks": {
+        "specs_EKzU3n": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Brand",
+            "row_content": "<p>Isabel Bernard</p>"
+          }
+        },
+        "specs_BbgKBm": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "EAN",
+            "row_content": "<p>8720359623287</p>"
+          }
+        },
+        "specs_pg6JjY": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Serie",
+            "row_content": "<p>Gold</p>"
+          }
+        },
+        "specs_GnRcmh": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Jewel type",
+            "row_content": "<p>Ketting</p>"
+          }
+        },
+        "specs_ex9Q3N": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Modulenumber",
+            "row_content": "<p>Gold</p>"
+          }
+        },
+        "specs_NwfKCR": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Color",
+            "row_content": "<p>Gold</p>"
+          }
+        },
+        "specs_JG978M": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Gender",
+            "row_content": "<p>Women</p>"
+          }
+        },
+        "specs_PdjCdW": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Material",
+            "row_content": "<p>Gold</p>"
+          }
+        },
+        "specs_RkyeGX": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Nickel free",
+            "row_content": "<p>Yes</p>"
+          }
+        },
+        "specs_EbbbNt": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Gold type",
+            "row_content": "<p>14 karat gold</p>"
+          }
+        },
+        "specs_Ez4pyF": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Weight (g)",
+            "row_content": "<p>1.7500</p>"
+          }
+        },
+        "specs_RHXTUi": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "Thickness (mm)",
+            "row_content": "<p>1</p>"
+          }
+        }
+      },
+      "block_order": [
+        "specs_EKzU3n",
+        "specs_BbgKBm",
+        "specs_pg6JjY",
+        "specs_GnRcmh",
+        "specs_ex9Q3N",
+        "specs_NwfKCR",
+        "specs_JG978M",
+        "specs_PdjCdW",
+        "specs_RkyeGX",
+        "specs_EbbbNt",
+        "specs_Ez4pyF",
+        "specs_RHXTUi"
+      ],
+      "settings": {
+        "heading": "Specifications",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "left",
+        "text": "",
+        "image_alignment": "left",
+        "hide_empty_rows": true,
+        "text_empty_fields": "-",
+        "row_shown_by_default": 12,
+        "view_more_button": "See more",
+        "view_less_button": "See less",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "table_color": "rgba(0,0,0,0)",
+        "table_text": "rgba(0,0,0,0)",
+        "line_border": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "table_color_dark": "rgba(0,0,0,0)",
+        "table_text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "columns_desktop": "2",
+        "desktop_height": "400px",
+        "show_section_divider": true,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "mobile_height": "250px",
+        "show_section_divider_mobile": true,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "image_with_text_RdD9tT": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_H9pCPb": {
+          "type": "heading",
+          "settings": {
+            "subheading": "",
+            "heading": "About Product",
+            "heading_base_size": 100,
+            "heading_tag": "h2",
+            "text": "<p>Jewellery adds an extra dimension to your outfit. A beautiful ring, a lovely necklace or timeless earrings, jewellery completes your look. In our shop you can beautifully combine items and find your perfect jewellery collection. Looking for a timeless and elegant piece of jewellery? We have an extensive range of various types of jewellery.</p><p>At Brandfield you can order the most beautiful Isabel Bernard jewellery, like this Isabel Bernard Belleville Amore 14 Carat Gold Necklace IB340066 for women.</p><p>The jewellery of Isabel Bernard is made of the best materials. For example, this piece of jewellery is made of gold and has a beautiful gold colour. This piece of jewellery is suitable for every occasion, whether that’s casual during the day or chic in the evening. Do you like to mix and match? Most of our jewellery is also available in sets.</p><p>Isabel Bernard is a must-have in the world of jewellery and gives every outfit a fantastic upgrade. Check out the complete collection Isabel Bernard jewellery in our online shop.</p>",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_H9pCPb"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/img_33.png",
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "550px",
+        "mobile_height": "400px",
+        "desktop_image_width": "medium",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "no-overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "right",
+        "full_width": true,
+        "top_padding": 40,
+        "bottom_padding": 40,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": false,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 0
+      }
+    },
+    "product_comparison_table_cRBENC": {
+      "type": "product-comparison-table",
+      "blocks": {
+        "product_summary_xwwaa6": {
+          "type": "product_summary",
+          "settings": {
+            "product_image": true,
+            "product_name": true,
+            "price": false
+          }
+        },
+        "variant_picker_GCEHxc": {
+          "type": "variant_picker",
+          "settings": {
+            "option_name": "Brand",
+            "enable_color_swatches": false
+          }
+        },
+        "variant_picker_YqxpcQ": {
+          "type": "variant_picker",
+          "settings": {
+            "option_name": "Jewel type",
+            "enable_color_swatches": false
+          }
+        },
+        "variant_picker_eQXPgD": {
+          "type": "variant_picker",
+          "settings": {
+            "option_name": "Material",
+            "enable_color_swatches": false
+          }
+        },
+        "variant_picker_dm6wfx": {
+          "type": "variant_picker",
+          "settings": {
+            "option_name": "Nickel free",
+            "enable_color_swatches": false
+          }
+        },
+        "variant_picker_Bm6g3b": {
+          "type": "variant_picker",
+          "settings": {
+            "option_name": "Weight (g)",
+            "enable_color_swatches": false
+          }
+        },
+        "variant_picker_DCm6CP": {
+          "type": "variant_picker",
+          "settings": {
+            "option_name": "Thickness (mm)",
+            "enable_color_swatches": false
+          }
+        },
+        "variant_picker_pM8aXA": {
+          "type": "variant_picker",
+          "settings": {
+            "option_name": "Length (cm)",
+            "enable_color_swatches": false
+          }
+        }
+      },
+      "block_order": [
+        "product_summary_xwwaa6",
+        "variant_picker_GCEHxc",
+        "variant_picker_YqxpcQ",
+        "variant_picker_eQXPgD",
+        "variant_picker_dm6wfx",
+        "variant_picker_Bm6g3b",
+        "variant_picker_DCm6CP",
+        "variant_picker_pM8aXA"
+      ],
+      "settings": {
+        "title": "",
+        "heading_size": 100,
+        "heading_alignment": "center",
+        "text": "",
+        "view_all": "",
+        "link_view_all": "",
+        "compare_products": [
+          "18ct-white-gold-halo-cluster-ring",
+          "18ct-white-gold-0-75ct-diamond-eternity-ring",
+          "14k-yellow-gold-heart-bangle-bracelet",
+          "10k-gold-ring",
+          "1-80-ct-cushion-halo-split-shank-diamond-ring"
+        ],
+        "auto_product_recommendation": true,
+        "text_to_use_for_empty_fields": "-",
+        "product_image_ratio": "portrait",
+        "background_color_light": "rgba(0,0,0,0)",
+        "criteria_light": "rgba(0,0,0,0)",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "criteria_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "full_width": false,
+        "show_section_divider": false,
+        "padding_top": 40,
+        "padding_bottom": 80,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "faq_FkPBwd": {
+      "type": "faq",
+      "blocks": {
+        "frequently_asked_question_XPMDfx": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "1. Do you have a warranty?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_VRfP4b": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "2. What is the return policy?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_nDaXJj": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "3. Can I cancel or update my order? or change my shipping address?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_yPanVi": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "4. How can I track my order?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_DCVJtw": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "5. What is the Return Policy for exclusive Eurus Jewelry membership products?",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "frequently_asked_question_XPMDfx",
+        "frequently_asked_question_VRfP4b",
+        "frequently_asked_question_nDaXJj",
+        "frequently_asked_question_yPanVi",
+        "frequently_asked_question_DCVJtw"
+      ],
+      "custom_css": [
+        ".faq-item button .font-medium {font-weight: 600;}"
+      ],
+      "settings": {
+        "heading": "FAQs",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "row_background": false,
+        "collapsible": true,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "button_link": "",
+        "open_new_window": false,
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "desktop_layout": "1",
+        "image_alignment": "left",
+        "desktop_height": "400px",
+        "show_section_divider": false,
+        "make_full_page_width": false,
+        "padding_top": 80,
+        "padding_bottom": 40,
+        "image_alignment_mobile": "left",
+        "mobile_height": "250px",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "faq_4PNB7E": {
+      "type": "faq",
+      "blocks": {
+        "frequently_asked_question_Vz4EHc": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "1. Delivery",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_EmXNM8": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "2. Returns & Exchanges",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        },
+        "frequently_asked_question_KXbgMh": {
+          "type": "frequently_asked_question",
+          "settings": {
+            "icon": "none",
+            "custom_icon": "",
+            "heading": "3. Guarantee",
+            "row_content": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "frequently_asked_question_Vz4EHc",
+        "frequently_asked_question_EmXNM8",
+        "frequently_asked_question_KXbgMh"
+      ],
+      "custom_css": [
+        ".faq-item button .font-medium {font-weight: 600;}"
+      ],
+      "settings": {
+        "heading": "Delivery, Returns, Exchanges and Guarantee",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "row_background": false,
+        "collapsible": true,
+        "show_view_all": false,
+        "view_all_position": "top",
+        "button_link": "",
+        "open_new_window": false,
+        "background_color_light": "#f5f0e7",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "desktop_layout": "1",
+        "image_alignment": "left",
+        "desktop_height": "400px",
+        "show_section_divider": false,
+        "make_full_page_width": false,
+        "padding_top": 40,
+        "padding_bottom": 80,
+        "image_alignment_mobile": "left",
+        "mobile_height": "250px",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You May Also Like...",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "products_to_show": 5,
+        "background_color_light": "",
+        "background_color_dark": "",
+        "show_vendor": false,
+        "show_rating": false,
+        "show_quickview": true,
+        "enable_carousel_desktop": false,
+        "enable_swiper_mobile": true,
+        "columns_desktop": 5,
+        "full_width": true,
+        "show_section_divider": false,
+        "spacing": 28,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "columns_mobile": "1",
+        "show_section_divider_mobile": false,
+        "spacing_mobile": 16,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product_specifications_YEFqWL",
+    "image_with_text_RdD9tT",
+    "product_comparison_table_cRBENC",
+    "faq_FkPBwd",
+    "faq_4PNB7E",
+    "product-recommendations"
+  ]
+}
