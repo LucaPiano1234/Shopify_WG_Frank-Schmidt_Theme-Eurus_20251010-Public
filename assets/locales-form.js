@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('locales-form.js')) {
-  window.Eurus.loadedScript.push('locales-form.js');
+if (!window.Eurus.loadedScript.has('locales-form.js')) {
+  window.Eurus.loadedScript.add('locales-form.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {

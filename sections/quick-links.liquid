@@ -4,21 +4,27 @@
     row-gap: 12px;
   }
   .content-{{ section.id }} .quick-link-item {
-    {% if section.settings.mobile_alignment == "start" %}
+    {% if section.settings.mobile_alignment == 'start' -%}
       text-align: center;
-    {% else %}
+    {%- elsif settings.lang_direction contains request.locale.iso_code -%}
+      {%- if section.settings.mobile_alignment == 'left' -%}
+        text-align: right;
+      {%- else -%}
+        text-align: left;
+      {%- endif %}
+    {%- else -%}
       text-align: {{ section.settings.mobile_alignment }};
-    {% endif %}
-    {% if section.settings.mobile_layout == "1" %}
+    {%- endif %}
+    {% if section.settings.mobile_layout == "1" -%}
       flex-basis: 100%;
-    {% else %}
+    {%- else -%}
       flex-basis: calc(50% - 6px);
-    {% endif %}
+    {%- endif %}
   }
   .section-{{ section.id }} {
-    {%- if section.settings.color_text_light.alpha != 0.0 -%}
+    {% if section.settings.color_text_light.alpha != 0.0 -%}
       --colors-text: {{ section.settings.color_text_light.red }},{{ section.settings.color_text_light.green }},{{ section.settings.color_text_light.blue }};
-    {% endif %}
+    {%- endif %}
     font-weight: var(--font-heading-weight);
   }
   .dark .section-{{ section.id }} {
@@ -63,7 +69,9 @@
 {% render 'section-divider' %}
 
 <div class="section-{{ section.id }} bg-{{ section.id }} ltr background-footer section-quick-links text-[rgb(var(--colors-text))] selection:bg-[rgba(var(--colors-text-footer),0.2)] pt-[{{ section.settings.top_padding_mobile }}px] md:pt-[{{ section.settings.top_padding }}px] pb-[{{ section.settings.bottom_padding_mobile }}px] md:pb-[{{ section.settings.bottom_padding }}px]">
-  <div x-intersect.once="$el.classList.add('is-visible')" class="content-{{ section.id }} anm-fade-element page-width flex-wrap flex justify-{{ section.settings.mobile_alignment }} md:justify-{{ section.settings.alignment }}">
+  <div x-intersect.once="$el.classList.add('is-visible')" class="content-{{ section.id }} anm-fade-element x-pgw page-width flex-wrap flex justify-{{ section.settings.mobile_alignment -}}
+    {%- if section.settings.alignment == 'center' %} md:justify-center rtl:md:justify-center{% elsif section.settings.alignment == 'left' %} md:justify-left rtl:md:justify-right{% else %} md:justify-right rtl:md:justify-left{% endif %}"
+  >
     {%- for block in section.blocks -%}
       {%- if block.settings.title != blank -%}
         <div class="quick-link-item relative">
@@ -91,6 +99,10 @@
     ]
   },
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.footer.quicklinks"
+    },
     {
       "type": "select",
       "id": "alignment",
@@ -125,20 +137,20 @@
       "id": "show_lines",
       "default": false,
       "label": "t:sections.quick-links.settings.show_lines.label",
-      "info": "t:sections.quick-links.settings.show_lines.info"
+      "info": "t:sections.featured-blog.settings.columns_first_row.info"
     },
     {
       "type": "select",
       "id": "mobile_layout",
-      "label": "t:sections.quick-links.settings.mobile_layout.label",
+      "label": "t:sections.all.padding.section_layout_mobile",
       "options": [
         {
           "value": "1",
-          "label": "t:sections.quick-links.settings.mobile_layout.options__1.label"
+          "label": "t:sections.collection-list.settings.columns_desktop.options__1.label"
         },
         {
           "value": "2",
-          "label": "t:sections.quick-links.settings.mobile_layout.options__2.label"
+          "label": "t:settings_schema.search_navigation.settings.search_style.options__2"
         }
       ],
       "default": "1"
@@ -146,7 +158,7 @@
     {
       "type": "select",
       "id": "mobile_alignment",
-      "label": "t:sections.quick-links.settings.mobile_alignment.label",
+      "label": "t:sections.main-collection-banner.settings.mobile_content_alignment.label",
       "options": [
         {
           "value": "left",
@@ -166,25 +178,25 @@
     {
       "type": "color",
       "id": "bg_light",
-      "label": "t:sections.quick-links.settings.bg_light.label",
-      "default": "rgba(0,0,0,0)"
-    },
-    {
-      "type": "color",
-      "id": "bg_dark",
-      "label": "t:sections.quick-links.settings.bg_dark.label",
+      "label": "t:sections.all.background.background_color_light",
       "default": "rgba(0,0,0,0)"
     },
     {
       "type": "color",
       "id": "color_text_light",
-      "label": "t:sections.quick-links.settings.color_text_light.label",
+      "label": "t:sections.all.text.color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "bg_dark",
+      "label": "t:sections.all.background.background_color_dark",
       "default": "rgba(0,0,0,0)"
     },
     {
       "type": "color",
       "id": "color_text_dark",
-      "label": "t:sections.quick-links.settings.color_text_dark.label",
+      "label": "t:sections.all.text.color_dark",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -264,6 +276,7 @@
   "presets": [
     {
       "name": "t:sections.quick-links.name",
+      "category": "t:categories.utilities_and_layout",
       "blocks": [
         {
           "type": "link_list"

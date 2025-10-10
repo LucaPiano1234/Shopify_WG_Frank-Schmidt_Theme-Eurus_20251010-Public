@@ -33,11 +33,7 @@
   class="highlight relative inline-block" 
   x-data="{ isIntersecting: false }" 
   x-intersect.once="isIntersecting = true"
-  {% if transparent %}
-    :class="isIntersecting && $store.xHeaderMenu && !$store.xHeaderMenu.showLogoTransparent && 'highlight-anm-start'"
-  {% else %}
-    :class="isIntersecting && 'highlight-anm-start'"
-  {% endif %}
+  :class="isIntersecting && 'highlight-anm-start'"
 >
   {{ menu_title }}
   {{ icon_highlight }}

@@ -1,11 +1,15 @@
-if (!window.Eurus.loadedScript.includes('product-sibling.js')) {
-  window.Eurus.loadedScript.push('product-sibling.js');
+if (!window.Eurus.loadedScript.has('product-sibling.js')) {
+  window.Eurus.loadedScript.add('product-sibling.js');
 
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {
-      Alpine.data("xProductSibling", (sectionId, isProductPage) => ({
+      Alpine.data("xProductSibling", (sectionId, isProductPage, redirect) => ({
         cachedResults: [],
         updateProductInfo(url) {
+          if (redirect) {
+            window.location.href = url;
+            return
+          }
           const link = isProductPage?`${url}`:`${url}?section_id=${sectionId}`;
       
           if (this.cachedResults[link]) {
@@ -18,6 +22,7 @@ if (!window.Eurus.loadedScript.includes('product-sibling.js')) {
               const html = new DOMParser().parseFromString(responseText, 'text/html');
               this._updateTitle(html);
               this._handleSwapProduct(html);
+              this._updateFbtContainer(html)
               this.cachedResults[link] = html;
             })
           }
@@ -35,17 +40,20 @@ if (!window.Eurus.loadedScript.includes('product-sibling.js')) {
         _updateTitle(html) {
           if (!isProductPage) return;
           document.querySelector('head title').textContent = html.querySelector('.product-title').textContent;
+          const destination = document.querySelector('#breadcrumbs--' + sectionId);
+          const source = html.querySelector('#breadcrumbs--' + sectionId);
+          if (source && destination) destination.innerHTML = source.innerHTML;
+        },
+        _updateFbtContainer(html) {
+          if (!isProductPage) return;
+          const destination = document.querySelector('#popup-fbt-' + sectionId);
+          const source = html.querySelector('#popup-fbt-' + sectionId);
+          if (source && destination) destination.outerHTML = source.outerHTML;
         },
         _handleSwapProduct(html) {
-          if (isProductPage) {
-            const destination = document.querySelector('main');
-            const source = html.querySelector('main');
-            if (source && destination) destination.innerHTML = source.innerHTML;
-          } else {
-            const destination = document.querySelector('.x-product-' + sectionId);
-            const source = html.querySelector('.x-product-' + sectionId);
-            if (source && destination) destination.innerHTML = source.innerHTML;
-          }
+          const destination = isProductPage ? document.querySelector('.main-product'):document.querySelector('.x-product-' + sectionId);
+          const source = isProductPage ? html.querySelector('.main-product') : html.querySelector('.x-product-' + sectionId);
+          if (source && destination) destination.innerHTML = source.innerHTML;
         }
       }));
     });

@@ -73,25 +73,26 @@
 
 {% render 'section-divider' %}
 
-<div 
-  class="{% if section.index == 1 %}preload-image {% endif %}bg-{{ section.id }} pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]"
->
-  <div class="mb-5 lg:mb-2 pl-5 pr-5 text-[rgb(var(--colors-text))] {% unless section.settings.full_width %} page-width{% endunless %}">
-    <div class="heading-{{ section.settings.heading_alignment }}{% unless section.settings.heading_alignment contains 'center' %} flex items-center{% endunless %}">
+<div class="{% if section.index == 1 %}preload-image {% endif %}bg-{{ section.id }} pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
+  <div class="mb-5 lg:mb-2 pl-5 pr-5 text-[rgb(var(--colors-text))] {% unless section.settings.full_width %} x-pgw page-width{% endunless %}">
+    <div class="empty:hidden text-{{ section.settings.heading_alignment }} rtl:text-{% if section.settings.heading_alignment == 'center' %}center{% elsif section.settings.heading_alignment == 'left' %}right{% else %}left{% endif %}">
       {%- if section.settings.title != blank -%}
-        <h2 class="heading-{{ section.id }} leading-tight flex-auto p-break-words mb-2 w-full">
+        <div class="mb-2">
           {% render 'heading-highlight',
             headingId: section.id,
             heading: section.settings.title,
             highlight_type: section.settings.highlight_type,
             color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
-            color_heading_highlight_light: section.settings.color_heading_highlight_light
+            color_heading_highlight_light: section.settings.color_heading_highlight_light,
+            class: 'leading-tight flex-auto p-break-words',
+            heading_tag: 'h2',
+            animation_heading: true
           %}
-        </h2>
+        </div>
       {%- endif -%}
       {%- if section.settings.view_all != blank and section.settings.link_view_all != blank -%}
-        <div class="text-{{ section.settings.heading_alignment }} pt-0.5 pb-0.5 w-full">
-          <a{% if section.settings.link_view_all != blank %} href="{{ section.settings.link_view_all }}" {% else %} role="link" aria-disabled="true" {% endif %}
+        <div class="pt-0.5 pb-0.5">
+          <a {%- if section.settings.link_view_all != blank %} href="{{ section.settings.link_view_all }}" {% else %} role="link" aria-disabled="true" {% endif %}
             class="nav-link effect-inline relative inline-block hover-text-link empty:hidden cursor-pointer" 
           >
             {{ section.settings.view_all }}
@@ -99,7 +100,7 @@
         </div>
       {%- endif -%}
       {%- if section.settings.text != blank -%}
-        <div class="text-{{ section.settings.heading_alignment }} pt-2 pb-2 rte">
+        <div class="pt-2 pb-2 rte">
           {{ section.settings.text }}
         </div>
       {%- endif -%}
@@ -113,65 +114,72 @@
         {% endif %}
       >
         {%- liquid 
-          assign productCount = 0
-          assign productIds = ''
+          assign product_count = 0
+          assign product_ids = ''
           if section.settings.auto_product_recommendation and recommendations.performed and recommendations.products_count > 0
             for prod in recommendations.products
-              assign productCount = productCount | plus: 1
-              assign productId = prod.id | append: ","
-              assign productIds = productIds | append: productId
+              assign product_count = product_count | plus: 1
+              assign product_id = prod.id | append: ","
+              assign product_ids = product_ids | append: product_id
               render 'card-product-compare', product: prod, class_js: 'content-tablet', product_count: recommendations.products_count
-              if productCount >= 5
+              if product_count >= 5
                 break
               endif
             endfor
           endif
           unless section.settings.auto_product_recommendation
             for prod in section.settings.compare_products
-              assign productId = prod.id | append: ","
-              unless productIds contains productId
-                assign productCount = productCount | plus : 1
+              assign product_id = prod.id | append: ","
+              unless product_ids contains product_id
+                assign product_count = product_count | plus : 1
                 render 'card-product-compare', product: prod, class_js: 'content-tablet', product_count: section.settings.compare_products.count
               endunless
-              if productCount >= 5
+              if product_count >= 5
                 break
               endif
             endfor
           endunless
         -%}
-        {%- if productCount > 0 -%}
+        {% liquid  
+          if product_count == 0 and request.visual_preview_mode
+            for i in (1..5)
+              render 'card-product-compare', product: blank, class_js: 'content-tablet', product_count: section.settings.compare_products.count
+            endfor
+          endif
+        %}
+        {%- if product_count > 0 or request.visual_preview_mode -%}
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when "product_summary" -%}
                 <div class="compare-block compare-summary-block text-center flex flex-row">
-                  <div class="border-b pb-3 pl-3 pr-3 flex-shrink-0 flex gap-2.5 md:block w-[192px] md:w-1/{{ productCount | plus: 1 }}"></div>
+                  <div class="border-b pb-3 pl-3 pr-3 flex-shrink-0 flex gap-2.5 md:block w-[192px] md:w-1/{{ product_count | plus: 1 }}"></div>
                 </div>
               {%- when "vendor" -%}
                 <div class="compare-block compare-vendor-block text-center flex flex-row">
-                  <div class="border-b p-break-words text-[rgb(var(--colors-heading))] bg-col-{{ section.id }} py-3 px-3 flex-shrink-0 justify-center w-[192px] md:w-1/{{ productCount | plus: 1 }} flex items-center">{{ 'products.product.vendor' | t }}</div>
+                  <div class="border-b p-break-words text-[rgb(var(--colors-heading))] bg-col-{{ section.id }} py-3 px-3 flex-shrink-0 justify-center w-[192px] md:w-1/{{ product_count | plus: 1 }} flex items-center">{{ 'products.product.vendor' | t }}</div>
                 </div>
               {%- when "description" -%}
                 <div class="compare-block compare-des-block text-center flex flex-row">
-                  <div class="border-b des-block rte text-[rgb(var(--colors-heading))] bg-col-{{ section.id }} py-3 px-3 flex-shrink-0 w-[192px] justify-center md:w-1/{{ productCount | plus: 1 }} flex items-center">{{ 'products.product.description' | t }}</div>
+                  <div class="border-b des-block rte text-[rgb(var(--colors-heading))] bg-col-{{ section.id }} py-3 px-3 flex-shrink-0 w-[192px] justify-center md:w-1/{{ product_count | plus: 1 }} flex items-center">{{ 'products.product.description' | t }}</div>
                 </div>
               {%- when "variant_picker" -%}
                 {%- if block.settings.option_name != blank -%}
                   <div class="compare-block text-center compare-variant-{{ block.settings.option_name | md5 }}-block flex flex-row">
-                    <div class="border-b py-3 px-3 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] justify-center md:w-1/{{ productCount | plus: 1 }} flex items-center">{{ block.settings.option_name }}</div>
+                    <div class="border-b py-3 px-3 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] justify-center md:w-1/{{ product_count | plus: 1 }} flex items-center">{{ block.settings.option_name }}</div>
                   </div>
                 {%- endif -%} 
               {%- when "rating" -%}
                 <div class="compare-block compare-rating-block flex text-center flex-row">
-                  <div class="border-b py-3 px-3 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] md:w-1/{{ productCount | plus: 1 }} justify-center flex items-center">{{ 'products.product.rating' | t }}</div>
+                  <div class="border-b py-3 px-3 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] md:w-1/{{ product_count | plus: 1 }} justify-center flex items-center">{{ 'products.product.rating' | t }}</div>
                 </div>
               {%- when "view_detail" -%}
                 <div class="compare-block compare-button-block flex text-center flex-row">
-                  <div class="border-b button-block pt-4 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] pl-3 pr-3 justify-center md:w-1/{{ productCount | plus: 1 }}"></div>
+                  <div class="border-b button-block pt-4 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] pl-3 pr-3 justify-center md:w-1/{{ product_count | plus: 1 }}"></div>
                 </div>
               {%- when "metafield" -%} 
                 {%- if block.settings.metafield_key != blank and block.settings.metafield_name != blank -%}
                   <div class="compare-block text-center compare-metafield-{{ block.settings.metafield_name | md5 }}-block flex flex-row"> 
-                    <div class="border-b py-3 px-3 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] justify-center md:w-1/{{ productCount | plus: 1 }} flex items-center">{{ block.settings.metafield_name }}</div>
+                    <div class="border-b py-3 px-3 bg-col-{{ section.id }} text-[rgb(var(--colors-heading))] flex-shrink-0 w-[192px] justify-center md:w-1/{{ product_count | plus: 1 }} flex items-center">{{ block.settings.metafield_name }}</div>
                   </div>
                 {%- endif -%} 
             {%- endcase -%}
@@ -195,6 +203,10 @@
     ]
   },
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.section_and_blocks.product_comparison_table"
+    },
     {
       "type": "text",
       "id": "title",
@@ -232,7 +244,7 @@
       "type": "select",
       "id": "heading_alignment",
       "default": "center",
-      "label": "t:sections.featured-collection.settings.heading_alignment.label",
+      "label": "t:sections.all.text.heading_alignment",
       "options": [
         {
           "value": "left",
@@ -271,7 +283,7 @@
     {
       "type": "product_list",
       "id": "compare_products",
-      "label": "t:sections.product-comparison-table.settings.compare_products.label",
+      "label": "t:sections.main-product.blocks.frequently_bought_together.settings.list_products",
       "limit": 5
     },
     {
@@ -293,27 +305,27 @@
       "options": [
         {
           "value": "natural",
-          "label": "t:settings_schema.products.product_image_ratio.option__1.label"
+          "label": "t:sections.all.image_ratio.options__1.label"
         },
         {
           "value": "square",
-          "label": "t:settings_schema.products.product_image_ratio.option__2.label"
+          "label": "t:sections.all.image_ratio.options__2.label"
         },
         {
           "value": "landscape",
-          "label": "t:settings_schema.products.product_image_ratio.option__3.label"
+          "label": "t:sections.all.image_ratio.options__3.label"
         },
         {
           "value": "portrait",
-          "label": "t:settings_schema.products.product_image_ratio.option__4.label"
+          "label": "t:sections.all.image_ratio.options__4.label"
         },
         {
           "value": "wide",
-          "label": "t:settings_schema.products.product_image_ratio.option__5.label"
+          "label": "t:sections.all.image_ratio.options__5.label"
         }
       ],
       "default": "square",
-      "label": "t:settings_schema.products.product_image_ratio.label"
+      "label": "t:sections.all.image_ratio.label"
     },
     {
       "type": "header",
@@ -322,7 +334,7 @@
     {
       "type": "color",
       "id": "background_color_light",
-      "label": "t:sections.featured-product.settings.background_color_light.label",
+      "label": "t:sections.all.background.background_color_light",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -358,7 +370,7 @@
     {
       "type": "color",
       "id": "background_color_dark",
-      "label": "t:sections.featured-product.settings.background_color_dark.label",
+      "label": "t:sections.all.background.background_color_dark",
       "default": "rgba(0,0,0,0)"
     },
     {
@@ -399,13 +411,13 @@
       "type": "checkbox",
       "id": "full_width",
       "default": false,
-      "label": "t:sections.featured-collection.settings.full_width.label"
+      "label": "t:sections.all.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.featured-collection.settings.show_section_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -435,7 +447,7 @@
       "type": "checkbox",
       "id": "show_section_divider_mobile",
       "default": false,
-      "label": "t:sections.featured-collection.settings.show_section_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -480,23 +492,23 @@
           "type": "checkbox",
           "id": "price",
           "default": true,
-          "label": "t:sections.product-comparison-popup.blocks.price.name"
+          "label": "t:settings_schema.search_navigation.settings.predictive_search_show_price.label"
         }
       ]
     },
     {
       "type": "vendor",
-      "name": "t:sections.product-comparison-popup.blocks.vendor.name",
+      "name": "t:sections.featured-product.blocks.vendor_name.name",
       "limit": 1
     },
     {
       "type": "description",
-      "name": "t:sections.product-comparison-popup.blocks.description.name",
+      "name": "t:settings_schema.seo.business_description.label",
       "limit": 1
     },
     {
       "type": "view_detail",
-      "name": "t:sections.product-comparison-popup.blocks.view_detail.name",
+      "name": "t:settings_schema.colors.settings.header__2.content",
       "limit": 1
     },
     {
@@ -506,7 +518,7 @@
         {
           "type": "text",
           "id": "option_name",
-          "label": "t:sections.product-comparison-popup.blocks.variant_picker.option_name.label",
+          "label": "t:sections.featured-product.blocks.customize_picker.settings.option_name.label",
           "info": "t:sections.product-comparison-popup.blocks.variant_picker.option_name.infor"
         },          
         {
@@ -541,7 +553,8 @@
   ],
   "presets": [
     {
-      "name": "t:sections.product-comparison-table.presets.name",
+      "name": "t:sections.product-comparison-table.name",
+      "category": "t:categories.products",
       "blocks": [
         {
           "type": "product_summary"

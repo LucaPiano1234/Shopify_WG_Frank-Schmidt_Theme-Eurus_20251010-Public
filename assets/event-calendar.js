@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('event-calendar.js')) {
-  window.Eurus.loadedScript.push('event-calendar.js');
+if (!window.Eurus.loadedScript.has('event-calendar.js')) {
+  window.Eurus.loadedScript.add('event-calendar.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
@@ -55,11 +55,11 @@ if (!window.Eurus.loadedScript.includes('event-calendar.js')) {
 
           if (options == 'google' || options == 'yahoo') {
             date = new Date(Date.UTC(year, this.getMonthNumber(month), parseInt(day), parseInt(hour), parseInt(minute)));
-            date.setTime(date.getTime() + (-1 * parseInt(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
+            date.setTime(date.getTime() + (-1 * parseFloat(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
             return date.toISOString().split("Z")[0].replace(".000", "").replace(/[^A-Z0-9]/ig, "");
           } else {
             date = new Date(year, this.getMonthNumber(month), parseInt(day), parseInt(hour), parseInt(minute));
-            date.setTime(date.getTime() + (-1 * parseInt(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
+            date.setTime(date.getTime() + (-1 * parseFloat(this.eventDetails.timezone) * 60 - date.getTimezoneOffset()) * 60 * 1000)
             if ( options == 'apple' ) {
               return date.toISOString().split("Z")[0].replace(".000", "").replace(/[^A-Z0-9]/ig, "");
             } else {

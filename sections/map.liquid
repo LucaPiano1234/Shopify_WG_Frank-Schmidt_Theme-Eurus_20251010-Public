@@ -10,6 +10,14 @@
   else
     assign is_rtl = false
   endif
+  assign rounded_corners = section.settings.rounded_corner_image
+  if section.settings.adapt_corners
+    if settings.edges_type == 'rounded_corners'
+      assign rounded_corners = true
+    else
+      assign rounded_corners = false
+    endif 
+  endif
 -%}
 {%- style -%}
   #shopify-section-{{ section.id }} .bg-section-map {
@@ -54,9 +62,15 @@
     background: {{ section.settings.text_color_map_dark }};
   }
 {%- endstyle -%}
-<div class="{% if section.index == 1 %}preload-image {% endif %} map{% if section.settings.full_width_mobile %} pl-0 pr-0{% else %} pl-5 pr-5{% endif %}{% if section.settings.full_width %} md:pr-0 md:pl-0{% else %} page-width md:pl-5 md:pr-5{% endif %} pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
-  <div class="bg-section-map h-[{{ section.settings.mobile_height }}] md:h-auto{% if is_rtl %} ltr{% endif %}{% unless section.settings.content_position == "top-left" %} md:h-[{{ section.settings.desktop_height }}]{% else %} md:overflow-hidden{% endunless %} flex flex-col md:flex-row{% if section.settings.content_position == "left" %} flex-col-reverse md:flex-row-reverse{% endif %} relative{% if section.settings.content_position == "top-left" %} md:items-center{% endif %}{% if section.settings.rounded_corner_image %} rounded-[10px]{% endif %}">
-    <div x-intersect.once="$el.classList.remove('bg-[#c9c9c9]')" class="relative flex-1 bg-[#c9c9c9] overflow-hidden{% if section.settings.content_position == "top-left" %} w-full md:h-[{{ section.settings.desktop_height }}]{% else %} md:w-1/2 lg:max-w-[61.25%]{% endif %}{% if section.settings.rounded_corner_image %} rounded-[10px]{% endif %}">
+<div class="{% if section.index == 1 %}preload-image {% endif %} map{% if section.settings.full_width_mobile %} pl-0 pr-0{% else %} pl-5 pr-5{% endif %}{% if section.settings.full_width %} md:pr-0 md:pl-0{% else %} x-pgw page-width md:pl-5 md:pr-5{% endif %} pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
+  <div class="bg-section-map h-[{{ section.settings.mobile_height }}] md:h-auto relative{% if is_rtl %} ltr{% endif %} flex flex-col md:flex-row
+    {%- unless section.settings.content_position == "top-left" %} md:h-[{{ section.settings.desktop_height }}]{% else %} md:overflow-hidden{% endunless -%}
+    {%- if section.settings.content_position == "top-left" %} md:items-center{% endif -%}
+    {%- if section.settings.content_position == "left" %} flex-col-reverse md:flex-row-reverse rtl:flex-col rtl:md:flex-row{% endif -%}
+    {%- if section.settings.content_position == "right" %} rtl:flex-col-reverse rtl:md:flex-row-reverse{% endif -%}
+    {%- if rounded_corners %} rounded-[10px]{% endif %}"
+  >
+    <div x-intersect.once="$el.classList.remove('bg-[#c9c9c9]')" class="x-block-map relative flex-1 bg-[#c9c9c9] overflow-hidden{% if section.settings.content_position == "top-left" %} w-full md:h-[{{ section.settings.desktop_height }}]{% else %} md:w-1/2 lg:max-w-[61.25%]{% endif %}{% if rounded_corners %} rounded-[10px]{% endif %}">
       {%- if section.settings.image != blank -%}
         <parallax-image class="block h-full w-full">
           <parallax-movement x-data="xParallax" x-intersect.once.margin.200px="load({{ settings.disable_parallax_effect }})">
@@ -65,11 +79,12 @@
               (min-width: 768px) calc(100vw / {{ columns }}), 
               100vw
             {%- endcapture -%}
+            {% # theme-check-disable ImgLazyLoading %}
             <img
               srcset="{{ section.settings.image | image_url: width: 375 }} 375w,
               {{ section.settings.image | image_url: width: 450 }} 450w,
-              {{ section.settings.image| image_url: width: 900 }} 900w,
-              {{ section.settings.image| image_url: width: 1100 }} 1100w,
+              {{ section.settings.image | image_url: width: 900 }} 900w,
+              {{ section.settings.image | image_url: width: 1100 }} 1100w,
               {{ section.settings.image | image_url: width: 1500 }} 1500w,
               {{ section.settings.image | image_url: width: 2000 }} 2000w,
               {{ section.settings.image | image_url: width: 3000 }} 3000w,
@@ -79,10 +94,11 @@
               alt="{{ section.settings.image.alt | escape }}"
               height="{{ section.settings.image.height }}"
               width="{{ section.settings.image.width }}"
-              loading="lazy"
+              {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
               class="h-full w-full object-cover z-0 absolute inset-0 animate_transition_slide__image"
               x-intersect.once="$el.classList.add('active')" 
             >
+            {% # theme-check-enable ImgLazyLoading %}
           </parallax-movement>
         </parallax-image>
       {%- elsif section.settings.store_address != blank -%}
@@ -96,8 +112,19 @@
       {%- endif -%}
     </div>
     {%- if section.blocks.size > 0 -%}
-      <div class="{% if is_rtl %} rtl{% endif %}text-map-{{ section.id }} anm-fade-paragraph md:pl-5 md:pr-5 pt-7 bg-section-map pb-6 md:pt-8 md:pb-8 z-10{% if section.settings.content_position == "left" %} overflow-hidden lg:pr-8 md:w-1/2 lg:w-[38.75%] lg:relative{% elsif section.settings.content_position == "top-left" %} md:max-w-[370px] md:w-full md:px-[30px] md:pt-8 md:pb-10 md:absolute md:right-[8%] md:translate-x-0 md:shadow transition-opacity duration-200{% else %} overflow-hidden lg:pl-8 md:w-1/2 lg:w-[38.75%] lg:relative{% endif %} text-{{ section.settings.content_alignment }}{% if request.design_mode == false and section.settings.content_position == "top-left" %} pointer-events-none{% endif %}{% if section.settings.rounded_corner_image %} rounded-[10px]{% endif %}">
-        <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element pl-5 pr-5{% unless section.settings.content_position == "top-left" %} lg:mt-12 w-full lg:max-w-[270px] lg:pl-0 lg:pr-0 lg:absolute{% endunless %}{% if section.settings.content_position == "left" %} lg:right-[14%]{% elsif section.settings.content_position == "right" %} lg:left-[14%]{% endif %} selection:bg-[rgba(var(--colors-text),0.2)]">
+      <div class="x-block-map-content{% if is_rtl %} rtl{% endif %}text-map-{{ section.id }} anm-fade-paragraph md:pl-5 md:pr-5 pt-7 bg-section-map pb-6 md:pt-8 md:pb-8 z-10 text-{{ section.settings.content_alignment }} rtl:text-{% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'left' %}right{% else %}left{% endif -%}
+        {%- if section.settings.content_position == "left" %} overflow-hidden lg:pr-8 rtl:lg:pr-0 rtl:lg:pl-8 md:w-1/2 lg:w-[38.75%] lg:relative
+          {%- elsif section.settings.content_position == "top-left" %} md:max-w-[370px] md:w-full md:px-[30px] md:pt-8 md:pb-10 md:absolute md:right-[8%] md:translate-x-0 md:shadow transition-opacity duration-200
+          {%- else %} overflow-hidden lg:pl-8 rtl:lg:pl-0 rtl:lg:pr-8 md:w-1/2 lg:w-[38.75%] lg:relative{% endif -%}
+        {%- if request.design_mode == false and section.settings.content_position == "top-left" %} pointer-events-none{% endif -%}
+        {%- if rounded_corners %} rounded-[10px]{% endif %}"
+      >
+        <div x-intersect.once="$el.classList.add('is-visible')"
+          class="anm-fade-element pl-5 pr-5 selection:bg-[rgba(var(--colors-text),0.2)]
+            {%- unless section.settings.content_position == "top-left" %} lg:mt-12 w-full lg:max-w-[270px] lg:pl-0 lg:pr-0 lg:absolute{% endunless -%}
+            {%- if section.settings.content_position == "left" %} lg:right-[14%] rtl:lg:right-auto rtl:lg:left-[14%]{% endif -%}
+            {%- if section.settings.content_position == "right" %} lg:left-[14%] rtl:lg:left-auto rtl:lg:right-[14%]{% endif %}"
+        >
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'heading' -%}
@@ -117,15 +144,17 @@
                       }
                     }
                   {%- endstyle -%}
-                  <{{ block.settings.heading_tag }} class="heading-{{ block.id }} h2 block{% if forloop.index != 1 %} mt-2 md:mt-5{% endif %}" {{ block.shopify_attributes }}>
+                  <div class="{% if forloop.index != 1 %} mt-2 md:mt-5{% endif %}" {{ block.shopify_attributes }}>
                     {% render 'heading-highlight',
                       headingId: block.id,
                       heading: block.settings.heading,
                       highlight_type: block.settings.highlight_type,
                       color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
-                      color_heading_highlight_light: section.settings.color_heading_highlight_light
+                      color_heading_highlight_light: section.settings.color_heading_highlight_light,
+                      class: 'h2 block'
+                      heading_tag: block.settings.heading_tag,
                     %}
-                  </{{ block.settings.heading_tag }}>
+                  </div>
                 {%- endif -%}
               {%- when 'richtext' -%}
                 {%- if block.settings.text != blank -%}
@@ -148,7 +177,7 @@
                     class="description--{{ block.id }} text-color-{{ section.id }} text-[rgb(var(--colors-text))]{% if forloop.index != 1 %} mt-2 md:mt-4{% endif %}"
                     {{ block.shopify_attributes }}
                   >
-                    <div class="md:pr-2 pr-1 rte p-break-words max-h-36{% if section.settings.desktop_height == "500px" and section.settings.content_position == "top-left" %} md:max-h-40{% else %} md:max-h-52{% endif %} overflow-y-auto scrollbar-body pointer-events-auto{% if section.settings.content_position == "top-left" %} md:pr-0{% endif %}">
+                    <div class="rte p-break-words max-h-36{% if section.settings.desktop_height == "500px" and section.settings.content_position == "top-left" %} md:max-h-40{% else %} md:max-h-52{% endif %} overflow-y-auto scrollbar-body pointer-events-auto{% if section.settings.content_position == "top-left" %} md:pr-0{% endif %}">
                       {% if block.settings.text != blank %}
                         {{ block.settings.text }}
                       {% endif %}
@@ -157,7 +186,7 @@
                 {%- endif -%}
               {%- when 'button' -%}
                 {%- if section.settings.store_address != blank -%}
-                  <div {% if forloop.index != 1 %} class="mt-5 md:mt-7 mb-4 md:mb-0 w-full text-center"{% endif %} {{ block.shopify_attributes }} >
+                  <div {% if forloop.index != 1 %} class="x-block-button mt-5 md:mt-7 mb-4 md:mb-0 w-full text-center"{% endif %} {{ block.shopify_attributes }} >
                     <a
                       class="button button-solid leading-normal w-full pl-6 pr-6 pt-2.5 pb-2.5 md:pt-3 md:pb-3 cursor-pointer inline-flex text-center justify-center items-center empty:hidden pointer-events-auto{% if section.settings.content_position == "top-left" %} md:w-full{% endif %}"
                       href="https://www.google.com/maps/place/{{ section.settings.store_address }}"
@@ -195,6 +224,10 @@
   },
   "settings": [
     {
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.section_and_blocks.map"
+    },
+    {
       "type": "text",
       "id": "store_address",
       "default": "75 9th Ave, New York, NY 10011-7006",
@@ -204,19 +237,19 @@
     {
       "type": "select",
       "id": "desktop_height",
-      "label": "t:sections.map.settings.desktop_height.label",
+      "label": "t:sections.shop_the_look.settings.desktop_height.label",
       "options": [
         {
           "value": "500px",
-          "label": "t:sections.map.settings.desktop_height.options_1.label"
+          "label": "t:sections.all.size.options__1.label"
         },
         {
           "value": "600px",
-          "label": "t:sections.map.settings.desktop_height.options_2.label"
+          "label": "t:sections.all.size.options__2.label"
         },
         {
           "value": "650px",
-          "label": "t:sections.map.settings.desktop_height.options_3.label"
+          "label": "t:sections.all.size.options__3.label"
         }
       ],
       "default": "600px"
@@ -224,19 +257,19 @@
     {
       "type": "select",
       "id": "mobile_height",
-      "label": "t:sections.map.settings.mobile_height.label",
+      "label": "t:sections.shop_the_look.settings.mobile_height.label",
       "options": [
         {
           "value": "600px",
-          "label": "t:sections.map.settings.mobile_height.options_1.label"
+          "label": "t:sections.all.size.options__1.label"
         },
         {
           "value": "650px",
-          "label": "t:sections.map.settings.mobile_height.options_2.label"
+          "label": "t:sections.all.size.options__2.label"
         },
         {
           "value": "700px",
-          "label": "t:sections.map.settings.mobile_height.options_3.label"
+          "label": "t:sections.all.size.options__3.label"
         }
       ],
       "default": "600px"
@@ -244,14 +277,21 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "t:sections.map.settings.image.label",
+      "label": "t:sections.all.image.label",
       "info": "t:sections.all.image.note_image_size"
+    },
+    {
+      "type": "checkbox",
+      "id": "adapt_corners",
+      "label": "t:sections.slideshow.settings.enable_adapt",
+      "default": true
     },
     {
       "type": "checkbox",
       "id": "rounded_corner_image",
       "default": false,
-      "label": "t:settings_schema.layout.enable_rounded_corners.label"
+      "label": "t:sections.featured-product.blocks.rounded_corner.label",
+      "visible_if": "{{ section.settings.adapt_corners == false }}"
     },
     {
       "type": "select",
@@ -259,19 +299,19 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.map.settings.content_position.options_1.label"
+          "label": "t:sections.all.content_alignment.options__1.label"
         },
         {
           "value": "right",
-          "label": "t:sections.map.settings.content_position.options_2.label"
+          "label": "t:sections.all.content_alignment.options__3.label"
         },
         {
           "value": "top-left",
-          "label": "t:sections.map.settings.content_position.options_3.label"
+          "label": "t:sections.shop_the_look.settings.image_alignment.options__3.label"
         }
       ],
       "default": "left",
-      "label": "t:sections.map.settings.content_position.label"
+      "label": "t:sections.all.content_position.label"
     },
     {
       "type": "select",
@@ -279,41 +319,41 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.map.settings.content_alignment.options_1.label"
+          "label": "t:sections.all.content_alignment.options__1.label"
         },
         {
           "value": "center",
-          "label": "t:sections.map.settings.content_alignment.options_2.label"
+          "label": "t:sections.all.content_alignment.options__2.label"
         },
         {
           "value": "right",
-          "label": "t:sections.map.settings.content_alignment.options_3.label"
+          "label": "t:sections.all.content_alignment.options__3.label"
         }
       ],
       "default": "left",
-      "label": "t:sections.map.settings.content_alignment.label"
+      "label": "t:sections.all.content_alignment.label"
     },
     {
       "type": "header",
-      "content": "t:sections.map.settings.header.content"
+      "content": "t:settings_schema.colors.name"
     },
     {
       "type": "color",
       "id": "bg_color_map",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.map.settings.bg_color_map.label"
+      "label": "t:sections.all.background.background_color_light"
     },
     {
       "type": "color",
       "id": "text_color_map",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.map.settings.text_color_map.label"
+      "label": "t:sections.all.text.color"
     },
     {
       "type": "color",
       "id": "heading_color",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.map.settings.heading_and_title_color.label"
+      "label": "t:sections.testimonials.heading_and_title_light.label"
     },
     {
       "type": "color",
@@ -325,19 +365,19 @@
       "type": "color",
       "id": "bg_color_map_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.map.settings.bg_color_map_dark.label"
+      "label": "t:sections.all.background.background_color_dark"
     },
     {
       "type": "color",
       "id": "text_color_map_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.map.settings.text_color_map_dark.label"
+      "label": "t:sections.all.text.color_dark"
     },
     {
       "type": "color",
       "id": "heading_color_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.map.settings.heading_and_title_color_dark.label"
+      "label": "t:sections.testimonials.heading_and_title_dark.label"
     },
     {
       "type": "color",
@@ -353,7 +393,7 @@
       "type": "checkbox",
       "id": "full_width",
       "default": false,
-      "label": "t:sections.text-column-image.settings.full_width.label"
+      "label": "t:sections.all.full_width.label"
     },
     {
       "type": "range",
@@ -383,7 +423,7 @@
       "type": "checkbox",
       "id": "full_width_mobile",
       "default": false,
-      "label": "t:sections.text-column-image.settings.full_width.label"
+      "label": "t:sections.all.full_width.label"
     },
     {
       "type": "range",
@@ -443,7 +483,7 @@
           "unit": "%",
           "step": 10,
           "default": 90,
-          "label": "t:sections.map.blocks.store_name.settings.heading_size.label"
+          "label": "t:sections.all.text.heading_size"
         },
         {
           "type": "select",
@@ -502,19 +542,19 @@
           "unit": "%",
           "step": 10,
           "default": 100,
-          "label": "t:sections.map.blocks.address_and_hour.settings.text_size.label"
+          "label": "t:sections.all.text.text_size"
         }
       ]
     },
     {
       "type": "button",
-      "name": "t:sections.map.blocks.button.name",
+      "name": "t:settings_schema.colors.colors_button",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "label": "t:sections.map.blocks.button.settings.button_label.label",
+          "label": "t:sections.all.button.label",
           "default": "Get directions"
         }
       ]
@@ -522,7 +562,8 @@
   ],
   "presets": [
     {
-      "name": "t:sections.map.presets.name",
+      "name": "t:sections.map.name",
+      "category": "t:categories.brand_trust",
       "blocks": [
         {
           "type": "heading"

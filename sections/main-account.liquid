@@ -6,7 +6,7 @@ else
 endif
 %}
 <div class="customer account pt-[{{ section.settings.top_padding_mobile }}px] md:pt-[{{ section.settings.top_padding }}px] pb-[{{ section.settings.bottom_padding_mobile }}px] md:pb-[{{ section.settings.bottom_padding }}px]">
-  <div class="page-width mx-auto">
+  <div class="x-pgw page-width mx-auto">
     <div class="flex items-center justify-between border-b pb-3 md:pb-4">
       <h1 class="h2">{{ 'customer.account.title' | t }}</h1>
       <a
@@ -22,7 +22,7 @@ endif
     <div class="flex flex-col md:flex-row">
       <div class="w-full md:w-3/4">
         <h2 class="text-large mt-9 pb-3.5 md:mt-12 md:pb-6 border-b md:border-none anm-fade-element" x-intersect.once="$el.classList.add('is-visible')">{{ 'customer.orders.title' | t }}</h2>
-        {% paginate customer.orders by 20 %}
+        {% paginate customer.orders by 10 %}
           {%- if customer.orders.size > 0 -%}
             <table role="table" class="block order-history w-full">
               <thead class="hidden md:block py-4 border-y w-full text-[rgba(var(--colors-heading))] anm-fade-element" x-intersect.once="$el.classList.add('is-visible')" role="rowgroup">
@@ -109,11 +109,11 @@ endif
       "options": [
         {
           "value": "circle",
-          "label": "t:sections.main-collection-product-grid.settings.paginate_type.options__1.label"
+          "label": "t:sections.header.settings.highlight.style.option__2"
         },
         {
           "value": "underline",
-          "label": "t:sections.main-collection-product-grid.settings.paginate_type.options__2.label"
+          "label": "t:settings_schema.typography.settings.heading_highlight_type.option__1.label"
         }
       ],
       "default": "circle",

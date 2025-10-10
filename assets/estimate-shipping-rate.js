@@ -1,6 +1,6 @@
 
-if (!window.Eurus.loadedScript.includes('estimate-shipping-rate.js')) {
-  window.Eurus.loadedScript.push('estimate-shipping-rate.js');
+if (!window.Eurus.loadedScript.has('estimate-shipping-rate.js')) {
+  window.Eurus.loadedScript.add('estimate-shipping-rate.js');
   
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {

@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes("product-tabs.js")) {
-  window.Eurus.loadedScript.push("product-tabs.js");
+if (!window.Eurus.loadedScript.has("product-tabs.js")) {
+  window.Eurus.loadedScript.add("product-tabs.js");
 
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {

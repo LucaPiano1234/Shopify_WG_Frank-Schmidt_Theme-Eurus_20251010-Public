@@ -1,4 +1,9 @@
 {%- liquid 
+  if settings.lang_direction contains request.locale.iso_code
+    assign is_rtl = true
+  else
+    assign is_rtl = false
+  endif
   assign enable_slider = false
   if section.blocks.size > 1
     assign enable_slider = true
@@ -9,12 +14,27 @@
   endif
   assign mobile_height = "94vh"
   assign desktop_height_number = section.settings.desktop_height | times: 1
--%}
 
-<div x-data="xSlideVertical" class="pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
-  <div
-    id="x-slideshow-vertical-{{ section.id }}"
-    class="slideshow-vertical disable-effect-hover {% if settings.lang_direction contains request.locale.iso_code and section.settings.transition_style == "fade" %}ltr {% endif %}splide-slideshow overflow-hidden visible mx-auto{% if enable_slider %} x-splide splide cursor-grab{% endif %}{% if section.settings.full_width %}{% if section.settings.padding_full_width %} md:pl-5 md:pr-5{% else %} md:pl-0 md:pr-0{% endif %}{% else %} page-width{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% else %} pl-5 pr-5{% endif %}{% if section.settings.slider_visual == 'image' %} disable-effect-hover{% endif %}"
+  assign rounded_desktop = section.settings.rounded_corner_image
+  assign rounded_mobile = section.settings.rounded_corner_image_mobile
+  if section.settings.adapt_corners_desktop 
+    if settings.edges_type == 'rounded_corners'
+      assign rounded_desktop = true
+    else
+      assign rounded_desktop = false
+    endif 
+  endif
+  if section.settings.adapt_corners_mobile
+    if settings.edges_type == 'rounded_corners'
+      assign rounded_mobile = true
+    else
+      assign rounded_mobile = false
+    endif 
+  endif
+-%}
+<div x-data="xSlideVertical" class="x-container-slideshow-vertical pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
+  <div id="x-slideshow-vertical-{{ section.id }}"
+    class="slideshow-vertical disable-effect-hover{% if is_rtl and section.settings.transition_style == "fade" %} ltr{% endif %} splide-slideshow overflow-hidden visible mx-auto{% if enable_slider %} x-splide splide cursor-grab{% endif %}{% if section.settings.full_width %}{% if section.settings.padding_full_width %} md:pl-5 md:pr-5{% else %} md:pl-0 md:pr-0{% endif %}{% else %} x-pgw page-width{% endif %}{% if section.settings.full_width_mobile %} full-width-mobile{% else %} pl-5 pr-5{% endif %}{% if section.settings.slider_visual == 'image' %} disable-effect-hover{% endif %}"
     {% if enable_slider %}
       x-intersect.once.margin.200px='$store.xSplide.load($el, {
         "speed": 800, 
@@ -34,6 +54,7 @@
         {% else %}
           "wheel": true,
           "releaseWheel": true,
+          "waitForTransition": true,
         {% endif %}
         "classes": {
           "arrows": "splide__arrows block",
@@ -49,14 +70,14 @@
       x-on:touchend="slideHandleMouseLeave()"
       x-on:touchcancel="slideHandleMouseUp()"
     {%- endif -%}
-    >
+  >
     {%- liquid
       assign parent = " md:slideshow:h-[" | append: desktop_height | append: "] md:slideshow:pb-0"
       assign child = " md:slideshow:relative"
       assign parent_mobile = " h-[" | append: mobile_height | append: "] md:h-auto"
       assign child_mobile = " relative"
     -%}
-    <div class="relative {% if enable_slider %} splide__track{% endif %} overflow-hidden{{ parent }}{{ parent_mobile }}{% if section.settings.rounded_corner_image %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %} rounded-[10px]{% endif %}">
+    <div class="relative {% if enable_slider %} splide__track{% endif %} overflow-hidden{{ parent }}{{ parent_mobile }}{% if rounded_desktop %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if rounded_mobile %} rounded-[10px]{% endif %}">
       <div class="w-full h-full{% if enable_slider %} splide__list flex-col{% endif %}{{ child }}{{ child_mobile }}">
         {%- for block in section.blocks -%}
           {%- liquid 
@@ -70,10 +91,11 @@
           {% case block.type %}
             {% when 'image_overlay' %}
               {%- liquid
-                assign heading_size = block.settings.heading_size | times: settings.heading_base_size | times: 0.000225 
-                assign imageUrlMobile = block.settings.image
+                assign heading_size = block.settings.heading_size | times: settings.heading_base_size | times: 0.000225
+                assign subheading_size = block.settings.subheading_size | times: settings.text_base_size | times: 0.0001
+                assign image_url_mobile = block.settings.image
                 if block.settings.image_mobile != blank
-                  assign imageUrlMobile = block.settings.image_mobile
+                  assign image_url_mobile = block.settings.image_mobile
                 endif
               -%}
               {%- style -%}
@@ -125,17 +147,17 @@
                   font-size: {{ heading_size | times: 0.5 }}rem;
                 }
                 .sub-heading-{{ block.id }} {
-                  font-size: {{ heading_size | times: 0.3 }}rem;
+                  font-size: {{ subheading_size | times: 0.9 }}rem;
                 }
                 .image-{{ block.id }} {
-                  object-position:{{ imageUrlMobile.presentation.focal_point }};
+                  object-position:{{ image_url_mobile.presentation.focal_point }};
                 }
                 @media screen and (min-width: 768px) {
                   .heading-{{ block.id }} {
                     font-size: {{ heading_size }}rem;
                   }
                   .sub-heading-{{ block.id }} {
-                    font-size: {{ heading_size | times: 0.58 }}rem;
+                    font-size: {{ subheading_size }}rem;
                   }
                   .image-{{ block.id }} {
                     object-position:{{ block.settings.image.presentation.focal_point }};
@@ -143,7 +165,7 @@
                 }
               {%- endstyle -%}
               <div x-slide-index="{{ forloop.index | minus: 1 }}" 
-                class="x-slide-vertical-{{ block.id }} overflow-hidden{% if block.settings.image == blank and block.settings.content_background_color.alpha == 0.0 %} bg-[#c9c9c9]{% endif %} flex items-center{% if section.settings.show_hero and forloop.first %} disable-animation-slideshow {% endif %} ltr h-full relative transition-opacity w-full{% if enable_slider %} splide__slide x-splide-slide{% endif %}{% if section.settings.rounded_corner_image %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %} rounded-[10px]{% endif %}"
+                class="x-slide-vertical-{{ block.id }} x-block-image-overlay overflow-hidden{% if block.settings.image == blank and block.settings.content_background_color.alpha == 0.0 %} bg-[#c9c9c9]{% endif %} flex items-center{% if section.settings.show_hero and forloop.first %} disable-animation-slideshow {% endif %} ltr h-full relative transition-opacity w-full{% if enable_slider %} splide__slide x-splide-slide{% endif %}{% if rounded_desktop %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if rounded_mobile %} rounded-[10px]{% endif %}"
                 x-intersect.half="slideIndex = '{{ slide_index }}'"
                 {{ block.shopify_attributes }}
               >
@@ -153,19 +175,19 @@
                       {{ 'image' | placeholder_svg_tag: 'w-full h-full z-0 blur-sm' }}
                     </div>
                   {%- else -%}
-                    {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                    {% # theme-check-disable ImgLazyLoading %}
                     <div class="{% if block.settings.image_mobile != blank and request.design_mode %} hidden md:block{% endif %}">
                       <picture class="absolute top-0 left-0 w-full h-full z-0 blur-sm">
                         <source
-                          srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
-                            {{ imageUrlMobile | image_url: width: 450 }} 450w,
-                            {{ imageUrlMobile | image_url: width: 750 }} 750w,
-                            {{ imageUrlMobile | image_url: width: 900 }} 900w,
-                            {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
-                            {{ imageUrlMobile | image_url: width: 1500 }} 1500w"
+                          srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
+                            {{ image_url_mobile | image_url: width: 450 }} 450w,
+                            {{ image_url_mobile | image_url: width: 750 }} 750w,
+                            {{ image_url_mobile | image_url: width: 900 }} 900w,
+                            {{ image_url_mobile | image_url: width: 1100 }} 1100w,
+                            {{ image_url_mobile | image_url: width: 1500 }} 1500w"
                           media="(max-width: 767px)"
-                          width="{{ imageUrlMobile.width }}"
-                          height="{{ imageUrlMobile.height }}"
+                          width="{{ image_url_mobile.width }}"
+                          height="{{ image_url_mobile.height }}"
                         >
                         <img
                           srcset="{{ block.settings.image | image_url: width: 750 }} 750w,
@@ -176,24 +198,21 @@
                             {{ block.settings.image | image_url: width: 2000 }} 2000w,
                             {{ block.settings.image | image_url: width: 3000 }} 3000w,
                             {{ block.settings.image | image_url: width: 3840 }} 3840w"
-                          loading="lazy"
+                          {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                          onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
                           sizes="100vw"
                           src="{{ block.settings.image | image_url: width: 3840 }}"
-                          {% if block.settings.image_mobile != blank %}
-                            :alt="(screen.width < 768) ? '{{ block.settings.image_mobile.alt }}' : '{{ block.settings.image.alt }}'"
-                          {% else %}
-                            alt="{{ block.settings.image.alt | escape }}"
-                          {% endif %}
-                          class="object-cover h-full w-full image-{{ block.id }}"
+                          alt="{{ block.settings.image.alt | escape }}"
+                          class="object-cover h-full w-full image-{{ block.id }} animate-Xpulse skeleton-image"
                           width="{{ block.settings.image.width }}"
                           height="{{ block.settings.image.height }}"
                         >
-                      </picture>
+                      </picture> 
                     </div>
-                    {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                    {% # theme-check-enable ImgLazyLoading %}
                   {%- endif %}
                   {%- if block.settings.image_mobile != blank and request.design_mode or block.settings.image == blank -%}
-                    {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                    {% # theme-check-disable ImgLazyLoading %}
                     <img
                       srcset="{{ block.settings.image_mobile | image_url: width: 375 }} 375w,
                       {{ block.settings.image_mobile | image_url: width: 450 }} 450w,
@@ -204,42 +223,48 @@
                       sizes="100vw"
                       src="{{ block.settings.image_mobile | image_url: width: 750 }}"
                       alt="{{ block.settings.image_mobile.alt | escape }}"
-                      class="object-cover absolute top-0 left-0 w-full h-full z-0 blur-sm{% if block.settings.image_mobile != blank %} md:hidden{% endif %}"
-                      loading="lazy"
+                      class="object-cover absolute top-0 left-0 w-full h-full z-0 blur-sm animate-Xpulse skeleton-image{% if block.settings.image_mobile != blank %} md:hidden{% endif %}"
+                      {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                      onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
                       width="{{ block.settings.image_mobile.width }}"
                       height="{{ block.settings.image_mobile.height }}"
                       style="object-position: {{ block.settings.image_mobile.presentation.focal_point }}"
                     >  
-                    {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                    {% # theme-check-enable ImgLazyLoading %}
                   {%- endif %}
+                  <span class="absolute pointer-events-none top-0 left-0 bottom-0 right-0 z-0 image-treatment-overlay opacity-{{ block.settings.overlay_opacity }}"></span>
                 {% endif %}
                 {% if block.settings.image_link != blank %}
                   <a href="{{ block.settings.image_link }}"{% if block.settings.open_new_window_image %} target="_blank"{% endif %} class="absolute top-0 left-0 bottom-0 right-0 opacity-0">{{ block.settings.image_link }}</a>
                 {% endif %}
-                <div class="page-width z-[1] md:items-center w-full pr-7 pl-7 md:pl-5 md:gap-x-[40px]{% if desktop_height_number <= 550 and section.settings.desktop_height != 'fullscreen' %} lg:gap-x-[80px] xl:gap-x-[150px]{% endif %} flex flex-col md:flex-row {% if block.settings.mobile_layout == 'bottom' %} flex-col-reverse{% endif %}{% if block.settings.desktop_layout == 'right' %} md:flex-row-reverse md:pr-14{% else %} md:pl-14{% endif %}">
-                  <div class="h-full grow relative overflow-hidden{% if section.settings.rounded_corner_image %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %} rounded-[10px]{% endif %}">
+                <div class="x-pgw page-width z-[1] md:items-center w-full pr-7 pl-7 md:pl-5 md:gap-x-[40px]
+                  {%- if desktop_height_number <= 550 and section.settings.desktop_height != 'fullscreen' %} lg:gap-x-[80px] xl:gap-x-[150px]{% endif %} flex flex-col md:flex-row 
+                  {%- if block.settings.mobile_layout == 'bottom' %} flex-col-reverse{% endif -%}
+                  {%- if block.settings.desktop_layout == 'right' %} md:flex-row-reverse rtl:md:flex-row md:pr-14 rtl:md:pr-0 rtl:md:pl-14{% else %} md:flex-row rtl:md:flex-row-reverse md:pl-14 rtl:md:pl-0 rtl:md:pr-14{% endif %}"
+                >
+                  <div class="x-block-image-overlay-image h-full grow relative overflow-hidden{% if rounded_desktop %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if rounded_mobile %} rounded-[10px]{% endif %}">
                     <div class="h-full w-full aspect-[3/2]">
                       {%- if block.settings.image == blank -%}
                         <div class="image-svg w-full h-full absolute bg-[#c9c9c9] text-[#5D5D5D]{% if block.settings.image_mobile != blank %} hidden{% endif %} md:block mx-auto">
                           {{ 'image' | placeholder_svg_tag: 'w-full h-full' }}
                         </div>
                       {%- else -%}
-                        {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                        {% # theme-check-disable ImgLazyLoading %}
                         <div class="{% if block.settings.image_mobile != blank and request.design_mode %} hidden md:block{% endif %} h-full w-full absolute">
                           {% if block.settings.image_link != blank %}
                             <a href="{{ block.settings.image_link }}" class="h-full w-full absolute top-0 left-0">
                           {% endif %}
                             <picture>
                               <source
-                                srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
-                                  {{ imageUrlMobile | image_url: width: 450 }} 450w,
-                                  {{ imageUrlMobile | image_url: width: 750 }} 750w,
-                                  {{ imageUrlMobile | image_url: width: 900 }} 900w,
-                                  {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
-                                  {{ imageUrlMobile | image_url: width: 1500 }} 1500w"
+                                srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
+                                  {{ image_url_mobile | image_url: width: 450 }} 450w,
+                                  {{ image_url_mobile | image_url: width: 750 }} 750w,
+                                  {{ image_url_mobile | image_url: width: 900 }} 900w,
+                                  {{ image_url_mobile | image_url: width: 1100 }} 1100w,
+                                  {{ image_url_mobile | image_url: width: 1500 }} 1500w"
                                 media="(max-width: 767px)"
-                                width="{{ imageUrlMobile.width }}"
-                                height="{{ imageUrlMobile.height }}"
+                                width="{{ image_url_mobile.width }}"
+                                height="{{ image_url_mobile.height }}"
                               >
                               <img
                                 srcset="{{ block.settings.image | image_url: width: 750 }} 750w,
@@ -251,7 +276,11 @@
                                   {{ block.settings.image | image_url: width: 3000 }} 3000w,
                                   {{ block.settings.image | image_url: width: 3840 }} 3840w"
                                 {% unless section.settings.show_hero and forloop.first %}
-                                  loading="lazy"
+                                  {% if settings.enable_lazy_loading_image %}
+                                    loading="lazy"
+                                  {% else %}
+                                    loading="eager"
+                                  {% endif %}
                                 {% else %}
                                   loading="eager"
                                   fetchpriority="high"
@@ -259,12 +288,9 @@
                                 {% endunless %}
                                 sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | divided_by: 2 }}px ,(min-width: 768px) 50vw, 90vw"
                                 src="{{ block.settings.image | image_url: width: 3840 }}"
-                                {% if block.settings.image_mobile != blank %}
-                                  :alt="(screen.width < 768) ? '{{ block.settings.image_mobile.alt }}' : '{{ block.settings.image.alt }}'"
-                                {% else %}
-                                  alt="{{ block.settings.image.alt | escape }}"
-                                {% endif %}
-                                class="object-cover h-full w-full absolute top-0 left-0 image-hover image-{{ block.id }}"
+                                alt="{{ block.settings.image.alt | escape }}"
+                                class="object-cover h-full w-full absolute top-0 left-0 image-hover image-{{ block.id }} animate-Xpulse skeleton-image"
+                                onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
                                 width="{{ block.settings.image.width }}"
                                 height="{{ block.settings.image.height }}"
                               >
@@ -273,10 +299,10 @@
                             </a>
                           {% endif %}
                         </div>
-                        {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                        {% # theme-check-enable ImgLazyLoading %}
                       {%- endif %}
                       {%- if block.settings.image_mobile != blank and request.design_mode or block.settings.image == blank -%}
-                        {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                        {% # theme-check-disable ImgLazyLoading %}
                         <img
                           srcset="{{ block.settings.image_mobile | image_url: width: 375 }} 375w,
                           {{ block.settings.image_mobile | image_url: width: 450 }} 450w,
@@ -287,9 +313,14 @@
                           sizes="100vw"
                           src="{{ block.settings.image_mobile | image_url: width: 750 }}"
                           alt="{{ block.settings.image_mobile.alt | escape }}"
-                          class="object-cover h-full w-full{% if block.settings.image_mobile != blank %} md:hidden{% endif %} absolute"
+                          class="object-cover h-full w-full{% if block.settings.image_mobile != blank %} md:hidden{% endif %} absolute animate-Xpulse skeleton-image"
+                          onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
                           {% unless section.settings.show_hero and forloop.first %}
-                            loading="lazy"
+                            {% if settings.enable_lazy_loading_image %}
+                              loading="lazy"
+                            {% else %}
+                              loading="eager"
+                            {% endif %}
                           {% else %}
                             loading="eager"
                             fetchpriority="high"
@@ -299,46 +330,46 @@
                           height="{{ block.settings.image_mobile.height }}"
                           style="object-position: {{ block.settings.image_mobile.presentation.focal_point }}"
                         >  
-                        {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                        {% # theme-check-enable ImgLazyLoading %}
                       {%- endif %}
                     </div>
                   </div>
-                  <div class="hero-text block-text--{{ block.id }} w-full{% if desktop_height_number > 550 or section.settings.desktop_height == 'fullscreen' %} md:w-1/2{% else %} md:w-1/2 lg:w-3/5{% endif %} pointer-events-none relative transition{% if settings.lang_direction contains request.locale.iso_code %} rtl{% endif %} z-20 h-fit md:h-full flex justify-center">
-                    <div class="table-cell text-{{ block.settings.alignment }} slideshow-vertical-content w-full max-w-xl md:pl-5 md:pr-5 md:w-[85%] lg:w-[80%]">
+                  <div class="x-block-image-overlay-text hero-text block-text--{{ block.id }} w-full{% if desktop_height_number > 550 or section.settings.desktop_height == 'fullscreen' %} md:w-1/2{% else %} md:w-1/2 lg:w-3/5{% endif %} pointer-events-none relative transition{% if is_rtl %} rtl{% endif %} z-20 h-fit md:h-full flex justify-center">
+                    <div class="table-cell text-{{ block.settings.alignment }} rtl:text-{% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'left' %}right{% else %}left{% endif %} slideshow-vertical-content w-full max-w-xl md:pl-5 md:pr-5 md:w-[85%] lg:w-[80%]">
                       <div class="mx-auto pb-5 md:pt-5 md:pr-3 md:pl-3{% unless block.settings.mobile_layout == 'bottom' %} pt-5{% endunless %}">
                         {% if section.settings.pagination %}
-                          <div class="text-medium">
+                          <div class="x-block-pagination-counter text-medium">
                             <p class="image-treatment-text text-[105%]">{{ forloop.index }}/{{ section.blocks.size }}</p>
                           </div>
                         {% endif %}
                         {%- if block.settings.subheading != blank -%}
-                          <p class="sub-heading-{{ block.id }} leading-tight italic p-break-words image-treatment-text">{{ block.settings.subheading | escape }}</p>
+                          <p class="x-subheading sub-heading-{{ block.id }} leading-tight p-break-words image-treatment-text">{{ block.settings.subheading | escape }}</p>
                         {%- endif -%}
                         {%- if block.settings.heading != blank -%}
-                          <{{ block.settings.heading_tag }} class="p-break-words heading-{{ block.id }} h2 block mt-1 leading-tight image-treatment-text">
-                            {% render 'heading-highlight',
-                              headingId: block.id,
-                              heading: block.settings.heading,
-                              highlight_type: block.settings.highlight_type,
-                              color_heading_highlight_light: block.settings.color_heading_highlight_light,
-                              color_heading_highlight_dark: block.settings.color_heading_highlight_light
-                            %}
-                          </{{ block.settings.heading_tag }}>
+                          {% render 'heading-highlight',
+                            headingId: block.id,
+                            heading: block.settings.heading,
+                            highlight_type: block.settings.highlight_type,
+                            color_heading_highlight_light: block.settings.color_heading_highlight_light,
+                            color_heading_highlight_dark: block.settings.color_heading_highlight_light,
+                            class: 'p-break-words h2 block mt-1 leading-tight image-treatment-text',
+                            heading_tag: block.settings.heading_tag
+                          %}
                         {%- endif -%}
                         {%- if block.settings.text != blank -%}
-                          <div class="lg:mt-1 p-break-words pointer-events-auto rte image-treatment-text text-medium rte">
+                          <div class="x-block-text lg:mt-1 p-break-words pointer-events-auto rte image-treatment-text text-medium rte">
                             {{ block.settings.text }}
                           </div>
                         {%- endif -%}
                         {%- if block.settings.button_label_1 != blank or block.settings.button_label_2 != blank -%}
-                          <div class="mt-4 pointer-events-auto ltr lg:mt-9 inline-flex flex-wrap gap-y-2 p-break-words gap-x-1 justify-{{ block.settings.alignment }}" {{ block.shopify_attributes }}>
+                          <div class="x-block-button mt-4 pointer-events-auto ltr lg:mt-9 inline-flex flex-wrap gap-y-2 p-break-words gap-x-1 justify-{{ block.settings.alignment }} rtl:justify-{% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'left' %}right{% else %}left{% endif %}" {{ block.shopify_attributes }}>
                             {%- if block.settings.button_label_1 != blank -%}
-                              <a{% if block.settings.button_link_1 %} href="{{ block.settings.button_link_1 }}"{% if block.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_1 %} hover:cursor-not-allowed opacity-70{% endunless %}">
+                              <a{% if block.settings.button_link_1 %} href="{{ block.settings.button_link_1 }}"{% if block.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_1 %} hover:cursor-not-allowed disable-btn-animation opacity-70{% endunless %}">
                                 {% render 'button-label', button_label: block.settings.button_label_1, show_button_style: block.settings.show_button_style_1 %}
                               </a> 
                             {%- endif -%}
                             {%- if block.settings.button_label_2 != blank -%}
-                              <a{% if block.settings.button_link_2 %} href="{{ block.settings.button_link_2 }}"{% if block.settings.open_new_window_button_2 %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_2 %} hover:cursor-not-allowed opacity-70{% endunless %}">
+                              <a{% if block.settings.button_link_2 %} href="{{ block.settings.button_link_2 }}"{% if block.settings.open_new_window_button_2 %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_2 %} hover:cursor-not-allowed disable-btn-animation opacity-70{% endunless %}">
                                 {% render 'button-label', button_label: block.settings.button_label_2, show_button_style: block.settings.show_button_style_2 %}
                               </a> 
                             {%- endif -%}
@@ -351,10 +382,11 @@
               </div>
             {% when 'slide_text' %}
               {%- liquid
-                assign heading_size = block.settings.heading_size | times: settings.heading_base_size | times: 0.000225 
-                assign imageUrlMobile = block.settings.image
+                assign heading_size = block.settings.heading_size | times: settings.heading_base_size | times: 0.000225
+                assign subheading_size = block.settings.subheading_size | times: settings.text_base_size | times: 0.0001
+                assign image_url_mobile = block.settings.image
                 if block.settings.image_mobile != blank
-                  assign imageUrlMobile = block.settings.image_mobile
+                  assign image_url_mobile = block.settings.image_mobile
                 endif
               -%}
               {%- style -%}
@@ -406,17 +438,17 @@
                   font-size: {{ heading_size | times: 0.5 }}rem;
                 }
                 .sub-heading-{{ block.id }} {
-                  font-size: {{ heading_size | times: 0.3 }}rem;
+                  font-size: {{ subheading_size | times: 0.9 }}rem;
                 }
                 .image-{{ block.id }} {
-                  object-position:{{ imageUrlMobile.presentation.focal_point }};
+                  object-position:{{ image_url_mobile.presentation.focal_point }};
                 }
                 @media screen and (min-width: 768px) {
                   .heading-{{ block.id }} {
                     font-size: {{ heading_size }}rem;
                   }
                   .sub-heading-{{ block.id }} {
-                    font-size: {{ heading_size | times: 0.58 }}rem;
+                    font-size: {{ subheading_size }}rem;
                   }
                   .image-{{ block.id }} {
                     object-position:{{ block.settings.image.presentation.focal_point }};
@@ -424,31 +456,31 @@
                 }
               {%- endstyle -%}
               <div x-slide-index="{{ forloop.index | minus: 1 }}" 
-                class="x-slideshow-{{ block.id }} overflow-hidden ltr h-full gap-1 md:gap-2.5 flex flex-col md:flex-row {% if block.settings.mobile_layout == 'bottom' %} flex-col-reverse{% endif %}{% if block.settings.desktop_layout == 'right' %} md:flex-row-reverse{% endif %} relative transition-opacity flex-shrink-0 w-full{% if enable_slider %} splide__slide x-splide-slide{% endif %}{% if section.settings.show_hero %} w-full{% endif %}"
+                class="x-slideshow-{{ block.id }} x-block-slide-text overflow-hidden ltr h-full gap-1 md:gap-2.5 flex flex-col md:flex-row {% if block.settings.mobile_layout == 'bottom' %} flex-col-reverse{% endif %}{% if block.settings.desktop_layout == 'right' %} md:flex-row-reverse rtl:md:flex-row{% else %} md:flex-row rtl:md:flex-row-reverse{% endif %} relative transition-opacity flex-shrink-0 w-full{% if enable_slider %} splide__slide x-splide-slide{% endif %}{% if section.settings.show_hero %} w-full{% endif %}"
                 x-intersect.half="slideIndex = '{{ slide_index }}'"
                 {{ block.shopify_attributes }}
               >
-                <div class="h-1/2 md:h-full md:w-1/2 relative overflow-hidden{% if section.settings.rounded_corner_image %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %} rounded-[10px]{% endif %}">
-                  <div class="h-full w-full absolute top-0 left-0 z-0">
+                <div class="x-block-slide-text-image h-1/2 md:h-full md:w-1/2 relative overflow-hidden{% if rounded_desktop %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if rounded_mobile %} rounded-[10px]{% endif %}">
+                  <div class="h-full w-full absolute top-0 left-0">
                     {%- if block.settings.image == blank -%}
                       <div class="image-svg w-full h-full bg-[#c9c9c9] text-[#acacac]{% if block.settings.image_mobile != blank %} hidden{% endif %} md:block mx-auto">
                         {{ 'image' | placeholder_svg_tag: 'w-full h-full' }}
                       </div>
                     {%- else -%}
-                      {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-                      <parallax-image class="{% if block.settings.image_mobile != blank and request.design_mode %} hidden md:block{% endif %} h-full w-full">
+                      {% # theme-check-disable ImgLazyLoading %}
+                      <parallax-image class="h-full w-full{% if block.settings.image_mobile != blank and request.design_mode %} hidden md:block{% endif %}">
                         <parallax-movement x-data="xParallax" x-intersect.once.margin.200px="load({{ settings.disable_parallax_effect }})">
                           <picture>
                             <source
-                              srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
-                                {{ imageUrlMobile | image_url: width: 450 }} 450w,
-                                {{ imageUrlMobile | image_url: width: 750 }} 750w,
-                                {{ imageUrlMobile | image_url: width: 900 }} 900w,
-                                {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
-                                {{ imageUrlMobile | image_url: width: 1500 }} 1500w"
+                              srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
+                                {{ image_url_mobile | image_url: width: 450 }} 450w,
+                                {{ image_url_mobile | image_url: width: 750 }} 750w,
+                                {{ image_url_mobile | image_url: width: 900 }} 900w,
+                                {{ image_url_mobile | image_url: width: 1100 }} 1100w,
+                                {{ image_url_mobile | image_url: width: 1500 }} 1500w"
                               media="(max-width: 767px)"
-                              width="{{ imageUrlMobile.width }}"
-                              height="{{ imageUrlMobile.height }}"
+                              width="{{ image_url_mobile.width }}"
+                              height="{{ image_url_mobile.height }}"
                             >
                             <img
                               srcset="{{ block.settings.image | image_url: width: 750 }} 750w,
@@ -460,30 +492,31 @@
                                 {{ block.settings.image | image_url: width: 3000 }} 3000w,
                                 {{ block.settings.image | image_url: width: 3840 }} 3840w"
                               {% unless section.settings.show_hero and forloop.first %}
-                                loading="lazy"
+                                {% if settings.enable_lazy_loading_image %}
+                                  loading="lazy"
+                                {% else %}
+                                  loading="eager"
+                                {% endif %}
                               {% else %}
                                 loading="eager"
                                 fetchpriority="high"
                                 decoding="sync"
                               {% endunless %}
+                              onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
                               sizes="(min-width: 768px) 50vw, 100vw"
                               src="{{ block.settings.image | image_url: width: 3840 }}"
-                              {% if block.settings.image_mobile != blank %}
-                                :alt="(screen.width < 768) ? '{{ block.settings.image_mobile.alt }}' : '{{ block.settings.image.alt }}'"
-                              {% else %}
-                                alt="{{ block.settings.image.alt | escape }}"
-                              {% endif %}
-                              class="object-cover h-full w-full image-{{ block.id }}"
+                              alt="{{ block.settings.image.alt | escape }}"
+                              class="object-cover h-full w-full image-{{ block.id }} animate-Xpulse skeleton-image"
                               width="{{ block.settings.image.width }}"
                               height="{{ block.settings.image.height }}"
                             >
                           </picture>
                         </parallax-movement>
                       </parallax-image>
-                      {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                      {% # theme-check-enable ImgLazyLoading %}
                     {%- endif %}
                     {%- if block.settings.image_mobile != blank and request.design_mode or block.settings.image == blank -%}
-                      {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                      {% # theme-check-disable ImgLazyLoading %}
                       <img
                         srcset="{{ block.settings.image_mobile | image_url: width: 375 }} 375w,
                         {{ block.settings.image_mobile | image_url: width: 450 }} 450w,
@@ -494,9 +527,14 @@
                         sizes="100vw"
                         src="{{ block.settings.image_mobile | image_url: width: 750 }}"
                         alt="{{ block.settings.image_mobile.alt | escape }}"
-                        class="object-cover h-full w-full{% if block.settings.image_mobile != blank %} md:hidden{% endif %}"
+                        class="object-cover h-full w-full animate-Xpulse skeleton-image{% if block.settings.image_mobile != blank %} md:hidden{% endif %}"
+                        onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
                         {% unless section.settings.show_hero and forloop.first %}
-                          loading="lazy"
+                          {% if settings.enable_lazy_loading_image %}
+                            loading="lazy"
+                          {% else %}
+                            loading="eager"
+                          {% endif %}
                         {% else %}
                           loading="eager"
                           fetchpriority="high"
@@ -506,49 +544,49 @@
                         height="{{ block.settings.image_mobile.height }}"
                         style="object-position: {{ block.settings.image_mobile.presentation.focal_point }}"
                       >  
-                      {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                      {% # theme-check-enable ImgLazyLoading %}
                     {%- endif %}
                   </div>
                   {% if block.settings.image_link != blank %}
                     <a href="{{ block.settings.image_link }}"{% if block.settings.open_new_window_image %} target="_blank"{% endif %} class="absolute top-0 left-0 bottom-0 right-0 z-[19] opacity-0">{{ block.settings.image_link }}</a>
                   {% endif %}
                 </div>
-                <div class="bg-[#c9c9c9] hero-text block-text--{{ block.id }} w-full md:w-1/2 pointer-events-none relative overflow-hidden transition{% if settings.lang_direction contains request.locale.iso_code %} rtl{% endif %} page-width z-20 h-1/2 md:h-full flex justify-center items-{{ block.settings.content_alignment }}{% if section.settings.rounded_corner_image %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if section.settings.rounded_corner_image_mobile %} rounded-[10px]{% endif %}">
-                  <div class="table-cell max-w-xl md:w-[85%] lg:w-[70%] pr-2 pl-2 md:pr-5 md:pl-5 text-{{ block.settings.alignment }} slideshow-vertical-content">
+                <div class="x-block-slide-text-content bg-[#c9c9c9] hero-text block-text--{{ block.id }} w-full md:w-1/2 pointer-events-none relative overflow-hidden transition{% if is_rtl %} rtl{% endif %} x-pgw page-width z-20 h-1/2 md:h-full flex justify-center items-{{ block.settings.content_alignment }}{% if rounded_desktop %} md:rounded-[10px]{% else %} md:rounded-none{% endif %}{% if rounded_mobile %} rounded-[10px]{% endif %}">
+                  <div class="table-cell max-w-xl md:w-[85%] lg:w-[70%] pr-2 pl-2 md:pr-5 md:pl-5 text-{{ block.settings.alignment }} rtl:text-{% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'left' %}right{% else %}left{% endif %} slideshow-vertical-content">
                     <div class="mx-auto max-w-md pt-5 md:pr-3 md:pl-3 pb-5">
                       {% if section.settings.pagination %}
-                        <div class="text-medium">
+                        <div class="x-block-pagination-counter text-medium">
                           <p class="image-treatment-text text-[105%]">{{ forloop.index }}/{{ section.blocks.size }}</p>
                         </div>
                       {% endif %}
                       {%- if block.settings.subheading != blank -%}
-                        <p class="sub-heading-{{ block.id }} leading-tight italic p-break-words image-treatment-text">{{ block.settings.subheading | escape }}</p>
+                        <p class="x-subheading sub-heading-{{ block.id }} leading-tight p-break-words image-treatment-text">{{ block.settings.subheading | escape }}</p>
                       {%- endif -%}
                       {%- if block.settings.heading != blank -%}
-                        <{{ block.settings.heading_tag }} class="p-break-words heading-{{ block.id }} h2 block mt-1 leading-tight image-treatment-text">
-                          {% render 'heading-highlight',
-                            headingId: block.id,
-                            heading: block.settings.heading,
-                            highlight_type: block.settings.highlight_type,
-                            color_heading_highlight_light: block.settings.color_heading_highlight_light,
-                            color_heading_highlight_dark: block.settings.color_heading_highlight_light
-                          %}
-                        </{{ block.settings.heading_tag }}>
+                        {% render 'heading-highlight',
+                          headingId: block.id,
+                          heading: block.settings.heading,
+                          highlight_type: block.settings.highlight_type,
+                          color_heading_highlight_light: block.settings.color_heading_highlight_light,
+                          color_heading_highlight_dark: block.settings.color_heading_highlight_light,
+                          class: 'p-break-words h2 block mt-1 leading-tight image-treatment-text',
+                          heading_tag: block.settings.heading_tag
+                        %}
                       {%- endif -%}
                       {%- if block.settings.text != blank -%}
-                        <div class="lg:mt-1 p-break-words pointer-events-auto rte image-treatment-text text-medium rte">
+                        <div class="x-block-text lg:mt-1 p-break-words pointer-events-auto rte image-treatment-text text-medium rte">
                           {{ block.settings.text }}
                         </div>
                       {%- endif -%}
                       {%- if block.settings.button_label_1 != blank or block.settings.button_label_2 != blank -%}
-                        <div class="mt-4 pointer-events-auto lg:mt-9 ltr inline-flex flex-wrap gap-y-2 p-break-words gap-x-1 justify-{{ block.settings.alignment }}" {{ block.shopify_attributes }}>
+                        <div class="x-block-button mt-4 pointer-events-auto lg:mt-9 ltr inline-flex flex-wrap gap-y-2 p-break-words gap-x-1 justify-{{ block.settings.alignment }} rtl:justify-{% if block.settings.alignment == 'center' %}center{% elsif block.settings.alignment == 'left' %}right{% else %}left{% endif %}" {{ block.shopify_attributes }}>
                           {%- if block.settings.button_label_1 != blank -%}
-                            <a{% if block.settings.button_link_1 %} href="{{ block.settings.button_link_1 }}"{% if block.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_1 %} hover:cursor-not-allowed opacity-70{% endunless %}">
+                            <a{% if block.settings.button_link_1 %} href="{{ block.settings.button_link_1 }}"{% if block.settings.open_new_window_button %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_1 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_1 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_1 %} hover:cursor-not-allowed disable-btn-animation opacity-70{% endunless %}">
                               {% render 'button-label', button_label: block.settings.button_label_1, show_button_style: block.settings.show_button_style_1 %}
                             </a> 
                           {%- endif -%}
                           {%- if block.settings.button_label_2 != blank -%}
-                            <a{% if block.settings.button_link_2 %} href="{{ block.settings.button_link_2 }}"{% if block.settings.open_new_window_button_2 %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_2 %} hover:cursor-not-allowed opacity-70{% endunless %}">
+                            <a{% if block.settings.button_link_2 %} href="{{ block.settings.button_link_2 }}"{% if block.settings.open_new_window_button_2 %} target="_blank"{% endif %}{% else %} role="link" aria-disabled="true"{% endif %} class="button button--{{ block.id }}{% if block.settings.show_button_style_2 == 'secondary' %} button-outline{% elsif block.settings.show_button_style_2 == 'text-link' %} button-text-link {% else %} button-solid{% endif %} border mt-0.5 mb-0.5 empty:hidden pl-6 pr-6 lg:pl-9 lg:pr-9 pt-2.5 pb-2.5 md:pt-3 md:pb-3 leading-normal{% unless block.settings.button_link_2 %} hover:cursor-not-allowed disable-btn-animation opacity-70{% endunless %}">
                               {% render 'button-label', button_label: block.settings.button_label_2, show_button_style: block.settings.show_button_style_2 %}
                             </a> 
                           {%- endif -%}
@@ -563,7 +601,7 @@
       </div>
     </div>
     {% if enable_slider and section.settings.show_arrow %}
-      <div class="splide__arrows absolute flex md:flex-col right-auto left-1/2 -translate-x-1/2 md:translate-x-0 bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 gap-1 md:gap-2.5{% if section.settings.arrow_position == 'left' %} md:left-5 lg:left-10{% else %} md:right-5 lg:right-10 md:left-auto{% endif %}">
+      <div class="splide__arrows absolute flex md:flex-col right-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 bottom-4 md:bottom-auto md:top-1/2 md:-translate-y-1/2 gap-1 md:gap-2.5{% if section.settings.arrow_position == 'left' %} md:left-5 rtl:md:left-auto rtl:md:right-5 lg:left-10 rtl:lg:left-auto rtl:lg:right-10{% else %} md:right-5 rtl:md:right-auto rtl:md:left-5 lg:right-10 rtl:lg:right-auto rtl:lg:left-10{% endif %}">
         <button class="splide__arrow splide__arrow--prev button-arrow-mobile button-arrow none_border z-10 w-10 h-10 md:w-12 md:h-12 rounded-full after:text-[20px] pl-3 pr-3 pt-3 pb-3 md:pr-4 md:pl-4 md:pt-4 md:pb-4 duration-100 lg:opacity-60 hover:opacity-100 disabled:opacity-40 disabled:cursor-not-allowed rotate-180" aria-label="previous slide">
           {% render 'icon-alls', icon: 'icon-caret' %}
         </button>
@@ -590,6 +628,10 @@
   },
   "settings": [
     {
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.section_and_blocks.vertical_slideshow"
+    },
+    {
       "type": "checkbox",
       "id": "auto_play",
       "label": "t:sections.slideshow.settings.auto_play.label",
@@ -603,7 +645,8 @@
       "step": 1,
       "unit": "s",
       "label": "t:sections.slideshow.settings.change_slides_speed.label",
-      "default": 5
+      "default": 5,
+      "visible_if": "{{ section.settings.auto_play }}"
     },
     {
       "type": "checkbox",
@@ -618,20 +661,21 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.slideshow.settings.layout.layout_desktop.left"
+          "label": "t:sections.all.content_alignment.options__1.label"
         },
         {
           "value": "right",
-          "label": "t:sections.slideshow.settings.layout.layout_desktop.right"
+          "label": "t:sections.all.content_alignment.options__3.label"
         }
       ],
       "default": "left",
-      "label": "t:sections.slideshow_vertical.settings.arrow_position.label"
+      "label": "t:sections.slideshow_vertical.settings.arrow_position.label",
+      "visible_if": "{{ section.settings.show_arrow }}"
     },
     {
       "type": "checkbox",
       "id": "pagination",
-      "label": "t:sections.slideshow_vertical.settings.pagination",
+      "label": "t:sections.main-collection-product-grid.settings.pagination.label",
       "default": true
     },
     {
@@ -642,20 +686,28 @@
       "type": "checkbox",
       "id": "full_width",
       "default": true,
-      "label": "t:sections.text-column-image.settings.full_width.label"
+      "label": "t:sections.all.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "padding_full_width",
       "default": false,
       "label": "t:sections.all.padding.padding_full_width.label",
-      "info": "t:sections.all.padding.padding_full_width.info"
+      "info": "t:sections.all.padding.padding_full_width.info",
+      "visible_if": "{{ section.settings.full_width }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "adapt_corners_desktop",
+      "label": "t:sections.slideshow.settings.enable_adapt",
+      "default": true
     },
     {
       "type": "checkbox",
       "id": "rounded_corner_image",
       "default": false,
-      "label": "t:sections.promotion-grid.blocks.promotion.settings.rounded_corner_image.label"
+      "label": "t:sections.featured-product.blocks.rounded_corner.label",
+      "visible_if": "{{ section.settings.adapt_corners_desktop == false }}"
     },
     {
       "type": "select",
@@ -663,27 +715,27 @@
       "options": [
         {
           "value": "450",
-          "label": "t:sections.slideshow.settings.desktop_height.options__1.label"
+          "label": "t:sections.image-with-text.settings.height.options__1.label"
         },
         {
           "value": "550",
-          "label": "t:sections.slideshow.settings.desktop_height.options__2.label"
+          "label": "t:sections.image-with-text.settings.height.options__2.label"
         },
         {
           "value": "650",
-          "label": "t:sections.slideshow.settings.desktop_height.options__3.label"
+          "label": "t:sections.image-with-text.settings.height.options__3.label"
         },
         {
           "value": "750",
-          "label": "t:sections.slideshow.settings.desktop_height.options__4.label"
+          "label": "t:sections.image-with-text.settings.height.options__4.label"
         },
         {
           "value": "fullscreen",
-          "label": "t:sections.slideshow.settings.desktop_height.options__6.label"
+          "label": "t:settings_schema.cart.settings.cart_drawer_size_mobile.fullscreen.label"
         }
       ],
       "default": "750",
-      "label": "t:sections.slideshow.settings.desktop_height.label"
+      "label": "t:sections.shop_the_look.settings.desktop_height.label"
     },
     {
       "type": "range",
@@ -714,13 +766,20 @@
       "type": "checkbox",
       "id": "full_width_mobile",
       "default": true,
-      "label": "t:sections.text-column-image.settings.full_width.label"
+      "label": "t:sections.all.full_width.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "adapt_corners_mobile",
+      "label": "t:sections.slideshow.settings.enable_adapt",
+      "default": true
     },
     {
       "type": "checkbox",
       "id": "rounded_corner_image_mobile",
       "default": false,
-      "label": "t:sections.promotion-grid.blocks.promotion.settings.rounded_corner_image.label"
+      "label": "t:sections.featured-product.blocks.rounded_corner.label",
+      "visible_if": "{{ section.settings.adapt_corners_mobile == false }}"
     },
     {
       "type": "range",
@@ -751,13 +810,13 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "t:sections.slideshow.blocks.slide.settings.image.label",
+          "label": "t:sections.all.image.label",
           "info": "t:sections.all.image.note_image_size"
         },
         {
           "type": "image_picker",
           "id": "image_mobile",
-          "label": "t:sections.slideshow.blocks.slide.settings.image_mobile.label",
+          "label": "t:sections.promotion-banner.settings.image_mobile.label",
           "info": "t:sections.all.image.note_image_size"
         },
         {
@@ -772,10 +831,30 @@
           "label": "t:sections.all.open_new_window.label"
         },
         {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "unit": "%",
+          "label": "t:sections.all.overlay_opacity.background_label",
+          "default": 0
+        },
+        {
           "type": "text",
           "id": "subheading",
           "default": "ADD A TAGLINE",
-          "label": "t:sections.slideshow.blocks.slide.settings.subheading.label"
+          "label": "t:sections.all.text.subheading"
+        },
+        {
+          "type": "range",
+          "id": "subheading_size",
+          "min": 100,
+          "max": 200,
+          "unit": "%",
+          "step": 10,
+          "default": 100,
+          "label": "t:sections.all.text.subheading_size"
         },
         {
           "type": "text",
@@ -856,12 +935,12 @@
           "type": "text",
           "id": "button_label_1",
           "default": "Button label",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_label_1.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_label.label"
         },
         {
           "type": "url",
           "id": "button_link_1",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_link_1.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_link.label"
         },
         {
           "type": "checkbox",
@@ -883,7 +962,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -893,12 +972,12 @@
           "type": "text",
           "id": "button_label_2",
           "default": "Button label",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_label_2.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_label_2.label"
         },
         {
           "type": "url",
           "id": "button_link_2",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_link_2.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_link_2.label"
         },
         {
           "type": "checkbox",
@@ -920,7 +999,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -948,7 +1027,7 @@
         },
         {
           "type": "header",
-          "content": "t:sections.slideshow.settings.layout.name"
+          "content": "t:sections.promotion-grid.blocks.promotion.settings.header.content"
         },
         {
           "type": "select",
@@ -958,11 +1037,11 @@
           "options": [
             {
               "value": "left",
-              "label": "t:sections.slideshow.settings.layout.layout_desktop.left"
+              "label": "t:sections.all.content_alignment.options__1.label"
             },
             {
               "value": "right",
-              "label": "t:sections.slideshow.settings.layout.layout_desktop.right"
+              "label": "t:sections.all.content_alignment.options__3.label"
             }
           ]
         },
@@ -974,17 +1053,17 @@
           "options": [
             {
               "value": "top",
-              "label": "t:sections.slideshow.blocks.slide.settings.content_alignment.options__2.label"
+              "label": "t:sections.all.content_position.options__2.label"
             },
             {
               "value": "bottom",
-              "label": "t:sections.slideshow.blocks.slide.settings.content_alignment.options__8.label"
+              "label": "t:sections.all.content_position.options__8.label"
             }
           ]
         },
         {
           "type": "header",
-          "content": "t:sections.slideshow.blocks.slide.settings.header.content"
+          "content": "t:settings_schema.colors.name"
         },
         {
           "type": "color",
@@ -1056,13 +1135,13 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "t:sections.slideshow.blocks.slide.settings.image.label",
+          "label": "t:sections.all.image.label",
           "info": "t:sections.all.image.note_image_size"
         },
         {
           "type": "image_picker",
           "id": "image_mobile",
-          "label": "t:sections.slideshow.blocks.slide.settings.image_mobile.label",
+          "label": "t:sections.promotion-banner.settings.image_mobile.label",
           "info": "t:sections.all.image.note_image_size"
         },
         {
@@ -1079,7 +1158,17 @@
         {
           "type": "text",
           "id": "subheading",
-          "label": "t:sections.slideshow.blocks.slide.settings.subheading.label"
+          "label": "t:sections.all.text.subheading"
+        },
+        {
+          "type": "range",
+          "id": "subheading_size",
+          "min": 100,
+          "max": 200,
+          "unit": "%",
+          "step": 10,
+          "default": 100,
+          "label": "t:sections.all.text.subheading_size"
         },
         {
           "type": "text",
@@ -1160,12 +1249,12 @@
           "type": "text",
           "id": "button_label_1",
           "default": "Button label",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_label_1.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_label.label"
         },
         {
           "type": "url",
           "id": "button_link_1",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_link_1.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_link.label"
         },
         {
           "type": "checkbox",
@@ -1187,7 +1276,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -1197,12 +1286,12 @@
           "type": "text",
           "id": "button_label_2",
           "default": "Button label",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_label_2.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_label_2.label"
         },
         {
           "type": "url",
           "id": "button_link_2",
-          "label": "t:sections.slideshow.blocks.slide.settings.button_link_2.label"
+          "label": "t:sections.promotion-banner.blocks.buttons.settings.button_link_2.label"
         },
         {
           "type": "checkbox",
@@ -1224,7 +1313,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -1236,19 +1325,19 @@
           "options": [
             {
               "value": "start",
-              "label": "t:sections.slideshow.blocks.slide.settings.content_alignment.options__2.label"
+              "label": "t:sections.all.content_position.options__2.label"
             },
             {
               "value": "center",
-              "label": "t:sections.slideshow.blocks.slide.settings.content_alignment.options__5.label"
+              "label": "t:sections.all.content_alignment.options__2.label"
             },
             {
               "value": "end",
-              "label": "t:sections.slideshow.blocks.slide.settings.content_alignment.options__8.label"
+              "label": "t:sections.all.content_position.options__8.label"
             }
           ],
           "default": "center",
-          "label": "t:sections.slideshow_vertical.settings.content_position"
+          "label": "t:sections.all.content_position.label"
         },
         {
           "type": "select",
@@ -1272,7 +1361,7 @@
         },
         {
           "type": "header",
-          "content": "t:sections.slideshow.settings.layout.name"
+          "content": "t:sections.promotion-grid.blocks.promotion.settings.header.content"
         },
         {
           "type": "select",
@@ -1282,11 +1371,11 @@
           "options": [
             {
               "value": "left",
-              "label": "t:sections.slideshow.settings.layout.layout_desktop.left"
+              "label": "t:sections.all.content_alignment.options__1.label"
             },
             {
               "value": "right",
-              "label": "t:sections.slideshow.settings.layout.layout_desktop.right"
+              "label": "t:sections.all.content_alignment.options__3.label"
             }
           ]
         },
@@ -1298,17 +1387,17 @@
           "options": [
             {
               "value": "top",
-              "label": "t:sections.slideshow.blocks.slide.settings.content_alignment.options__2.label"
+              "label": "t:sections.all.content_position.options__2.label"
             },
             {
               "value": "bottom",
-              "label": "t:sections.slideshow.blocks.slide.settings.content_alignment.options__8.label"
+              "label": "t:sections.all.content_position.options__8.label"
             }
           ]
         },
         {
           "type": "header",
-          "content": "t:sections.slideshow.blocks.slide.settings.header.content"
+          "content": "t:settings_schema.colors.name"
         },
         {
           "type": "color",
@@ -1376,6 +1465,7 @@
   "presets": [
     {
       "name": "t:sections.slideshow_vertical.name",
+      "category": "t:categories.storytelling",
       "blocks": [
         {
           "type": "image_overlay"
