@@ -278,6 +278,9 @@
     },
     "header": {
       "type": "header",
+      "custom_css": [
+        ".w-\\[90px\\] {z-index: 10;}"
+      ],
       "settings": {
         "menu": "main-menu",
         "enable_hamburger_menu": false,
@@ -287,13 +290,15 @@
         "logo_position": "left-center",
         "mobile_header_layout": "center-left",
         "sticky_header_type": "on-scroll-up",
+        "logo": "shopify://shop_images/240823_Logo_abgerundete_Ecken_1920_x_1080_px.png",
         "logo_width": 130,
-        "logo_width_mobile": 100,
+        "logo_width_mobile": 90,
         "logo_div_to_h1": true,
         "show_social_icons": false,
-        "enable_on_homepage": false,
+        "enable_on_homepage": true,
         "enable_on_collection_page": false,
-        "shadow": 50,
+        "logo_transparent": "shopify://shop_images/240823_Logo_abgerundete_Ecken_1920_x_1080_px.png",
+        "shadow": 72,
         "text_color_light": "#ffffff",
         "textlink_color_light": "#f6f6f6",
         "text_color_dark": "#ffffff",
