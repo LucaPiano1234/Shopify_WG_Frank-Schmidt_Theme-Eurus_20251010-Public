@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
@@ -8,23 +17,57 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "icon": "none",
+            "icon": "leaf",
             "another_icon": "",
             "custom_icon": "",
-            "text": "SIGN - UP FOR 15% OFF ON YOUR FIRST ORDER",
-            "text_size": 90,
+            "text": "5% Rabatt ab 60 Flaschen⎪Versandkostenfreie Lieferung ab 12 Flaschen",
+            "text_size": 100,
             "link": "",
             "open_new_window": false,
-            "button_label_or_code": "SHOP NOW",
-            "button_link": "",
+            "button_label_or_code": "Alle Weine entdecken",
+            "button_link": "shopify://collections/alle-weine",
             "open_new_window_button": false,
-            "button_style": "primary",
-            "textlink_color_light": "rgba(0,0,0,0)",
-            "button_color": "#ffffff",
-            "button_text_color": "#242424",
+            "button_style": "text_link_with_arrow",
+            "textlink_color_light": "#242424",
+            "button_color": "rgba(0,0,0,0)",
+            "button_text_color": "#ffffff",
             "textlink_color_dark": "rgba(0,0,0,0)",
             "button_color_dark": "#ffffff",
             "button_text_color_dark": "#242424",
+            "countdown_type": "standard",
+            "countdown_interval": 7,
+            "interval_unit": "day",
+            "timezone": "-4",
+            "end_year": 2023,
+            "end_month": "1",
+            "end_day": "1",
+            "end_hour": "1",
+            "end_minute": "0"
+          }
+        },
+        "announcement_VdQrXf": {
+          "type": "announcement",
+          "settings": {
+            "icon": "chat-bubble",
+            "another_icon": "",
+            "custom_icon": "",
+            "text": "Tel: +49 76635791",
+            "text_size": 100,
+            "link": "tel:+4976635791",
+            "open_new_window": false,
+            "button_label_or_code": "E-Mail: info@weingut-frank-schmidt.de",
+            "button_link": "",
+            "open_new_window_button": true,
+            "button_style": "text_link_with_arrow",
+            "textlink_color_light": "#242424",
+            "button_color": "rgba(0,0,0,0)",
+            "button_text_color": "rgba(0,0,0,0)",
+            "textlink_color_dark": "rgba(0,0,0,0)",
+            "button_color_dark": "rgba(0,0,0,0)",
+            "button_text_color_dark": "rgba(0,0,0,0)",
+            "countdown_type": "standard",
+            "countdown_interval": 7,
+            "interval_unit": "day",
             "timezone": "-4",
             "end_year": 2023,
             "end_month": "1",
@@ -35,20 +78,21 @@
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "announcement-bar-0",
+        "announcement_VdQrXf"
       ],
       "settings": {
-        "enable": false,
+        "enable": true,
         "show_only_on_homepage": false,
-        "enable_sticky_bar": false,
+        "enable_sticky_bar": true,
         "show_social_icons": true,
-        "backgound_color": "#606b50",
-        "text_color": "#ffffff",
-        "textlink_color_light": "#ffffff",
+        "backgound_color": "#969538",
+        "text_color": "#3d2f28",
+        "textlink_color_light": "#979532",
         "backgound_color_dark": "#606b50",
-        "text_color_dark": "#ffffff",
-        "textlink_color_dark": "#ffffff",
-        "menu": "main-menu",
+        "text_color_dark": "#242424",
+        "textlink_color_dark": "#242424",
+        "menu": "",
         "menu_position": "right",
         "enable_carousel_on_desktop": true,
         "auto_switch_bar": true,
@@ -57,7 +101,7 @@
         "alignment": "right",
         "show_language_selector": false,
         "show_currency_selector": false,
-        "text_size_toolbar": 80
+        "text_size_toolbar": 90
       }
     },
     "scrolling_banner_p9eXUt": {
@@ -206,6 +250,7 @@
         "icon_tpBgin",
         "text_Bw3yFP"
       ],
+      "disabled": true,
       "settings": {
         "show_border": true,
         "speed": 30,
@@ -244,6 +289,7 @@
         "sticky_header_type": "on-scroll-up",
         "logo_width": 130,
         "logo_width_mobile": 100,
+        "logo_div_to_h1": true,
         "show_social_icons": false,
         "enable_on_homepage": false,
         "enable_on_collection_page": false,
@@ -254,12 +300,27 @@
         "textlink_color_dark": "rgba(0,0,0,0)",
         "shadow_color": "#3e2f28",
         "shadow_color_dark": "#000000",
+        "enable_sidebar": true,
+        "icon_header_sidebar": "tag",
+        "another_icon_header_sidebar": "",
+        "custom_icon_header_sidebar": "",
+        "sidebar_heading": "Check our seasonal deals!",
         "primary_menu_label_animation": false,
         "enable_highlight": true,
         "menus": "",
         "highlight_style": "bling_bling",
         "highlight_color_light": "#a90000",
         "highlight_color_dark": "rgba(0,0,0,0)",
+        "applied_menus": "",
+        "label": "",
+        "label_position": "above",
+        "label_color": "#ce021e",
+        "label_text_color_light": "#ffffff",
+        "label_color_dark": "#ce021e",
+        "label_text_color_dark": "#ffffff",
+        "label_icon": "none",
+        "label_another_icon": "",
+        "label_custom_icon": "",
         "header_show_language_selector": false,
         "header_show_currency_selector": false,
         "show_section_divider": false,
@@ -288,6 +349,7 @@
       ],
       "settings": {
         "menu": "main-menu",
+        "menu_font_size": "medium",
         "show_language_selector": true,
         "show_currency_selector": true,
         "background_color": "#ffffff",
@@ -302,7 +364,16 @@
         "menus": "",
         "highlight_style": "marker",
         "highlight_color_light": "rgba(0,0,0,0)",
-        "highlight_color_dark": "rgba(0,0,0,0)"
+        "highlight_color_dark": "rgba(0,0,0,0)",
+        "applied_menus": "",
+        "menu_label": "",
+        "menu_label_color": "#ce021e",
+        "menu_label_text_color_light": "#ffffff",
+        "menu_label_color_dark": "#ce021e",
+        "menu_label_text_color_dark": "#ffffff",
+        "menu_label_icon": "none",
+        "menu_label_another_icon": "",
+        "menu_label_custom_icon": ""
       }
     }
   },
