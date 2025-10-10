@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('slide-vertical.js')) {
-  window.Eurus.loadedScript.push('slide-vertical.js');
+if (!window.Eurus.loadedScript.has('slide-vertical.js')) {
+  window.Eurus.loadedScript.add('slide-vertical.js');
 
   requestAnimationFrame(() => {
     document.addEventListener("alpine:init", () => {
@@ -29,8 +29,8 @@ if (!window.Eurus.loadedScript.includes('slide-vertical.js')) {
             } else {
               spacing = this.slideOfset - e.pageY;
             }
-            if (this.slideIndex == 'first' && spacing > -20) return;
-            if (this.slideIndex == 'last' && spacing < 20) return;
+            if (this.slideIndex == 'first' && spacing > -50) return;
+            if (this.slideIndex == 'last' && spacing < 50) return;
             let spacingMove = this.scrollTopBody + spacing * 2;
             window.scrollTo({top: spacingMove , behavior: 'smooth'});
           }

@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('product-media.js')) {
-  window.Eurus.loadedScript.push('product-media.js');
+if (!window.Eurus.loadedScript.has('product-media.js')) {
+  window.Eurus.loadedScript.add('product-media.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
@@ -94,7 +94,7 @@ if (!window.Eurus.loadedScript.includes('product-media.js')) {
               });
             }
             else {
-              document.getElementById(position + '-image-zoom-' + settings.section_id).scrollIntoView()
+              document.getElementById(position + '-image-zoom-' + settings.section_id).scrollIntoView({ behavior: 'smooth', block: 'start' })
             }
           }, 200);
           Alpine.store('xModal').activeElement = 'product-image-' + settings.section_id + '-' + position;

@@ -1,24 +1,27 @@
 {% liquid 
   assign heading_base_size =  settings.heading_base_size | times: 0.0225
   assign heading_size =  section.settings.heading_size | times: 0.01 | times: heading_base_size
-
-  assign imageUrlMobile = section.settings.image_desktop
+  assign image_url_mobile = section.settings.image_desktop
   if section.settings.image_mobile != blank
-    assign imageUrlMobile = section.settings.image_mobile
+    assign image_url_mobile = section.settings.image_mobile
   endif
-
   assign disable_quickview = true
   if section.settings.show_quickview
     assign disable_quickview = false
-  endif 
+  endif
+  if settings.lang_direction contains request.locale.iso_code
+    assign is_rtl = true
+  else
+    assign is_rtl = false
+  endif
 %} 
 {%- style -%}
   .heading-{{ section.id }} {
     font-size: {{ heading_size | times: 0.6 }}rem;
   }
-  {%- if imageUrlMobile != blank -%} 
+  {%- if image_url_mobile != blank -%} 
     .image-{{ section.id }} {
-      object-position: {{ imageUrlMobile.presentation.focal_point }}
+      object-position: {{ image_url_mobile.presentation.focal_point }}
     }
   {%- endif -%}
   {% if section.settings.mobile_height == 'natural' %}
@@ -29,7 +32,7 @@
       .shop-the-look-image-{{ section.id }}::before {
         content: '';
         height: 0;
-        padding-bottom: {{ 1 | divided_by: imageUrlMobile.aspect_ratio | times: 100 }}%;
+        padding-bottom: {{ 1 | divided_by: image_url_mobile.aspect_ratio | times: 100 }}%;
         display: block;
       }
     }
@@ -59,49 +62,74 @@
 
 {% render 'section-divider' %}
 
-<div class="{% if section.index == 1 %}preload-image {% endif %}ltr pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
-  {% if section.settings.heading != blank %}
-    <{{ section.settings.heading_tag }} class="heading-{{ section.id }} mb-5 md:mb-9 text-{{ section.settings.heading_alignment }} h2 block pb-2 leading-tight p-break-words px-5{% unless section.settings.full_width %} page-width{% endunless %}">
-      {% render 'heading-highlight',
-        headingId: section.id,
-        heading: section.settings.heading,
-        highlight_type: section.settings.highlight_type
-      %}
-    </{{ section.settings.heading_tag }}>
-  {% endif %} 
-  <div class="flex flex-wrap relative items-center{% if section.settings.image_alignment == "right" %} md:flex-row-reverse{% endif %}{% if section.settings.full_width %}{% if section.settings.padding_full_width %} md:px-5{% endif %}{% else %} page-width px-0{% if section.settings.image_alignment == 'layered' %} md:px-5{% else %} md:px-32{% endif %}{% endif %}">
+<div class="x-container-shop-the-look {% if section.index == 1 %}preload-image {% endif %}ltr pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
+  <div class="x-block-shop-the-look-header empty:hidden mb-6 text-{{ section.settings.heading_alignment }} rtl:text-{% if section.settings.heading_alignment == 'center' %}center{% elsif section.settings.heading_alignment == 'left' %}right{% else %}left{% endif %}
+    {%- if section.settings.full_width_mobile %} pr-0 pl-0{% else %} pr-5 pl-5{% endif -%}
+    {%- if section.settings.padding_full_width or section.settings.full_width == false %} md:pr-5 md:pl-5{% else %} md:pr-0 md:pl-0{% endif -%}
+    {%- unless section.settings.full_width %} x-pgw page-width{% endunless %}"
+  >
+    {%- if section.settings.subheading != blank -%}
+      <div class="mb-1.5{% unless settings.disable_heading_animation %} overflow-hidden{% endunless %}"{% unless settings.disable_heading_animation %} x-intersect.once="$el.querySelector('.anm-move-up')?.classList.add('active-anm-heading')"{% endunless %}>
+        <p class="rte{% unless settings.disable_heading_animation %} anm-move-up{% endunless %}">{{ section.settings.subheading }}</p>
+      </div>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <div class="mb-5 md:mb-9 pb-2">
+        {% render 'heading-highlight',
+          headingId: section.id,
+          heading: section.settings.heading,
+          highlight_type: section.settings.highlight_type,
+          class: 'h2 block leading-tight p-break-words',
+          heading_tag: section.settings.heading_tag,
+          animation_heading: true
+        %}
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="flex flex-wrap relative items-center{% if section.settings.image_alignment == "right" %} md:flex-row-reverse rtl:md:flex-row{% endif %}{% if section.settings.image_alignment == "left" %} md:flex-row rtl:md:flex-row-reverse{% endif %}{% if section.settings.full_width %}{% if section.settings.padding_full_width %} md:px-5{% endif %}{% else %} x-pgw page-width px-0{% if section.settings.image_alignment == 'layered' %} md:px-5{% else %} md:px-32{% endif %}{% endif %}">
     <div 
       class="w-full{% unless section.settings.image_alignment == "layered" %}{% if section.settings.desktop_size != 'large' %} md:w-[55%]{% else %} md:w-3/5{% endif %}{% endunless %}{% unless section.settings.full_width_mobile %} px-5 md:px-0{% endunless %}"
     >
       <div 
         id="x-hotspot-{{ section.id }}" 
         x-intersect.once="$el.classList.remove('bg-[#c9c9c9]')"
-        class="bg-[#c9c9c9] shop-the-look-image shop-the-look-image-{{ section.id }} w-full relative overflow-hidden h-[{{ section.settings.mobile_height }}] md:h-[{{ section.settings.desktop_height }}]{% if section.settings.full_width %} md:rounded-none{% else %}{% if settings.edges_type == 'rounded_corners' %} md:rounded-[10px]{% endif %}{% endif %}{% unless section.settings.full_width_mobile %}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}{% endunless %}"
+        class="shop-the-look-image shop-the-look-image-{{ section.id }} w-full relative overflow-hidden h-[{{ section.settings.mobile_height }}] md:h-[{{ section.settings.desktop_height }}]{% if section.settings.full_width %} md:rounded-none{% else %}{% if settings.edges_type == 'rounded_corners' %} md:rounded-[10px]{% endif %}{% endif %}{% unless section.settings.full_width_mobile %}{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}{% endunless %}"
         {% if section.settings.image_alignment == 'layered' %} x-data="{ active : 1 }" {% endif %}
       >
+        {% # theme-check-disable ImgLazyLoading %}
         {% if section.settings.image_desktop != blank %}
           {% if section.settings.show_hero %}
+            {% liquid
+              if settings.enable_lazy_loading_image
+                assign loading = 'lazy'
+              else
+                assign loading = 'eager'
+              endif
+            %}
             <div class="hidden">
               {%- if section.settings.image_mobile != blank -%}
-                {{ section.settings.image_mobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true, loading: 'lazy' }}
+                {{ section.settings.image_mobile | image_url: width: 1500 | image_tag: widths: '375, 450, 750, 900, 1100, 1500', preload: true, loading: loading }}
               {%- endif -%}
-              {{ section.settings.image_desktop | image_url: width: 3840 | image_tag: widths: '450, 750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true, loading: 'lazy' }}
+              {{ section.settings.image_desktop | image_url: width: 3840 | image_tag: widths: '450, 750, 900, 1100, 1500, 1780, 2000, 3000, 3840', preload: true, loading: loading }}
             </div>
           {% endif %}
           <picture>
             <source 
-              srcset="{{ imageUrlMobile | image_url: width: 375 }} 375w,
-              {{ imageUrlMobile | image_url: width: 450 }} 450w,
-              {{ imageUrlMobile | image_url: width: 750 }} 750w,
-              {{ imageUrlMobile | image_url: width: 900 }} 900w,
-              {{ imageUrlMobile | image_url: width: 1100 }} 1100w,
-              {{ imageUrlMobile | image_url: width: 1500 }} 1500w" 
+              srcset="{{ image_url_mobile | image_url: width: 375 }} 375w,
+              {{ image_url_mobile | image_url: width: 450 }} 450w,
+              {{ image_url_mobile | image_url: width: 750 }} 750w,
+              {{ image_url_mobile | image_url: width: 900 }} 900w,
+              {{ image_url_mobile | image_url: width: 1100 }} 1100w,
+              {{ image_url_mobile | image_url: width: 1500 }} 1500w" 
               media="(max-width: 767px)" 
-              width="{{ imageUrlMobile.width }}" 
-              height="{{ imageUrlMobile.height }}"
+              width="{{ image_url_mobile.width }}" 
+              height="{{ image_url_mobile.height }}"
             />
             <img
-              class="image-{{ section.id }} animate_transition_slide__image h-full w-full absolute top-0 left-0 {% unless section.settings.desktop_height == 'natural' %}md:relative{% endunless %} object-cover {% if block.settings.image_mobile != blank and request.design_mode %} hidden md:block{% endif %}"
+              class="image-{{ section.id }} animate_transition_slide__image h-full w-full absolute top-0 left-0 object-cover animate-Xpulse skeleton-image
+                {%- unless section.settings.desktop_height == 'natural' %} md:relative{% endunless -%}
+                {%- if section.settings.image_mobile != blank and request.design_mode %} hidden md:block{% endif -%}
+              "
               srcset="{{ section.settings.image_desktop | image_url: width: 750 }} 750w,
               {{ section.settings.image_desktop | image_url: width: 900 }} 900w,
               {{ section.settings.image_desktop | image_url: width: 1100 }} 1100w,
@@ -111,16 +139,12 @@
               {{ section.settings.image_desktop | image_url: width: 3000 }} 3000w,
               {{ section.settings.image_desktop | image_url: width: 3840 }} 3840w"
               src="{{ section.settings.image_desktop | image_url: width: 1080 }}"
-              {% if section.settings.image_mobile != blank %}
-                :alt="(screen.width < 768) ? '{{ section.settings.image_mobile.alt }}' : '{{ section.settings.image_desktop.alt }}'"
-              {% else %}
-                alt="{{ section.settings.image_desktop.alt | escape }}"
-              {% endif %}
-              loading="lazy"
+              alt="{{ section.settings.image_desktop.alt | escape }}"
+              {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+              onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image'); this.closest('.animate_transition_slide__image')?.classList.add('active');"
               sizes="{% unless section.settings.full_width %}(min-width: {{ settings.page_width }}px) {% if section.settings.image_alignment == 'layered' %}{{ settings.page_width }}px{% else %}{{ settings.page_width | times: 0.6 }}px{% endif %}, {% endunless %}(min-width: 768px) {% if section.settings.image_alignment == 'layered' %}100vw{% else %}60vw{% endif %}, 100vw"
               width="{{ section.settings.image_desktop.width }}"
               height="{{ section.settings.image_desktop.height }}"
-              x-intersect.once="$el.classList.add('active')"
             />
           </picture>
         {% else %}
@@ -139,14 +163,15 @@
             sizes="100vw"
             src="{{ section.settings.image_mobile | image_url: width: 750 }}"
             alt="{{ section.settings.image_mobile.alt | escape }}"
-            class="object-cover absolute top-0 left-0 h-full w-full{% if section.settings.image_mobile != blank %} md:hidden{% endif %} animate_transition_slide__image"
-            loading="lazy"  
+            class="object-cover absolute top-0 left-0 h-full w-full animate_transition_slide__image animate-Xpulse skeleton-image{% if section.settings.image_mobile != blank %} md:hidden{% endif %}"
+            {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+            onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image'); this.closest('.animate_transition_slide__image')?.classList.add('active');"
             width="{{ section.settings.image_mobile.width }}"
             height="{{ section.settings.image_mobile.height }}"
             style="object-position: {{ section.settings.image_mobile.presentation.focal_point }}"
-            x-intersect.once="$el.classList.add('active')"
           />  
         {%- endif %}
+        {% # theme-check-enable ImgLazyLoading %}
         {% for block in section.blocks %}
           {% style %}
             .hotspot-{{ block.id }} {
@@ -154,7 +179,7 @@
               top:{{ block.settings.hotspot_mobile_vertical }}%;
               transform: translate(-{{ block.settings.hotspot_mobile_horizontal }}%,-{{ block.settings.hotspot_mobile_vertical }}%);
               {% unless block.settings.color_hotspot.alpha == 0.0 %}
-                --colors-text: {{ block.settings.color_hotspot.red }}, {{ block.settings.color_hotspot.green }}, {{ block.settings.color_hotspot.blue }};
+                --colors-background: {{ block.settings.color_hotspot.red }}, {{ block.settings.color_hotspot.green }}, {{ block.settings.color_hotspot.blue }};
               {% endunless %}
             }
             @media (min-width: 767px) {
@@ -181,7 +206,7 @@
           {% endstyle %}
           <button
             index="{{ forloop.index }}" 
-            class="opacity-0 absolute p-5 md:p-6 x-hotspot hotspot-{{ block.id }} hotspot-color-{{ section.id }} group{% unless block.settings.product != blank %} cursor-not-allowed{% endunless %}"
+            class="opacity-0 absolute p-5 md:p-6 x-hotspot hotspot-{{ block.id }} text-[rgba(var(--colors-background))] hotspot-color-{{ section.id }} group{% unless block.settings.product != blank %} cursor-not-allowed{% endunless %}"
             {% if section.settings.image_alignment == 'layered' %} :class="active == {{ forloop.index }} && 'z-10'" @mouseleave="active = false"{% endif %}
             aria-label="hotspot" {{ block.shopify_attributes }}
             x-intersect.once="$el.classList.add('opacity-100')"
@@ -190,10 +215,11 @@
               <span class="spot-{{ block.id }} flex w-3 h-3 md:h-4 md:w-4 relative duration-300" :class="active == {{ forloop.index }} && 'active-hotspot:scale-[1.8] scale-[1.8]'" 
                 @mouseover="active = {{ forloop.index }}"
               >
-                <span class="animate-[pingHotspot_2s_ease-in-out_infinite] absolute inline-flex h-full w-full rounded-full bg-[rgba(var(--colors-text),0.2)]"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 md:h-4 md:w-4 duration-300 bg-[rgba(var(--colors-text))]"
+                <span class="animate-[pingHotspot_2s_ease-in-out_infinite] absolute inline-flex h-full w-full rounded-full bg-[rgba(var(--colors-background),0.2)]"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 md:h-4 md:w-4 duration-300 bg-[rgba(var(--colors-background))]"
                   {% if block.settings.product != blank and section.settings.show_quickview %}
-                    @click.prevent='$store.xQuickView && $store.xQuickView.load("{{ block.settings.product.url | within: collection }}", $el, "{{ section.id }}-{{ block.settings.product.id }}-{{ block.id }}") && $store.xQuickView.open();'
+                    @click.prevent='setTimeout(() => { $store.xQuickView && $store.xQuickView.open(); }, 0)'
+                    x-on:mouseover='setTimeout(() => { $store.xQuickView && $store.xQuickView.load("{{ block.settings.product.url | within: collection }}", $el, "{{ section.id }}-{{ block.settings.product.id }}-{{ block.id }}") }, 0)'
                   {% endif %}
                 ></span>
               </span>
@@ -201,7 +227,16 @@
                 {% if block.settings.hotspot_desktop_vertical < 50 %}  
                   <div class="w-4 h-4 -mb-px border-solid border-x-[1rem] border-x-transparent border-b-[rgba(var(--background-color),1)] border-b-[1rem] arrow-{{ block.id }}"></div>
                 {% endif %} 
-                <div class="flex bg-[rgba(var(--background-color),1)] px-[1.125rem] py-6">
+                <div class="flex bg-[rgba(var(--background-color),1)] px-[1.125rem] py-6
+                  {%- if section.settings.product_card_edges == 'rounded_corners' or section.settings.product_card_edges == 'adapt' and settings.edges_type == 'rounded_corners' %} rounded-xl{% endif -%}
+                  {%- if block.settings.hotspot_desktop_vertical < 50 -%}
+                    {%- if block.settings.hotspot_desktop_horizontal < 6 %} rounded-tl-none{% endif -%}
+                    {%- if block.settings.hotspot_desktop_horizontal > 94 %} rounded-tr-none{% endif -%}
+                  {%- else -%}
+                    {%- if block.settings.hotspot_desktop_horizontal < 6 %} rounded-bl-none{% endif -%}
+                    {%- if block.settings.hotspot_desktop_horizontal > 94 %} rounded-br-none{% endif -%}
+                  {%- endif -%}"
+                >
                   <div class="w-2/5 max-w-[5.25rem]">
                     {% liquid 
                       assign card_product = block.settings.product
@@ -224,13 +259,13 @@
                       endif
                     %}
                     <div class="h-full">
-                      <div class="w-full relative overflow-hidden{% unless media_aspect_ratio == "natural" %} pb-[{{ ratio | times: 100.0 }}%]{% else %}{% unless card_product.featured_media %} pb-[100%]{% endunless %}{% if card_product.featured_media.media_type == "model" %} pb-[100%]{% endif %}{% endunless %}{% if show_rounded_image %} rounded-[10px]{% endif %}"
+                      <div class="w-full relative overflow-hidden{% unless media_aspect_ratio == "natural" %} pb-[{{ ratio | times: 100.0 }}%]{% else %}{% unless card_product.featured_media %} pb-[100%]{% endunless %}{% if card_product.featured_media.media_type == "model" or card_product.featured_media == blank %} pb-[100%]{% endif %}{% endunless %}{% if show_rounded_image %} rounded-[10px]{% endif %}"
                         {% if media_aspect_ratio == "natural" and card_product.featured_media and card_product.featured_media.media_type != "model" %} 
                           style="height:0; padding-bottom: {{ 1 | divided_by: card_product.featured_media.aspect_ratio | times: 100 }}%;"
                         {% endif %}
                       >
                         {%- if card_product.featured_media -%}
-                          {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+                          {% # theme-check-disable ImgLazyLoading %}
                           <img
                             srcset="{{ card_product.featured_media | image_url: width: 225 }} 225w,
                               {{ card_product.featured_media | image_url: width: 375 }} 375w,
@@ -243,19 +278,20 @@
                             src="{{ card_product.featured_media | image_url: width: 1080 }}"
                             sizes="{% unless section.settings.full_width %}(min-width: {{ settings.page_width }}px) {{ settings.page_width | times: 0.4 }}px, {% endunless %}(min-width: 767px) 40vw, calc(50vw - 50px))"
                             alt="{{ card_product.featured_media.alt | split: "#" | first | escape }}"
-                            class="motion-reduce object-cover w-full h-full absolute top-0 right-0"
-                            loading="lazy"
+                            class="motion-reduce object-cover w-full h-full absolute top-0 right-0 animate-Xpulse skeleton-image"
+                            {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                            onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
                             width="{{ card_product.featured_media.width }}"
                             height="{{ card_product.featured_media.height }}"
                           >
-                          {% comment %}theme-check-enable ImgLazyLoading{% endcomment %}
+                          {% # theme-check-enable ImgLazyLoading %}
                         {%- else -%} 
                           {%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full bg-[#c9c9c9] absolute top-0 right-0' %}
                         {%- endif -%}
                       </div>
                     </div>
                   </div>
-                  <div class="w-full flex flex-col justify-center text-{{ section.settings.info_alignment }} leading-6 pl-5{% if settings.lang_direction contains request.locale.iso_code %} rtl{% endif %}">
+                  <div class="w-full flex flex-col justify-center leading-6 pl-5{% if is_rtl %} rtl{% endif %} text-{{ section.settings.info_alignment }} rtl:text-{% if section.settings.info_alignment == 'center' %}center{% elsif section.settings.info_alignment == 'left' %}right{% else %}left{% endif %}">
                     {%- if section.settings.show_vendor -%}
                       <div class="mb-2.5 uppercase tracking-widest text-small p-break-words">{{ card_product.vendor }}</div>
                     {%- endif -%}
@@ -288,7 +324,7 @@
                           assign star_empty = 'icon_empty_' | append: 5
                         endif 
                       %}  
-                      <div class="inline-flex mb-2{% if section.settings.info_alignment == 'right' %} justify-end{% endif %} {% if section.settings.info_alignment == 'center' %} justify-center{% endif %}">
+                      <div class="inline-flex mb-2 justify-{{ section.settings.info_alignment }}">
                         <div class="rating gap-1 flex leading-tight" role="img" aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}">
                           {% liquid 
                             if star_fill != blank  
@@ -307,24 +343,30 @@
                         </p>
                       </div>
                     {%- endif -%}
-                    <div class="p-break-words text-lg mb-2">
+                    <a href="{{ card_product.url }}" class="p-break-words h3 text-[100%] mb-2 text-[rgba(var(--colors-heading))]">
                       {% if card_product.title != blank %}
                         {{ card_product.title | escape }}
                       {% else %}
                         {{ 'onboarding.product_title' | t }}
                       {% endif %}
-                    </div>
+                    </a>
                     {% render 'price', product: card_product %}
-                    <div class="mt-4 flex {% if section.settings.info_alignment == 'right' %} justify-end{% endif %} {% if section.settings.info_alignment == 'center' %} justify-center{% endif %}">
-                      <a
-                        href="{{ card_product.url }}"
-                        class="text-[rgba(var(--colors-heading))] hover:text-[rgba(var(--colors-text-link))] cursor-pointer p-break-words"
-                      >
-                        {{- 'products.product.view_full_details' | t -}}
-                        <span class="w-2 h-2 inline-block ml-1.5 mt-0.5 rtl:rotate-180 rtl:mr-1.5 rtl:ml-0 rtl:mt-0">{% render 'icon-alls' , icon: 'icon-double-arrow' %}</span>
-                      </a>
-                    </div>
                   </div>
+                  {% if section.settings.show_quickview %}
+                    <div class="button-quickview-icon z-[15] self-center ml-3" x-show="$store.xQuickView && $store.xQuickView.enabled" x-cloak>
+                      <div
+                        @click.prevent='$store.xQuickView && $store.xQuickView.open();'
+                        x-on:mouseover='$store.xQuickView && $store.xQuickView.load("{{ block.settings.product.url | within: collection }}", $el, "{{ section.id }}-{{ block.settings.product.id }}-{{ block.id }}")'
+                        class="button cursor-pointer label-btn-quickview button--quickview not-icon leading-normal empty:hidden z-50 h-full"
+                        :class="$store.xQuickView && $store.xQuickView.show_atc_button ? 'p-3 rounded-full button-disable-effect' : 'w-full pt-3 pb-3 button-solid'"
+                        aria-label="{{ 'products.product.button_quickview' | t }}"
+                      >
+                        <span x-show="$store.xQuickView && $store.xQuickView.show_atc_button" class="w-4 h-4 flex items-center">
+                          {%- render 'icon-alls', icon: 'icon-search-quickview' -%}
+                        </span>
+                      </div>
+                    </div>
+                  {% endif %}
                 </div>
                 {% if block.settings.hotspot_desktop_vertical >= 50 %}
                   <div class="w-4 h-4 -mt-px border-solid border-x-[1rem] border-x-transparent border-t-[rgba(var(--background-color),1)] border-t-[1rem] arrow-{{ block.id }}"></div>
@@ -332,10 +374,11 @@
               </div>
             {% else %}
               <span class="spot-{{ block.id }} flex w-3 h-3 md:h-4 md:w-4 relative duration-300 active-hotspot:scale-[1.8] group-hover:scale-[1.8]">
-                <span class="animate-[pingHotspot_2s_ease-in-out_infinite] absolute inline-flex h-full w-full rounded-full bg-[rgba(var(--colors-text),0.2)]"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 md:h-4 md:w-4 duration-300 bg-[rgba(var(--colors-text))]"
+                <span class="animate-[pingHotspot_2s_ease-in-out_infinite] absolute inline-flex h-full w-full rounded-full bg-[rgba(var(--colors-background),0.2)]"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 md:h-4 md:w-4 duration-300 bg-[rgba(var(--colors-background))]"
                   {% if block.settings.product != blank and section.settings.show_quickview %}
-                    @click.prevent='$store.xQuickView && $store.xQuickView.load("{{ block.settings.product.url | within: collection }}", $el, "{{ section.id }}-{{ block.settings.product.id }}-{{ block.id }}") && $store.xQuickView.open();'
+                    @click.prevent='setTimeout(() => { $store.xQuickView && $store.xQuickView.open(); }, 0)'
+                    x-on:mouseover='setTimeout(() => { $store.xQuickView && $store.xQuickView.load("{{ block.settings.product.url | within: collection }}", $el, "{{ section.id }}-{{ block.settings.product.id }}-{{ block.id }}") }, 0)'
                   {% endif %}
                 ></span>
               </span>
@@ -344,13 +387,17 @@
         {% endfor %}
       </div>
     </div>
-    <div 
-      class="pb-14 lg:pb-0 inline-block w-full{% if section.settings.desktop_size != 'large' %} md:w-[45%]{% else %} md:w-2/5{% endif %} mt-3 md:mt-0 pl-5 pr-5{% if section.settings.image_alignment == 'layered' %} md:hidden {% endif %}{% if section.settings.image_alignment == "right" %}{% if section.settings.full_width %} lg:pl-16{% endif %} md:pl-0 md:pr-8 lg:pr-16{% else %}{% if section.settings.full_width %} lg:pr-16{% endif %} md:pl-8 lg:pl-16 md:pr-0{% endif %}"
+    <div class="pb-14 lg:pb-0 inline-block w-full{% if section.settings.desktop_size != 'large' %} md:w-[45%]{% else %} md:w-2/5{% endif %} mt-3 md:mt-0 pl-5 pr-5
+      {%- if section.settings.image_alignment == 'layered' %} md:hidden {% endif -%}
+      {%- if section.settings.image_alignment == "right" -%}
+        {%- if section.settings.full_width %} lg:pl-16 rtl:lg:pl-0 rtl:lg:pr-16{% endif %} md:pl-0 md:pr-8 rtl:md:pr-0 rtl:md:pl-8 lg:pr-16 rtl:lg:pr-0 rtl:lg:pl-16
+      {%- else -%}
+        {%- if section.settings.full_width %} lg:pr-16 rtl:lg:pr-0 rtl:lg:pl-16{% endif %} md:pr-0 md:pl-8 rtl:md:pl-0 rtl:md:pr-8 lg:pl-16 rtl:lg:pl-0 rtl:lg:pr-16
+      {%- endif %}"
     >
       <div 
         id="x-product-shop-look-{{ section.id }}" 
-        class="disable-effect-hover x-splide splide w-full visible{% if settings.lang_direction contains request.locale.iso_code %} rtl{% endif %}{% if section.settings.desktop_size != 'large' %} lg:flex-col lg:flex lg:justify-center{% endif %}"
-        x-cloak
+        class="disable-effect-hover x-splide splide w-full visible{% if is_rtl %} rtl{% endif %}{% if section.settings.desktop_size != 'large' %} lg:flex-col lg:flex lg:justify-center{% endif %}"
         x-intersect.once.margin.200px='$store.xSplide.load($el, {
           "pagination": "false",
           "updateOnMove": "true",
@@ -358,7 +405,7 @@
           "speed": 500,
           "gap": 64,
           "hotspot": "x-hotspot-{{ section.id }}",
-          {%- if settings.lang_direction contains request.locale.iso_code %}
+          {%- if is_rtl %}
             "direction": "rtl",
           {%- endif %}
           "classes": {
@@ -366,16 +413,15 @@
           }
         });'
       >
-        <div class="absolute top-full lg:static splide__arrows mb-1 mt-5 lg:mt-0 lg-mb-0 flex justify-center w-full items-center{% if section.blocks.size < 2 %} hidden{% endif %}">
-          <button class="splide__arrow splide__arrow--prev button-arrow lg:absolute top-1/2 rtl:-right-14 rtl:-rotate-90 rtl:left-auto -left-14 lg:-mt-6 p-4 rounded-full none_border z-10 w-12 h-12 after:text-[20px] rotate-90 duration-200 opacity-60 hover:opacity-100 disabled:cursor-not-allowed transition-all ease-in-out disabled:opacity-30" aria-label="previous slide">
-            {% render 'icon-alls', icon: 'icon-caret' %}
+        <div class="absolute top-full gap-3 md:gap-0 lg:static splide__arrows mt-3 lg:mt-0 flex justify-center w-full items-center{% if section.blocks.size < 2 %} hidden{% endif %}">
+          <button class="splide__arrow splide__arrow--prev button-arrow lg:absolute top-1/2 -left-14 rtl:-right-14 rtl:left-auto rtl:rotate-180 lg:-mt-6 z-10 w-11 h-11 border border-solid lg:border-none rounded-full p-3 cursor-pointer after:text-[20px] duration-200 hover:opacity-100 disabled:cursor-not-allowed transition-all ease-in-out disabled:opacity-30" aria-label="previous slide">
+            {% render 'icon-labels-bags', icon: 'chevron-left' %}
           </button>
-          <div class="h-5 border-l-2 w-0 ml-1 mr-1 lg:hidden"></div>
-          <button class="splide__arrow splide__arrow--next button-arrow lg:absolute top-1/2 -right-14 rtl:-left-14 rtl:rotate-90 rtl:right-auto lg:-mt-6 p-4 rounded-full none_border z-10 w-12 h-12 after:text-[20px] -rotate-90 duration-200 opacity-60 hover:opacity-100 disabled:cursor-not-allowed transition-all ease-in-out disabled:opacity-30" aria-label="previous slide">
-            {% render 'icon-alls', icon: 'icon-caret' %}
+          <button class="splide__arrow splide__arrow--next button-arrow lg:absolute top-1/2 -right-14 rtl:-left-14 rtl:right-auto rtl:rotate-180 lg:-mt-6 z-10 w-11 h-11 border border-solid lg:border-none rounded-full p-3 cursor-pointer after:text-[20px] duration-200 hover:opacity-100 disabled:cursor-not-allowed transition-all ease-in-out disabled:opacity-30" aria-label="next slide">
+            {% render 'icon-labels-bags', icon: 'chevron-right' %}
           </button>
         </div>
-        <div class="splide__track h-full w-full {% if section.blocks.size > 1 %} md:cursor-grab{% endif %}">
+        <div class="splide__track h-full w-full{% if section.blocks.size > 1 %} md:cursor-grab{% endif %}">
           <div class="splide__list flex w-full h-full translate-x-0">
             {% for block in section.blocks %}
               {% liquid
@@ -385,6 +431,8 @@
                 {% render 'card-product-shop-the-look',
                   card_product: block.settings.product,
                   show_vendor: section.settings.show_vendor,
+                  show_highlighted_features: section.settings.show_highlighted_features,
+                  show_highlighted_attributes: section.settings.show_highlighted_attributes,
                   show_rating: section.settings.show_rating,
                   media_aspect_ratio: section.settings.image_ratio,
                   section_id: section.id,
@@ -408,7 +456,7 @@
 {
   "name": "t:sections.shop_the_look.name",
   "tag": "section",
-  "class": "section x-section",
+  "class": "section x-section x-section-shop-the-look",
   "disabled_on": {
     "groups": [
       "header",
@@ -417,6 +465,10 @@
     ]
   },
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.section_and_blocks.shop_the_look"
+    },
     {
       "type": "text",
       "id": "heading",
@@ -448,7 +500,7 @@
       "unit": "%",
       "step": 10,
       "default": 100,
-      "label": "t:sections.shop_the_look.settings.heading_size.label"
+      "label": "t:sections.all.text.heading_size"
     },
     {
       "type": "select",
@@ -490,7 +542,7 @@
       "type": "select",
       "id": "heading_alignment",
       "default": "center",
-      "label": "t:sections.featured-collection.settings.heading_alignment.label",
+      "label": "t:sections.all.text.heading_alignment",
       "options": [
         {
           "value": "left",
@@ -507,19 +559,44 @@
       ]
     },
     {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.all.text.subheading"
+    },
+    {
       "type": "image_picker",
       "id": "image_desktop",
-      "label": "t:sections.shop_the_look.settings.image_desktop.label",
+      "label": "t:sections.all.image.label",
       "info": "t:sections.all.image.note_image_size"
     },
     {
       "type": "image_picker",
       "id": "image_mobile",
-      "label": "t:sections.shop_the_look.settings.image_mobile.label"
+      "label": "t:sections.promotion-banner.settings.image_mobile.label"
     },
     {
       "type": "header",
-      "content": "t:sections.shop_the_look.settings.header_card_product.content"
+      "content": "t:settings_schema.cart.product"
+    },
+    {
+      "type": "select",
+      "id": "product_card_edges",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:settings_schema.buttons.adapt_to_edge"
+        },
+        {
+          "value": "square",
+          "label": "t:settings_schema.products.square"
+        },
+        {
+          "value": "rounded_corners",
+          "label": "t:settings_schema.buttons.rounded_corners"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.shop_the_look.settings.product_card.product_card_edges"
     },
     {
       "type": "select",
@@ -527,23 +604,23 @@
       "options": [
         {
           "value": "natural",
-          "label": "t:sections.shop_the_look.settings.image_ratio.options__1.label"
+          "label": "t:sections.all.image_ratio.options__1.label"
         },
         {
           "value": "square",
-          "label": "t:sections.shop_the_look.settings.image_ratio.options__2.label"
+          "label": "t:sections.all.image_ratio.options__2.label"
         },
         {
           "value": "landscape",
-          "label": "t:sections.shop_the_look.settings.image_ratio.options__3.label"
+          "label": "t:sections.all.image_ratio.options__3.label"
         },
         {
           "value": "portrait",
-          "label": "t:sections.shop_the_look.settings.image_ratio.options__4.label"
+          "label": "t:sections.all.image_ratio.options__4.label"
         },
         {
           "value": "wide",
-          "label": "t:sections.shop_the_look.settings.image_ratio.options__5.label"
+          "label": "t:sections.all.image_ratio.options__5.label"
         },
         {
           "value": "3/4",
@@ -551,7 +628,7 @@
         }
       ],
       "default": "square",
-      "label": "t:sections.shop_the_look.settings.image_ratio.label"
+      "label": "t:sections.all.image_ratio.label"
     },
     {
       "type": "select",
@@ -603,7 +680,7 @@
       "type": "checkbox",
       "id": "show_vendor",
       "default": false,
-      "label": "t:sections.featured-collection.blocks.collection.settings.show_vendor.label"
+      "label": "t:settings_schema.search_navigation.settings.predictive_search_show_vendor.label"
     },
     {
       "type": "checkbox",
@@ -611,6 +688,18 @@
       "default": false,
       "label": "t:sections.featured-collection.blocks.collection.settings.show_rating.label",
       "info": "t:sections.featured-collection.blocks.collection.settings.show_rating.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_highlighted_features",
+      "default": true,
+      "label": "t:sections.product-recommendations.settings.show_highlighted_features.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_highlighted_attributes",
+      "default": true,
+      "label": "t:sections.product-recommendations.settings.show_highlighted_attributes.label"
     },
     {
       "type": "header",
@@ -622,11 +711,11 @@
       "options": [
         {
           "value": "left",
-          "label": "t:sections.shop_the_look.settings.image_alignment.options__1.label"
+          "label": "t:sections.all.content_alignment.options__1.label"
         },
         {
           "value": "right",
-          "label": "t:sections.shop_the_look.settings.image_alignment.options__2.label"
+          "label": "t:sections.all.content_alignment.options__3.label"
         },
         {
           "value": "layered",
@@ -641,20 +730,21 @@
       "type": "checkbox",
       "id": "full_width",
       "default": false,
-      "label": "t:sections.shop_the_look.settings.full_width.label"
+      "label": "t:sections.all.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "padding_full_width",
       "default": false,
       "label": "t:sections.all.padding.padding_full_width.label",
-      "info": "t:sections.all.padding.padding_full_width.info"
+      "info": "t:sections.all.padding.padding_full_width.info",
+      "visible_if": "{{ section.settings.full_width }}"
     },
     {
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.shop_the_look.settings.show_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "select",
@@ -662,23 +752,23 @@
       "options": [
         {
           "value": "450px",
-          "label": "t:sections.shop_the_look.settings.desktop_height.options__1.label"
+          "label": "t:sections.image-with-text.settings.height.options__1.label"
         },
         {
           "value": "550px",
-          "label": "t:sections.shop_the_look.settings.desktop_height.options__2.label"
+          "label": "t:sections.image-with-text.settings.height.options__2.label"
         },
         {
           "value": "650px",
-          "label": "t:sections.shop_the_look.settings.desktop_height.options__3.label"
+          "label": "t:sections.image-with-text.settings.height.options__3.label"
         },
         {
           "value": "750px",
-          "label": "t:sections.shop_the_look.settings.desktop_height.options__4.label"
+          "label": "t:sections.image-with-text.settings.height.options__4.label"
         },
         {
           "value": "natural",
-          "label": "t:sections.shop_the_look.settings.image_ratio.options__1.label"
+          "label": "t:sections.all.image_ratio.options__1.label"
         }
       ],
       "default": "750px",
@@ -712,13 +802,13 @@
       "type": "checkbox",
       "id": "full_width_mobile",
       "default": false,
-      "label": "t:sections.shop_the_look.settings.full_width.label"
+      "label": "t:sections.all.full_width.label"
     },
     {
       "type": "checkbox",
       "id": "show_section_divider_mobile",
       "default": false,
-      "label": "t:sections.shop_the_look.settings.show_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "select",
@@ -726,23 +816,23 @@
       "options": [
         {
           "value": "250px",
-          "label": "t:sections.shop_the_look.settings.mobile_height.options__1.label"
+          "label": "t:sections.image-with-text.settings.mobile_height.options__1.label"
         },
         {
           "value": "300px",
-          "label": "t:sections.shop_the_look.settings.mobile_height.options__2.label"
+          "label": "t:sections.image-with-text.settings.mobile_height.options__2.label"
         },
         {
           "value": "400px",
-          "label": "t:sections.shop_the_look.settings.mobile_height.options__3.label"
+          "label": "t:sections.image-with-text.settings.mobile_height.options__3.label"
         },
         {
           "value": "500px",
-          "label": "t:sections.shop_the_look.settings.mobile_height.options__4.label"
+          "label": "t:sections.image-with-text.settings.mobile_height.options__4.label"
         },
         {
           "value": "natural",
-          "label": "t:sections.shop_the_look.settings.image_ratio.options__1.label"
+          "label": "t:sections.all.image_ratio.options__1.label"
         }
       ],
       "default": "400px",
@@ -772,13 +862,13 @@
   "blocks": [
     {
       "type": "look",
-      "name": "t:sections.shop_the_look.blocks.product.name",
+      "name": "t:settings_schema.cart.product",
       "limit": 5,
       "settings": [
         {
           "type": "product",
           "id": "product",
-          "label": "t:sections.shop_the_look.blocks.product.settings.product_select.label"
+          "label": "t:settings_schema.cart.product"
         },
         {
           "type": "color",
@@ -831,7 +921,8 @@
   ],
   "presets": [
     {
-      "name": "t:sections.shop_the_look.presets.name",
+      "name": "t:sections.shop_the_look.name",
+      "category": "t:categories.products",
       "blocks": [
         {
           "type": "look",

@@ -113,25 +113,26 @@
 {%- endstyle -%}
 
 {% render 'section-divider' %}
-<div class="event-container ml-auto mr-auto relative page-width mx-auto pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
-  <div class="mb-8 lg:mb-10">
+<div class="event-container ml-auto mr-auto relative x-pgw page-width mx-auto pb-[{{ section.settings.padding_bottom_mobile }}px] pt-[{{ section.settings.padding_top_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px] md:pt-[{{ section.settings.padding_top }}px]">
+  <div class="x-block-event-header mb-8 lg:mb-10 empty:hidden text-{{ section.settings.heading_alignment }} rtl:text-{% if section.settings.heading_alignment == 'center' %}center{% elsif section.settings.heading_alignment == 'left' %}right{% else %}left{% endif %}">
     {%- if section.settings.heading != blank -%}
-      <{{ section.settings.heading_tag }} class="heading-{{ section.id }} h2 block text-{{ section.settings.heading_alignment }} leading-tight flex-auto p-break-words">
-        {% render 'heading-highlight',
-          headingId: section.id,
-          heading: section.settings.heading,
-          highlight_type: section.settings.highlight_type
-        %}
-      </{{ section.settings.heading_tag }}>
+      {% render 'heading-highlight',
+        headingId: section.id,
+        heading: section.settings.heading,
+        highlight_type: section.settings.highlight_type,
+        class: 'h2 block leading-tight flex-auto p-break-words',
+        heading_tag: section.settings.heading_tag,
+        animation_heading: true
+      %}
     {%- endif -%}
     {%- if section.settings.description != blank -%}
-      <div class="event-description mb-6 md:mb-10 rte text-{{ section.settings.heading_alignment }}">
+      <div class="event-description mb-6 md:mb-10 rte">
         {{ section.settings.description }}
       </div>
     {%- endif -%}
   </div>
   
-  <div class="grid{% if section.settings.desktop_layout == "2" %} md:grid-cols-2 gap-x-7{% endif %}{% unless section.settings.border_column == "line" %} gap-y-7{% endunless %}">
+  <div class="x-block-event-list grid{% if section.settings.desktop_layout == "2" %} md:grid-cols-2 gap-x-7{% endif %}{% unless section.settings.border_column == "line" %} gap-y-7{% endunless %}">
     {%- for block in section.blocks -%}
       {% liquid
         if block.settings.button_label_add_calendar != blank
@@ -157,36 +158,36 @@
 
         if section.settings.timeformat == "12"
           if start_hour == 12
-            assign timeStart = 12 | append: ":" | append: block.settings.start_minute | append: " PM"
+            assign time_start = 12 | append: ":" | append: block.settings.start_minute | append: " PM"
           elsif start_hour == 0
-            assign timeStart = 12 | append: ":" | append: block.settings.start_minute | append: " AM"
+            assign time_start = 12 | append: ":" | append: block.settings.start_minute | append: " AM"
           elsif start_hour > 12
-            assign timeStart = block.settings.start_hour | minus: 12
-            if timeStart < 10
-              assign timeStart = "0" | append: timeStart | append: ":" | append: block.settings.start_minute | append: " PM"
+            assign time_start = block.settings.start_hour | minus: 12
+            if time_start < 10
+              assign time_start = "0" | append: time_start | append: ":" | append: block.settings.start_minute | append: " PM"
             else
-              assign timeStart = timeStart | append: ":" | append: block.settings.start_minute | append: " PM"
+              assign time_start = time_start | append: ":" | append: block.settings.start_minute | append: " PM"
             endif
           else
-            assign timeStart = block.settings.start_hour | append: ":" | append: block.settings.start_minute | append: " AM"
+            assign time_start = block.settings.start_hour | append: ":" | append: block.settings.start_minute | append: " AM"
           endif
           if end_hour == 12
-            assign timeEnd = 12 | append: ":" | append: block.settings.end_minute | append: " PM"
+            assign time_end = 12 | append: ":" | append: block.settings.end_minute | append: " PM"
           elsif end_hour == 0
-            assign timeEnd = 12 | append: ":" | append: block.settings.end_minute | append: " AM"
+            assign time_end = 12 | append: ":" | append: block.settings.end_minute | append: " AM"
           elsif end_hour > 12
-            assign timeEnd = block.settings.end_hour | minus: 12
-            if timeEnd < 10
-              assign timeEnd = "0" | append: timeEnd | append: ":" | append: block.settings.end_minute | append: " PM"
+            assign time_end = block.settings.end_hour | minus: 12
+            if time_end < 10
+              assign time_end = "0" | append: time_end | append: ":" | append: block.settings.end_minute | append: " PM"
             else
-              assign timeEnd = timeEnd | append: ":" | append: block.settings.end_minute | append: " PM"
+              assign time_end = time_end | append: ":" | append: block.settings.end_minute | append: " PM"
             endif
           else
-            assign timeEnd = block.settings.end_hour | append: ":" | append: block.settings.end_minute | append: " AM"
+            assign time_end = block.settings.end_hour | append: ":" | append: block.settings.end_minute | append: " AM"
           endif
         else
-          assign timeStart = block.settings.start_hour | append: ":" | append: block.settings.start_minute
-          assign timeEnd = block.settings.end_hour | append: ":" | append: block.settings.end_minute
+          assign time_start = block.settings.start_hour | append: ":" | append: block.settings.start_minute
+          assign time_end = block.settings.end_hour | append: ":" | append: block.settings.end_minute
         endif
 
         assign end_date = block.settings.end_month | append: block.settings.end_day | date: "%b %d" | append: ", " | append: block.settings.end_year
@@ -199,12 +200,12 @@
           assign show_end_time = true
         endif
       %}
-      {%- capture dataEventItem -%}
+      {%- capture data_event_item -%}
         { 
           "sectionID": "{{ section.id }}",
           "blockID": "{{ block.id }}",
-          "title": "{{ block.settings.heading }}", 
-          "location": "{{ block.settings.location | default: '' }}", 
+          "title": {{ block.settings.heading | json }}, 
+          "location": {{ block.settings.location | json | default: '' }}, 
           "details": "{{ block.settings.content | strip_html | escape | default: '' }}", 
           "description": "{{ block.settings.content | default: '' | escape }}", 
           "start_year": "{{ block.settings.start_year }}", 
@@ -215,8 +216,8 @@
           "end_day": "{{ block.settings.end_day }}", 
           "date": "{{ date | date: format: 'abbreviated_month_day_year' }}",
           "end_date": "{{ end_date | date: format: 'abbreviated_month_day_year' }}",
-          "timeStart": "{{ timeStart }}",
-          "timeEnd": "{{ timeEnd }}",
+          "timeStart": "{{ time_start }}",
+          "timeEnd": "{{ time_end }}",
           "start_hour" : "{{ block.settings.start_hour }}",
           "end_hour" : "{{ block.settings.end_hour }}",
           "start_minute" : "{{ block.settings.start_minute }}",
@@ -225,9 +226,9 @@
           "show_end_time": {{ show_end_time }},
           "timezone": "{{ section.settings.timezone }}",
           "image": {% if block.settings.image != blank %}"{{ block.settings.image | image_url }}"{% else %}false{% endif %},
-          "button_label_add_calendar": "{{ add_to_calendar }}",
+          "button_label_add_calendar": {{ add_to_calendar | json }},
           "show_button_style": "{{ block.settings.show_button_style }}",
-          "ticket_button_label": "{{ ticket_button_label }}",
+          "ticket_button_label": {{ ticket_button_label | json }},
           "offer_tickets": {{ block.settings.offer_tickets }},
           "ticket_link": "{{ block.settings.ticket_link }}",
           "ticket_button_label_style": "{{ block.settings.ticket_button_label_style }}"
@@ -239,15 +240,16 @@
         class="event-block flex gap-x-5 lg:gap-x-7 event-{{ block.id }}{% if block.settings.image != blank %} flex flex-col lg:flex-row lg:items-start{% endif %}
         {% if section.settings.border_column == "border" %} border border-dashed pt-5 pb-5 pl-5 pr-5{% if settings.edges_type == 'rounded_corners' %} rounded-[10px]{% endif %}{% endif %}
         {% if section.settings.border_column == "line" %} border-b pb-7 pt-7{% unless forloop.index > 1 %} border-t{% endunless %}{% if forloop.index == 2 and section.settings.desktop_layout == "2" %} md:border-t{% endif %}{% endif %}" 
-        x-event-data="{{ dataEventItem | escape }}"
+        x-event-data="{{ data_event_item | escape }}"
         {{ block.shopify_attributes }}
       >
         <div class="{% if block.settings.image != blank %} w-full lg:max-w-[300px] overflow-hidden{% endif %}{% if settings.edges_type == 'rounded_corners' %} overflow-hidden rounded-[10px]{% endif %} relative">
           {% if block.settings.image != blank %}
             <div 
-              class="animate_transition_card__image relative block{% if section.settings.image_ratio != "auto" %} h-0 pb-[{{ section.settings.image_ratio }}]{% endif %}"
+              class="animate_transition_card__image relative block{% if section.settings.image_ratio != "auto" %} h-0 pb-[{{ section.settings.image_ratio }}]{% endif %} animate-Xpulse skeleton-image"
               {% if section.settings.image_ratio == 'auto' and block.settings.image != blank %} style='padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;'{% endif %}
             >
+              {% # theme-check-disable ImgLazyLoading %}
               <img
                 class="block max-w-full image-hover absolute top-0 left-0 h-full w-full object-cover object-center animate_transition_image"
                 srcset="{{ block.settings.image | image_url: width: 375 }} 375w,
@@ -262,12 +264,17 @@
                   {{ block.settings.image | image_url: width: 3840 }} 3840w"
                 sizes="(min-width: 1000px) 400px, 100vw"
                 src="{{ block.settings.image | image_url: width: 3840 }}"
-                loading="lazy"
+                {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
                 alt="{{ block.settings.image.alt | escape }}"
                 width="{{ block.settings.image.width }}"
                 height="{{ block.settings.image.width | divided_by: block.settings.image.aspect_ratio }}"
                 style="object-position: {{ block.settings.image.presentation.focal_point }};"
+                onload="this?.classList.add('active'); 
+                  this.closest('.animate_transition_card__image')?.classList.remove('animate-Xpulse', 'skeleton-image');
+                  setTimeout(() => { this.closest('.animate_transition_card__image')?.classList.add('lazy_active', 'active'); }, 250);
+                "
               />
+              {% # theme-check-enable ImgLazyLoading %}
             </div>
           {% endif %}
 
@@ -300,13 +307,13 @@
               <span class="w-4 h-5 absolute left-0 rtl:left-auto rtl:right-0">{% render 'icon-alls', icon: 'icon-clock' %}</span>
               {% if show_end_date %}
                   <div class="event-day">
-                    <p>{{ date | date: format: 'abbreviated_month_day_year' }} @ {{ timeStart }} - </p>
-                    <p> {{ end_date | date: format: 'abbreviated_month_day_year' }} @ {{ timeEnd }}</p>
+                    <p>{{ date | date: format: 'abbreviated_month_day_year' }} @ {{ time_start }} - </p>
+                    <p> {{ end_date | date: format: 'abbreviated_month_day_year' }} @ {{ time_end }}</p>
                   </div>
               {% elsif show_end_time %}
-                <span class="event-day">{{ timeStart }} - {{ timeEnd }}</span>
+                <span class="event-day">{{ time_start }} - {{ time_end }}</span>
               {% else %}
-                <span class="event-day">{{ timeStart }}</span>
+                <span class="event-day">{{ time_start }}</span>
               {% endif %}
             </div>
             {% if block.settings.show_end_date and compare_end_date < compare_date and request.design_mode %}
@@ -341,7 +348,7 @@
             {% endif %}
             <div 
               class="relative" 
-              x-data="xEventCalendar({{ dataEventItem | escape }})"
+              x-data="xEventCalendar({{ data_event_item | escape }})"
               @click.away="open = false"
             >
               <div
@@ -436,6 +443,10 @@
   },
   "settings": [
     {
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.section_and_blocks.event_calendar"
+    },
+    {
       "type": "text",
       "id": "heading",
       "label": "t:sections.all.text.heading",
@@ -466,7 +477,7 @@
       "unit": "%",
       "step": 10,
       "default": 100,
-      "label": "t:sections.question_and_answer.settings.heading_size.label"
+      "label": "t:sections.all.text.heading_size"
     },
     {
       "type": "select",
@@ -508,7 +519,7 @@
       "type": "select",
       "id": "heading_alignment",
       "default": "center",
-      "label": "t:sections.featured-collection.settings.heading_alignment.label",
+      "label": "t:sections.all.text.heading_alignment",
       "options": [
         {
           "value": "left",
@@ -527,7 +538,7 @@
     {
       "type": "richtext",
       "id": "description",
-      "label": "t:sections.featured-collection.blocks.collection.settings.description.label"
+      "label": "t:settings_schema.seo.business_description.label"
     },
     {
       "type": "select",
@@ -535,11 +546,11 @@
       "options": [
         {
           "value": "none",
-          "label": "t:sections.multicolumn.settings.line_border.options__1.label"
+          "label": "t:sections.all.icon.options.none"
         },
         {
           "value": "border",
-          "label": "t:sections.event-calendar.settings.block_divider.options.option_2.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.border.label"
         },
         {
           "value": "line",
@@ -579,7 +590,7 @@
         }
       ],
       "default": "75%",
-      "label": "t:sections.text-column-image.settings.image_ratio.label"
+      "label": "t:sections.all.image_ratio.label_2"
     },
     {
       "type": "select",
@@ -587,115 +598,119 @@
       "options": [
         {
           "value": "-12",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-12.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-12.label"
         },
         {
           "value": "-11",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-11.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-11.label"
         },
         {
           "value": "-10",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-10.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-10.label"
         },
         {
           "value": "-9",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-9.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-9.label"
         },
         {
           "value": "-8",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-8.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-8.label"
         },
         {
           "value": "-7",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-7.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-7.label"
         },
         {
           "value": "-6",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-6.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-6.label"
         },
         {
           "value": "-5",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-5.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-5.label"
         },
         {
           "value": "-4",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-4.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-4.label"
         },
         {
           "value": "-3",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-3.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-3.label"
         },
         {
           "value": "-2",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-2.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-2.label"
         },
         {
           "value": "-1",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__-1.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__-1.label"
         },
         {
           "value": "0",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__0.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__0.label"
         },
         {
           "value": "1",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__1.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__1.label"
         },
         {
           "value": "2",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__2.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__2.label"
         },
         {
           "value": "3",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__3.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__3.label"
         },
         {
           "value": "4",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__4.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__4.label"
         },
         {
           "value": "5",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__5.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__5.label"
+        },
+        {
+          "value": "5.5",
+          "label": "t:sections.announcement-bar.blocks.timezone.options__15.label"
         },
         {
           "value": "6",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__6.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__6.label"
         },
         {
           "value": "7",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__7.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__7.label"
         },
         {
           "value": "8",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__8.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__8.label"
         },
         {
           "value": "9",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__9.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__9.label"
         },
         {
           "value": "10",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__10.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__10.label"
         },
         {
           "value": "11",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__11.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__11.label"
         },
         {
           "value": "12",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__12.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__12.label"
         },
         {
           "value": "13",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__13.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__13.label"
         },
         {
           "value": "14",
-          "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.options__14.label"
+          "label": "t:sections.announcement-bar.blocks.timezone.options__14.label"
         }
       ],
       "default": "-4",
-      "label": "t:sections.promotion-banner.blocks.countdown.settings.timezone.label"
+      "label": "t:sections.announcement-bar.blocks.timezone.label"
     },
     {
       "type": "select",
@@ -715,7 +730,7 @@
     },
     {
       "type": "header",
-      "content": "t:sections.all.header.style"
+      "content": "t:settings_schema.colors.name"
     },
     {
       "type": "color",
@@ -832,15 +847,15 @@
     {
       "type": "select",
       "id": "desktop_layout",
-      "label": "t:sections.question_and_answer.settings.desktop_layout.label",
+      "label": "t:sections.all.padding.section_padding_heading",
       "options": [
         {
           "value": "1",
-          "label": "t:sections.question_and_answer.settings.desktop_layout.options_1.label"
+          "label": "t:sections.collection-list.settings.columns_desktop.options__1.label"
         },
         {
           "value": "2",
-          "label": "t:sections.question_and_answer.settings.desktop_layout.options_2.label"
+          "label": "t:settings_schema.search_navigation.settings.search_style.options__2"
         }
       ],
       "default": "2"
@@ -849,7 +864,7 @@
       "type": "checkbox",
       "id": "show_section_divider",
       "default": false,
-      "label": "t:sections.question_and_answer.settings.show_section_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -879,7 +894,7 @@
       "type": "checkbox",
       "id": "show_section_divider_mobile",
       "default": false,
-      "label": "t:sections.question_and_answer.settings.show_section_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -967,7 +982,7 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
@@ -987,12 +1002,14 @@
           "type": "url",
           "id": "ticket_link",
           "label": "t:sections.event-calendar.settings.ticket_link.label",
-          "info": "t:sections.event-calendar.settings.ticket_link.info"
+          "info": "t:sections.event-calendar.settings.ticket_link.info",
+          "visible_if": "{{ block.settings.offer_tickets }}"
         },
         {
           "type": "text",
           "id": "ticket_button_label",
-          "label": "t:sections.event-calendar.settings.ticket_button_label.label"
+          "label": "t:sections.event-calendar.settings.ticket_button_label.label",
+          "visible_if": "{{ block.settings.offer_tickets }}"
         },
         {
           "type": "select",
@@ -1008,11 +1025,12 @@
             },
             {
               "value": "text-link",
-              "label": "t:sections.all.button.button_style.text_link"
+              "label": "t:settings_schema.colors.colors_text_link"
             }
           ],
           "label": "t:sections.all.button.button_style.label",
-          "default": "primary"
+          "default": "primary",
+          "visible_if": "{{ block.settings.offer_tickets }}"
         },
         {
           "type": "header",
@@ -1022,7 +1040,7 @@
           "type": "number",
           "id": "start_year",
           "default": 2024,
-          "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.start_year.label"
+          "label": "t:sections.product-labels-and-badges.blocks.start_year.label"
         },
         {
           "type": "select",
@@ -1030,55 +1048,55 @@
           "options": [
             {
               "value": "January",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__1.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__1.label"
             },
             {
               "value": "February",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__2.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__2.label"
             },
             {
               "value": "March",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__3.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__3.label"
             },
             {
               "value": "April",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__4.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__4.label"
             },
             {
               "value": "May",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__5.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__5.label"
             },
             {
               "value": "June",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__6.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__6.label"
             },
             {
               "value": "July",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__7.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__7.label"
             },
             {
               "value": "August",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__8.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__8.label"
             },
             {
               "value": "September",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__9.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__9.label"
             },
             {
               "value": "October",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__10.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__10.label"
             },
             {
               "value": "November",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__11.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__11.label"
             },
             {
               "value": "December",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__12.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__12.label"
             }
           ],
           "default": "January",
-          "label": "t:sections.event-calendar.blocks.event.settings.month.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_month.label"
         },
         {
           "type": "select",
@@ -1210,7 +1228,7 @@
             }
           ],
           "default": "01",
-          "label": "t:sections.event-calendar.blocks.event.settings.day.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_day.label"
         },
         {
           "type": "select",
@@ -1314,7 +1332,7 @@
             }
           ],
           "default": "00",
-          "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.start_hour.label"
+          "label": "t:sections.product-labels-and-badges.blocks.start_hour.label"
         },
         {
           "type": "select",
@@ -1338,7 +1356,7 @@
             }
           ],
           "default": "00",
-          "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.start_minute.label"
+          "label": "t:sections.product-labels-and-badges.blocks.start_minute.label"
         },
         {
           "type": "header",
@@ -1354,7 +1372,8 @@
           "type": "number",
           "id": "end_year",
           "default": 2024,
-          "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.end_year.label"
+          "label": "t:sections.product-labels-and-badges.blocks.end_year.label",
+          "visible_if": "{{ block.settings.show_end_date }}"
         },
         {
           "type": "select",
@@ -1362,55 +1381,56 @@
           "options": [
             {
               "value": "January",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__1.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__1.label"
             },
             {
               "value": "February",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__2.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__2.label"
             },
             {
               "value": "March",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__3.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__3.label"
             },
             {
               "value": "April",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__4.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__4.label"
             },
             {
               "value": "May",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__5.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__5.label"
             },
             {
               "value": "June",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__6.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__6.label"
             },
             {
               "value": "July",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__7.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__7.label"
             },
             {
               "value": "August",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__8.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__8.label"
             },
             {
               "value": "September",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__9.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__9.label"
             },
             {
               "value": "October",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__10.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__10.label"
             },
             {
               "value": "November",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__11.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__11.label"
             },
             {
               "value": "December",
-              "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.month.options__12.label"
+              "label": "t:sections.announcement-bar.blocks.month.options__12.label"
             }
           ],
           "default": "January",
-          "label": "t:sections.event-calendar.blocks.event.settings.month.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_month.label",
+          "visible_if": "{{ block.settings.show_end_date }}"
         },
         {
           "type": "select",
@@ -1542,7 +1562,8 @@
             }
           ],
           "default": "01",
-          "label": "t:sections.event-calendar.blocks.event.settings.day.label"
+          "label": "t:sections.promotion-banner.blocks.countdown.settings.end_day.label",
+          "visible_if": "{{ block.settings.show_end_date }}"
         },
         {
           "type": "select",
@@ -1646,7 +1667,8 @@
             }
           ],
           "default": "00",
-          "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.end_hour.label"
+          "label": "t:sections.product-labels-and-badges.blocks.end_hour.label",
+          "visible_if": "{{ block.settings.show_end_date }}"
         },
         {
           "type": "select",
@@ -1670,14 +1692,16 @@
             }
           ],
           "default": "00",
-          "label": "t:sections.promotion-popup.blocks.countdown_timer.settings.end_minute.label"
+          "label": "t:sections.product-labels-and-badges.blocks.end_minute.label",
+          "visible_if": "{{ block.settings.show_end_date }}"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "t:sections.event-calendar.presets.name",
+      "name": "t:sections.event-calendar.name",
+      "category": "t:categories.brand_trust",
       "blocks": [
         {
           "type": "event"

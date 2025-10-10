@@ -28,7 +28,7 @@
     assign featured_image = blank
     if link.type == 'collection_link'
       if collection_metafield != blank and card_collection.metafields.custom[collection_metafield] != blank
-        assign featured_image = card_collection.metafields.custom[collection_metafield]
+        assign featured_image = card_collection.metafields.custom[collection_metafield].value
       elsif card_collection.image != blank
         assign featured_image = card_collection.image
       elsif show_first_image_product and card_collection.featured_image
@@ -52,6 +52,7 @@
       aria-label="image"
       {% if image_ratio == "auto" and featured_image %}style="padding-bottom: {{ 1 | divided_by: featured_image.aspect_ratio | times: 100 }}%;"{% endif %}
     >
+      {% # theme-check-disable ImgLazyLoading %}
       <img
         srcset="{{ featured_image | image_url: width: 100 }} 100w,
         {{ featured_image | image_url: width: 225 }} 225w,
@@ -70,9 +71,12 @@
         alt="{{ featured_image.alt | escape }}"
         height="{{ featured_image.height }}"
         width="{{ featured_image.width }}"
-        loading="lazy"
-        class="w-full h-full object-cover z-10 object-center image-hover absolute top-0 right-0{% if settings.edges_type == 'rounded_corners' %}{% if image_left %} rounded{% else %} rounded-[10px]{% endif %}{% endif %}"
+        {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+        onload="this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image');"
+        class="w-full h-full object-cover z-10 object-center image-hover absolute top-0 right-0 animate-Xpulse skeleton-image
+          {%- if settings.edges_type == 'rounded_corners' %}{% if image_left %} rounded{% else %} rounded-[10px]{% endif %}{% endif -%}"
       >
+      {% # theme-check-enable ImgLazyLoading %}
     </a>
   {% endif %}
 {% endif %}

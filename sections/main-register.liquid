@@ -16,7 +16,7 @@ endif
           </span>
           {{ 'templates.contact.form.error_heading' | t }}
         </h2>
-        <ul class="w-full max-w-[570px] ml-auto mr-auto pl-12">
+        <ul class="w-full max-w-[570px] ml-auto mr-auto pl-12 rtl:pl-0 rtl:pr-12">
           {%- for field in form.errors -%}
             <li class="list-disc mt-3.5 mb-3.5">
               {%- if field == 'form' -%}
@@ -31,9 +31,7 @@ endif
           {%- endfor -%}
         </ul>
       {% endcapture %}
-      {% if check_notice contains 'href="/account/login#recover"' %}
-        {{ check_notice }}
-      {% endif %}
+      {{ check_notice }}
     {%- endif -%}
     <div class="relative mr-auto ml-auto mb-2.5 max-w-[570px]">
       <input

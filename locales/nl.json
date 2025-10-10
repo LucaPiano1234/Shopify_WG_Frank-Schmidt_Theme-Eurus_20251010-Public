@@ -1,23 +1,14 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin language editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
     "sections": {
         "mobile-navigation": {
-            "my_cart": "Mijn wagen"
+            "my_cart": "Mijn winkelwagen"
         },
         "cart": {
             "title": "Jouw winkelwagen",
             "subtotal": "Subtotaal",
             "total": "Gesamt",
-            "total_savings": "Je hebt opgeslagen {{total_discount}}!",
-            "order_note": "Warenkorbhinweis",
+            "total_savings_html": "Je hebt opgeslagen {{total_discount}}!",
+            "order_note": "Bestelnotitie",
             "note": "Bestel speciale instructies",
             "checkout": "Afrekenen",
             "empty": "Uw winkelwagen is leeg",
@@ -41,11 +32,12 @@
                 "title": "Een account hebben?",
                 "paragraph_html": "<a href=\"{{ link }}\" class=\"nav-link relative effect-inline\">Log in<\/a> om sneller af te rekenen."
             },
-            "required_cart_note": "Binnenkomen"
+            "required_cart_note": "Binnenkomen",
+            "error_cart_note": "Niet gevuld"
         },
         "featured_blog": {
             "view_all": "Bekijk alle berichten",
-            "onboarding_title": "Blogpost",
+            "onboarding_title": "Blogbericht",
             "onboarding_date": "op 17 juli 2022",
             "on_date": "op",
             "by_author": "door",
@@ -118,36 +110,60 @@
         "product-bundle": {
             "choose_option": "Kies eerst een variant",
             "add_to_bundle": "Toevoegen aan bundel",
-            "bundle_empty": "Je bundel is leeg."
+            "bundle_empty": "Je bundel is leeg.",
+            "discount_label": "UIT",
+            "save": "Opslaan"
         },
         "promo-code-list": {
             "expired": "Abgelaufen",
             "coming_soon": "Kom kaal",
             "error_message": "Voeg dit artikel toe aan de Warenkorb, een van de geldende Rabattcodes.",
-            "apply": "Anwenden",
-            "applied": "Angewandt",
-            "valid": "Gültig",
-            "from": "aus",
-            "until": "bis"
+            "apply": "Toepassen",
+            "applied": "Toegepast",
+            "valid": "Geldig",
+            "from": "van",
+            "until": "tot"
         },
         "product-specifications": {
-            "view_more_button": "See more",
-            "view_less_button": "See less"
+            "view_more_button": "Bekijk meer",
+            "view_less_button": "Minder weergeven"
+        },
+        "quick-order-list":{
+            "variant": "Variant",
+            "variant-total": "Variant totaal",
+            "total-items": "Totaal aantal artikelen"
+        },
+        "flash-sale": {
+          "days": "DGN",
+          "hours": "UUR",
+          "mins": "MIN",
+          "secs": "SEC"
+        },
+        "social-feeds": {
+        "view_on_social": "View on social"
         }
     },
     "general": {
+        "theme-mode": {
+            "light": "Licht",
+            "dark": "Donker"
+        },
         "global": {
             "cancel": "Annuleren",
             "copy_code": "Kopieer code",
             "copied": "Gekopieerd",
             "prev": "Voor",
-            "next": "Nachste"
+            "next": "Nachste",
+            "back": "Terug",
+            "load_more": "Laad meer",
+            "showing_items": "Toont {{ item }}/{{ total }}"
         },
         "breadcrumbs": {
             "home": "Home"
         },
         "preorder": {
-            "name": "Voorbestelling"
+            "name": "Voorbestelling",
+            "message_preorder": "Dit product is vooraf besteld"
         },
         "custom_option": {
             "option_blank": "Niet ausgewählt",
@@ -171,6 +187,7 @@
                 "share_on_pinterest": "Pin op Pinterest",
                 "share_on_whatsapp": "Op WhatsApp teilen",
                 "share_on_telegram": "Op Telegram teilen",
+                "share_on_line": "Delen op LINE",
                 "share_on_email": "Per e-mail teilen",
                 "share_on_sms": "Per SMS teilen"
             },
@@ -184,7 +201,8 @@
                 "youtube": "YouTube",
                 "vimeo": "Vimeo",
                 "tiktok": "TikTok",
-                "linkedin": "LinkedIn"
+                "linkedin": "LinkedIn",
+                "line": "LINE"
             }
         },
         "continue_shopping": "Doorgaan met winkelen",
@@ -198,19 +216,34 @@
             "search": "Zoekopdracht..."
         },
         "cart": {
+            "item_added_to_cart": "Artikel toegevoegd aan winkelwagen",
             "view": "Bekijk mijn winkelwagen ( {{ count }} )",
             "item_added": "Artikel toegevoegd aan uw winkelwagen",
             "terms_confirm": "Ga akkoord met de algemene voorwaarden.",
-            "enable_amount_freeship_html": "Voeg nog <span class=\"text-medium font-medium\">{{ amount_to_freeshipping }}<\/span> toe voor <span class=\"font-medium\">GRATIS<\/span> verzending",
+            "enable_amount_freeship_html": "Voeg <span class=\"font-semibold\">{{ amount_to_freeshipping }}<\/span> meer toe om <span class=\"font-semibold\">GRATIS<\/span> verzending te krijgen",
+            "enable_amount_freegift_html": "Voeg <span class=\"font-semibold\">{{ amount_to_freegift }}<\/span> meer toe om {{ other_offer }} te krijgen",
             "freeshipping": "Gefeliciteerd! Je komt in aanmerking voor gratis verzending!",
+            "freegift": "Gefeliciteerd! Je komt in aanmerking voor {{ other_offer }}",
+            "free_all_offer": "Gefeliciteerd! Je komt in aanmerking voor gratis verzending en {{ other_offer }}!",
+            "freeshipping_value": "Gratis verzending",
             "apply": "Anwenden",
-            "placeholder_discount": "Bitte Rabattcode eingeben",
-            "discount_code": "Rabattcode",
-            "discount": "Rabat",
+            "copy_link": "Kopieer link",
+            "share_link": "Deel link",
+            "placeholder_discount": "Voer hier je kortingscode in",
+            "singular_applied_code": "{{ codes_count }} toegepaste code",
+            "plural_applied_code": "{{ codes_count }} toegepaste codes",
+            "discount_code": "Kortingscode",
+            "discount": "Korting",
             "discount_wrong": "Het is onaangenaam. Bitte stellen Als u zeker weet dat de Rabattdetails correct zijn.",
             "discount_correct": "Rabatt angewendet!",
             "discount_applied": "De Rabattcode zou kunnen veranderen.",
-            "payment_methods": "Wir akzeptieren"
+            "freeshipping_applied": "De gratis verzendcode kan later op de betaalpagina worden toegepast.",
+            "payment_methods": "Wij accepteren",
+            "share_cart": "Deel winkelwagen",
+            "undo": "Ongedaan maken",
+            "discount_removed": "Kortingscode is verwijderd.",
+            "product_insurance_notification": "Je hebt \"{{ title }}\" toegevoegd aan je winkelmand!",
+            "product_insurance_default_des": "Geen beschrijving"
         }
     },
     "newsletter": {
@@ -222,6 +255,7 @@
         "skip_to_text": "Doorgaan naar artikel",
         "skip_to_product_info": "Ga naar productinformatie",
         "close": "Dichtbij",
+        "confirm": "Bevestig",
         "image_link": "Afbeeldingslink",
         "unit_price_separator": "Per",
         "vendor": "Leverancier:",
@@ -257,7 +291,8 @@
             "share": "deel dit artikel",
             "success": "Je reactie is succesvol geplaatst! Bedankt!",
             "success_moderated": "Je reactie is succesvol geplaatst. We zullen het over een tijdje publiceren, aangezien onze blog wordt gemodereerd.",
-            "send_comment": "Versturen"
+            "send_comment": "Versturen",
+            "side_bar": "Zijbalk"
         }
     },
     "onboarding": {
@@ -274,6 +309,7 @@
             "add_to_cart": "Voeg toe aan winkelwagen",
             "add_all_to_cart": "Voeg alles toe aan winkelwagen",
             "pre_order": "Voorafgaande bestelling",
+            "choose_variants": "Choose variants",
             "choose_options": "Kies opties",
             "description": "Beschrijving",
             "on_sale": "Verkoop",
@@ -282,6 +318,7 @@
             "add": "Hinzufügen",
             "edit": "Berenbeiten",
             "remove": "Entfernen",
+            "remove_all": "Remove all",
             "add_selected_to_cart": "Ausgewählte Artikel in de Warenkorb-legen",
             "select": "Wahlen",
             "item": "item(s)",
@@ -301,6 +338,12 @@
                 "increase": "Verhoog het aantal voor {{ product }}",
                 "decrease": "Aantal verlagen voor {{ product }}",
                 "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}<\/span> in winkelwagen"
+            },
+            "volumn_pricing": {
+                "minimum": "Minimaal van",
+                "maximum": "maximaal van",
+                "increment": "verhoging van",
+                "name": "Volumeprijzen"
             },
             "pickup_availability": {
                 "view_store_info": "Winkelinformatie bekijken",
@@ -324,6 +367,8 @@
             "inventory_low_stock": "Lage voorraad",
             "inventory_out_of_stock": "Geen voorraad meer",
             "inventory_out_of_stock_continue_selling": "Op voorraad",
+            "backorder": "Op backorder, verzending binnenkort",
+            "back_in_stock": "Binnenkort weer op voorraad: {date}",
             "size_chart": "Maattabel",
             "share_social": "Deel",
             "share": "Deel dit product",
@@ -341,6 +386,7 @@
             "shipping_policy_html": "<a href=\"{{ link }}\" class='nav-link hover-text-link relative effect-inline mr-1'>Verzending<\/a> berekend bij het afrekenen.",
             "clear": "Geschiedenis wissen",
             "gift_wrapping_label": "Verpak dit product in cadeauverpakking",
+            "gift_wrapping_property_value": "Ja",
             "back_in_stock_alert": "Laat het mij weten als dit product weer op voorraad is.",
             "file_upload": "Zet uw bestand hier neer of blader",
             "file_upload_info": "Maximale bestandsgrootte 5MB",
@@ -357,6 +403,8 @@
         "facets": {
             "filter_and_sort": "Filter en sorteer",
             "filter_by_label": "Filter",
+            "hide_filter": "Filter verbergen",
+            "show_filter": "Filter tonen",
             "match_all": "Match alles",
             "filters_selected": {
                 "one": "{{ count }} geselecteerd",
@@ -600,18 +648,39 @@
         "province": "Provincie",
         "zip": "Postcode",
         "autoCalculate": "Versandkosten voor Ihr Ziel:",
-        "emptyAutoCal":"Weitere Informationen vindt u onder „Versandkostenschätzung“."
+        "emptyAutoCal":"Eventuele verzendkosten worden in de check-out toegepast"
     },
     "product_comparison": {
-        "remove": "Entfernen",
-        "view_detail": "Detail anzeigen",
-        "empty": "In dit artikel is geen enkel artikel opgenomen"
+        "view_detail": "Bekijk details"
     },
     "tabs": {
         "tab_title": "Tabtitel",
         "product_description": "Productbeschrijving"
     },
     "multiple_stores": {
-        "button_view":"Detail anzeigen"
-    }
+        "button_view": "Bekijk details",
+        "view_more": "Bekijk meer winkel",
+        "view_less": "Bekijk minder winkel"
+    },
+    "store_selector": {
+        "available": "Beschikbaar voor afhaling bij",
+        "out_of_stock": "Niet op voorraad bij ",
+        "select_pickup_location": "Selecteer Ophaallocatie",
+        "default_label": "Selecteer winkel",
+        "view_detail": "Bekijk Details",
+        "select_pickup_store": "Selecteer Ophaalwinkel"
+    },
+    "engraving": {
+        "default_text": "Gravure optie"
+    },
+    "product-table": {
+        "conclusion": "Conclusie:"
+    },
+    "header": {
+        "menu": "Menu"
+    },
+  "buy-your-own-bundle": {
+    "step": "Stap {{ index }}",
+    "no_product_chosen": "Geen product gekozen"
+  }
 }

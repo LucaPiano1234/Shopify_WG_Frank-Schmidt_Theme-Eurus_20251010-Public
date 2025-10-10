@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('product-bundle.js')) {
-window.Eurus.loadedScript.push('product-bundle.js');
+if (!window.Eurus.loadedScript.has('product-bundle.js')) {
+window.Eurus.loadedScript.add('product-bundle.js');
 
 requestAnimationFrame(() => {
   document.addEventListener("alpine:init", () => {
@@ -20,7 +20,7 @@ requestAnimationFrame(() => {
       showBundleContent: false,
       totalDiscount: 0,
       amountPrice: 0,
-      initBandle(el) {
+      initBundle(el) {
         this.addToCartButton = el.querySelector(".button-atc");
         this.handleProductsBundle();
       },
@@ -33,81 +33,126 @@ requestAnimationFrame(() => {
           }));
         });
       },
-      addToBundle(el, productId, productUrl, hasVariant) {
+      _getSelectedValueId(el) {
+        return el.querySelector("select option[selected][value], fieldset input:checked")?.dataset.optionValueId;
+      },
+      _getCurrentVariantEl(el) {
+        return el.querySelector(`script[type="application/json"][data-option-value-id='${this._getSelectedValueId(el)}']`);
+      },
+      _getCurrentVariable(el) {
+        return JSON.parse(this._getCurrentVariantEl(el)?.textContent);
+      },
+      addToBundle(el, productId, productUrl, hasVariant, name_edt) {
         let productsBundle = JSON.parse(JSON.stringify(this.productsBundle))
         const productName = el.closest(".x-product-bundle-data").querySelector(".product-name").textContent;
-        const currentVariant =  JSON.parse(el.closest(".x-product-bundle-data").querySelector(".current-variant").textContent);
-        const price =  !hasVariant && JSON.parse(el.closest(".x-product-bundle-data").querySelector(".current-price")?.textContent);
+        const currentVariant = hasVariant ? this._getCurrentVariable(el.closest(".x-product-bundle-data")) : JSON.parse(el.closest(".x-product-bundle-data").querySelector(`script[type='application/json'][data-id='${productId}']`).textContent);
+        const price = !hasVariant && JSON.parse(el.closest(".x-product-bundle-data").querySelector(".current-price")?.textContent);
         const featured_image = currentVariant.featured_image ? currentVariant.featured_image.src : el.closest(".x-product-bundle-data").querySelector(".featured-image").textContent;
-        let variantId = hasVariant ? currentVariant.id : currentVariant; 
+        const edtElement = el.closest(".x-product-bundle-data").querySelector(`.hidden.cart-edt-properties-${productId}`);
+        let shippingMessage = '';
+        if(edtElement){
+          shippingMessage = edtElement.value.replace("time_to_cut_off", Alpine.store('xEstimateDelivery').noti);
+        }
+        const preorderElement = el.closest(".x-product-bundle-data").querySelector('.hidden.preorder-edt-properties');
+        let preorderMessage = '';
+        if(preorderElement){
+          preorderMessage = preorderElement.value;
+        }
+        
+        const properties = {
+          ...(name_edt && shippingMessage && { [name_edt]: shippingMessage }),
+          ...(preorderMessage && { Preorder: preorderMessage }),
+        };
+
+        let variantId = hasVariant ? currentVariant : currentVariant.id; 
         let newProductsBundle = [];
-        let newItem = hasVariant ? { ...currentVariant, title: currentVariant.title.replaceAll("\\",""), product_id: productId, product_name: productName, productUrl: `${productUrl}?variant=${currentVariant.id}`, featured_image: featured_image, quantity: 1} : { id: variantId, product_id: productId, product_name: productName, productUrl: productUrl, featured_image: featured_image, quantity: 1, price: price}
+        let newItem = hasVariant ? { ...currentVariant, title: currentVariant.title.replaceAll("\\",""), product_id: productId, product_name: productName, productUrl: `${productUrl}?variant=${currentVariant.id}`, featured_image: featured_image, quantity: 1, "properties": properties} : { id: variantId, product_id: productId, product_name: productName, productUrl: productUrl, featured_image: featured_image, quantity: 1, price: price, "properties": properties }
         
         newProductsBundle = [...productsBundle , newItem];
         this.productsBundle = newProductsBundle;
         this.errorMessage = false;
         this.updateBundleContent(newProductsBundle)
-      },
-      handleAddToCart(el) {
-        let items = JSON.parse(JSON.stringify(this.productsBundle));
-        items = items.reduce((data, product) => {
-          data[product.id] ? data[product.id].quantity += product.quantity : data[product.id] = product;
-          return data;
-        }, {});
-
-        this.loading = true;
-        fetch(window.Shopify.routes.root + 'cart/add.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body:  JSON.stringify({ "items": items, "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id) })
-        }).then((response) => {
-          return response.json();
-        }).then((response) => {
-
-          document.dispatchEvent(new CustomEvent(`eurus:product-bundle:products-changed-${sectionId}`, {
-            detail: {
-              productsBundle: Object.values(items),
-              el: el.closest(".product-bundler-wrapper")
-            }
-          }));
-
-          if (response.status == '422') {
-            const error_message = el.closest('.bundler-sticky').querySelector('.cart-warning');
-
-            this.errorMessage = true;
-            if (error_message) {
-              error_message.textContent = response.description;
-            }
-            return;
-          } 
-
-          this.errorMessage = false;
-          Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
-            const sectionElement = document.querySelector(section.selector);
-
-            if (sectionElement) {
-              if (response.sections[section.id])
-                sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], section.selector);
-            }
-          }));
-          if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
-            Alpine.store('xQuickView').show = false;
+        let bundleContentContainer = document.getElementById(`bundle-content-container-${sectionId}`);
+        requestAnimationFrame(() => {
+          let splide = bundleContentContainer.splide;
+          if (splide) {
+            splide.refresh();
+            let lastIndex = splide.Components.Controller.getEnd();
+            splide.go(lastIndex);
           }
-          Alpine.store('xPopup').close();
-          Alpine.store('xMiniCart').openCart();
-          Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
-          document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        }).finally(() => {
-          this.loading = false;
-          this.productsBundle = [];
-          this.totalPrice = 0;
-          this.addToCartButton.setAttribute('disabled', 'disabled');
-        })
+        });
+      },
+      async handleAddToCart(el) {
+        this.loading = true;
+        await Alpine.store('xCartHelper').waitForEstimateUpdate();
+        window.updatingEstimate = true;
+
+        setTimeout(() => { 
+          let items = JSON.parse(JSON.stringify(this.productsBundle));
+          items = items.reduce((data, product) => {
+            data[product.id] ? data[product.id].quantity += product.quantity : data[product.id] = product;
+            return data;
+          }, {});
+          
+          fetch(window.Shopify.routes.root + 'cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body:  JSON.stringify({ "items": items, "sections":  Alpine.store('xCartHelper').getSectionsToRender().map((section) => section.id) })
+          }).then((response) => {
+            return response.json();
+          }).then((response) => {
+
+            document.dispatchEvent(new CustomEvent(`eurus:product-bundle:products-changed-${sectionId}`, {
+              detail: {
+                productsBundle: Object.values(items),
+                el: el.closest(".product-bundler-wrapper")
+              }
+            }));
+
+            if (response.status == '422') {
+              const error_message = el.closest('.bundler-sticky').querySelector('.cart-warning');
+
+              this.errorMessage = true;
+              if (error_message) {
+                error_message.textContent = response.description;
+              }
+              return;
+            }
+            this.errorMessage = false;
+            Alpine.store('xCartHelper').getSectionsToRender().forEach((section => {
+              section.selector.split(',').forEach((selector) => {
+                const sectionElement = document.querySelector(selector);
+                if (sectionElement) {
+                  if (response.sections[section.id])
+                    sectionElement.innerHTML = getSectionInnerHTML(response.sections[section.id], selector);
+                }
+              })
+            }));
+            if (Alpine.store('xQuickView') && Alpine.store('xQuickView').show) {
+              Alpine.store('xQuickView').show = false;
+            }
+            Alpine.store('xPopup').close();
+            if (Alpine.store('xCartNoti') && Alpine.store('xCartNoti').enable) {
+              Alpine.store('xCartNoti').setItem(response); 
+            } else {
+              Alpine.store('xMiniCart').openCart();
+              document.dispatchEvent(new CustomEvent("eurus:cart:redirect"));
+            }
+            Alpine.store('xCartHelper').currentItemCount = parseInt(document.querySelector('#cart-icon-bubble span').innerHTML);
+            document.dispatchEvent(new CustomEvent("eurus:cart:items-changed"));
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          }).finally(() => {
+            Alpine.store('xCartHelper').updateEstimateShippingFull();
+            this.loading = false;
+            this.productsBundle = [];
+            this.totalPrice = 0;
+            this.addToCartButton.setAttribute('disabled', 'disabled');
+          })
+        }, 0)
       },
       updateBundleContent(productsBundle) {
         let total = productsBundle.map(item => item.price).reduce((total, item) => total + item, 0);
@@ -116,6 +161,7 @@ requestAnimationFrame(() => {
           this.addToCartButton.removeAttribute('disabled');
           let discount = 0;
           let totalDiscount = 0;
+
           if (!Number.isNaN(discountValue)) {
             discount = Number(discountValue);
 
@@ -133,13 +179,16 @@ requestAnimationFrame(() => {
             }
 
             if (totalDiscount > 0) {
-              this.totalDiscount = this.formatMoney(totalDiscount, shopCurrency);
               let amount = total - totalDiscount;
-              this.amountPrice = "-" + this.formatMoney(amount, shopCurrency);
+              this.amountPrice = this.formatMoney(amount, shopCurrency);
+              this.totalDiscount = this.formatMoney(totalDiscount, shopCurrency);
+            } else {
+              this.amountPrice = this.formatMoney(0, shopCurrency);
+              this.totalDiscount = this.formatMoney(total, shopCurrency)
             }
           } else {
-            this.totalDiscount = 0;
             this.amountPrice = 0;
+            this.totalDiscount = 0;
           }
         } else {
           this.totalDiscount = 0;
@@ -152,6 +201,15 @@ requestAnimationFrame(() => {
         let newProductsBundle = this.productsBundle.filter((item, index) => index != indexItem)
         this.productsBundle = newProductsBundle;
         this.updateBundleContent(newProductsBundle);
+        let bundleContentContainer = document.getElementById(`bundle-content-container-${sectionId}`);
+        requestAnimationFrame(() => {
+          let splide = bundleContentContainer.splide;
+          if (splide) {
+            splide.refresh();
+            let lastIndex = splide.Components.Controller.getEnd();
+            splide.go(lastIndex);
+          }
+        });
 
         document.dispatchEvent(new CustomEvent(`eurus:product-bundle:remove-item-${sectionId}`, {
           detail: {
@@ -166,7 +224,6 @@ requestAnimationFrame(() => {
         decimal   = this.defaultOption(decimal, '.');
     
         if (isNaN(number) || number == null) { return 0; }
-    
         number = (number/100.0).toFixed(precision);
     
         var parts   = number.split('.'),
@@ -194,14 +251,25 @@ requestAnimationFrame(() => {
             value = this.formatWithDelimiters(amount, 0, '.', ',');
             break;
         }
-      
         return formatString.replace(placeholderRegex, value);
+      },
+      displayDiscountValueLabel () {
+        let discount = 0;
+        if (!Number.isNaN(discountValue)) {
+          discount = Number(discountValue);
+          if (discount > 0) {
+            discount = (Number.parseFloat(discountValue)).toFixed(2) * Shopify.currency.rate * 100;
+          }
+          return this.formatMoney(discount, shopCurrency);
+        }
       }
     }));
 
     Alpine.data('xProductItemBundle', (
       sectionId,
       addToBundle,
+      unavailableText,
+      soldoutText,
       handleSectionId,
       productUrl,
       productId,
@@ -213,20 +281,10 @@ requestAnimationFrame(() => {
       isSelect: false,
       productId: productId,
       productUrl: productUrl,
-      initVariant() {
-        let xDataVariant = this.$el.querySelector('[type="application/json"]');
-        if (xDataVariant) {
-          let data = JSON.parse(xDataVariant.textContent);
-          data = data?.map(item => ({ disable: false, id: item.id }));
-          this.dataVariant = data;
-        }
-        this.initEvent();
-      },
       initEvent() {
         if (hasVariant) {
           document.addEventListener(`eurus:product-card-variant-select:updated:${sectionId}`, (e) => {
             this.currentVariant = e.detail.currentVariant,
-            this.options = e.detail.options;
             this.renderAddToBundleButton();
             this.checkVariantSelected();
             if (this.currentVariant && this.currentVariant.id) {
@@ -296,12 +354,18 @@ requestAnimationFrame(() => {
 
         if (!buttonATB) return;
 
-        if (this.currentVariant) {
-          /// Enable add to cart button
-          if (this.currentVariant.available) {
-            buttonATB.removeAttribute('disabled');
-            const addButtonText = buttonATB.querySelector('.x-atc-text');
-            if (addButtonText) addButtonText.textContent = addToBundle;
+        const addButtonText = buttonATB.querySelector('.x-atc-text');
+
+        if (addButtonText) {
+          if (this.currentVariant) {
+            if (this.currentVariant.available) {
+              buttonATB.removeAttribute('disabled');
+              addButtonText.textContent = addToBundle;
+            } else {
+              addButtonText.textContent = soldoutText;
+            }
+          } else {
+            addButtonText.textContent = unavailableText;
           }
         }
       },

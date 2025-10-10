@@ -61,18 +61,22 @@
     assign content_alignment = 'start'
   endif
 %}  
-<div class="{{ settings.product_reviews_app }} flex w-full items-center
-  {%- if shop_the_look %} 
-    mb-2 md:justify-{{ content_alignment }} rtl:md:flex-row-reverse
-  {%- else %}
-    ltr{% if is_comparison %} justify-center{% else %} mb-2{% if card_product %} justify-{{ content_alignment }}{% elsif show_content_center %} justify-center{% endif %}{% if settings.lang_direction contains request.locale.iso_code %} md:list-layout:justify-end{% else %} md:list-layout:justify-start{% endif %}{% endif %}
-  {%- endif %}"
+<div 
+  class="x-review-product {{ settings.product_reviews_app }} flex w-full items-center
+    {%- if settings.product_reviews_app == 'yotpo' %} rating-review{% endif -%}
+    {%- if card_product %} justify-{{ content_alignment }}{% elsif show_content_center %} justify-center{% endif -%}
+    {%- if shop_the_look %} md:justify-{{ content_alignment }} rtl:md:flex-row-reverse{% else %} {%- unless video_with_text %}ltr{% endunless %}{% endif -%}
+    {%- if is_comparison %} justify-center{% endif -%}
+    {%- if is_product_page %} mb-4 md:mb-5{% else %}{% unless slideshow %} {% if product_complementary %}mb-2{% else %}mb-2.5{% endif %}{% endunless %}{% endif -%}
+    {%- if is_product_page and show_content_center == false %} rtl:justify-end{% elsif show_content_center %} justify-center{% endif -%}
+    {% if settings.lang_direction contains request.locale.iso_code %} md:list-layout:justify-end{% else %} md:list-layout:justify-start{% endif -%}
+  "
 >
   {%- if settings.product_reviews_app == 'trustoo' -%}
     <div class="custom-vstar-rating-widget" product-id="{{ product.id }}"></div>
   {%- elsif settings.product_reviews_app == 'yotpo' -%}
     <div class="yotpo bottomLine" data-product-id="{{ product.id }}"> </div>
-  {%- else  -%}
+  {%- else -%}
     <div class="rating gap-1 flex leading-tight" role="img" aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: rating_product, rating_max: scale_max }}">
       {% liquid 
         if star_fill != blank  
@@ -86,8 +90,8 @@
         endif 
       %}
     </div> 
-    <p class="rating-count leading-none caption ml-1 text-[{{ settings.text_base_size | times: 0.007 }}rem]">
+    <p class="rating-count leading-none caption ml-1 {%- if video_with_text %} rtl:mr-1 rtl:ml-0{% endif %} text-[{{ settings.text_base_size | times: 0.007 }}rem]">
       {%- if rating_count -%}({{ rating_count }}){% else %} (0) {%- endif %}
     </p>
-  {%- endif  -%}
+  {%- endif -%}
 </div>

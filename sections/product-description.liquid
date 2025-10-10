@@ -62,20 +62,24 @@
 {% render 'section-divider' %}
 
 <div class="product-description bg--{{ section.id }} mx-auto pt-[{{ section.settings.padding_top_mobile }}px] md:pt-[{{ section.settings.padding_top }}px] pb-[{{ section.settings.padding_bottom_mobile }}px] md:pb-[{{ section.settings.padding_bottom }}px]">
-  <div class="{% if section.settings.full_width %} full-width{% else %} page-width{% endif %}">
+  <div class="{% if section.settings.full_width %}full-width{% else %}x-pgw page-width{% endif %}">
     {% if section.settings.heading != blank %}
-      <{{ section.settings.heading_tag }} class="heading-{{ section.id }} h2 mb-6 md:mb-8 block text-{{ section.settings.heading_alignment }}">
+      <div class="mb-6 md:mb-8">
         {% render 'heading-highlight',
           headingId: section.id,
           heading: section.settings.heading,
           highlight_type: section.settings.highlight_type,
           color_heading_highlight_dark: section.settings.color_heading_highlight_dark,
-          color_heading_highlight_light: section.settings.color_heading_highlight_light
+          color_heading_highlight_light: section.settings.color_heading_highlight_light,
+          class: 'h2 block',
+          heading_tag: section.settings.heading_tag,
+          heading_alignment: section.settings.heading_alignment,
+          animation_heading: true
         %}
-      </{{ section.settings.heading_tag }}>
+      </div>
     {% endif %}
-    <div class="content--{{ section.id }} mx-auto anm-fade-paragraph text-[rgb(var(--colors-text))] p-break-words">
-      <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element rte">
+    <div class="content--{{ section.id }} anm-fade-paragraph text-[rgb(var(--colors-text))] p-break-words{% if section.settings.content_alignment == 'left' %} mr-auto rtl:mr-0 rtl:ml-auto{% elsif section.settings.content_alignment == 'right' %} ml-auto rtl:ml-0 rtl:mr-auto{% else %} ml-auto mr-auto{% endif %}">
+      <div x-intersect.once="$el.classList.add('is-visible')" class="anm-fade-element rte text-{{ section.settings.content_alignment }} rtl:text-{% if section.settings.content_alignment == 'center' %}center{% elsif section.settings.content_alignment == 'left' %}right{% else %}left{% endif %}">
         {%- render 'truncate-text', 
           number_of_lines_shown: section.settings.number_of_lines_shown 
           blockID: section.id,
@@ -98,6 +102,10 @@
   },
   "limit": 1,
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.user_guide_link.product_page.product_description"
+    },
     {
       "type": "text",
       "id": "heading",
@@ -171,7 +179,27 @@
       "type": "select",
       "id": "heading_alignment",
       "default": "center",
-      "label": "t:sections.featured-collection.settings.heading_alignment.label",
+      "label": "t:sections.all.text.heading_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.content_alignment.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "default": "center",
+      "label": "Content alignment",
       "options": [
         {
           "value": "left",
@@ -216,13 +244,15 @@
       "type": "text",
       "id": "read_more_label",
       "default": "Read more",
-      "label": "t:sections.all.read_more_label.label"
+      "label": "t:sections.all.read_more_label.label",
+      "visible_if": "{{ section.settings.number_of_lines_shown != 'none' }}"
     },
     {
       "type": "text",
       "id": "see_less_label",
       "default": "See less",
-      "label": "t:sections.all.see_less_label.label"
+      "label": "t:sections.all.see_less_label.label",
+      "visible_if": "{{ section.settings.number_of_lines_shown != 'none' }}"
     },
     {
       "type": "range",
@@ -236,13 +266,13 @@
     },
     {
       "type": "header",
-      "content": "t:sections.main-collection-banner.block.header"
+      "content": "t:settings_schema.colors.name"
     },
     {
       "type": "color",
       "id": "background_color_light",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.main-collection-banner.block.background_color_light"
+      "label": "t:sections.all.background.background_color_light"
     },
     {
       "type": "color",
@@ -260,13 +290,13 @@
       "type": "color",
       "id": "text_color_light",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.main-collection-banner.block.text_color_light"
+      "label": "t:sections.all.text.color"
     },
     {
       "type": "color",
       "id": "background_color_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.main-collection-banner.block.background_color_dark"
+      "label": "t:sections.all.background.background_color_dark"
     },
     {
       "type": "color",
@@ -284,7 +314,7 @@
       "type": "color",
       "id": "text_color_dark",
       "default": "rgba(0,0,0,0)",
-      "label": "t:sections.main-collection-banner.block.text_color_dark"
+      "label": "t:sections.all.text.color_dark"
     },
     {
       "type": "header",
@@ -310,7 +340,7 @@
       "type": "checkbox",
       "id": "show_section_divider",
       "default": true,
-      "label": "t:sections.rich-text.settings.show_section_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -350,7 +380,7 @@
       "id": "show_section_divider_mobile",
       "type": "checkbox",
       "default": true,
-      "label": "t:sections.collage.settings.show_divider.label"
+      "label": "t:sections.all.show_section_divider.label"
     },
     {
       "type": "range",
@@ -375,7 +405,8 @@
   ],
   "presets": [
     {
-      "name": "t:sections.product-description.name"
+      "name": "t:sections.product-description.name",
+      "category": "t:categories.products"
     }
   ]
 }

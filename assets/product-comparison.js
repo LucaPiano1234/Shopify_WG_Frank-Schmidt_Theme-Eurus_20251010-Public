@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('product-comparison.js')) {
-  window.Eurus.loadedScript.push('product-comparison.js');
+if (!window.Eurus.loadedScript.has('product-comparison.js')) {
+  window.Eurus.loadedScript.add('product-comparison.js');
   
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {

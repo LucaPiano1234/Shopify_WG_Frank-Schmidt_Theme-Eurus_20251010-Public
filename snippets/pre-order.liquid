@@ -31,6 +31,4 @@
   }
 {%- endstyle -%}
 
-<div class="pre-order-{{ container_id }} p-break-words rte{% if show_background %} pt-3 pb-3 pr-5 pl-5 lg:pl-7 lg:pr-7 mt-2.5{% else %} mt-5{% endif %}{% if box_type == 'round' %} rounded-md{% endif %}">
-  {{ message }}
-</div>
+<div class="pre-order-{{ container_id }} p-break-words rte{% if show_background %} pt-3 pb-3 pr-5 pl-5 lg:pl-7 lg:pr-7 mt-2.5{% else %} mt-5{% endif %}{% if box_type == 'round' or box_type == 'adapt' and settings.edges_type == 'rounded_corners' %} rounded-md{% endif %}">{{ message }}</div>

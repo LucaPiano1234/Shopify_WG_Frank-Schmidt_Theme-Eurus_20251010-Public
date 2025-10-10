@@ -6,6 +6,7 @@ requestAnimationFrame(() => {
       canScroll: false,
       atTop: true,
       atBottom: false,
+      showStore: false,
       load() {
         const canScrollVertically = this.$refs.list_stores.scrollHeight > this.$refs.list_stores.closest(".multi_stores_content").clientHeight;
         if (canScrollVertically) {
@@ -31,16 +32,15 @@ requestAnimationFrame(() => {
         this.open = true;
         var popupContent = document.getElementById(el.getAttribute("data-id"));
         
-
         this.$refs.content_location_detail.innerHTML = popupContent.innerHTML;
         const title = this.$refs.content_location_detail.querySelector('h5.location-title');
         if (title) {
-          const h3 = document.createElement('h3');
+          const h4 = document.createElement('h4');
 
-          h3.innerHTML = title.innerHTML;
-          h3.className = title.className;
+          h4.innerHTML = title.innerHTML;
+          h4.className = title.className;
 
-          title.replaceWith(h3);
+          title.replaceWith(h4);
         }
       },
       hideLocation() {
@@ -66,7 +66,20 @@ requestAnimationFrame(() => {
       checkCanScrollVertical() {
         if (window.innerWidth < 768) {
           this.atTop = this.$refs.list_stores.scrollTop === 0;
-          this.atBottom =(this.$refs.list_stores.scrollTop + this.$refs.list_stores.closest(".multi_stores_content").clientHeight) >= (this.$refs.list_stores.scrollHeight - 2);
+          this.atBottom = (this.$refs.list_stores.scrollTop + this.$refs.list_stores.closest(".multi_stores_content").clientHeight) >= (this.$refs.list_stores.scrollHeight - 2);
+        }
+      },
+      toggleStore(noScroll = false) {
+        this.showStore = !this.showStore;
+        if (!this.showStore) {
+          this.$refs.first_store.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        if (!noScroll) {
+          this.canScroll = !this.canScroll;
+          this.$refs.list_stores.addEventListener("animationend", this.checkCanScrollVertical());
+          setTimeout(() => {
+            this.$refs.list_stores.removeEventListener("animationend", this.checkCanScrollVertical());
+          }, 300);
         }
       }
     }));

@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('shipping-policy.js')) {
-  window.Eurus.loadedScript.push('shipping-policy.js');
+if (!window.Eurus.loadedScript.has('shipping-policy.js')) {
+  window.Eurus.loadedScript.add('shipping-policy.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {

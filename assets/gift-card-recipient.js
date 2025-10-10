@@ -1,5 +1,5 @@
-if (!window.Eurus.loadedScript.includes('gift-card-recipient.js')) {
-  window.Eurus.loadedScript.push('gift-card-recipient.js');
+if (!window.Eurus.loadedScript.has('gift-card-recipient.js')) {
+  window.Eurus.loadedScript.add('gift-card-recipient.js');
 
   requestAnimationFrame(() => {
     document.addEventListener('alpine:init', () => {
