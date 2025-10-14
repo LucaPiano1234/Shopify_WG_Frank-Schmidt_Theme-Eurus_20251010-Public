@@ -261,35 +261,6 @@
             "end_minute": "00"
           }
         },
-        "event_Nz6ANM": {
-          "type": "event",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/IMG_8956.jpg",
-            "heading": "Weinmesse in Delmenhorst",
-            "heading_size": 100,
-            "description": "In gemütlicher Atmosphäre unsere Weine verkosten und mit der Winzerfamilie plaudern.",
-            "content": "",
-            "location": "VHS Delmenhorst Am Turbinenhaus 11 (Nordwolle)  27749 Delmenhorst",
-            "button_label_add_calendar": "Zum Kalender hinzufügen",
-            "show_button_style": "primary",
-            "offer_tickets": false,
-            "ticket_link": "",
-            "ticket_button_label": "",
-            "ticket_button_label_style": "primary",
-            "start_year": 2026,
-            "month": "February",
-            "day": "06",
-            "start_hour": "16",
-            "start_minute": "30",
-            "show_end_date": false,
-            "end_year": 2026,
-            "end_month": "February",
-            "end_day": "07",
-            "end_hour": "21",
-            "end_minute": "00"
-          }
-        },
         "event_A3gAae": {
           "type": "event",
           "disabled": true,
@@ -577,11 +548,38 @@
             "end_hour": "19",
             "end_minute": "00"
           }
+        },
+        "event_Nz6ANM": {
+          "type": "event",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8956.jpg",
+            "heading": "Weinmesse in Delmenhorst 2026",
+            "heading_size": 100,
+            "description": "In gemütlicher Atmosphäre unsere Weine verkosten und mit der Winzerfamilie plaudern.",
+            "content": "",
+            "location": "VHS Delmenhorst Am Turbinenhaus 11 (Nordwolle)  27749 Delmenhorst",
+            "button_label_add_calendar": "Zum Kalender hinzufügen",
+            "show_button_style": "primary",
+            "offer_tickets": false,
+            "ticket_link": "",
+            "ticket_button_label": "",
+            "ticket_button_label_style": "primary",
+            "start_year": 2026,
+            "month": "February",
+            "day": "06",
+            "start_hour": "16",
+            "start_minute": "30",
+            "show_end_date": false,
+            "end_year": 2026,
+            "end_month": "February",
+            "end_day": "07",
+            "end_hour": "21",
+            "end_minute": "00"
+          }
         }
       },
       "block_order": [
         "event_MDBtHQ",
-        "event_Nz6ANM",
         "event_A3gAae",
         "event_Qi34eL",
         "event_9NTqVA",
@@ -591,7 +589,8 @@
         "event_HJUAJN",
         "event_AQg4iQ",
         "event_3bp7hx",
-        "event_r6xkhr"
+        "event_r6xkhr",
+        "event_Nz6ANM"
       ],
       "settings": {
         "heading": "Termine und Veranstaltungen",
