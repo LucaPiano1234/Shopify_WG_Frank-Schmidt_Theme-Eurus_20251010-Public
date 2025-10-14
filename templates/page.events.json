@@ -233,6 +233,62 @@
     "event_calendar_qL8zfA": {
       "type": "event-calendar",
       "blocks": {
+        "event_r6xkhr": {
+          "type": "event",
+          "settings": {
+            "image": "shopify://shop_images/20241103-DSC09728_7554290d-7a5f-4784-996d-fc73f4ab21bd.jpg",
+            "heading": "Pino Magma Verkostung",
+            "heading_size": 120,
+            "description": "",
+            "content": "",
+            "location": "Greiffenegg-Schlössle, Schlossbergring 3, 79098 Freiburg im Breisgau",
+            "button_label_add_calendar": "Add to calendar",
+            "show_button_style": "primary",
+            "offer_tickets": true,
+            "ticket_link": "https://pinomagma.de/products/pino-magma-prasentation",
+            "ticket_button_label": "",
+            "ticket_button_label_style": "primary",
+            "start_year": 2025,
+            "month": "November",
+            "day": "02",
+            "start_hour": "14",
+            "start_minute": "00",
+            "show_end_date": true,
+            "end_year": 2025,
+            "end_month": "November",
+            "end_day": "02",
+            "end_hour": "19",
+            "end_minute": "00"
+          }
+        },
+        "event_Qi34eL": {
+          "type": "event",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8648_2.jpg",
+            "heading": "Wein on Tour / Neuss",
+            "heading_size": 100,
+            "description": "Wir laden ein unsere Weine im schönen Ambiente des Zeughaus in Neuss zu verkosten. \nSamstag 25.10.2025  12.- 19.00 Uhr\nSonntag 26.10.2025. 12. -18.00 Uhr",
+            "content": "",
+            "location": "Zeughaus Markt 42-44, 41460 Neuss",
+            "button_label_add_calendar": "Zum Kalender hinzufügen",
+            "show_button_style": "primary",
+            "offer_tickets": false,
+            "ticket_link": "",
+            "ticket_button_label": "",
+            "ticket_button_label_style": "primary",
+            "start_year": 2025,
+            "month": "October",
+            "day": "25",
+            "start_hour": "11",
+            "start_minute": "00",
+            "show_end_date": true,
+            "end_year": 2025,
+            "end_month": "October",
+            "end_day": "26",
+            "end_hour": "18",
+            "end_minute": "00"
+          }
+        },
         "event_MDBtHQ": {
           "type": "event",
           "settings": {
@@ -287,34 +343,6 @@
             "end_month": "January",
             "end_day": "01",
             "end_hour": "00",
-            "end_minute": "00"
-          }
-        },
-        "event_Qi34eL": {
-          "type": "event",
-          "settings": {
-            "image": "shopify://shop_images/IMG_8648_2.jpg",
-            "heading": "Wein on Tour / Neuss",
-            "heading_size": 100,
-            "description": "Wir laden ein unsere Weine im schönen Ambiente des Zeughaus in Neuss zu verkosten. \nSamstag 25.10.2025  12.- 19.00 Uhr\nSonntag 26.10.2025. 12. -18.00 Uhr",
-            "content": "",
-            "location": "Zeughaus Markt 42-44, 41460 Neuss",
-            "button_label_add_calendar": "Zum Kalender hinzufügen",
-            "show_button_style": "primary",
-            "offer_tickets": false,
-            "ticket_link": "",
-            "ticket_button_label": "",
-            "ticket_button_label_style": "primary",
-            "start_year": 2025,
-            "month": "October",
-            "day": "25",
-            "start_hour": "11",
-            "start_minute": "00",
-            "show_end_date": true,
-            "end_year": 2025,
-            "end_month": "October",
-            "end_day": "26",
-            "end_hour": "18",
             "end_minute": "00"
           }
         },
@@ -521,34 +549,6 @@
             "end_minute": "00"
           }
         },
-        "event_r6xkhr": {
-          "type": "event",
-          "settings": {
-            "image": "shopify://shop_images/20241103-DSC09728_7554290d-7a5f-4784-996d-fc73f4ab21bd.jpg",
-            "heading": "Pino Magma Verkostung",
-            "heading_size": 120,
-            "description": "",
-            "content": "",
-            "location": "Greiffenegg-Schlössle, Schlossbergring 3, 79098 Freiburg im Breisgau",
-            "button_label_add_calendar": "Add to calendar",
-            "show_button_style": "primary",
-            "offer_tickets": true,
-            "ticket_link": "https://pinomagma.de/products/pino-magma-prasentation",
-            "ticket_button_label": "",
-            "ticket_button_label_style": "primary",
-            "start_year": 2025,
-            "month": "November",
-            "day": "02",
-            "start_hour": "14",
-            "start_minute": "00",
-            "show_end_date": true,
-            "end_year": 2025,
-            "end_month": "November",
-            "end_day": "02",
-            "end_hour": "19",
-            "end_minute": "00"
-          }
-        },
         "event_Nz6ANM": {
           "type": "event",
           "settings": {
@@ -579,9 +579,10 @@
         }
       },
       "block_order": [
+        "event_r6xkhr",
+        "event_Qi34eL",
         "event_MDBtHQ",
         "event_A3gAae",
-        "event_Qi34eL",
         "event_9NTqVA",
         "event_kdyjhK",
         "event_3aG6VP",
@@ -589,7 +590,6 @@
         "event_HJUAJN",
         "event_AQg4iQ",
         "event_3bp7hx",
-        "event_r6xkhr",
         "event_Nz6ANM"
       ],
       "settings": {
