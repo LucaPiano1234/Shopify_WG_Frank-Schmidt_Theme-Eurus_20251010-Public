@@ -233,34 +233,6 @@
     "event_calendar_qL8zfA": {
       "type": "event-calendar",
       "blocks": {
-        "event_r6xkhr": {
-          "type": "event",
-          "settings": {
-            "image": "shopify://shop_images/20241103-DSC09728_7554290d-7a5f-4784-996d-fc73f4ab21bd.jpg",
-            "heading": "Pino Magma Verkostung",
-            "heading_size": 120,
-            "description": "",
-            "content": "",
-            "location": "Greiffenegg-Schlössle, Schlossbergring 3, 79098 Freiburg im Breisgau",
-            "button_label_add_calendar": "Add to calendar",
-            "show_button_style": "primary",
-            "offer_tickets": true,
-            "ticket_link": "https://pinomagma.de/products/pino-magma-prasentation",
-            "ticket_button_label": "",
-            "ticket_button_label_style": "primary",
-            "start_year": 2025,
-            "month": "November",
-            "day": "02",
-            "start_hour": "14",
-            "start_minute": "00",
-            "show_end_date": true,
-            "end_year": 2025,
-            "end_month": "November",
-            "end_day": "02",
-            "end_hour": "19",
-            "end_minute": "00"
-          }
-        },
         "event_Qi34eL": {
           "type": "event",
           "settings": {
@@ -289,6 +261,34 @@
             "end_minute": "00"
           }
         },
+        "event_r6xkhr": {
+          "type": "event",
+          "settings": {
+            "image": "shopify://shop_images/20241103-DSC09728_7554290d-7a5f-4784-996d-fc73f4ab21bd.jpg",
+            "heading": "Pino Magma Verkostung",
+            "heading_size": 120,
+            "description": "",
+            "content": "",
+            "location": "Greiffenegg-Schlössle, Schlossbergring 3, 79098 Freiburg im Breisgau",
+            "button_label_add_calendar": "Add to calendar",
+            "show_button_style": "primary",
+            "offer_tickets": true,
+            "ticket_link": "https://pinomagma.de/products/pino-magma-prasentation",
+            "ticket_button_label": "",
+            "ticket_button_label_style": "primary",
+            "start_year": 2025,
+            "month": "November",
+            "day": "02",
+            "start_hour": "14",
+            "start_minute": "00",
+            "show_end_date": true,
+            "end_year": 2025,
+            "end_month": "November",
+            "end_day": "02",
+            "end_hour": "19",
+            "end_minute": "00"
+          }
+        },
         "event_MDBtHQ": {
           "type": "event",
           "settings": {
@@ -314,6 +314,90 @@
             "end_month": "November",
             "end_day": "09",
             "end_hour": "19",
+            "end_minute": "00"
+          }
+        },
+        "event_Nz6ANM": {
+          "type": "event",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8956.jpg",
+            "heading": "Weinmesse in Delmenhorst 2026",
+            "heading_size": 100,
+            "description": "In gemütlicher Atmosphäre unsere Weine verkosten und mit der Winzerfamilie plaudern.",
+            "content": "",
+            "location": "VHS Delmenhorst Am Turbinenhaus 11 (Nordwolle)  27749 Delmenhorst",
+            "button_label_add_calendar": "Zum Kalender hinzufügen",
+            "show_button_style": "primary",
+            "offer_tickets": false,
+            "ticket_link": "",
+            "ticket_button_label": "",
+            "ticket_button_label_style": "primary",
+            "start_year": 2026,
+            "month": "February",
+            "day": "06",
+            "start_hour": "16",
+            "start_minute": "30",
+            "show_end_date": false,
+            "end_year": 2026,
+            "end_month": "February",
+            "end_day": "07",
+            "end_hour": "21",
+            "end_minute": "00"
+          }
+        },
+        "event_3aG6VP": {
+          "type": "event",
+          "settings": {
+            "image": "shopify://shop_images/close-up-of-warm-dinner-setting.jpg",
+            "heading": "Kumm Ri Dinnerabend 2026",
+            "heading_size": 100,
+            "description": "Es erwartet Sie ein leckeres Menü mit moderierter Weinbegleitung sowie Live-Musik Einlagen. Mit Anmeldung. Preis 79,00 €/Person",
+            "content": "<p><strong>Mit Anmeldung</strong></p>",
+            "location": "Weingut Frank Schmidt Hauptstr. 98 79356 Eichstetten",
+            "button_label_add_calendar": "Zum Kalender hinzufügen",
+            "show_button_style": "primary",
+            "offer_tickets": false,
+            "ticket_link": "",
+            "ticket_button_label": "",
+            "ticket_button_label_style": "primary",
+            "start_year": 2026,
+            "month": "May",
+            "day": "29",
+            "start_hour": "18",
+            "start_minute": "30",
+            "show_end_date": false,
+            "end_year": 2026,
+            "end_month": "May",
+            "end_day": "16",
+            "end_hour": "20",
+            "end_minute": "00"
+          }
+        },
+        "event_6aLCci": {
+          "type": "event",
+          "settings": {
+            "image": "shopify://shop_images/IMG_9748.jpg",
+            "heading": "Kumm Ri Hoffest 2026",
+            "heading_size": 100,
+            "description": "Es erwartet Sie feine Weine, kleine Leckereien und Livemusik",
+            "content": "<p>Share information and details about this event.</p>",
+            "location": "Weingut Frank Schmidt                        Hauptstr. 98 in Eichstetten",
+            "button_label_add_calendar": "Zum Kalender hinzufügen",
+            "show_button_style": "primary",
+            "offer_tickets": false,
+            "ticket_link": "",
+            "ticket_button_label": "",
+            "ticket_button_label_style": "primary",
+            "start_year": 2026,
+            "month": "May",
+            "day": "30",
+            "start_hour": "18",
+            "start_minute": "00",
+            "show_end_date": false,
+            "end_year": 2026,
+            "end_month": "May",
+            "end_day": "01",
+            "end_hour": "00",
             "end_minute": "00"
           }
         },
@@ -404,63 +488,6 @@
             "end_minute": "00"
           }
         },
-        "event_3aG6VP": {
-          "type": "event",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/close-up-of-warm-dinner-setting.jpg",
-            "heading": "Kumm Ri Dinnerabend 2026",
-            "heading_size": 100,
-            "description": "Es erwartet Sie ein leckeres Menü mit moderierter Weinbegleitung sowie Live-Musik Einlagen. Mit Anmeldung. Preis 79,00 €/Person",
-            "content": "<p><strong>Mit Anmeldung</strong></p>",
-            "location": "Weingut Frank Schmidt Hauptstr. 98 79356 Eichstetten",
-            "button_label_add_calendar": "Zum Kalender hinzufügen",
-            "show_button_style": "primary",
-            "offer_tickets": false,
-            "ticket_link": "",
-            "ticket_button_label": "",
-            "ticket_button_label_style": "primary",
-            "start_year": 2026,
-            "month": "May",
-            "day": "29",
-            "start_hour": "18",
-            "start_minute": "30",
-            "show_end_date": false,
-            "end_year": 2026,
-            "end_month": "May",
-            "end_day": "16",
-            "end_hour": "20",
-            "end_minute": "00"
-          }
-        },
-        "event_6aLCci": {
-          "type": "event",
-          "settings": {
-            "image": "shopify://shop_images/IMG_9748.jpg",
-            "heading": "Kumm Ri Hoffest 2026",
-            "heading_size": 100,
-            "description": "Es erwartet Sie feine Weine, kleine Leckereien und Livemusik",
-            "content": "<p>Share information and details about this event.</p>",
-            "location": "Weingut Frank Schmidt                        Hauptstr. 98 in Eichstetten",
-            "button_label_add_calendar": "Zum Kalender hinzufügen",
-            "show_button_style": "primary",
-            "offer_tickets": false,
-            "ticket_link": "",
-            "ticket_button_label": "",
-            "ticket_button_label_style": "primary",
-            "start_year": 2026,
-            "month": "May",
-            "day": "30",
-            "start_hour": "18",
-            "start_minute": "00",
-            "show_end_date": false,
-            "end_year": 2026,
-            "end_month": "May",
-            "end_day": "01",
-            "end_hour": "00",
-            "end_minute": "00"
-          }
-        },
         "event_HJUAJN": {
           "type": "event",
           "disabled": true,
@@ -547,49 +574,21 @@
             "end_hour": "00",
             "end_minute": "00"
           }
-        },
-        "event_Nz6ANM": {
-          "type": "event",
-          "settings": {
-            "image": "shopify://shop_images/IMG_8956.jpg",
-            "heading": "Weinmesse in Delmenhorst 2026",
-            "heading_size": 100,
-            "description": "In gemütlicher Atmosphäre unsere Weine verkosten und mit der Winzerfamilie plaudern.",
-            "content": "",
-            "location": "VHS Delmenhorst Am Turbinenhaus 11 (Nordwolle)  27749 Delmenhorst",
-            "button_label_add_calendar": "Zum Kalender hinzufügen",
-            "show_button_style": "primary",
-            "offer_tickets": false,
-            "ticket_link": "",
-            "ticket_button_label": "",
-            "ticket_button_label_style": "primary",
-            "start_year": 2026,
-            "month": "February",
-            "day": "06",
-            "start_hour": "16",
-            "start_minute": "30",
-            "show_end_date": false,
-            "end_year": 2026,
-            "end_month": "February",
-            "end_day": "07",
-            "end_hour": "21",
-            "end_minute": "00"
-          }
         }
       },
       "block_order": [
-        "event_r6xkhr",
         "event_Qi34eL",
+        "event_r6xkhr",
         "event_MDBtHQ",
+        "event_Nz6ANM",
+        "event_3aG6VP",
+        "event_6aLCci",
         "event_A3gAae",
         "event_9NTqVA",
         "event_kdyjhK",
-        "event_3aG6VP",
-        "event_6aLCci",
         "event_HJUAJN",
         "event_AQg4iQ",
-        "event_3bp7hx",
-        "event_Nz6ANM"
+        "event_3bp7hx"
       ],
       "settings": {
         "heading": "Termine und Veranstaltungen",
