@@ -235,6 +235,7 @@
       "blocks": {
         "event_Qi34eL": {
           "type": "event",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/IMG_8648_2.jpg",
             "heading": "Wein on Tour / Neuss",
