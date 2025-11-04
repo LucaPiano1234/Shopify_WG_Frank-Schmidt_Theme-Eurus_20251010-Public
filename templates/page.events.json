@@ -264,6 +264,7 @@
         },
         "event_r6xkhr": {
           "type": "event",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/20241103-DSC09728_7554290d-7a5f-4784-996d-fc73f4ab21bd.jpg",
             "heading": "Pino Magma Verkostung",
