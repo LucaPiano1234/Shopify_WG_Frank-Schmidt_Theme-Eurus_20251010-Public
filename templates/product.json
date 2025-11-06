@@ -197,6 +197,7 @@
         },
         "html_84cPmf": {
           "type": "html",
+          "disabled": true,
           "settings": {
             "custom_html": "<img src=\"https://cdn.shopify.com/s/files/1/0869/3727/2641/files/Logo-FAIR-N-GREEN__msi___jpg.jpg?v=1729168832\" class=\"responsive-logo\">\n\n<style>\n  .responsive-logo {\n    display: block;\n    max-width: 20%;\n    height: auto;\n  }\n\n  /* Default: Align to the left (for desktop) */\n  @media (min-width: 768px) {\n    .responsive-logo {\n      margin-left: 0;\n    }\n  }\n\n  /* Center the image on mobile */\n  @media (max-width: 767px) {\n    .responsive-logo {\n      margin: 0 auto;\n      display: block;\n      text-align: center;\n    }\n  }\n</style>"
           }

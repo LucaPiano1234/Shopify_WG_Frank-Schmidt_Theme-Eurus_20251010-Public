@@ -1,1 +1,1021 @@
-{"sections":{"main":{"type":"main-product","blocks":{"product_name_xkPbAa":{"type":"product_name","settings":{"title_size":140,"heading_tag":"h1"}},"product_sku_wUgxkg":{"type":"product_sku","disabled":true,"settings":{"heading":"Sku:"}},"description":{"type":"description","settings":{"show_in_tab":false,"open_by_default":true,"make_content_center":false,"icon":"none","another_icon":"","custom_icon":"","heading":"Description","number_of_lines_shown":"none","read_more_label":"Weiterlesen","see_less_label":"See less"}},"trust_badge_F9AWnE":{"type":"trust_badge","settings":{"badge":"{{ product.metafields.custom.auszeichnung_pr_mie.value }}"}},"inventory_status_FVhFrJ":{"type":"inventory_status","settings":{}},"quantity_selector":{"type":"quantity_selector","settings":{}},"variant_picker":{"type":"variant_picker","settings":{"picker_type":"button","show_variant_option":true,"enable_color_swatches":true,"swatch_size":"small"}},"price":{"type":"price","settings":{"show_tax_and_shipping":true,"text_size_price":100}},"buy_buttons":{"type":"buy_buttons","settings":{"show_button_style":"secondary","show_dynamic_checkout":false,"show_gift_card_recipient":true,"pickup_availability":false,"hide_when_pre_order":false,"preorder_button_label":"Pre-order","preorder_message":"<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!<\/p>","preorder_show_dynamic_button":false,"show_background":false,"box_type":"square","background_color_light":"#000000","message_color_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","message_color_dark":"rgba(0,0,0,0)","button_light":"rgba(0,0,0,0)","button_text_light":"rgba(0,0,0,0)","button_hover_light":"rgba(0,0,0,0)","button_text_hover_light":"rgba(0,0,0,0)","secondary_button_light":"rgba(0,0,0,0)","secondary_button_text_light":"rgba(0,0,0,0)","button_dark":"rgba(0,0,0,0)","button_text_dark":"rgba(0,0,0,0)","button_hover_dark":"rgba(0,0,0,0)","button_text_hover_dark":"rgba(0,0,0,0)","secondary_button_dark":"rgba(0,0,0,0)","secondary_button_text_dark":"rgba(0,0,0,0)"}},"payment_methods_wWYMdc":{"type":"payment_methods","settings":{"heading":"","text":"","custom_payment":"","show_secondary_background":false,"background_color_light":"rgba(0,0,0,0)","heading_color_light":"rgba(0,0,0,0)","text_color_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","heading_color_dark":"rgba(0,0,0,0)","text_color_dark":"rgba(0,0,0,0)"}},"icon_text_rwgwDP":{"type":"icon_text","settings":{"icon":"delivery-truck","another_icon":"","custom_icon":"","icon_size":30,"text":"<p>VERSANDKOSTENFREIE LIEFERUNG<\/p>","background_color_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)"}},"icon_text_tVKKwk":{"type":"icon_text","settings":{"icon":"leaf","another_icon":"","custom_icon":"","icon_size":30,"text":"<p>100% FREI VON HERBIZIDEN<\/p>","background_color_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)"}},"icon_text_cYbBqL":{"type":"icon_text","settings":{"icon":"earth","another_icon":"","custom_icon":"","icon_size":30,"text":"<p>VERANTWORTUNG FÜR MENSCH, NATUR & KLIMA<\/p>","background_color_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)"}},"icon_text_QLdDGa":{"type":"icon_text","disabled":true,"settings":{"icon":"wallet","another_icon":"","custom_icon":"","icon_size":30,"text":"<p>SICHERE BEZAHLUNG<\/p>","background_color_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)"}},"icon_text_ArJba7":{"type":"icon_text","settings":{"icon":"none","another_icon":"","custom_image":"shopify:\/\/shop_images\/unnamed.png","custom_icon":"","icon_size":80,"text":"","background_color_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)"}},"html_84cPmf":{"type":"html","settings":{"custom_html":"<img src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0869\/3727\/2641\/files\/Logo-FAIR-N-GREEN__msi___jpg.jpg?v=1729168832\" class=\"responsive-logo\">\n\n<style>\n  .responsive-logo {\n    display: block;\n    max-width: 40%;\n    height: auto;\n  }\n\n  \/* Default: Align to the left (for desktop) *\/\n  @media (min-width: 768px) {\n    .responsive-logo {\n      margin-left: 0;\n    }\n  }\n\n  \/* Center the image on mobile *\/\n  @media (max-width: 767px) {\n    .responsive-logo {\n      margin: 0 auto;\n      display: block;\n      text-align: center;\n    }\n  }\n<\/style>"}},"gift_wrapping_EK3NQn":{"type":"gift_wrapping","settings":{"text_gift":"","color_icon_light":"rgba(0,0,0,0)","color_icon_dark":"rgba(0,0,0,0)"}},"feature_icon_99BxnX":{"type":"feature_icon","disabled":true,"settings":{"applied_collections":[],"heading_size":110,"icon_size":30,"border_column":"none","content_alignment":"start","background_color_light":"rgba(0,0,0,0)","heading_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","line_border_light":"rgba(0,0,0,0)","color_icon_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","heading_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)","line_border_dark":"rgba(0,0,0,0)","color_icon_dark":"rgba(0,0,0,0)","icon_1":"none","another_icon_1":"","custom_icon_1":"","title_1":"ICON","text_1":"<ul><li>Anti-Aging<\/li><li>Firms<\/li><li>Moisturizes<\/li><\/ul>","link_1":"","open_new_window_1":false,"icon_2":"none","another_icon_2":"","custom_icon_2":"","title_2":"ICON","text_2":"<ul><li>Mature<\/li><li>Dry<\/li><li>Sensitive<\/li><\/ul>","link_2":"","open_new_window_2":false,"icon_3":"none","another_icon_3":"","custom_icon_3":"","title_3":"ICON","text_3":"<p>Fragrance-free<\/p>","link_3":"","open_new_window_3":false,"icon_4":"truck","another_icon_4":"","custom_icon_4":"","title_4":"","text_4":"","link_4":"","open_new_window_4":false,"icon_5":"truck","another_icon_5":"","custom_icon_5":"","title_5":"","text_5":"","link_5":"","open_new_window_5":false,"icon_6":"truck","another_icon_6":"","custom_icon_6":"","title_6":"","text_6":"","link_6":"","open_new_window_6":false}},"sticky-atc":{"type":"sticky_add_to_cart","settings":{"desktop_display_type":"full_width","show_quantity_selector":false}}},"block_order":["product_name_xkPbAa","product_sku_wUgxkg","description","trust_badge_F9AWnE","inventory_status_FVhFrJ","quantity_selector","variant_picker","price","buy_buttons","payment_methods_wWYMdc","icon_text_rwgwDP","icon_text_tVKKwk","icon_text_cYbBqL","icon_text_QLdDGa","icon_text_ArJba7","html_84cPmf","gift_wrapping_EK3NQn","feature_icon_99BxnX","sticky-atc"],"custom_css":["button.button-outline,.button.button-outline {color: rgb(var(--colors-secondary-button)); box-shadow: inset 0 0 0 1px rgba(var(--colors-line-secondary-button), 0.5); background: rgba(var(--background-secondary-button), 0.7); background-color: #979432; color: white;}",".text-\\[70\\%\\] {font-size: 40%;}"],"settings":{"enable_sticky_image":true,"show_product_name":false,"title_size":100,"heading_tag":"h1","show_vendor":false,"link_vendor":false,"make_content_center":false,"desktop_layout":"left","desktop_media_layout":"thumbnail_slider","show_arrow_button":true,"mobile_media_size":"75%","show_thumnail_mobile":false,"image_ratio":"square","thumbnail_position":"vertical","enable_image_zoom":false,"zoom_effect":"magnifier","enable_video_autoplay":false,"enable_video_loop":false,"show_first_image_avaiable":true,"show_media_with_variant_selected":false,"option_to_classify_variant_media":"","enable_microdata":false,"show_breadcrumbs":true,"show_breadcrumbs_border":true,"full_width_breadcrumb":true,"desktop_content_alignment":"text-left","mobile_content_alignment":"text-center","background_color_light":"rgba(0,0,0,0)","text_color_light":"rgba(0,0,0,0)","textlink_color_light":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","text_color_dark":"rgba(0,0,0,0)","textlink_color_dark":"rgba(0,0,0,0)","full_width":true,"spacing_col":"small","padding_top":28,"padding_bottom":40,"padding_top_mobile":28,"padding_bottom_mobile":28}},"scrolling_banner_WLPVWn":{"type":"scrolling-banner","blocks":{"icon_iUCgLA":{"type":"icon","settings":{"icon":"delivery-truck","another_icon":"","custom_icon":"","height_icon":35,"spacing_left":0,"spacing_right":0,"spacing_left_mobile":0,"spacing_right_mobile":0}},"text_36gRFg":{"type":"text","settings":{"text":"Versandkostenfreie Lieferung ab 12 Flaschen","highlight_type":"underline","text_size":120,"text_color":"primary","spacing_left":0,"spacing_right":0,"spacing_left_mobile":0,"spacing_right_mobile":0}},"icon_jhwnBa":{"type":"icon","settings":{"icon":"gift","another_icon":"","custom_icon":"","height_icon":35,"spacing_left":100,"spacing_right":0,"spacing_left_mobile":0,"spacing_right_mobile":0}},"text_nHjz7W":{"type":"text","settings":{"text":"5% Rabatt ab 60 Flaschen","highlight_type":"underline","text_size":120,"text_color":"primary","spacing_left":0,"spacing_right":100,"spacing_left_mobile":0,"spacing_right_mobile":0}}},"block_order":["icon_iUCgLA","text_36gRFg","icon_jhwnBa","text_nHjz7W"],"settings":{"show_border":true,"speed":30,"direction":"right","pause_hover":true,"bg_light":"#ebebd5","color_text_light":"#242424","color_text_light_2":"rgba(0,0,0,0)","color_heading_highlight_light":"rgba(0,0,0,0)","bg_dark":"rgba(0,0,0,0)","color_text_dark":"rgba(0,0,0,0)","color_text_dark_2":"rgba(0,0,0,0)","color_heading_highlight_dark":"rgba(0,0,0,0)","space_block":40,"padding_top":20,"padding_bottom":20,"space_block_mobile":45,"padding_top_mobile":28,"padding_bottom_mobile":28}},"product_specifications_4C7mFx":{"type":"product-specifications","blocks":{"specs_WccVE7":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Alkoholgehalt:","row_content":"<p>{{ product.metafields.custom.alkoholgehalt.value }}<\/p>"}},"specs_gPBYYz":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Jahrgang:","row_content":"<p>{{ product.metafields.custom.jahrgang.value }}<\/p>"}},"specs_k4NhkV":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Geschmacksrichtung","row_content":"<p>{{ product.metafields.custom.geschmacksrichtung.value }}<\/p>"}},"specs_ejbhBN":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Ausbau","row_content":"<p>{{ product.metafields.custom.ausbau.value }}<\/p>"}},"specs_XWNnC8":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Qualitätsstufe","row_content":"<p>{{ product.metafields.custom.qualit_tsstufe | metafield_text }}<\/p>"}},"specs_8knwq7":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Trinktemperatur","row_content":"<p>{{ product.metafields.custom.trinktemperatur.value }}<\/p>"}},"specs_qJqp7F":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Restzucker:","row_content":"<p>{{ product.metafields.custom.restzucker.value }}<\/p>"}},"specs_7mNjqw":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Säure","row_content":"<p>{{ product.metafields.custom.s_ure.value }}<\/p>"}},"specs_Xp3FG6":{"type":"specs","settings":{"icon":"none","another_icon":"","custom_icon":"","heading":"Weitere Details","row_content":"<ul><li>Enthält Sulfite<\/li><li>Details variieren je nach Paket. Genaue Informationen finden Sie auf den einzelnen Produktseiten der Weine.<\/li><li>Alle Weine enthalten geringfügige Mengen von Fett, gesättigten Fettsäuren, Eiweiß und Salz<\/li><\/ul>"}}},"block_order":["specs_WccVE7","specs_gPBYYz","specs_k4NhkV","specs_ejbhBN","specs_XWNnC8","specs_8knwq7","specs_qJqp7F","specs_7mNjqw","specs_Xp3FG6"],"settings":{"heading":"{{ product.title }}","highlight_type":"underline","heading_size":100,"heading_tag":"h2","heading_alignment":"center","text":"","image_alignment":"left","hide_empty_rows":true,"text_empty_fields":"-","row_shown_by_default":2,"view_more_button":"Weitere Details","view_less_button":"Weniger anzeigen","background_color_light":"#ebebd5","heading_light":"rgba(0,0,0,0)","color_heading_highlight_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","table_color":"rgba(0,0,0,0)","table_text":"rgba(0,0,0,0)","line_border":"#686648","background_color_dark":"rgba(0,0,0,0)","heading_dark":"rgba(0,0,0,0)","color_heading_highlight_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)","table_color_dark":"rgba(0,0,0,0)","table_text_dark":"rgba(0,0,0,0)","line_border_dark":"rgba(0,0,0,0)","columns_desktop":"1","desktop_height":"400px","show_section_divider":true,"padding_top":28,"padding_bottom":28,"mobile_height":"250px","show_section_divider_mobile":true,"padding_top_mobile":28,"padding_bottom_mobile":28}},"image_with_text_RyAnFP":{"type":"image-with-text","blocks":{"heading_XKrkdY":{"type":"heading","settings":{"subheading":"Weingut Frank Schmidt","heading":"Weine so schön wie die Landschaft","highlight_type":"underline","heading_base_size":100,"heading_tag":"h2","text":"<p>So schön wie unsere Landschaft hier ist, so sollen auch unsere Weine schmecken. Die in der Nase entfalteten Aromen sind auch im Gaumen mit langer Nachhaltigkeit wiederzufinden und machen das Weintrinken zu einem Erlebnis, an das Sie sich gerne erinnern.<\/p><p>Gemäß diesem Motto tun wir im Weinberg alles nur Mögliche, um gesundes vollreifes Lesegut zu erzeugen, in dem wir schon im Frühjahr die Triebe ausdünnen, sowie im späteren Stadium die Trauben am Stock reduzieren. Im Keller hingegen dürfen unsere Weine in aller Ruhe und Natürlichkeit über lange Zeit reifen.<\/p>","number_of_lines_shown":"none","read_more_label":"Read more","see_less_label":"See less","heading_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","color_heading_highlight_light":"rgba(0,0,0,0)","heading_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)","color_heading_highlight_dark":"rgba(0,0,0,0)"}},"button_GKFWtR":{"type":"button","settings":{"button_label":"Mehr über uns","button_link":"shopify:\/\/pages\/uber-uns","open_new_window":false,"show_button_style":"primary","button_light":"rgba(0,0,0,0)","button_text_light":"rgba(0,0,0,0)","button_hover_light":"rgba(0,0,0,0)","button_text_hover_light":"rgba(0,0,0,0)","secondary_button_light":"rgba(0,0,0,0)","secondary_button_text_light":"rgba(0,0,0,0)","colors_text_link":"rgba(0,0,0,0)","button_dark":"rgba(0,0,0,0)","button_text_dark":"rgba(0,0,0,0)","button_hover_dark":"rgba(0,0,0,0)","button_text_hover_dark":"rgba(0,0,0,0)","secondary_button_dark":"rgba(0,0,0,0)","secondary_button_text_dark":"rgba(0,0,0,0)","colors_text_link_dark":"rgba(0,0,0,0)"}}},"block_order":["heading_XKrkdY","button_GKFWtR"],"settings":{"image":"shopify:\/\/shop_images\/WG-Schmidt_die_schmidt_familie_3.jpg","show_sound_control":false,"video_url":"","video_alt_text":"","enable_video_autoplay":false,"desktop_height":"550px","mobile_height":"250px","desktop_image_width":"large","image_layout":"normal","image_corner_radius":0,"content_layout":"overlap","spacing_image":false,"text_position":"center","text_alignment":"start","background_color_light":"#ebebd5","background_color_dark":"rgba(0,0,0,0)","line_border":"dashed","icon_position":"col","icon_size":45,"alignment":"center","columns_desktop":4,"columns_mobile":"2","heading_color_light":"rgba(0,0,0,0)","text_color_light":"rgba(0,0,0,0)","line_border_light":"rgba(0,0,0,0)","icon_color_light":"rgba(0,0,0,0)","heading_color_dark":"rgba(0,0,0,0)","text_color_dark":"rgba(0,0,0,0)","line_border_dark":"rgba(0,0,0,0)","icon_color_dark":"rgba(0,0,0,0)","image_alignment":"left","full_width":false,"padding_full_width":false,"top_padding":0,"bottom_padding":0,"image_alignment_mobile":"left","full_width_mobile":false,"top_padding_mobile":0,"bottom_padding_mobile":20}},"331e6fca-2947-4a19-89c5-9396be0d666a":{"type":"multicolumn","blocks":{"template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-1":{"type":"column","settings":{"icon":"flower","another_icon":"","custom_image":"shopify:\/\/shop_images\/240703_Weingut-Schmidt_Produktbilder-Qualitaetsstuffe.png","custom_icon":"","title":"Fair`n Green Partner","highlight_type":"underline","title_link":"https:\/\/www.fairandgreen.com\/","open_new_window":true,"heading_size":150,"text":"<p>Verantwortung für Mensch, Natur & Klima<\/p>"}},"template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-2":{"type":"column","settings":{"icon":"1st-medal","another_icon":"","custom_icon":"","title":"Ausgezeichnet mit Gold- und Silbermedaillen bei der AWC Vienna","highlight_type":"underline","title_link":"","open_new_window":false,"heading_size":150,"text":""}},"template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-3":{"type":"column","settings":{"icon":"map-pin","another_icon":"","custom_icon":"","title":"Besuchen Sie uns","highlight_type":"underline","title_link":"shopify:\/\/pages\/events","open_new_window":false,"heading_size":150,"text":"<p>Wir bieten regelmäßige Veranstaltungen auf dem Weingut<\/p>"}},"template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-4":{"type":"column","settings":{"icon":"question-mark","another_icon":"","custom_icon":"","title":"Haben Sie Fragen?","highlight_type":"underline","title_link":"shopify:\/\/pages\/kontakt","open_new_window":false,"heading_size":150,"text":"<p>Wir sind nur einen Telefonanruf entfernt!<\/p>"}}},"block_order":["template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-1","template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-2","template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-3","template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-4"],"custom_css":[".size-icon-style svg {max-width: 50%; margin: 0 auto;}"],"settings":{"title":"","highlight_type":"underline","heading_size":100,"heading_tag":"h2","secondary_background":"section","border_column":"line_vertical","column_content_alignment":"center","icon_position":"above","icon_size":90,"enable_desktop_slider":false,"swiper_on_mobile":true,"auto_play":true,"change_bar_every":5,"background_color_light":"#ffffff","heading_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","color_heading_highlight_light":"rgba(0,0,0,0)","line_border_light":"#686648","color_icon_light":"#979532","background_color_dark":"#2a2a2a","heading_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)","color_heading_highlight_dark":"rgba(0,0,0,0)","line_border_dark":"rgba(0,0,0,0)","color_icon_dark":"rgba(0,0,0,0)","column_layout_desktop":"lg:w-1\/4","section_height_desktop":"md:py-7","spacing_desktop":28,"full_width":false,"padding_full_width":false,"show_section_divider":false,"padding_top":0,"padding_bottom":0,"column_layout_mobile":"w-1\/2","section_height_mobile":"py-0","spacing_mobile":16,"full_width_mobile":true,"show_section_divider_mobile":false,"padding_top_mobile":8,"padding_bottom_mobile":8}},"product-recommendations":{"type":"product-recommendations","custom_css":[".x-badge-content {background-color: #969538; margin-top: 3rem;}"],"settings":{"heading":"Das könnte Ihnen auch gefallen","highlight_type":"underline","heading_size":100,"heading_tag":"h2","heading_alignment":"center","products_to_show":6,"background_color_light":"","background_color_dark":"","show_vendor":false,"show_rating":true,"show_quickview":true,"enable_carousel_desktop":true,"enable_swiper_mobile":true,"columns_desktop":5,"full_width":true,"show_section_divider":false,"spacing":28,"padding_top":56,"padding_bottom":88,"columns_mobile":"2","show_section_divider_mobile":false,"spacing_mobile":16,"padding_top_mobile":0,"padding_bottom_mobile":20}},"rich_text_eLEeNj":{"type":"rich-text","blocks":{"heading_a9J8AP":{"type":"heading","settings":{"heading":"Vielfach ausgezeichnet","highlight_type":"underline","heading_size":120,"heading_tag":"h2"}},"caption_VFbA8L":{"type":"caption","settings":{"caption":"Ausgezeichnet mit Gold- und Silbermedaillen bei der AWC Vienna 2024","text_style":"uppercase","text_size":100}},"media_Hk6hB9":{"type":"media","settings":{"image":"shopify:\/\/shop_images\/AWC_Vienna_Schmidt_Banner_homepage.png","show_sound_control":false,"video_url":"","enable_video_autoplay":true,"video_alt_text":"","media_size":20}},"button_xaqNX9":{"type":"button","settings":{"button_label":"Prämierte Weine entdecken","button_link":"shopify:\/\/collections\/alle-weine","open_new_window_button":false,"show_button_style_1":"primary","button_label_2":"","open_new_window_button_2":false,"button_link_2":"","show_button_style_2":"primary","color_button":"rgba(0,0,0,0)","color_button_hover":"rgba(0,0,0,0)","color_text_button":"rgba(0,0,0,0)","color_text_button_hover":"rgba(0,0,0,0)","color_button_secondary":"rgba(0,0,0,0)","secondary_button_text":"rgba(0,0,0,0)","colors_text_link":"rgba(0,0,0,0)"}}},"block_order":["heading_a9J8AP","caption_VFbA8L","media_Hk6hB9","button_xaqNX9"],"settings":{"heading_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","color_heading_highlight_light":"rgba(0,0,0,0)","background_color_light":"rgba(0,0,0,0)","heading_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)","color_heading_highlight_dark":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","content_alignment":"center","show_section_divider":false,"make_full_page_width":true,"padding_top":28,"padding_bottom":28,"content_alignment_mobile":"center","show_section_divider_mobile":false,"padding_top_mobile":28,"padding_bottom_mobile":28}},"recently_viewed_VrQdxV":{"type":"recently-viewed","custom_css":[".x-badge-content {background-color: #969538; margin-top: 3rem;}"],"settings":{"heading":"Zuletzt Angesehen","highlight_type":"underline","heading_size":100,"heading_tag":"h2","heading_alignment":"center","enable_clear_history":true,"products_to_show":6,"background_color_light":"","background_color_dark":"","show_vendor":false,"show_rating":true,"show_quickview":true,"enable_carousel_desktop":true,"enable_swiper_mobile":true,"columns_desktop":5,"full_width":true,"show_section_divider":false,"spacing":28,"padding_top":28,"padding_bottom":28,"columns_mobile":"2","show_section_divider_mobile":false,"spacing_mobile":16,"padding_top_mobile":20,"padding_bottom_mobile":20}},"video_KGjJWL":{"type":"video","settings":{"heading":"","highlight_type":"underline","heading_size":100,"heading_tag":"h2","sub_heading_video":"","image":"shopify:\/\/shop_images\/20240129_WG_Groebe_Dronenrundflug_1.webp","video_url":"https:\/\/www.youtube.com\/watch?v=Vo7dkTEkAuQ","video_alt_text":"","full_width":true,"rounded_corners":true,"padding_top":28,"padding_bottom":28,"full_width_mobile":true,"rounded_corners_mobile":true,"padding_top_mobile":28,"padding_bottom_mobile":28}},"rich_text_LtGnBV":{"type":"rich-text","blocks":{"caption_f86Mw8":{"type":"caption","settings":{"caption":"Wie wir unsere Weine sehen","text_style":"uppercase","text_size":80}},"heading_7iPJcd":{"type":"heading","settings":{"heading":"Unsere Qualitätspyramide","highlight_type":"underline","heading_size":120,"heading_tag":"h2"}},"text_8E9LXN":{"type":"text","settings":{"text":"<p>Wir sind fest davon überzeugt,  dass die Höhe des Fruchtzuckers ( wie es in den bisherigen  Qualitätsstufen klassifiziert wurde) nicht alleine zählt.<\/p><p>Für uns sind die Lage, der Lesezeitpunkt, die physiologische Reife und die Veredelung im<br\/>Weinkeller ausschlaggebend. Wir gehen daher neue Wege und zeigen unsere Weine in drei  \"Sichtweisen\".<\/p>","number_of_lines_shown":"none","read_more_label":"Read more","see_less_label":"See less"}},"media_JKQnTG":{"type":"media","settings":{"image":"shopify:\/\/shop_images\/240703_Weingut-Schmidt_Produktbilder-Qualitaetsstuffe_3000_x_2028_px_971c5491-45e1-4b12-a75f-99ac94be6626.png","show_sound_control":false,"video_url":"","enable_video_autoplay":true,"video_alt_text":"","media_size":50}}},"block_order":["caption_f86Mw8","heading_7iPJcd","text_8E9LXN","media_JKQnTG"],"settings":{"heading_light":"rgba(0,0,0,0)","text_light":"rgba(0,0,0,0)","color_heading_highlight_light":"rgba(0,0,0,0)","background_color_light":"rgba(0,0,0,0)","heading_dark":"rgba(0,0,0,0)","text_dark":"rgba(0,0,0,0)","color_heading_highlight_dark":"rgba(0,0,0,0)","background_color_dark":"rgba(0,0,0,0)","content_alignment":"center","show_section_divider":false,"make_full_page_width":true,"padding_top":40,"padding_bottom":28,"content_alignment_mobile":"center","show_section_divider_mobile":false,"padding_top_mobile":28,"padding_bottom_mobile":12}}},"order":["main","331e6fca-2947-4a19-89c5-9396be0d666a","scrolling_banner_WLPVWn","product_specifications_4C7mFx","image_with_text_RyAnFP","product-recommendations","rich_text_eLEeNj","recently_viewed_VrQdxV","video_KGjJWL","rich_text_LtGnBV"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "product_name_xkPbAa": {
+          "type": "product_name",
+          "settings": {
+            "title_size": 140,
+            "heading_tag": "h1"
+          }
+        },
+        "product_sku_wUgxkg": {
+          "type": "product_sku",
+          "disabled": true,
+          "settings": {
+            "heading": "Sku:"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_in_tab": false,
+            "open_by_default": true,
+            "make_content_center": false,
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Description",
+            "number_of_lines_shown": "none",
+            "read_more_label": "Weiterlesen",
+            "see_less_label": "See less"
+          }
+        },
+        "trust_badge_F9AWnE": {
+          "type": "trust_badge",
+          "settings": {
+            "badge": "{{ product.metafields.custom.auszeichnung_pr_mie.value }}"
+          }
+        },
+        "inventory_status_FVhFrJ": {
+          "type": "inventory_status",
+          "settings": {}
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "show_variant_option": true,
+            "enable_color_swatches": true,
+            "swatch_size": "small"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_and_shipping": true,
+            "text_size_price": 100
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_button_style": "secondary",
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true,
+            "pickup_availability": false,
+            "hide_when_pre_order": false,
+            "preorder_button_label": "Pre-order",
+            "preorder_message": "<p>This product will be available for sale in 2 weeks, but you can pre-order now to receive 10% discount!</p>",
+            "preorder_show_dynamic_button": false,
+            "show_background": false,
+            "box_type": "square",
+            "background_color_light": "#000000",
+            "message_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "message_color_dark": "rgba(0,0,0,0)",
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "payment_methods_wWYMdc": {
+          "type": "payment_methods",
+          "settings": {
+            "heading": "",
+            "text": "",
+            "custom_payment": "",
+            "show_secondary_background": false,
+            "background_color_light": "rgba(0,0,0,0)",
+            "heading_color_light": "rgba(0,0,0,0)",
+            "text_color_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "heading_color_dark": "rgba(0,0,0,0)",
+            "text_color_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_rwgwDP": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "delivery-truck",
+            "another_icon": "",
+            "custom_icon": "",
+            "icon_size": 30,
+            "text": "<p>VERSANDKOSTENFREIE LIEFERUNG</p>",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_tVKKwk": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "leaf",
+            "another_icon": "",
+            "custom_icon": "",
+            "icon_size": 30,
+            "text": "<p>100% FREI VON HERBIZIDEN</p>",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_cYbBqL": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "earth",
+            "another_icon": "",
+            "custom_icon": "",
+            "icon_size": 30,
+            "text": "<p>VERANTWORTUNG FÜR MENSCH, NATUR & KLIMA</p>",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_QLdDGa": {
+          "type": "icon_text",
+          "disabled": true,
+          "settings": {
+            "icon": "wallet",
+            "another_icon": "",
+            "custom_icon": "",
+            "icon_size": 30,
+            "text": "<p>SICHERE BEZAHLUNG</p>",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "icon_text_ArJba7": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_image": "shopify://shop_images/unnamed.png",
+            "custom_icon": "",
+            "icon_size": 80,
+            "text": "",
+            "background_color_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "html_84cPmf": {
+          "type": "html",
+          "disabled": true,
+          "settings": {
+            "custom_html": "<img src=\"https://cdn.shopify.com/s/files/1/0869/3727/2641/files/Logo-FAIR-N-GREEN__msi___jpg.jpg?v=1729168832\" class=\"responsive-logo\">\n\n<style>\n  .responsive-logo {\n    display: block;\n    max-width: 40%;\n    height: auto;\n  }\n\n  /* Default: Align to the left (for desktop) */\n  @media (min-width: 768px) {\n    .responsive-logo {\n      margin-left: 0;\n    }\n  }\n\n  /* Center the image on mobile */\n  @media (max-width: 767px) {\n    .responsive-logo {\n      margin: 0 auto;\n      display: block;\n      text-align: center;\n    }\n  }\n</style>"
+          }
+        },
+        "gift_wrapping_EK3NQn": {
+          "type": "gift_wrapping",
+          "settings": {
+            "text_gift": "",
+            "color_icon_light": "rgba(0,0,0,0)",
+            "color_icon_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "feature_icon_99BxnX": {
+          "type": "feature_icon",
+          "disabled": true,
+          "settings": {
+            "applied_collections": [],
+            "heading_size": 110,
+            "icon_size": 30,
+            "border_column": "none",
+            "content_alignment": "start",
+            "background_color_light": "rgba(0,0,0,0)",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "line_border_light": "rgba(0,0,0,0)",
+            "color_icon_light": "rgba(0,0,0,0)",
+            "background_color_dark": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)",
+            "line_border_dark": "rgba(0,0,0,0)",
+            "color_icon_dark": "rgba(0,0,0,0)",
+            "icon_1": "none",
+            "another_icon_1": "",
+            "custom_icon_1": "",
+            "title_1": "ICON",
+            "text_1": "<ul><li>Anti-Aging</li><li>Firms</li><li>Moisturizes</li></ul>",
+            "link_1": "",
+            "open_new_window_1": false,
+            "icon_2": "none",
+            "another_icon_2": "",
+            "custom_icon_2": "",
+            "title_2": "ICON",
+            "text_2": "<ul><li>Mature</li><li>Dry</li><li>Sensitive</li></ul>",
+            "link_2": "",
+            "open_new_window_2": false,
+            "icon_3": "none",
+            "another_icon_3": "",
+            "custom_icon_3": "",
+            "title_3": "ICON",
+            "text_3": "<p>Fragrance-free</p>",
+            "link_3": "",
+            "open_new_window_3": false,
+            "icon_4": "truck",
+            "another_icon_4": "",
+            "custom_icon_4": "",
+            "title_4": "",
+            "text_4": "",
+            "link_4": "",
+            "open_new_window_4": false,
+            "icon_5": "truck",
+            "another_icon_5": "",
+            "custom_icon_5": "",
+            "title_5": "",
+            "text_5": "",
+            "link_5": "",
+            "open_new_window_5": false,
+            "icon_6": "truck",
+            "another_icon_6": "",
+            "custom_icon_6": "",
+            "title_6": "",
+            "text_6": "",
+            "link_6": "",
+            "open_new_window_6": false
+          }
+        },
+        "sticky-atc": {
+          "type": "sticky_add_to_cart",
+          "settings": {
+            "desktop_display_type": "full_width",
+            "show_quantity_selector": false
+          }
+        }
+      },
+      "block_order": [
+        "product_name_xkPbAa",
+        "product_sku_wUgxkg",
+        "description",
+        "trust_badge_F9AWnE",
+        "inventory_status_FVhFrJ",
+        "quantity_selector",
+        "variant_picker",
+        "price",
+        "buy_buttons",
+        "payment_methods_wWYMdc",
+        "icon_text_rwgwDP",
+        "icon_text_tVKKwk",
+        "icon_text_cYbBqL",
+        "icon_text_QLdDGa",
+        "icon_text_ArJba7",
+        "html_84cPmf",
+        "gift_wrapping_EK3NQn",
+        "feature_icon_99BxnX",
+        "sticky-atc"
+      ],
+      "custom_css": [
+        "button.button-outline,.button.button-outline {color: rgb(var(--colors-secondary-button)); box-shadow: inset 0 0 0 1px rgba(var(--colors-line-secondary-button), 0.5); background: rgba(var(--background-secondary-button), 0.7); background-color: #979432; color: white;}",
+        ".text-\\[70\\%\\] {font-size: 40%;}"
+      ],
+      "settings": {
+        "enable_sticky_image": true,
+        "show_product_name": false,
+        "title_size": 100,
+        "heading_tag": "h1",
+        "show_vendor": false,
+        "link_vendor": false,
+        "make_content_center": false,
+        "desktop_layout": "left",
+        "desktop_media_layout": "thumbnail_slider",
+        "show_arrow_button": true,
+        "mobile_media_size": "75%",
+        "show_thumnail_mobile": false,
+        "image_ratio": "square",
+        "thumbnail_position": "vertical",
+        "enable_image_zoom": false,
+        "zoom_effect": "magnifier",
+        "enable_video_autoplay": false,
+        "enable_video_loop": false,
+        "show_first_image_avaiable": true,
+        "show_media_with_variant_selected": false,
+        "option_to_classify_variant_media": "",
+        "enable_microdata": false,
+        "show_breadcrumbs": true,
+        "show_breadcrumbs_border": true,
+        "full_width_breadcrumb": true,
+        "desktop_content_alignment": "text-left",
+        "mobile_content_alignment": "text-center",
+        "background_color_light": "rgba(0,0,0,0)",
+        "text_color_light": "rgba(0,0,0,0)",
+        "textlink_color_light": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "textlink_color_dark": "rgba(0,0,0,0)",
+        "full_width": true,
+        "spacing_col": "small",
+        "padding_top": 28,
+        "padding_bottom": 40,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "331e6fca-2947-4a19-89c5-9396be0d666a": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "flower",
+            "another_icon": "",
+            "custom_image": "shopify://shop_images/240703_Weingut-Schmidt_Produktbilder-Qualitaetsstuffe.png",
+            "custom_icon": "",
+            "title": "Fair`n Green Partner",
+            "highlight_type": "underline",
+            "title_link": "https://www.fairandgreen.com/",
+            "open_new_window": true,
+            "heading_size": 150,
+            "text": "<p>Verantwortung für Mensch, Natur & Klima</p>"
+          }
+        },
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "1st-medal",
+            "another_icon": "",
+            "custom_icon": "",
+            "title": "Ausgezeichnet mit Gold- und Silbermedaillen bei der AWC Vienna",
+            "highlight_type": "underline",
+            "title_link": "",
+            "open_new_window": false,
+            "heading_size": 150,
+            "text": ""
+          }
+        },
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "map-pin",
+            "another_icon": "",
+            "custom_icon": "",
+            "title": "Besuchen Sie uns",
+            "highlight_type": "underline",
+            "title_link": "shopify://pages/events",
+            "open_new_window": false,
+            "heading_size": 150,
+            "text": "<p>Wir bieten regelmäßige Veranstaltungen auf dem Weingut</p>"
+          }
+        },
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-4": {
+          "type": "column",
+          "settings": {
+            "icon": "question-mark",
+            "another_icon": "",
+            "custom_icon": "",
+            "title": "Haben Sie Fragen?",
+            "highlight_type": "underline",
+            "title_link": "shopify://pages/kontakt",
+            "open_new_window": false,
+            "heading_size": 150,
+            "text": "<p>Wir sind nur einen Telefonanruf entfernt!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-1",
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-2",
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-3",
+        "template--21918975852859__331e6fca-2947-4a19-89c5-9396be0d666a-column-4"
+      ],
+      "custom_css": [
+        ".size-icon-style svg {max-width: 50%; margin: 0 auto;}"
+      ],
+      "settings": {
+        "title": "",
+        "highlight_type": "underline",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "secondary_background": "section",
+        "border_column": "line_vertical",
+        "column_content_alignment": "center",
+        "icon_position": "above",
+        "icon_size": 90,
+        "enable_desktop_slider": false,
+        "swiper_on_mobile": true,
+        "auto_play": true,
+        "change_bar_every": 5,
+        "background_color_light": "#ffffff",
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "color_heading_highlight_light": "rgba(0,0,0,0)",
+        "line_border_light": "#686648",
+        "color_icon_light": "#979532",
+        "background_color_dark": "#2a2a2a",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "color_heading_highlight_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "color_icon_dark": "rgba(0,0,0,0)",
+        "column_layout_desktop": "lg:w-1/4",
+        "section_height_desktop": "md:py-7",
+        "spacing_desktop": 28,
+        "full_width": false,
+        "padding_full_width": false,
+        "show_section_divider": false,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "column_layout_mobile": "w-1/2",
+        "section_height_mobile": "py-0",
+        "spacing_mobile": 16,
+        "full_width_mobile": true,
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 8,
+        "padding_bottom_mobile": 8
+      }
+    },
+    "scrolling_banner_WLPVWn": {
+      "type": "scrolling-banner",
+      "blocks": {
+        "icon_iUCgLA": {
+          "type": "icon",
+          "settings": {
+            "icon": "delivery-truck",
+            "another_icon": "",
+            "custom_icon": "",
+            "height_icon": 35,
+            "spacing_left": 0,
+            "spacing_right": 0,
+            "spacing_left_mobile": 0,
+            "spacing_right_mobile": 0
+          }
+        },
+        "text_36gRFg": {
+          "type": "text",
+          "settings": {
+            "text": "Versandkostenfreie Lieferung ab 12 Flaschen",
+            "highlight_type": "underline",
+            "text_size": 120,
+            "text_color": "primary",
+            "spacing_left": 0,
+            "spacing_right": 0,
+            "spacing_left_mobile": 0,
+            "spacing_right_mobile": 0
+          }
+        },
+        "icon_jhwnBa": {
+          "type": "icon",
+          "settings": {
+            "icon": "gift",
+            "another_icon": "",
+            "custom_icon": "",
+            "height_icon": 35,
+            "spacing_left": 100,
+            "spacing_right": 0,
+            "spacing_left_mobile": 0,
+            "spacing_right_mobile": 0
+          }
+        },
+        "text_nHjz7W": {
+          "type": "text",
+          "settings": {
+            "text": "5% Rabatt ab 60 Flaschen",
+            "highlight_type": "underline",
+            "text_size": 120,
+            "text_color": "primary",
+            "spacing_left": 0,
+            "spacing_right": 100,
+            "spacing_left_mobile": 0,
+            "spacing_right_mobile": 0
+          }
+        }
+      },
+      "block_order": [
+        "icon_iUCgLA",
+        "text_36gRFg",
+        "icon_jhwnBa",
+        "text_nHjz7W"
+      ],
+      "settings": {
+        "show_border": true,
+        "speed": 30,
+        "direction": "right",
+        "pause_hover": true,
+        "bg_light": "#ebebd5",
+        "color_text_light": "#242424",
+        "color_text_light_2": "rgba(0,0,0,0)",
+        "color_heading_highlight_light": "rgba(0,0,0,0)",
+        "bg_dark": "rgba(0,0,0,0)",
+        "color_text_dark": "rgba(0,0,0,0)",
+        "color_text_dark_2": "rgba(0,0,0,0)",
+        "color_heading_highlight_dark": "rgba(0,0,0,0)",
+        "space_block": 40,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "space_block_mobile": 45,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "product_specifications_4C7mFx": {
+      "type": "product-specifications",
+      "blocks": {
+        "specs_WccVE7": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Alkoholgehalt:",
+            "row_content": "<p>{{ product.metafields.custom.alkoholgehalt.value }}</p>"
+          }
+        },
+        "specs_gPBYYz": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Jahrgang:",
+            "row_content": "<p>{{ product.metafields.custom.jahrgang.value }}</p>"
+          }
+        },
+        "specs_k4NhkV": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Geschmacksrichtung",
+            "row_content": "<p>{{ product.metafields.custom.geschmacksrichtung.value }}</p>"
+          }
+        },
+        "specs_ejbhBN": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Ausbau",
+            "row_content": "<p>{{ product.metafields.custom.ausbau.value }}</p>"
+          }
+        },
+        "specs_XWNnC8": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Qualitätsstufe",
+            "row_content": "<p>{{ product.metafields.custom.qualit_tsstufe | metafield_text }}</p>"
+          }
+        },
+        "specs_8knwq7": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Trinktemperatur",
+            "row_content": "<p>{{ product.metafields.custom.trinktemperatur.value }}</p>"
+          }
+        },
+        "specs_qJqp7F": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Restzucker:",
+            "row_content": "<p>{{ product.metafields.custom.restzucker.value }}</p>"
+          }
+        },
+        "specs_7mNjqw": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Säure",
+            "row_content": "<p>{{ product.metafields.custom.s_ure.value }}</p>"
+          }
+        },
+        "specs_Xp3FG6": {
+          "type": "specs",
+          "settings": {
+            "icon": "none",
+            "another_icon": "",
+            "custom_icon": "",
+            "heading": "Weitere Details",
+            "row_content": "<ul><li>Enthält Sulfite</li><li>Details variieren je nach Paket. Genaue Informationen finden Sie auf den einzelnen Produktseiten der Weine.</li><li>Alle Weine enthalten geringfügige Mengen von Fett, gesättigten Fettsäuren, Eiweiß und Salz</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "specs_WccVE7",
+        "specs_gPBYYz",
+        "specs_k4NhkV",
+        "specs_ejbhBN",
+        "specs_XWNnC8",
+        "specs_8knwq7",
+        "specs_qJqp7F",
+        "specs_7mNjqw",
+        "specs_Xp3FG6"
+      ],
+      "settings": {
+        "heading": "{{ product.title }}",
+        "highlight_type": "underline",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "text": "",
+        "image_alignment": "left",
+        "hide_empty_rows": true,
+        "text_empty_fields": "-",
+        "row_shown_by_default": 2,
+        "view_more_button": "Weitere Details",
+        "view_less_button": "Weniger anzeigen",
+        "background_color_light": "#ebebd5",
+        "heading_light": "rgba(0,0,0,0)",
+        "color_heading_highlight_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "table_color": "rgba(0,0,0,0)",
+        "table_text": "rgba(0,0,0,0)",
+        "line_border": "#686648",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "color_heading_highlight_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "table_color_dark": "rgba(0,0,0,0)",
+        "table_text_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "columns_desktop": "1",
+        "desktop_height": "400px",
+        "show_section_divider": true,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "mobile_height": "250px",
+        "show_section_divider_mobile": true,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "image_with_text_RyAnFP": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_XKrkdY": {
+          "type": "heading",
+          "settings": {
+            "subheading": "Weingut Frank Schmidt",
+            "heading": "Weine so schön wie die Landschaft",
+            "highlight_type": "underline",
+            "heading_base_size": 100,
+            "heading_tag": "h2",
+            "text": "<p>So schön wie unsere Landschaft hier ist, so sollen auch unsere Weine schmecken. Die in der Nase entfalteten Aromen sind auch im Gaumen mit langer Nachhaltigkeit wiederzufinden und machen das Weintrinken zu einem Erlebnis, an das Sie sich gerne erinnern.</p><p>Gemäß diesem Motto tun wir im Weinberg alles nur Mögliche, um gesundes vollreifes Lesegut zu erzeugen, in dem wir schon im Frühjahr die Triebe ausdünnen, sowie im späteren Stadium die Trauben am Stock reduzieren. Im Keller hingegen dürfen unsere Weine in aller Ruhe und Natürlichkeit über lange Zeit reifen.</p>",
+            "number_of_lines_shown": "none",
+            "read_more_label": "Read more",
+            "see_less_label": "See less",
+            "heading_light": "rgba(0,0,0,0)",
+            "text_light": "rgba(0,0,0,0)",
+            "color_heading_highlight_light": "rgba(0,0,0,0)",
+            "heading_dark": "rgba(0,0,0,0)",
+            "text_dark": "rgba(0,0,0,0)",
+            "color_heading_highlight_dark": "rgba(0,0,0,0)"
+          }
+        },
+        "button_GKFWtR": {
+          "type": "button",
+          "settings": {
+            "button_label": "Mehr über uns",
+            "button_link": "shopify://pages/uber-uns",
+            "open_new_window": false,
+            "show_button_style": "primary",
+            "button_light": "rgba(0,0,0,0)",
+            "button_text_light": "rgba(0,0,0,0)",
+            "button_hover_light": "rgba(0,0,0,0)",
+            "button_text_hover_light": "rgba(0,0,0,0)",
+            "secondary_button_light": "rgba(0,0,0,0)",
+            "secondary_button_text_light": "rgba(0,0,0,0)",
+            "colors_text_link": "rgba(0,0,0,0)",
+            "button_dark": "rgba(0,0,0,0)",
+            "button_text_dark": "rgba(0,0,0,0)",
+            "button_hover_dark": "rgba(0,0,0,0)",
+            "button_text_hover_dark": "rgba(0,0,0,0)",
+            "secondary_button_dark": "rgba(0,0,0,0)",
+            "secondary_button_text_dark": "rgba(0,0,0,0)",
+            "colors_text_link_dark": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_XKrkdY",
+        "button_GKFWtR"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/WG-Schmidt_die_schmidt_familie_3.jpg",
+        "show_sound_control": false,
+        "video_url": "",
+        "video_alt_text": "",
+        "enable_video_autoplay": false,
+        "desktop_height": "550px",
+        "mobile_height": "250px",
+        "desktop_image_width": "large",
+        "image_layout": "normal",
+        "image_corner_radius": 0,
+        "content_layout": "overlap",
+        "spacing_image": false,
+        "text_position": "center",
+        "text_alignment": "start",
+        "background_color_light": "#ebebd5",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "line_border": "dashed",
+        "icon_position": "col",
+        "icon_size": 45,
+        "alignment": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "heading_color_light": "rgba(0,0,0,0)",
+        "text_color_light": "rgba(0,0,0,0)",
+        "line_border_light": "rgba(0,0,0,0)",
+        "icon_color_light": "rgba(0,0,0,0)",
+        "heading_color_dark": "rgba(0,0,0,0)",
+        "text_color_dark": "rgba(0,0,0,0)",
+        "line_border_dark": "rgba(0,0,0,0)",
+        "icon_color_dark": "rgba(0,0,0,0)",
+        "image_alignment": "left",
+        "full_width": false,
+        "padding_full_width": false,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "image_alignment_mobile": "left",
+        "full_width_mobile": false,
+        "top_padding_mobile": 0,
+        "bottom_padding_mobile": 20
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "custom_css": [
+        ".x-badge-content {background-color: #969538; margin-top: 3rem;}"
+      ],
+      "settings": {
+        "heading": "Das könnte Ihnen auch gefallen",
+        "highlight_type": "underline",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "products_to_show": 6,
+        "background_color_light": "",
+        "background_color_dark": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "show_quickview": true,
+        "enable_carousel_desktop": true,
+        "enable_swiper_mobile": true,
+        "columns_desktop": 5,
+        "full_width": true,
+        "show_section_divider": false,
+        "spacing": 28,
+        "padding_top": 56,
+        "padding_bottom": 88,
+        "columns_mobile": "2",
+        "show_section_divider_mobile": false,
+        "spacing_mobile": 16,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "rich_text_eLEeNj": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_a9J8AP": {
+          "type": "heading",
+          "settings": {
+            "heading": "Vielfach ausgezeichnet",
+            "highlight_type": "underline",
+            "heading_size": 120,
+            "heading_tag": "h2"
+          }
+        },
+        "caption_VFbA8L": {
+          "type": "caption",
+          "settings": {
+            "caption": "Ausgezeichnet mit Gold- und Silbermedaillen bei der AWC Vienna 2024",
+            "text_style": "uppercase",
+            "text_size": 100
+          }
+        },
+        "media_Hk6hB9": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/AWC_Vienna_Schmidt_Banner_homepage.png",
+            "show_sound_control": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "media_size": 20
+          }
+        },
+        "button_xaqNX9": {
+          "type": "button",
+          "settings": {
+            "button_label": "Prämierte Weine entdecken",
+            "button_link": "shopify://collections/alle-weine",
+            "open_new_window_button": false,
+            "show_button_style_1": "primary",
+            "button_label_2": "",
+            "open_new_window_button_2": false,
+            "button_link_2": "",
+            "show_button_style_2": "primary",
+            "color_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_text_button": "rgba(0,0,0,0)",
+            "color_text_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)",
+            "colors_text_link": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_a9J8AP",
+        "caption_VFbA8L",
+        "media_Hk6hB9",
+        "button_xaqNX9"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "color_heading_highlight_light": "rgba(0,0,0,0)",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "color_heading_highlight_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "recently_viewed_VrQdxV": {
+      "type": "recently-viewed",
+      "custom_css": [
+        ".x-badge-content {background-color: #969538; margin-top: 3rem;}"
+      ],
+      "settings": {
+        "heading": "Zuletzt Angesehen",
+        "highlight_type": "underline",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "heading_alignment": "center",
+        "enable_clear_history": true,
+        "products_to_show": 6,
+        "background_color_light": "",
+        "background_color_dark": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "show_quickview": true,
+        "enable_carousel_desktop": true,
+        "enable_swiper_mobile": true,
+        "columns_desktop": 5,
+        "full_width": true,
+        "show_section_divider": false,
+        "spacing": 28,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "columns_mobile": "2",
+        "show_section_divider_mobile": false,
+        "spacing_mobile": 16,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "video_KGjJWL": {
+      "type": "video",
+      "settings": {
+        "heading": "",
+        "highlight_type": "underline",
+        "heading_size": 100,
+        "heading_tag": "h2",
+        "sub_heading_video": "",
+        "image": "shopify://shop_images/20240129_WG_Groebe_Dronenrundflug_1.webp",
+        "video_url": "https://www.youtube.com/watch?v=Vo7dkTEkAuQ",
+        "video_alt_text": "",
+        "full_width": true,
+        "rounded_corners": true,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "full_width_mobile": true,
+        "rounded_corners_mobile": true,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
+    "rich_text_LtGnBV": {
+      "type": "rich-text",
+      "blocks": {
+        "caption_f86Mw8": {
+          "type": "caption",
+          "settings": {
+            "caption": "Wie wir unsere Weine sehen",
+            "text_style": "uppercase",
+            "text_size": 80
+          }
+        },
+        "heading_7iPJcd": {
+          "type": "heading",
+          "settings": {
+            "heading": "Unsere Qualitätspyramide",
+            "highlight_type": "underline",
+            "heading_size": 120,
+            "heading_tag": "h2"
+          }
+        },
+        "text_8E9LXN": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Wir sind fest davon überzeugt,  dass die Höhe des Fruchtzuckers ( wie es in den bisherigen  Qualitätsstufen klassifiziert wurde) nicht alleine zählt.</p><p>Für uns sind die Lage, der Lesezeitpunkt, die physiologische Reife und die Veredelung im<br/>Weinkeller ausschlaggebend. Wir gehen daher neue Wege und zeigen unsere Weine in drei  \"Sichtweisen\".</p>",
+            "number_of_lines_shown": "none",
+            "read_more_label": "Read more",
+            "see_less_label": "See less"
+          }
+        },
+        "media_JKQnTG": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/240703_Weingut-Schmidt_Produktbilder-Qualitaetsstuffe_3000_x_2028_px_971c5491-45e1-4b12-a75f-99ac94be6626.png",
+            "show_sound_control": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "media_size": 50
+          }
+        }
+      },
+      "block_order": [
+        "caption_f86Mw8",
+        "heading_7iPJcd",
+        "text_8E9LXN",
+        "media_JKQnTG"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "color_heading_highlight_light": "rgba(0,0,0,0)",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "color_heading_highlight_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 40,
+        "padding_bottom": 28,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 12
+      }
+    }
+  },
+  "order": [
+    "main",
+    "331e6fca-2947-4a19-89c5-9396be0d666a",
+    "scrolling_banner_WLPVWn",
+    "product_specifications_4C7mFx",
+    "image_with_text_RyAnFP",
+    "product-recommendations",
+    "rich_text_eLEeNj",
+    "recently_viewed_VrQdxV",
+    "video_KGjJWL",
+    "rich_text_LtGnBV"
+  ]
+}
