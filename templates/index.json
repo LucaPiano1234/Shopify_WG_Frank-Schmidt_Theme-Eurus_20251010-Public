@@ -838,6 +838,45 @@
         "bottom_padding_mobile": 0
       }
     },
+    "video_with_text_T9FbMV": {
+      "type": "video-with-text",
+      "settings": {
+        "sub_heading_video": "",
+        "heading": "",
+        "highlight_type": "underline",
+        "heading_size_video": 180,
+        "heading_tag": "h2",
+        "text": "",
+        "text_size": 100,
+        "show_sound_control": false,
+        "video_url": "https://www.youtube.com/watch?v=Vo7dkTEkAuQ",
+        "video_alt_text": "",
+        "overlay_opacity": 0,
+        "button_label": "",
+        "show_button_style": "primary",
+        "button_link": "",
+        "open_new_window": false,
+        "content_position": "center",
+        "content_horizontal": 50,
+        "content_vertical": 50,
+        "content_alignment": "center",
+        "color_button": "rgba(0,0,0,0)",
+        "color_button_hover": "rgba(0,0,0,0)",
+        "color_text_button": "rgba(0,0,0,0)",
+        "color_text_button_hover": "rgba(0,0,0,0)",
+        "color_button_secondary": "rgba(0,0,0,0)",
+        "secondary_button_text": "rgba(0,0,0,0)",
+        "colors_text_link": "rgba(0,0,0,0)",
+        "full_width": true,
+        "rounded_corners": true,
+        "top_padding": 28,
+        "bottom_padding": 28,
+        "full_width_mobile": true,
+        "rounded_corners_mobile": true,
+        "top_padding_mobile": 20,
+        "bottom_padding_mobile": 20
+      }
+    },
     "31318fc4-4c4e-4f2e-aca5-a42a85b71d86": {
       "type": "collage",
       "blocks": {
@@ -951,125 +990,8 @@
         "spacing_mobile": 20,
         "full_width_mobile": false,
         "show_section_divider_mobile": false,
-        "padding_top_mobile": 28,
-        "padding_bottom_mobile": 32
-      }
-    },
-    "video_with_text_T9FbMV": {
-      "type": "video-with-text",
-      "settings": {
-        "sub_heading_video": "",
-        "heading": "",
-        "highlight_type": "underline",
-        "heading_size_video": 180,
-        "heading_tag": "h2",
-        "text": "",
-        "text_size": 100,
-        "show_sound_control": false,
-        "video_url": "https://www.youtube.com/watch?v=Vo7dkTEkAuQ",
-        "video_alt_text": "",
-        "overlay_opacity": 0,
-        "button_label": "",
-        "show_button_style": "primary",
-        "button_link": "",
-        "open_new_window": false,
-        "content_position": "center",
-        "content_horizontal": 50,
-        "content_vertical": 50,
-        "content_alignment": "center",
-        "color_button": "rgba(0,0,0,0)",
-        "color_button_hover": "rgba(0,0,0,0)",
-        "color_text_button": "rgba(0,0,0,0)",
-        "color_text_button_hover": "rgba(0,0,0,0)",
-        "color_button_secondary": "rgba(0,0,0,0)",
-        "secondary_button_text": "rgba(0,0,0,0)",
-        "colors_text_link": "rgba(0,0,0,0)",
-        "full_width": true,
-        "rounded_corners": true,
-        "top_padding": 28,
-        "bottom_padding": 28,
-        "full_width_mobile": true,
-        "rounded_corners_mobile": true,
-        "top_padding_mobile": 20,
-        "bottom_padding_mobile": 20
-      }
-    },
-    "rich_text_MYpWhb": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_gLXFqr": {
-          "type": "heading",
-          "settings": {
-            "heading": "Vielfach ausgezeichnet",
-            "highlight_type": "underline",
-            "heading_size": 110,
-            "heading_tag": "h2"
-          }
-        },
-        "caption_3xJ7mw": {
-          "type": "caption",
-          "settings": {
-            "caption": "Ausgezeichnet mit Gold- und Silbermedaillen bei der AWC Vienna 2024",
-            "text_style": "uppercase",
-            "text_size": 100
-          }
-        },
-        "media_thKrim": {
-          "type": "media",
-          "settings": {
-            "image": "shopify://shop_images/AWC_Vienna_Schmidt_Banner_homepage.png",
-            "show_sound_control": false,
-            "video_url": "",
-            "enable_video_autoplay": true,
-            "video_alt_text": "",
-            "media_size": 25
-          }
-        },
-        "button_XbAmTe": {
-          "type": "button",
-          "settings": {
-            "button_label": "Prämierte Weine entdecken",
-            "button_link": "shopify://collections/pramierte-weine",
-            "open_new_window_button": false,
-            "show_button_style_1": "primary",
-            "button_label_2": "",
-            "open_new_window_button_2": false,
-            "button_link_2": "shopify://collections/alle-weine",
-            "show_button_style_2": "primary",
-            "color_button": "rgba(0,0,0,0)",
-            "color_button_hover": "rgba(0,0,0,0)",
-            "color_text_button": "rgba(0,0,0,0)",
-            "color_text_button_hover": "rgba(0,0,0,0)",
-            "color_button_secondary": "rgba(0,0,0,0)",
-            "secondary_button_text": "rgba(0,0,0,0)",
-            "colors_text_link": "rgba(0,0,0,0)"
-          }
-        }
-      },
-      "block_order": [
-        "heading_gLXFqr",
-        "caption_3xJ7mw",
-        "media_thKrim",
-        "button_XbAmTe"
-      ],
-      "settings": {
-        "heading_light": "rgba(0,0,0,0)",
-        "text_light": "rgba(0,0,0,0)",
-        "color_heading_highlight_light": "rgba(0,0,0,0)",
-        "background_color_light": "rgba(0,0,0,0)",
-        "heading_dark": "rgba(0,0,0,0)",
-        "text_dark": "rgba(0,0,0,0)",
-        "color_heading_highlight_dark": "rgba(0,0,0,0)",
-        "background_color_dark": "rgba(0,0,0,0)",
-        "content_alignment": "center",
-        "show_section_divider": false,
-        "make_full_page_width": true,
-        "padding_top": 28,
-        "padding_bottom": 28,
-        "content_alignment_mobile": "center",
-        "show_section_divider_mobile": false,
-        "padding_top_mobile": 28,
-        "padding_bottom_mobile": 28
+        "padding_top_mobile": 100,
+        "padding_bottom_mobile": 100
       }
     },
     "media_gallery_E6bCpN": {
@@ -1239,6 +1161,84 @@
         "padding_bottom_mobile": 28
       }
     },
+    "rich_text_MYpWhb": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_gLXFqr": {
+          "type": "heading",
+          "settings": {
+            "heading": "Vielfach ausgezeichnet",
+            "highlight_type": "underline",
+            "heading_size": 110,
+            "heading_tag": "h2"
+          }
+        },
+        "caption_3xJ7mw": {
+          "type": "caption",
+          "settings": {
+            "caption": "Ausgezeichnet mit Gold- und Silbermedaillen bei der AWC Vienna 2024",
+            "text_style": "uppercase",
+            "text_size": 100
+          }
+        },
+        "media_thKrim": {
+          "type": "media",
+          "settings": {
+            "image": "shopify://shop_images/AWC_Vienna_Schmidt_Banner_homepage.png",
+            "show_sound_control": false,
+            "video_url": "",
+            "enable_video_autoplay": true,
+            "video_alt_text": "",
+            "media_size": 25
+          }
+        },
+        "button_XbAmTe": {
+          "type": "button",
+          "settings": {
+            "button_label": "Prämierte Weine entdecken",
+            "button_link": "shopify://collections/pramierte-weine",
+            "open_new_window_button": false,
+            "show_button_style_1": "primary",
+            "button_label_2": "",
+            "open_new_window_button_2": false,
+            "button_link_2": "shopify://collections/alle-weine",
+            "show_button_style_2": "primary",
+            "color_button": "rgba(0,0,0,0)",
+            "color_button_hover": "rgba(0,0,0,0)",
+            "color_text_button": "rgba(0,0,0,0)",
+            "color_text_button_hover": "rgba(0,0,0,0)",
+            "color_button_secondary": "rgba(0,0,0,0)",
+            "secondary_button_text": "rgba(0,0,0,0)",
+            "colors_text_link": "rgba(0,0,0,0)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_gLXFqr",
+        "caption_3xJ7mw",
+        "media_thKrim",
+        "button_XbAmTe"
+      ],
+      "settings": {
+        "heading_light": "rgba(0,0,0,0)",
+        "text_light": "rgba(0,0,0,0)",
+        "color_heading_highlight_light": "rgba(0,0,0,0)",
+        "background_color_light": "rgba(0,0,0,0)",
+        "heading_dark": "rgba(0,0,0,0)",
+        "text_dark": "rgba(0,0,0,0)",
+        "color_heading_highlight_dark": "rgba(0,0,0,0)",
+        "background_color_dark": "rgba(0,0,0,0)",
+        "content_alignment": "center",
+        "show_section_divider": false,
+        "make_full_page_width": true,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "content_alignment_mobile": "center",
+        "show_section_divider_mobile": false,
+        "padding_top_mobile": 28,
+        "padding_bottom_mobile": 28
+      }
+    },
     "54f7b6ce-e4ba-42b3-9550-cde9eb5ab2b4": {
       "type": "testimonials",
       "blocks": {
@@ -1374,6 +1374,7 @@
         "look_CrDAy8",
         "look_jXm9ze"
       ],
+      "disabled": true,
       "custom_css": [
         ".x-badge-content {background-color: #969538;}"
       ],
@@ -1588,10 +1589,10 @@
     "rich_text_mwtKnh",
     "featured_product_yAG6xz",
     "image_with_text_EgAKbL",
-    "31318fc4-4c4e-4f2e-aca5-a42a85b71d86",
     "video_with_text_T9FbMV",
-    "rich_text_MYpWhb",
+    "31318fc4-4c4e-4f2e-aca5-a42a85b71d86",
     "media_gallery_E6bCpN",
+    "rich_text_MYpWhb",
     "54f7b6ce-e4ba-42b3-9550-cde9eb5ab2b4",
     "shop_the_look_EAacQK",
     "collage_pin8Lj",
