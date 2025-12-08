@@ -38,7 +38,7 @@
         "description": {
           "type": "description",
           "settings": {
-            "show_in_tab": true,
+            "show_in_tab": false,
             "open_by_default": true,
             "make_content_center": false,
             "icon": "none",
